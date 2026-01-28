@@ -5,29 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ConceptHarmony</title>
     <style>
-        /* --- REFINED GLASS THEME (White & Sharp) --- */
+        /* --- DESIGN SYSTEM: ConceptHarmony --- */
         :root {
-            --glass-bg: rgba(20, 20, 20, 0.75); /* Darker, clearer glass */
+            --glass-bg: rgba(20, 20, 20, 0.75);
             --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-highlight: rgba(255, 255, 255, 0.05);
             --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5);
-            --accent: #ffffff; /* Pure White */
+            --accent: #ffffff;
             --text-main: #ffffff;
             --text-muted: #bbbbbb;
-            --radius-main: 8px; /* Minimal rounding */
+            --radius-main: 6px; /* Minimal rounding */
             --radius-btn: 4px;
         }
 
         body {
             background-color: #121212; 
             color: var(--text-main);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0; 
-            padding: 20px; 
-            min-height: 100vh;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            margin: 0; padding: 20px; min-height: 100vh;
         }
 
-        /* Background Logic */
+        /* Background */
         body::before {
             content: "";
             position: fixed;
@@ -35,13 +32,12 @@
             z-index: -1;
             background: url('background.jpg') no-repeat center center fixed;
             background-size: cover;
-            filter: blur(20px); /* Heavy blur for depth */
+            filter: blur(20px);
             box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.4);
         }
 
         .container { max-width: 1100px; margin: auto; }
 
-        /* --- UI COMPONENTS --- */
         .glass-panel {
             background: var(--glass-bg);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -53,15 +49,14 @@
             box-shadow: var(--glass-shadow);
         }
 
-        /* Navigation Bar */
+        /* Navigation */
         .nav-container {
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 30px;
-            gap: 15px;
-            flex-wrap: wrap;
+            display: flex; justify-content: space-between; align-items: center; 
+            margin-bottom: 30px; gap: 15px; flex-wrap: wrap;
         }
+
+        .logo { font-weight: 300; font-size: 1.5rem; letter-spacing: 2px; margin: 0; color: white; }
+        .logo span { font-weight: 700; }
 
         .nav-links { display: flex; gap: 10px; }
 
@@ -71,41 +66,29 @@
             border-radius: var(--radius-btn); font-weight: 500; font-size: 0.9rem;
             transition: all 0.2s ease; cursor: pointer;
         }
-        .btn:hover { 
-            background: rgba(255,255,255,0.15); 
-            border-color: var(--accent); 
-            box-shadow: 0 0 10px rgba(255,255,255,0.2); 
-        }
+        .btn:hover { background: rgba(255,255,255,0.15); border-color: var(--accent); }
 
-        /* Search Input */
         .search-box {
             flex-grow: 1; max-width: 400px;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid var(--glass-border);
-            padding: 10px 15px;
-            color: white;
-            border-radius: var(--radius-btn);
-            font-family: inherit;
+            background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);
+            padding: 10px 15px; color: white; border-radius: var(--radius-btn);
         }
-        .search-box:focus { outline: none; border-color: var(--accent); background: rgba(0,0,0,0.5); }
+        .search-box:focus { outline: none; border-color: var(--accent); }
 
-        /* Gallery Grid */
+        /* Grid */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; }
         
-        .phone-card { 
-            text-align: left; 
-            transition: transform 0.2s ease; 
-            cursor: pointer; 
-            padding: 15px;
-            position: relative;
-            overflow: hidden;
+        .card { 
+            text-align: left; transition: transform 0.2s ease; cursor: pointer; padding: 15px;
+            position: relative; overflow: hidden;
         }
-        .phone-card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); }
-        .phone-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 12px; background: #000; }
-        .phone-card h3 { margin: 5px 0 2px 0; font-size: 1.1rem; font-weight: 600; color: var(--accent); }
-        .phone-card p { color: var(--text-muted); font-size: 0.85rem; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+        .card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.08); }
+        .card img { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 12px; background: #000; }
+        .card h3 { margin: 5px 0 2px 0; font-size: 1.1rem; font-weight: 600; color: var(--accent); }
+        .card .type-tag { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; color: #ccc; }
+        .card p { color: var(--text-muted); font-size: 0.85rem; margin: 5px 0 0 0; }
 
-        /* Detail View */
+        /* Details */
         .top-section { display: flex; flex-wrap: wrap; gap: 30px; align-items: flex-start; }
         .hero-img { flex: 1; min-width: 300px; }
         .hero-img img { width: 100%; border-radius: var(--radius-main); border: 1px solid var(--glass-border); }
@@ -118,8 +101,7 @@
         .tab { 
             padding: 12px 30px; cursor: pointer; 
             color: var(--text-muted); transition: 0.2s; 
-            border-bottom: 2px solid transparent;
-            font-weight: 500;
+            border-bottom: 2px solid transparent; font-weight: 500;
         }
         .tab:hover { color: white; }
         .tab.active { color: white; border-bottom: 2px solid var(--accent); }
@@ -129,7 +111,6 @@
         th, td { padding: 14px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
         th { color: var(--text-muted); width: 30%; font-weight: normal; font-size: 0.9rem; text-transform: uppercase; }
         td { font-weight: 500; font-size: 1rem; color: white; }
-        tr:last-child td, tr:last-child th { border-bottom: none; }
 
         .hidden { display: none; }
         .back-btn { margin-bottom: 20px; display: inline-block; }
@@ -139,16 +120,17 @@
 
     <div class="container">
         <div class="nav-container glass-panel" style="padding: 15px;">
+            <h1 class="logo">Concept<span>Harmony</span></h1>
             <div class="nav-links">
-                <a href="index.html" class="btn">Gallery</a>
-                <a href="submit.html" class="btn">Add Phone, Tablet or Smartwatch</a>
+                <a href="index.html" class="btn">Home</a>
+                <a href="submit.html" class="btn">Add Concept</a>
             </div>
-            <input type="text" id="searchInput" class="search-box" placeholder="Search brand or model...">
+            <input type="text" id="searchInput" class="search-box" placeholder="Search concepts...">
         </div>
 
         <div id="galleryView">
-            <div id="phoneGrid" class="grid">Loading Devices...</div>
-            <p id="noResults" style="text-align: center; color: #777; display: none; margin-top: 30px;">No phones found matching your search.</p>
+            <div id="phoneGrid" class="grid">Loading Database...</div>
+            <p id="noResults" style="text-align: center; color: #777; display: none; margin-top: 30px;">No concepts found.</p>
         </div>
 
         <div id="detailView" class="hidden">
@@ -157,10 +139,11 @@
             <div class="glass-panel top-section">
                 <div class="hero-img"><img id="d_img" src=""></div>
                 <div class="specs-summary">
-                    <h3 id="d_brand" style="color: var(--text-muted); margin:0; text-transform:uppercase; letter-spacing:2px; font-size: 0.9rem;">Brand</h3>
+                    <span id="d_type" class="btn" style="padding: 4px 10px; font-size: 0.8rem; cursor:default; pointer-events:none;">TYPE</span>
+                    <h3 id="d_brand" style="color: var(--text-muted); margin:10px 0 0 0; text-transform:uppercase; letter-spacing:2px; font-size: 0.9rem;">Brand</h3>
                     <h1 id="d_model" class="model-title">Model</h1>
                     
-                    <div id="d_quick_specs" style="margin-top:25px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div id="d_quick_specs" style="margin-top:25px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; color: #ddd;">
                         </div>
                 </div>
             </div>
@@ -173,6 +156,7 @@
             <div id="tab-specs" class="glass-panel">
                 <table id="specTable"></table>
             </div>
+            
             <div id="tab-pics" class="glass-panel hidden">
                 <div id="extraImages" style="text-align:center;"></div>
             </div>
@@ -182,6 +166,7 @@
     <script>
         // CONFIG
         const specFields = [
+            { key: "type", label: "Device Type" },
             { key: "brand", label: "Brand" },
             { key: "model", label: "Model" },
             { key: "screen", label: "Display" },
@@ -193,88 +178,90 @@
             { key: "os", label: "OS" }
         ];
 
-        let allPhones = []; // Store data globally for search
+        let allDevices = [];
 
         async function init() {
             try {
                 const response = await fetch('phones.json');
                 if(!response.ok) throw new Error("File not found");
-                allPhones = await response.json();
+                allDevices = await response.json();
                 
                 const urlParams = new URLSearchParams(window.location.search);
                 const id = urlParams.get('id');
 
-                if (id !== null && allPhones[id]) {
-                    showDetails(allPhones[id], allPhones);
+                if (id !== null && allDevices[id]) {
+                    showDetails(allDevices[id], allDevices);
                 } else {
-                    renderGallery(allPhones);
+                    renderGrid(allDevices);
                 }
             } catch (error) {
                 document.getElementById('phoneGrid').innerHTML = 
                     `<div class="glass-panel" style="grid-column: 1/-1; text-align:center;">
-                        <h3>Database Empty or Missing</h3>
-                        <p>Please ensure <b>phones.json</b> exists in the folder.</p>
+                        <h3>Database Empty</h3>
+                        <p>Ensure <b>phones.json</b> exists.</p>
                     </div>`;
             }
         }
 
-        // --- SEARCH LOGIC ---
+        // Search
         document.getElementById('searchInput').addEventListener('keyup', (e) => {
             const term = e.target.value.toLowerCase();
-            const filtered = allPhones.filter(phone => 
-                phone.brand.toLowerCase().includes(term) || 
-                phone.model.toLowerCase().includes(term)
+            const filtered = allDevices.filter(d => 
+                d.brand.toLowerCase().includes(term) || 
+                d.model.toLowerCase().includes(term) ||
+                (d.type && d.type.toLowerCase().includes(term))
             );
-            renderGallery(filtered);
-            
-            const noRes = document.getElementById('noResults');
-            noRes.style.display = filtered.length === 0 ? 'block' : 'none';
+            renderGrid(filtered);
+            document.getElementById('noResults').style.display = filtered.length === 0 ? 'block' : 'none';
         });
 
-        function renderGallery(phones) {
+        function renderGrid(devices) {
             const grid = document.getElementById('phoneGrid');
             grid.innerHTML = "";
             
-            // Note: We use the indexOf from the original array to keep IDs correct for links
-            phones.forEach((phone) => {
-                const originalIndex = allPhones.indexOf(phone);
+            devices.forEach((device) => {
+                const originalIndex = allDevices.indexOf(device);
                 grid.innerHTML += `
-                    <div class="phone-card glass-panel" onclick="window.location.href='?id=${originalIndex}'">
-                        <img src="${phone.image}" onerror="this.src='https://placehold.co/400x600/222/fff?text=No+Image'">
-                        <p>${phone.brand}</p>
-                        <h3>${phone.model}</h3>
+                    <div class="card glass-panel" onclick="window.location.href='?id=${originalIndex}'">
+                        <img src="${device.image}" onerror="this.src='https://placehold.co/400x600/222/fff?text=No+Image'">
+                        <span class="type-tag">${device.type || 'Device'}</span>
+                        <h3>${device.model}</h3>
+                        <p>${device.brand}</p>
                     </div>
                 `;
             });
         }
 
-        function showDetails(phone) {
+        function showDetails(device) {
             document.getElementById('galleryView').classList.add('hidden');
-            document.getElementById('nav-container')?.classList.add('hidden'); // Optional: hide search bar in details
+            document.querySelector('.search-box').style.display = 'none'; // Hide search
             document.getElementById('detailView').classList.remove('hidden');
-            document.querySelector('.search-box').style.display = 'none'; // Hide search when in details
 
-            document.getElementById('d_img').src = phone.image;
-            document.getElementById('d_model').innerText = phone.model;
-            document.getElementById('d_brand').innerText = phone.brand;
+            document.getElementById('d_img').src = device.image;
+            document.getElementById('d_model').innerText = device.model;
+            document.getElementById('d_brand').innerText = device.brand;
+            document.getElementById('d_type').innerText = device.type || "DEVICE";
             
-            // Clean Text Summary
             document.getElementById('d_quick_specs').innerHTML = `
-                <div><small style="color:#888">DISPLAY</small><br>${phone.screen}</div>
-                <div><small style="color:#888">CHIPSET</small><br>${phone.chipset}</div>
-                <div><small style="color:#888">BATTERY</small><br>${phone.battery}</div>
-                <div><small style="color:#888">MEMORY</small><br>${phone.ram}</div>
+                <div><small style="color:#888">DISPLAY</small><br>${device.screen}</div>
+                <div><small style="color:#888">CHIPSET</small><br>${device.chipset}</div>
+                <div><small style="color:#888">BATTERY</small><br>${device.battery}</div>
+                <div><small style="color:#888">STORAGE</small><br>${device.storage}</div>
             `;
 
             let tableHtml = "";
             specFields.forEach(field => {
-                if(phone[field.key]) {
-                    tableHtml += `<tr><th>${field.label}</th><td>${phone[field.key]}</td></tr>`;
+                if(device[field.key]) {
+                    tableHtml += `<tr><th>${field.label}</th><td>${device[field.key]}</td></tr>`;
                 }
             });
             document.getElementById('specTable').innerHTML = tableHtml;
             
-            document.getElementById('extraImages').innerHTML = `<img src="${phone.image}" style="max-width:100%; border-radius:4px;">`;
+            // Subtab: Gallery 
+            document.getElementById('extraImages').innerHTML = `
+                <p style="color:#888; margin-bottom:20px;">Images for ${device.model}</p>
+                <img src="${device.image}" style="max-width:100%; border-radius:4px;">
+            `;
         }
 
         window.setTab = (tabName) => {
