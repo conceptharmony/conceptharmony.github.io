@@ -49,7 +49,7 @@
             box-shadow: var(--glass-shadow);
         }
 
-        /* Navigation (Same as Index) */
+        /* Navigation */
         .nav-container {
             display: flex; justify-content: space-between; align-items: center; 
             margin-bottom: 30px; gap: 15px; flex-wrap: wrap;
@@ -70,8 +70,9 @@
 
         /* Form Specific Styles */
         .form-container {
-            max-width: 600px;
-            margin: 0 auto; /* Centers the form horizontally */
+            /* Changed: Now takes full width of parent, removed fixed max-width */
+            width: 100%; 
+            box-sizing: border-box;
             padding: 40px;
         }
 
@@ -118,7 +119,7 @@
                 <a href="index.html" class="btn">Home</a>
                 <a href="submit.html" class="btn" style="background: rgba(255,255,255,0.15); border-color: white;">Add Concept</a>
             </div>
-            </div>
+        </div>
 
         <div class="glass-panel form-container">
             <h2>Add New Concept</h2>
@@ -141,7 +142,7 @@
                 <input type="text" id="camera" placeholder="Camera">
                 <input type="text" id="os" placeholder="Operating System">
                 
-                <button type="submit" class="submit-btn">Generate JSON file</button>
+                <button type="submit" class="submit-btn">Create JSON file</button>
             </form>
 
             <div id="outputArea">
