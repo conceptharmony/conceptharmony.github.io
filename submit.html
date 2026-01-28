@@ -46,7 +46,6 @@
         }
         .btn:hover { background: rgba(255,255,255,0.15); border-color: var(--accent); }
 
-        /* Form Structure */
         .form-container { width: 100%; box-sizing: border-box; padding: 40px; }
         h2 { margin-top: 0; text-align: center; font-weight: 300; letter-spacing: 1px; margin-bottom: 20px;}
 
@@ -59,7 +58,6 @@
         .form-section h3 { margin: 0; font-size: 1.2rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
         .form-section small { color: #888; font-weight: 400; font-size: 0.8rem; }
 
-        /* Inputs */
         .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .full-width { grid-column: span 2; }
         @media(max-width: 700px) { .input-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
@@ -74,7 +72,6 @@
         input:focus { outline: none; border-color: var(--accent); background: rgba(0,0,0,0.5); }
         select option { background: #222; }
 
-        /* File Upload */
         .file-upload-wrapper {
             position: relative; width: 100%; height: 50px; border: 1px dashed rgba(255,255,255,0.3);
             border-radius: var(--radius-btn); background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center;
@@ -84,7 +81,6 @@
         input[type="file"] { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
         .file-upload-text { pointer-events: none; color: #aaa; font-size: 0.9rem; }
 
-        /* Guidelines */
         .guidelines {
             background: rgba(255, 255, 255, 0.05); border-left: 3px solid var(--accent);
             padding: 15px; margin-bottom: 30px; font-size: 0.9rem; color: #ccc;
@@ -137,10 +133,14 @@
                     <div class="full-width"><label>Concept Image *</label><div class="file-upload-wrapper"><span class="file-upload-text" id="fileText">Click to Upload Image...</span><input type="file" id="imageFile" accept="image/*" required onchange="updateFileName()"></div></div>
                 </div>
 
-                <div class="form-section"><h3>Launch & Body</h3></div>
+                <div class="form-section"><h3>Launch</h3></div>
                 <div class="input-grid">
                     <div><label>Announcement Date</label><input type="text" id="announced" placeholder="e.g. 2026, February 14"></div>
                     <div><label>Release Date</label><input type="text" id="released" placeholder="e.g. Exp. release 2026, March"></div>
+                </div>
+
+                <div class="form-section"><h3>Body</h3></div>
+                <div class="input-grid">
                     <div><label>Dimensions</label><input type="text" id="dimensions" placeholder="e.g. 163 x 78 x 8.9 mm"></div>
                     <div><label>Weight</label><input type="text" id="weight" placeholder="e.g. 230 g"></div>
                     <div><label>IP Rating / Build</label><input type="text" id="ip_rating" placeholder="e.g. IP68 dust/water resistant, Titanium frame"></div>
@@ -199,7 +199,7 @@
                     <div><label>Geekbench Single-Core</label><input type="text" id="geek_single" placeholder="e.g. 3100"></div>
                     <div><label>Geekbench Multi-Core</label><input type="text" id="geek_multi" placeholder="e.g. 9500"></div>
                     <div><label>AnTuTu Score</label><input type="text" id="antutu" placeholder="e.g. 2,100,000 (v10)"></div>
-                    <div><label>Price</label><input type="text" id="price" placeholder="e.g. $1199 / €1449"></div>
+                    <div><label>Starting Price</label><input type="text" id="price" placeholder="e.g. $1199 / €1449"></div>
                 </div>
                 
                 <button type="submit" class="submit-btn">Create JSON file</button>
@@ -232,7 +232,8 @@
             // ALL FIELD IDs
             const fields = [
                 'type', 'brand', 'model', 
-                'announced', 'released', 'dimensions', 'weight', 'ip_rating', 'colors',
+                'announced', 'released', 
+                'dimensions', 'weight', 'ip_rating', 'colors',
                 'displayType', 'screen', 'resolution', 'protection',
                 'os', 'chipset', 'storage', 'ram',
                 'cam_main', 'cam_tele', 'cam_tele2', 'cam_uw', 'cam_macro', 'cam_features', 'cam_video',
