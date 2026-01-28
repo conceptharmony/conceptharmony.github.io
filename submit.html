@@ -36,10 +36,19 @@
             border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; box-shadow: var(--glass-shadow);
         }
 
-        .nav-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 15px; flex-wrap: wrap; }
+        /* --- NAVIGATION (FIXED Z-INDEX) --- */
+        .nav-container { 
+            display: flex; justify-content: space-between; align-items: center; 
+            margin-bottom: 30px; gap: 15px; flex-wrap: wrap;
+            /* FIX: This ensures the nav stays on top of the form */
+            position: relative; 
+            z-index: 100; 
+        }
+        
         .logo { font-weight: 300; font-size: 1.5rem; letter-spacing: 2px; margin: 0; color: white; text-decoration: none; }
         .logo span { font-weight: 700; }
         .nav-links { display: flex; gap: 10px; align-items: center; }
+        
         .btn {
             text-decoration: none; color: white; padding: 10px 25px; background: rgba(255,255,255,0.05);
             border: 1px solid var(--glass-border); border-radius: var(--radius-btn); font-weight: 500; font-size: 0.9rem; transition: all 0.2s ease; cursor: pointer; display: inline-block;
@@ -50,9 +59,11 @@
         .dropdown { position: relative; display: inline-block; }
         .dropdown-content {
             display: none; position: absolute; right: 0; top: 100%; margin-top: 5px;
-            background: rgba(30, 30, 30, 0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            background: rgba(30, 30, 30, 0.98); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             min-width: 200px; border: 1px solid var(--glass-border); border-radius: var(--radius-btn);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.5); z-index: 1000; overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8); 
+            z-index: 200; /* High Z-Index */
+            overflow: hidden;
         }
         .dropdown:hover .dropdown-content { display: block; }
         .dropdown-item {
@@ -64,7 +75,13 @@
         .dropdown-item:hover { background: rgba(255,255,255,0.1); color: white; padding-left: 20px; }
         .social-icon { width: 16px; height: 16px; fill: white; opacity: 0.8; }
 
-        .form-container { width: 100%; box-sizing: border-box; padding: 40px; }
+        /* Form Container (Lower Z-Index) */
+        .form-container { 
+            width: 100%; box-sizing: border-box; padding: 40px; 
+            position: relative;
+            z-index: 1; /* Stays below Nav */
+        }
+        
         h2 { margin-top: 0; text-align: center; font-weight: 300; letter-spacing: 1px; margin-bottom: 20px;}
 
         /* Sections */
