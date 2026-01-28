@@ -3,23 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Phone</title>
+    <title>Submit Concept - ConceptHarmony</title>
     <style>
+        /* --- DESIGN SYSTEM: ConceptHarmony --- */
         :root {
             --glass-bg: rgba(20, 20, 20, 0.75);
             --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5);
             --accent: #ffffff;
-            --radius: 8px;
+            --radius-main: 6px;
+            --radius-btn: 4px;
         }
 
         body {
-            background-color: #121212;
-            color: white;
+            background-color: #121212; 
+            color: white; 
             font-family: 'Segoe UI', Roboto, sans-serif;
-            margin: 0; padding: 20px; min-height: 100vh;
-            display: flex; align-items: center; justify-content: center;
+            margin: 0; 
+            padding: 20px; 
+            min-height: 100vh;
         }
 
+        /* Background */
         body::before {
             content: "";
             position: fixed;
@@ -31,60 +36,104 @@
             box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.4);
         }
 
-        .container { width: 100%; max-width: 550px; }
+        .container { max-width: 1100px; margin: auto; }
 
         .glass-panel {
             background: var(--glass-bg);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
             border-top: 1px solid rgba(255,255,255,0.15);
-            border-radius: var(--radius);
+            border-radius: var(--radius-main);
+            padding: 25px; 
+            margin-bottom: 25px;
+            box-shadow: var(--glass-shadow);
+        }
+
+        /* Navigation (Same as Index) */
+        .nav-container {
+            display: flex; justify-content: space-between; align-items: center; 
+            margin-bottom: 30px; gap: 15px; flex-wrap: wrap;
+        }
+
+        .logo { font-weight: 300; font-size: 1.5rem; letter-spacing: 2px; margin: 0; color: white; text-decoration: none; }
+        .logo span { font-weight: 700; }
+
+        .nav-links { display: flex; gap: 10px; }
+
+        .btn {
+            text-decoration: none; color: white; padding: 10px 25px;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+            border-radius: var(--radius-btn); font-weight: 500; font-size: 0.9rem;
+            transition: all 0.2s ease; cursor: pointer;
+        }
+        .btn:hover { background: rgba(255,255,255,0.15); border-color: var(--accent); }
+
+        /* Form Specific Styles */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto; /* Centers the form horizontally */
             padding: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        h2 { margin-top: 0; text-align: center; font-weight: 300; letter-spacing: 1px; }
+        h2 { margin-top: 0; text-align: center; font-weight: 300; letter-spacing: 1px; margin-bottom: 30px;}
         
-        form { display: grid; gap: 12px; margin-top: 25px; }
+        form { display: grid; gap: 15px; }
 
-        input { 
-            width: 100%; box-sizing: border-box; 
-            padding: 12px; 
-            border-radius: 4px; /* Minimal radius */
-            border: 1px solid rgba(255,255,255,0.1); 
-            background: rgba(0,0,0,0.3); 
-            color: white; 
-            font-size: 0.95rem;
-            font-family: inherit;
+        input, select { 
+            width: 100%; box-sizing: border-box; padding: 12px; 
+            border-radius: var(--radius-btn); border: 1px solid rgba(255,255,255,0.1); 
+            background: rgba(0,0,0,0.3); color: white; 
+            font-size: 0.95rem; font-family: inherit;
         }
-        input:focus { outline: none; border-color: var(--accent); background: rgba(0,0,0,0.5); }
+        input:focus, select:focus { outline: none; border-color: var(--accent); background: rgba(0,0,0,0.5); }
+        
+        select { appearance: none; cursor: pointer; }
+        select option { background: #222; }
 
-        button { 
+        button.submit-btn { 
             width: 100%; padding: 12px; 
             background: rgba(255,255,255,0.1); color: white; 
             border: 1px solid rgba(255,255,255,0.2); 
-            border-radius: 4px; 
-            font-weight: 600; font-size: 1rem; 
-            cursor: pointer; transition: 0.2s; margin-top: 15px;
+            border-radius: var(--radius-btn); font-weight: 600; font-size: 1rem; 
+            cursor: pointer; transition: 0.2s; margin-top: 10px;
         }
-        button:hover { background: white; color: black; }
+        button.submit-btn:hover { background: white; color: black; }
 
-        .back-link { display: block; text-align: center; margin-top: 20px; color: #888; text-decoration: none; font-size: 0.9rem; }
-        .back-link:hover { color: white; }
-
-        #outputArea { display: none; margin-top: 20px; }
-        textarea { width: 100%; height: 100px; background: rgba(0,0,0,0.5); color: #ccc; border: 1px solid #333; border-radius: 4px; padding: 10px; box-sizing: border-box; font-family: monospace;}
+        #outputArea { display: none; margin-top: 25px; }
+        textarea { width: 100%; height: 100px; background: rgba(0,0,0,0.5); color: #ccc; border: 1px solid #333; border-radius: var(--radius-btn); padding: 10px; box-sizing: border-box; font-family: monospace;}
+        
+        .copy-btn {
+            background: transparent; border: 1px solid var(--accent); color: var(--accent);
+            padding: 8px 15px; border-radius: var(--radius-btn); cursor: pointer; margin-top: 5px;
+        }
+        .copy-btn:hover { background: var(--accent); color: black; }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <div class="glass-panel">
-            <h2>Add New Device</h2>
+        <div class="nav-container glass-panel" style="padding: 15px;">
+            <a href="index.html" class="logo">Concept<span>Harmony</span></a>
+            <div class="nav-links">
+                <a href="index.html" class="btn">Home</a>
+                <a href="submit.html" class="btn" style="background: rgba(255,255,255,0.15); border-color: white;">Add Concept</a>
+            </div>
+            </div>
+
+        <div class="glass-panel form-container">
+            <h2>Add New Concept</h2>
             <form id="makerForm">
-                <input type="text" id="brand" placeholder="Brand Name" required>
-                <input type="text" id="model" placeholder="Model Name" required>
-                <input type="text" id="image" placeholder="Image URL (Link)" required>
-                <input type="text" id="screen" placeholder="Display Specs">
+                <select id="type" required>
+                    <option value="" disabled selected>Select Device Type...</option>
+                    <option value="Phone">Phone</option>
+                    <option value="Tablet">Tablet</option>
+                    <option value="Smartwatch">Smartwatch</option>
+                </select>
+
+                <input type="text" id="brand" placeholder="Brand Name (e.g. Apple)" required>
+                <input type="text" id="model" placeholder="Model Name (e.g. iPhone XV)" required>
+                <input type="text" id="image" placeholder="Image URL (Link to picture)" required>
+                <input type="text" id="screen" placeholder="Display Specs (e.g. 6.7 inch OLED)">
                 <input type="text" id="chipset" placeholder="Chipset">
                 <input type="text" id="ram" placeholder="RAM">
                 <input type="text" id="storage" placeholder="Storage">
@@ -92,27 +141,29 @@
                 <input type="text" id="camera" placeholder="Camera">
                 <input type="text" id="os" placeholder="Operating System">
                 
-                <button type="submit">Create JSON file</button>
+                <button type="submit" class="submit-btn">Generate JSON file</button>
             </form>
 
             <div id="outputArea">
-                <p style="text-align:center; color:#aaa; font-size:0.85rem; margin-bottom:5px;">Send this code to the Admin:</p>
+                <p style="text-align:center; color:#aaa; font-size:0.85rem; margin-bottom:10px;">Send this code to the Admin:</p>
                 <textarea id="jsonOutput" readonly></textarea>
-                <button onclick="copyText()">Copy Code</button>
+                <div style="text-align: right;">
+                    <button onclick="copyText()" class="copy-btn">Copy Code</button>
+                </div>
             </div>
-            
-            <a href="index.html" class="back-link">Cancel</a>
         </div>
     </div>
 
     <script>
         document.getElementById('makerForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const fields = ['brand','model','image','screen','chipset','ram','storage','battery','camera','os'];
+            const fields = ['type', 'brand','model','image','screen','chipset','ram','storage','battery','camera','os'];
             let data = {};
             fields.forEach(f => data[f] = document.getElementById(f).value);
 
+            // Format JSON
             const jsonString = JSON.stringify(data, null, 4) + ",";
+            
             document.getElementById('outputArea').style.display = 'block';
             document.getElementById('jsonOutput').value = jsonString;
         });
@@ -121,7 +172,7 @@
             const copyText = document.getElementById("jsonOutput");
             copyText.select();
             document.execCommand("copy");
-            alert("Code copied!");
+            alert("Code copied to clipboard!");
         }
     </script>
 </body>
