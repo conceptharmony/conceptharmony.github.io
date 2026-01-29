@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News - ConceptHarmony</title>
+    <style>
+        :root {
+            --glass-bg: rgba(20, 20, 20, 0.75); --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); --accent: #ffffff;
+            --text-main: #ffffff; --text-muted: #bbbbbb; --radius-main: 12px; --radius-btn: 6px;
+        }
+        body.light-mode {
+            --glass-bg: rgba(255, 255, 255, 0.85); --glass-border: rgba(0, 0, 0, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); --accent: #000000;
+            --text-main: #1a1a1a; --text-muted: #555555; background-color: #f4f4f9;
+        }
+        * { box-sizing: border-box; }
+        body { background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; min-height: 100vh; }
+        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: url('background.jpg') center/cover; filter: blur(20px); }
+        body.light-mode::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
+
+        .container { max-width: 1100px; margin: auto; }
+        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; }
+
+        /* NAV */
+        .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; }
+        .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
+        .logo span { font-weight: 700; }
+        .nav-links { display: flex; gap: 10px; align-items: center; }
+        .btn { text-decoration: none; color: var(--text-main); padding: 10px 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .btn:hover { background: var(--accent); color: #000 !important; }
+        body.light-mode .btn:hover { color: white !important; }
+
+        /* DROPDOWN */
+        .dropdown { position: relative; }
+        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; margin-top: 5px; background: rgba(30, 30, 30, 0.98); min-width: 200px; border-radius: var(--radius-btn); box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 200; overflow: hidden; }
+        body.light-mode .dropdown-content { background: rgba(255,255,255,0.95); }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; text-decoration: none; color: #ddd; font-size: 0.9rem; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        body.light-mode .dropdown-item { color: #333; border-color: rgba(0,0,0,0.05); }
+        .dropdown-item:last-child { border-bottom: none; }
+        .dropdown-item:hover { background: var(--accent); color: black !important; }
+        body.light-mode .dropdown-item:hover { color: white !important; }
+        .social-icon { width: 16px; height: 16px; fill: currentColor; }
+
+        /* MOBILE MENU */
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; color: var(--text-main); cursor: pointer; }
+        @media (max-width: 768px) {
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 60px; right: 0; background: rgba(20,20,20,0.98); width: 200px; padding: 20px; border-radius: 10px; border: 1px solid var(--glass-border); }
+            body.light-mode .nav-links { background: rgba(255,255,255,0.98); }
+            .nav-links.active { display: flex; }
+            .mobile-menu-btn { display: block; }
+            .dropdown-content { position: static; box-shadow: none; border: none; margin-top: 10px; }
+        }
+
+        .search-box { width: 100%; padding: 12px; margin-top: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
+        
+        /* NEWS LIST */
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .news-card { cursor: pointer; transition: transform 0.2s; overflow: hidden; padding: 0; }
+        .news-card:hover { transform: translateY(-5px); }
+        .news-img { width: 100%; height: 180px; object-fit: cover; }
+        .news-content { padding: 20px; }
+        .news-date { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; }
+        .news-title { margin: 0 0 10px 0; font-size: 1.2rem; }
+        .news-excerpt { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
+
+        /* ARTICLE VIEW */
+        .article-view { display: none; }
+        .article-hero { width: 100%; height: 300px; object-fit: cover; border-radius: var(--radius-btn); margin-bottom: 20px; }
+        .article-body { line-height: 1.8; font-size: 1.05rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glass-panel nav-container">
+            <a href="index.html" class="logo">Concept<span>Harmony</span></a>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="btn">Devices</a>
+                <a href="news.html" class="btn" style="border-color:var(--accent);">News</a>
+                <a href="submit.html" class="btn">Submit</a>
+                
+                <div class="dropdown">
+                    <button class="btn">Socials ▼</button>
+                    <div class="dropdown-content">
+                        <a href="https://discord.gg/hNPtTVHurH" target="_blank" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg> Discord</a>
+                        <a href="https://www.tiktok.com/@spinach.tech?_r=1&_t=ZG-93ScgcKEI9R" target="_blank" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> TikTok Main</a>
+                        <a href="https://www.tiktok.com/@spinach.technologies?_r=1&_t=ZG-93SccZzS6zp" target="_blank" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> TikTok Concept</a>
+                    </div>
+                </div>
+                <button id="themeToggle" class="btn">☀</button>
+            </div>
+        </div>
+
+        <div class="glass-panel">
+            <h1 style="margin:0;">Latest News</h1>
+            <input type="text" id="searchInput" class="search-box" placeholder="Search articles...">
+        </div>
+
+        <div id="newsList" class="news-grid">Loading...</div>
+
+        <div id="articleView" class="glass-panel article-view">
+            <button onclick="closeArticle()" class="btn">← Back to News</button>
+            <div id="articleContent" style="margin-top:20px;"></div>
+        </div>
+    </div>
+
+    <script>
+        let allNews = [];
+        if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
+        document.getElementById('themeToggle').onclick = () => {
+            document.body.classList.toggle('light-mode');
+            localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+        };
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+
+        async function init() {
+            try {
+                const res = await fetch('news.json');
+                allNews = await res.json();
+                renderNews(allNews);
+            } catch (e) { document.getElementById('newsList').innerHTML = "No news found."; }
+        }
+
+        function renderNews(news) {
+            const grid = document.getElementById('newsList');
+            grid.innerHTML = "";
+            news.forEach((item, index) => {
+                grid.innerHTML += `
+                    <div class="glass-panel news-card" onclick="openArticle(${index})">
+                        <img src="${item.image}" class="news-img" onerror="this.src='https://placehold.co/600x400?text=News'">
+                        <div class="news-content">
+                            <div class="news-date">${item.date} • ${item.author}</div>
+                            <h3 class="news-title">${item.title}</h3>
+                            <div class="news-excerpt">${item.summary}</div>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        window.openArticle = (index) => {
+            const item = allNews[index];
+            document.getElementById('newsList').style.display = 'none';
+            document.getElementById('articleView').style.display = 'block';
+            document.getElementById('articleContent').innerHTML = `
+                <img src="${item.image}" class="article-hero">
+                <div style="border-bottom:1px solid var(--glass-border); padding-bottom:20px; margin-bottom:20px;">
+                    <h1>${item.title}</h1>
+                    <p style="color:var(--text-muted)">Published ${item.date} by ${item.author}</p>
+                </div>
+                <div class="article-body">${item.content}</div>`;
+        }
+
+        window.closeArticle = () => {
+            document.getElementById('newsList').style.display = 'grid';
+            document.getElementById('articleView').style.display = 'none';
+        }
+
+        document.getElementById('searchInput').addEventListener('keyup', (e) => {
+            const term = e.target.value.toLowerCase();
+            renderNews(allNews.filter(n => n.title.toLowerCase().includes(term)));
+        });
+
+        init();
+    </script>
+</body>
+</html>
