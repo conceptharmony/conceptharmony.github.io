@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ConceptHarmony</title>
+    <title>Submit Concept - ConceptHarmony</title>
     <style>
+        /* --- DESIGN SYSTEM --- */
         :root {
             --glass-bg: rgba(20, 20, 20, 0.75); --glass-border: rgba(255, 255, 255, 0.1);
             --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); --accent: #ffffff;
@@ -16,12 +17,13 @@
             --text-main: #1a1a1a; --text-muted: #555555; background-color: #f4f4f9;
         }
         * { box-sizing: border-box; }
-        body { background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; min-height: 100vh; }
+        html, body { overflow-x: hidden; }
+        body { background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; min-height: 100vh; }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: url('background.jpg') center/cover; filter: blur(20px); }
         body.light-mode::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
 
-        .container { max-width: 1100px; margin: auto; }
-        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; }
+        .container { max-width: 1100px; margin: auto; width: 100%; }
+        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
 
         /* NAV */
         .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; }
@@ -30,34 +32,31 @@
         .nav-links { display: flex; gap: 10px; align-items: center; }
         .btn { text-decoration: none; color: var(--text-main); padding: 10px 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); cursor: pointer; display: flex; align-items: center; gap: 5px; }
         .btn:hover { background: var(--accent); color: #000 !important; }
-        
-        /* Dropdown */
+        body.light-mode .btn:hover { color: white !important; }
+
+        /* DROPDOWN */
         .dropdown { position: relative; }
         .dropdown-content { display: none; position: absolute; right: 0; top: 100%; margin-top: 5px; background: rgba(30, 30, 30, 0.98); min-width: 200px; border-radius: var(--radius-btn); box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 200; overflow: hidden; }
         body.light-mode .dropdown-content { background: rgba(255,255,255,0.95); }
         .dropdown:hover .dropdown-content { display: block; }
-        .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; text-decoration: none; color: #ddd; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; text-decoration: none; color: #ddd; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
         body.light-mode .dropdown-item { color: #333; border-color: rgba(0,0,0,0.05); }
+        .dropdown-item:last-child { border-bottom: none; }
         .dropdown-item:hover { background: var(--accent); color: black !important; }
+        body.light-mode .dropdown-item:hover { color: white !important; }
         .social-icon { width: 16px; height: 16px; fill: currentColor; }
 
-        /* Mobile Menu */
+        /* THEME TOGGLE */
+        .theme-btn { background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; margin-left: 5px; }
+        body.light-mode .theme-btn { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); }
+        .theme-btn:hover { background: var(--accent); color: black; transform: rotate(15deg); }
+        .theme-icon { width: 20px; height: 20px; fill: var(--text-main); pointer-events: none; }
+
+        /* MOBILE MENU */
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; color: var(--text-main); cursor: pointer; }
         @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%; left: 0; width: 100%;
-                flex-direction: column;
-                background: rgba(20, 20, 20, 0.98);
-                backdrop-filter: blur(20px);
-                padding: 15px;
-                border-radius: 0 0 12px 12px;
-                border: 1px solid var(--glass-border);
-                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-                gap: 10px;
-            }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; flex-direction: column; background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(20px); padding: 15px; border-radius: 0 0 12px 12px; border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); gap: 10px; }
             body.light-mode .nav-links { background: rgba(255,255,255,0.98); }
             .nav-links.active { display: flex; }
             .btn { width: 100%; justify-content: center; padding: 15px; }
@@ -66,29 +65,39 @@
             .dropdown-content { position: static; width: 100%; box-shadow: none; border: none; background: transparent; padding-left: 20px; }
         }
 
-        /* GRID */
-        .search-box { width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .card { cursor: pointer; transition: transform 0.2s; padding: 15px; }
-        .card:hover { transform: translateY(-5px); }
-        .card img { width: 100%; height: 200px; object-fit: cover; border-radius: 6px; }
-        .card h3 { margin: 10px 0 5px 0; color: var(--accent); }
-        .card .type-tag { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 2px; text-transform: uppercase; color: var(--text-muted); }
+        /* FORM */
+        .form-container { width: 100%; box-sizing: border-box; padding: 40px; position: relative; z-index: 1; }
+        .form-section { margin-top: 40px; margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 8px; display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+        .form-section h3 { margin: 0; font-size: 1.2rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
         
-        /* DETAILS */
-        .hidden { display: none; }
-        .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
-        .hero-img { flex: 1; min-width: 300px; }
-        .hero-img img { width: 100%; border-radius: 10px; }
-        .specs-summary { flex: 1.5; }
-        @media (max-width: 700px) { .top-section { flex-direction: column; } .hero-img { width: 100%; } }
+        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 700px) { .input-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
+        .full-width { grid-column: span 2; }
         
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
-        th, td { padding: 10px; border-bottom: 1px solid var(--glass-border); text-align: left; }
-        th { color: var(--text-muted); width: 35%; vertical-align: top; }
-        td { word-wrap: break-word; }
-        .cat-header { background: rgba(255,255,255,0.05); color: var(--accent); font-weight: bold; letter-spacing: 1px; padding: 8px 10px; font-size: 0.85rem; }
-        body.light-mode .cat-header { background: rgba(0,0,0,0.05); }
+        label { font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 6px; font-weight: 500; }
+        input, select { width: 100%; padding: 12px; border-radius: var(--radius-btn); border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: white; font-family: inherit; font-size: 0.95rem; appearance: none; }
+        select { background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-size: 10px; padding-right: 30px; }
+        body.light-mode input, body.light-mode select { background-color: rgba(255,255,255,0.6); color: black; border-color: rgba(0,0,0,0.1); }
+        body.light-mode select { background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); }
+
+        .file-upload-wrapper { position: relative; width: 100%; height: 50px; border: 1px dashed rgba(255,255,255,0.3); border-radius: var(--radius-btn); background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
+        .file-upload-wrapper:hover { background: rgba(255,255,255,0.05); border-color: var(--accent); }
+        input[type="file"] { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+        .file-upload-text { pointer-events: none; color: #aaa; font-size: 0.9rem; }
+        body.light-mode .file-upload-text { color: #555; }
+
+        .cam-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+        .cam-row input:first-child { width: 35%; }
+        .remove-btn { background: rgba(255,50,50,0.2); color: #ff5555; padding: 12px; border:1px solid rgba(255,50,50,0.2); border-radius: var(--radius-btn); cursor: pointer; font-weight:bold;}
+        .add-cam-btn { width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px dashed var(--glass-border); color: var(--text-muted); cursor: pointer; border-radius: var(--radius-btn); margin-bottom:10px; }
+
+        button.submit-btn { width: 100%; padding: 15px; background: var(--glass-border); color: var(--text-main); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); font-weight: bold; margin-top: 30px; cursor: pointer; }
+        button.submit-btn:hover { background: var(--accent); color: black; }
+        body.light-mode button.submit-btn:hover { background: var(--accent); color: white; }
+
+        #outputArea { display: none; margin-top: 25px; }
+        textarea { width: 100%; height: 150px; background: rgba(0,0,0,0.5); color: #ccc; border: 1px solid #333; border-radius: var(--radius-btn); padding: 10px; box-sizing: border-box; font-family: monospace;}
+        body.light-mode textarea { background: rgba(0,0,0,0.05); color: black; }
     </style>
 </head>
 <body>
@@ -97,12 +106,12 @@
             <a href="index.html" class="logo">Concept<span>Harmony</span></a>
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <div class="nav-links" id="navLinks">
-                <a href="index.html" class="btn" style="border-color:var(--accent);">Devices</a>
+                <a href="index.html" class="btn">Devices</a>
                 <a href="news.html" class="btn">News</a>
-                <a href="submit.html" class="btn">Submit</a>
+                <a href="submit.html" class="btn" style="border-color:var(--accent);">Submit</a>
                 
                 <div class="dropdown">
-                    <button class="btn">Socials ▼</button>
+                    <button class="btn" style="justify-content:space-between; width:100%;">Socials <span>▼</span></button>
                     <div class="dropdown-content">
                         <a href="https://discord.gg/hNPtTVHurH" target="_blank" class="dropdown-item">Discord</a>
                         <a href="https://www.tiktok.com/@spinach.tech?_r=1&_t=ZG-93ScgcKEI9R" target="_blank" class="dropdown-item">TikTok Main</a>
@@ -113,127 +122,215 @@
             </div>
         </div>
 
-        <div id="galleryView">
-            <div class="glass-panel" style="padding:15px;">
-                <input type="text" id="searchInput" class="search-box" placeholder="Search devices..." style="margin:0;">
-            </div>
-            <div id="phoneGrid" class="grid">Loading...</div>
-        </div>
+        <div class="glass-panel form-container">
+            <h2 style="text-align:center; margin-top:0;">Create Concept</h2>
+            <form id="makerForm">
+                
+                <datalist id="brands"><option value="Samsung"><option value="Apple"><option value="Xiaomi"><option value="Google"><option value="OnePlus"><option value="Sony"></datalist>
+                <datalist id="chipsets"><option value="Snapdragon 8 Gen 4"><option value="Snapdragon 8 Gen 5"><option value="Dimensity 9400"><option value="Apple A19 Pro"><option value="Google Tensor G6"></datalist>
+                <datalist id="displays"><option value="LTPO AMOLED"><option value="OLED"><option value="IPS LCD"><option value="Foldable OLED"></datalist>
+                <datalist id="refresh_rates"><option value="60Hz"><option value="90Hz"><option value="120Hz"><option value="144Hz"><option value="165Hz"><option value="240Hz"></datalist>
 
-        <div id="detailView" class="hidden">
-            <button onclick="location.reload()" class="btn" style="margin-bottom:20px;">Back</button>
-            <div class="glass-panel top-section">
-                <div class="hero-img"><img id="d_img" src=""></div>
-                <div class="specs-summary">
-                    <span id="d_type" class="btn" style="padding: 2px 8px; font-size: 0.7rem; pointer-events:none; border:none; background:rgba(255,255,255,0.1); width:fit-content;">TYPE</span>
-                    <h1 id="d_model" style="font-size:2.5rem; margin:10px 0;">Model</h1>
-                    <h3 id="d_brand" style="color:var(--text-muted); margin:0;">Brand</h3>
-                    <div id="d_quick_specs" style="margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:10px; color:var(--text-muted);"></div>
+                <div class="form-section"><h3>IDENTITY</h3></div>
+                <div class="input-grid">
+                    <div><label>Type</label><select id="type"><option>Phone</option><option>Tablet</option><option>Smartwatch</option></select></div>
+                    <div><label>Brand</label><input type="text" id="brand" list="brands" placeholder="e.g. Samsung" required></div>
+                    <div class="full-width"><label>Model</label><input type="text" id="model" placeholder="e.g. Galaxy S30" required></div>
+                    <div class="full-width">
+                        <label>Profile Image (Main)</label>
+                        <div class="file-upload-wrapper">
+                            <span class="file-upload-text" id="fileText">Click to Upload Main Profile...</span>
+                            <input type="file" id="imageFile" accept="image/*" required onchange="updateFileName('imageFile', 'fileText')">
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="glass-panel">
-                <table id="specTable"></table>
+
+                <div class="form-section"><h3>LAUNCH</h3></div>
+                <div class="input-grid">
+                    <div><label>Status</label><select id="status"><option>Released</option><option>Coming Soon</option><option>Rumored</option><option>Concept</option></select></div>
+                    <div><label>Announced</label><input type="month" id="announced"></div>
+                    <div><label>Release</label><input type="month" id="released"></div>
+                </div>
+
+                <div class="form-section"><h3>BODY</h3></div>
+                <div class="input-grid">
+                    <div><label>IP Rating</label><input type="text" id="ip_rating" placeholder="e.g. IP68, 5 ATM"></div>
+                    <div><label>Weight (g)</label><input type="number" id="weight" placeholder="200"></div>
+                    <div><label>Dimensions</label><input type="text" id="dimensions" placeholder="160 x 75 x 8 mm"></div>
+                    <div><label>Colors</label><input type="text" id="colors" placeholder="Titanium, Black..."></div>
+                </div>
+
+                <div class="form-section"><h3>DISPLAY</h3></div>
+                <div class="input-grid">
+                    <div><label>Panel Type</label><input type="text" id="displayType" list="displays" placeholder="e.g. LTPO AMOLED"></div>
+                    <div><label>Refresh Rate</label><input type="text" id="refresh" list="refresh_rates" placeholder="e.g. 120Hz"></div>
+                    <div><label>Size (inch)</label><input type="number" step="0.1" id="screen" placeholder="6.8"></div>
+                    <div><label>Brightness</label><input type="number" id="brightness" placeholder="e.g. 3000"></div>
+                    <div class="full-width"><label>Resolution</label><input type="text" id="resolution" placeholder="e.g. 1440 x 3200"></div>
+                </div>
+
+                <div class="form-section"><h3>PERFORMANCE</h3></div>
+                <div class="input-grid">
+                    <div><label>Chipset</label><input type="text" id="chipset" list="chipsets" placeholder="e.g. Snapdragon 8 Gen 5"></div>
+                    <div><label>RAM Options</label><input type="text" id="ram" placeholder="e.g. 8GB / 12GB / 16GB"></div>
+                    <div><label>Storage Options</label><input type="text" id="storage" placeholder="e.g. 256GB / 512GB / 1TB"></div>
+                    <div><label>OS</label><input type="text" id="os" placeholder="e.g. Android 16"></div>
+                </div>
+
+                <div class="form-section"><h3>POWER</h3></div>
+                <div class="input-grid">
+                    <div><label>Battery</label><input type="text" id="battery" placeholder="e.g. 5500 mAh"></div>
+                    <div><label>Charging</label><input type="text" id="charging" placeholder="e.g. 100W Wired, 50W Wireless"></div>
+                </div>
+
+                <div class="form-section"><h3>CAMERA SYSTEM</h3></div>
+                <div id="cameraContainer"></div>
+                <button type="button" class="add-cam-btn" onclick="addCameraRow()">+ Add Camera Module</button>
+                
+                <div class="input-grid" style="margin-top:15px;">
+                    <div class="full-width"><label>Video Capabilities</label><input type="text" id="cam_video" placeholder="e.g. 8K@30fps, Dolby Vision..."></div>
+                    <div class="full-width"><label>Selfie Camera</label><input type="text" id="cam_selfie" placeholder="e.g. 12 MP, f/2.2"></div>
+                </div>
+
+                <div class="form-section"><h3>GALLERY (OPTIONAL)</h3></div>
+                <div class="full-width">
+                    <div class="file-upload-wrapper">
+                        <span class="file-upload-text" id="galleryText">Click to select multiple Gallery images...</span>
+                        <input type="file" id="galleryFiles" multiple accept="image/*" onchange="updateGalleryName()">
+                    </div>
+                </div>
+
+                <div class="form-section"><h3>EXTRAS</h3></div>
+                <div class="input-grid">
+                    <div><label>Geekbench Single</label><input type="number" id="geek_s" placeholder="3000"></div>
+                    <div><label>Geekbench Multi</label><input type="number" id="geek_m" placeholder="10000"></div>
+                    <div><label>AnTuTu v10</label><input type="number" id="antutu" placeholder="2500000"></div>
+                    <div><label>Price (USD)</label><input type="number" id="price_usd" placeholder="999"></div>
+                    <div><label>Price (EUR)</label><input type="number" id="price_eur" placeholder="1099"></div>
+                </div>
+
+                <button type="submit" class="submit-btn">Generate JSON</button>
+            </form>
+
+            <div id="outputArea">
+                <p>Send this code + ALL images to Admin:</p>
+                <textarea id="jsonOutput" readonly></textarea>
+                <button onclick="copyText()" class="btn" style="width:100%; margin-top:5px; justify-content:center;">Copy Code</button>
             </div>
         </div>
     </div>
 
     <script>
+        // THEME & MENU
         if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
         document.getElementById('themeToggle').onclick = () => {
             document.body.classList.toggle('light-mode');
             localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
         };
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+        const capitalize = (s) => s.replace(/\b\w/g, c => c.toUpperCase());
 
-        const staticSpecs = [
-            { key: "status", label: "Status", cat: "Launch" },
-            { key: "announced", label: "Announced", cat: "Launch" },
-            { key: "released", label: "Release", cat: "Launch" },
-            { key: "dimensions", label: "Dimensions", cat: "Body" },
-            { key: "weight", label: "Weight", cat: "Body" },
-            { key: "ip_rating", label: "IP Rating", cat: "Body" },
-            { key: "colors", label: "Colors", cat: "Body" },
-            { key: "screen", label: "Display", cat: "Display" },
-            { key: "resolution", label: "Resolution", cat: "Display" },
-            { key: "os", label: "OS", cat: "Platform" },
-            { key: "chipset", label: "Chipset", cat: "Platform" },
-            { key: "storage", label: "Storage", cat: "Memory" },
-            { key: "ram", label: "RAM", cat: "Memory" },
-            { key: "battery", label: "Battery", cat: "Battery" },
-            { key: "charging", label: "Charging", cat: "Battery" },
-            { key: "video", label: "Video", cat: "Camera" },
-            { key: "selfie", label: "Selfie", cat: "Camera" },
-            { key: "geek_s", label: "Geekbench (S)", cat: "Tests" },
-            { key: "geek_m", label: "Geekbench (M)", cat: "Tests" },
-            { key: "antutu", label: "AnTuTu", cat: "Tests" },
-            { key: "price", label: "Price", cat: "Misc" }
-        ];
-
-        let allDevices = [];
-        async function init() {
-            try {
-                const res = await fetch('phones.json');
-                allDevices = await res.json();
-                renderGrid(allDevices);
-            } catch(e) { document.getElementById('phoneGrid').innerHTML = "No devices found."; }
+        // CAMERA LOGIC
+        window.addEventListener('load', () => addCameraRow('Main', ''));
+        function addCameraRow(typeVal='', specsVal='') {
+            const div = document.createElement('div');
+            div.className = 'cam-row';
+            div.innerHTML = `
+                <input type="text" class="cam-type" placeholder="Type" value="${typeVal}">
+                <input type="text" class="cam-specs" placeholder="Specs (e.g. 50MP)" value="${specsVal}">
+                <button type="button" class="remove-btn" onclick="this.parentElement.remove()">X</button>
+            `;
+            document.getElementById('cameraContainer').appendChild(div);
         }
 
-        const renderGrid = (list) => {
-            const grid = document.getElementById('phoneGrid');
-            grid.innerHTML = "";
-            list.forEach((d, i) => {
-                grid.innerHTML += `
-                    <div class="glass-panel card" onclick="showDetails(${i})">
-                        <img src="${d.image}" onerror="this.src='https://placehold.co/400x600?text=No+Img'">
-                        <span class="type-tag">${d.type || 'Device'}</span>
-                        <h3>${d.model}</h3>
-                        <p>${d.brand}</p>
-                    </div>`;
-            });
-        };
+        // FILE UPDATES
+        function updateFileName(id, textId) {
+            const input = document.getElementById(id);
+            if(input.files.length > 0) document.getElementById(textId).innerText = "Selected: " + input.files[0].name;
+        }
+        function updateGalleryName() {
+            const input = document.getElementById('galleryFiles');
+            if(input.files.length > 0) document.getElementById('galleryText').innerText = `Selected ${input.files.length} images`;
+        }
 
-        window.showDetails = (i) => {
-            const d = allDevices[i];
-            document.getElementById('galleryView').classList.add('hidden');
-            document.getElementById('detailView').classList.remove('hidden');
-            document.getElementById('d_img').src = d.image;
-            document.getElementById('d_model').innerText = d.model;
-            document.getElementById('d_brand').innerText = d.brand;
-            document.getElementById('d_type').innerText = d.type || "DEVICE";
-            
-            document.getElementById('d_quick_specs').innerHTML = `
-                <div>📱 ${d.screen ? d.screen.split(',')[0] : '-'}</div>
-                <div>⚙️ ${d.chipset || '-'}</div>
-                <div>🔋 ${d.battery || '-'}</div>
-                <div>💾 ${d.storage || '-'}</div>
-            `;
+        // SUBMIT
+        document.getElementById('makerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            let data = {};
 
-            let html = "";
-            let currentCat = "";
-
-            staticSpecs.forEach(f => {
-                if(d[f.key]) {
-                    if(f.cat !== currentCat) { currentCat = f.cat; html += `<tr><td colspan="2" class="cat-header">${currentCat}</td></tr>`; }
-                    html += `<tr><th>${f.label}</th><td>${d[f.key]}</td></tr>`;
+            // 1. Simple Fields
+            const simpleIds = ['type','brand','model','status','ip_rating','weight','dimensions','colors','chipset','ram','storage','os','battery','charging','cam_video','cam_selfie','geek_s','geek_m','antutu'];
+            simpleIds.forEach(id => {
+                const val = document.getElementById(id).value;
+                if(val) {
+                    if(['brand','model','colors'].includes(id)) data[id] = capitalize(val);
+                    else data[id] = val;
                 }
             });
 
-            if(d.cameras && d.cameras.length > 0) {
-                html += `<tr><td colspan="2" class="cat-header">Camera System</td></tr>`;
-                d.cameras.forEach(cam => {
-                    html += `<tr><th>${cam.label}</th><td>${cam.specs}</td></tr>`;
+            // 2. Dates
+            const formatDate = (id) => {
+                const val = document.getElementById(id).value;
+                if(!val) return null;
+                const [y, m] = val.split('-');
+                const dateObj = new Date(y, m-1);
+                return dateObj.toLocaleString('default', { month: 'long', year: 'numeric' });
+            };
+            if(formatDate('announced')) data.announced = formatDate('announced');
+            if(formatDate('released')) data.released = formatDate('released');
+
+            // 3. Display
+            const sType = document.getElementById('displayType').value;
+            const sRefresh = document.getElementById('refresh').value;
+            const sSize = document.getElementById('screen').value;
+            const sBright = document.getElementById('brightness').value;
+            const sRes = document.getElementById('resolution').value;
+            let screenStr = [];
+            if(sType) screenStr.push(sType);
+            if(sRefresh) screenStr.push(sRefresh);
+            if(sSize) screenStr.push(sSize + '"');
+            if(sBright) screenStr.push(sBright + ' nits');
+            if(screenStr.length > 0) data.screen = screenStr.join(', ');
+            if(sRes) data.resolution = sRes;
+
+            // 4. Cameras
+            const rows = document.querySelectorAll('.cam-row');
+            if(rows.length > 0) {
+                data.cameras = [];
+                rows.forEach(r => {
+                    const t = r.querySelector('.cam-type').value;
+                    const s = r.querySelector('.cam-specs').value;
+                    if(t && s) data.cameras.push({ label: t, specs: s });
                 });
             }
 
-            document.getElementById('specTable').innerHTML = html;
-        };
+            // 5. Price
+            const usd = document.getElementById('price_usd').value;
+            const eur = document.getElementById('price_eur').value;
+            if(usd || eur) data.price = `${usd ? '$'+usd : ''} ${eur ? '/ €'+eur : ''}`;
 
-        document.getElementById('searchInput').addEventListener('keyup', (e) => {
-            const term = e.target.value.toLowerCase();
-            renderGrid(allDevices.filter(d => d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term)));
+            // 6. Main Image
+            const f = document.getElementById('imageFile').files[0];
+            if(f) data.image = "images/" + f.name;
+
+            // 7. Gallery Images
+            const gFiles = document.getElementById('galleryFiles').files;
+            if(gFiles.length > 0) {
+                data.gallery = [];
+                for(let i=0; i<gFiles.length; i++) {
+                    data.gallery.push("images/" + gFiles[i].name);
+                }
+            }
+
+            document.getElementById('outputArea').style.display = 'block';
+            document.getElementById('jsonOutput').value = JSON.stringify(data, null, 4) + ",";
         });
 
-        init();
+        function copyText() {
+            document.getElementById("jsonOutput").select();
+            document.execCommand("copy");
+            alert("Copied!");
+        }
     </script>
 </body>
 </html>
