@@ -11,9 +11,13 @@
             --glass-border: rgba(255, 255, 255, 0.1);
             --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5);
             --accent: #ffffff;
-            --radius-main: 6px;
-            --radius-btn: 4px;
+            --radius-main: 12px;
+            --radius-btn: 6px;
         }
+
+        /* Global Reset */
+        * { box-sizing: border-box; }
+        html, body { overflow-x: hidden; }
 
         body {
             background-color: #121212; 
@@ -28,42 +32,39 @@
             filter: blur(20px); box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.4);
         }
 
-        .container { max-width: 1100px; margin: auto; }
+        .container { max-width: 1100px; margin: auto; width: 100%; }
 
         .glass-panel {
             background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.15);
             border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; box-shadow: var(--glass-shadow);
+            width: 100%;
         }
 
-        /* --- NAVIGATION (FIXED Z-INDEX) --- */
+        /* --- NAVIGATION --- */
         .nav-container { 
             display: flex; justify-content: space-between; align-items: center; 
             margin-bottom: 30px; gap: 15px; flex-wrap: wrap;
-            /* FIX: This ensures the nav stays on top of the form */
-            position: relative; 
-            z-index: 100; 
+            position: relative; z-index: 100; 
         }
-        
-        .logo { font-weight: 300; font-size: 1.5rem; letter-spacing: 2px; margin: 0; color: white; text-decoration: none; }
+
+        .logo { font-weight: 300; font-size: 1.5rem; letter-spacing: 2px; margin: 0; color: white; text-decoration: none; cursor: pointer; white-space: nowrap; }
         .logo span { font-weight: 700; }
         .nav-links { display: flex; gap: 10px; align-items: center; }
         
         .btn {
-            text-decoration: none; color: white; padding: 10px 25px; background: rgba(255,255,255,0.05);
-            border: 1px solid var(--glass-border); border-radius: var(--radius-btn); font-weight: 500; font-size: 0.9rem; transition: all 0.2s ease; cursor: pointer; display: inline-block;
+            text-decoration: none; color: white; padding: 10px 20px; background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border); border-radius: var(--radius-btn); font-weight: 500; font-size: 0.9rem; transition: all 0.2s ease; cursor: pointer; display: inline-block; white-space: nowrap;
         }
         .btn:hover { background: rgba(255,255,255,0.15); border-color: var(--accent); }
 
-        /* DROPDOWN STYLES */
+        /* DROPDOWN */
         .dropdown { position: relative; display: inline-block; }
         .dropdown-content {
             display: none; position: absolute; right: 0; top: 100%; margin-top: 5px;
             background: rgba(30, 30, 30, 0.98); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             min-width: 200px; border: 1px solid var(--glass-border); border-radius: var(--radius-btn);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8); 
-            z-index: 200; /* High Z-Index */
-            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8); z-index: 200; overflow: hidden;
         }
         .dropdown:hover .dropdown-content { display: block; }
         .dropdown-item {
@@ -75,11 +76,10 @@
         .dropdown-item:hover { background: rgba(255,255,255,0.1); color: white; padding-left: 20px; }
         .social-icon { width: 16px; height: 16px; fill: white; opacity: 0.8; }
 
-        /* Form Container (Lower Z-Index) */
+        /* Form Styling */
         .form-container { 
             width: 100%; box-sizing: border-box; padding: 40px; 
-            position: relative;
-            z-index: 1; /* Stays below Nav */
+            position: relative; z-index: 1; 
         }
         
         h2 { margin-top: 0; text-align: center; font-weight: 300; letter-spacing: 1px; margin-bottom: 20px;}
@@ -88,16 +88,16 @@
         .form-section { 
             margin-top: 40px; margin-bottom: 20px; 
             border-bottom: 1px solid rgba(255,255,255,0.2); 
-            padding-bottom: 8px; display: flex; align-items: baseline; justify-content: space-between;
+            padding-bottom: 8px; display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 10px;
         }
         .form-section h3 { margin: 0; font-size: 1.2rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
         .form-section small { color: #888; font-weight: 400; font-size: 0.8rem; }
 
         .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .full-width { grid-column: span 2; }
-        @media(max-width: 700px) { .input-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
-
+        
         label { font-size: 0.85rem; color: #aaa; margin-bottom: 6px; display: block; font-weight: 500; }
+        .helper-text { font-size: 0.75rem; color: #666; margin-top: -3px; margin-bottom: 5px; display: block; font-style: italic; }
         
         input[type="text"], select { 
             width: 100%; box-sizing: border-box; padding: 12px; 
@@ -135,13 +135,28 @@
         .copy-btn { background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 8px 15px; border-radius: var(--radius-btn); cursor: pointer; margin-top: 5px; }
         .copy-btn:hover { background: var(--accent); color: black; }
         .note { font-size: 0.8rem; color: #888; margin-top: 5px; text-align: right;}
+
+        /* --- MOBILE OPTIMIZATION --- */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .glass-panel { padding: 20px; }
+            .form-container { padding: 20px; } 
+            
+            .nav-container { flex-direction: column; align-items: stretch; gap: 15px; }
+            .nav-links { justify-content: center; width: 100%; }
+
+            .input-grid { grid-template-columns: 1fr; } 
+            .full-width { grid-column: span 1; }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="nav-container glass-panel" style="padding: 15px;">
-            <a href="index.html" class="logo">Concept<span>Harmony</span></a>
+            <div style="display:flex; justify-content:center; width:100%;">
+                <div class="logo" onclick="window.location.href='index.html'">Concept<span>Harmony</span></div>
+            </div>
             
             <div class="nav-links">
                 <a href="index.html" class="btn">Home</a>
@@ -174,17 +189,27 @@
 
             <div class="guidelines">
                 <strong>⚠️ Submission Guidelines</strong>
-                • <b>Be Specific:</b> Include MP, Aperture (f/1.8), Focal Length (24mm), Sensor Size, and Features (OIS, PDAF).<br>
-                • <b>Grammar & Style:</b> Use "Snapdragon 8 Gen 4", not "snapdragon". <br>
+                • <b>Auto-Correction:</b> Brand and Model names will be auto-capitalized.<br>
+                • <b>Be Specific:</b> Use suggested formats below (e.g. "5000 mAh").<br>
                 • <b>Optional Fields:</b> Leave blank if unknown.
             </div>
 
             <form id="makerForm">
                 
+                <datalist id="brands">
+                    <option value="Samsung"><option value="Apple"><option value="Xiaomi"><option value="Google"><option value="OnePlus"><option value="Sony">
+                </datalist>
+                <datalist id="chipsets">
+                    <option value="Snapdragon 8 Gen 4"><option value="Snapdragon 8 Gen 5"><option value="Dimensity 9400"><option value="Apple A19 Pro"><option value="Google Tensor G6">
+                </datalist>
+                <datalist id="os_list">
+                    <option value="Android 15"><option value="Android 16"><option value="iOS 19"><option value="HyperOS 2.0">
+                </datalist>
+
                 <div class="form-section"><h3>Identification</h3></div>
                 <div class="input-grid">
                     <div><label>Device Type *</label><select id="type" required><option value="" disabled selected>Select...</option><option value="Phone">Phone</option><option value="Tablet">Tablet</option><option value="Smartwatch">Smartwatch</option></select></div>
-                    <div><label>Brand *</label><input type="text" id="brand" placeholder="e.g. Samsung" required></div>
+                    <div><label>Brand *</label><input type="text" id="brand" list="brands" placeholder="e.g. Samsung" required></div>
                     <div class="full-width"><label>Model Name *</label><input type="text" id="model" placeholder="e.g. Galaxy S26 Ultra" required></div>
                     <div class="full-width"><label>Concept Image *</label><div class="file-upload-wrapper"><span class="file-upload-text" id="fileText">Click to Upload Image...</span><input type="file" id="imageFile" accept="image/*" required onchange="updateFileName()"></div></div>
                 </div>
@@ -199,73 +224,77 @@
                 <div class="input-grid">
                     <div><label>Dimensions</label><input type="text" id="dimensions" placeholder="e.g. 163 x 78 x 8.9 mm"></div>
                     <div><label>Weight</label><input type="text" id="weight" placeholder="e.g. 230 g"></div>
-                    <div><label>IP Rating / Build</label><input type="text" id="ip_rating" placeholder="e.g. IP68 dust/water resistant, Titanium frame"></div>
-                    <div><label>Colors</label><input type="text" id="colors" placeholder="e.g. Titanium Gray, Violet, Yellow"></div>
+                    <div><label>IP Rating / Build</label><input type="text" id="ip_rating" placeholder="e.g. IP68 dust/water resistant"></div>
+                    <div><label>Colors</label><input type="text" id="colors" placeholder="e.g. Titanium Gray, Violet"></div>
                 </div>
 
                 <div class="form-section"><h3>Display</h3></div>
                 <div class="input-grid">
-                    <div><label>Type</label><input type="text" id="displayType" placeholder="e.g. LTPO AMOLED, 120Hz, HDR10+"></div>
+                    <div><label>Type</label><input type="text" id="displayType" placeholder="e.g. LTPO AMOLED, 120Hz"></div>
                     <div><label>Size</label><input type="text" id="screen" placeholder="e.g. 6.8 inches"></div>
-                    <div><label>Resolution</label><input type="text" id="resolution" placeholder="e.g. 1440 x 3120 pixels, 20:9 ratio"></div>
+                    <div><label>Resolution</label><input type="text" id="resolution" placeholder="e.g. 1440 x 3120 pixels"></div>
                     <div><label>Protection</label><input type="text" id="protection" placeholder="e.g. Corning Gorilla Armor"></div>
                 </div>
 
                 <div class="form-section"><h3>Platform & Memory</h3></div>
                 <div class="input-grid">
-                    <div><label>OS</label><input type="text" id="os" placeholder="e.g. Android 16, One UI 8"></div>
-                    <div><label>Chipset</label><input type="text" id="chipset" placeholder="e.g. Snapdragon 8 Gen 5"></div>
+                    <div><label>OS</label><input type="text" id="os" list="os_list" placeholder="e.g. Android 16"></div>
+                    <div><label>Chipset</label><input type="text" id="chipset" list="chipsets" placeholder="e.g. Snapdragon 8 Gen 5"></div>
                     <div><label>Internal Storage</label><input type="text" id="storage" placeholder="e.g. 256GB / 512GB / 1TB"></div>
                     <div><label>RAM</label><input type="text" id="ram" placeholder="e.g. 12GB / 16GB"></div>
                 </div>
 
-                <div class="form-section"><h3>Main Camera</h3><small>Detail: MP, f-stop, mm, sensor size, OIS</small></div>
+                <div class="form-section"><h3>Main Camera</h3></div>
                 <div class="input-grid">
-                    <div class="full-width"><label>Main Module</label><input type="text" id="cam_main" placeholder="e.g. 200 MP, f/1.7, 24mm (wide), 1/1.3&quot;, 0.6µm, multi-directional PDAF, Laser AF, OIS"></div>
-                    <div class="full-width"><label>Telephoto 1</label><input type="text" id="cam_tele" placeholder="e.g. 50 MP, f/3.4, 111mm (periscope telephoto), PDAF, OIS, 5x optical zoom"></div>
-                    <div class="full-width"><label>Telephoto 2 (Optional)</label><input type="text" id="cam_tele2" placeholder="e.g. 10 MP, f/2.4, 67mm (telephoto), Dual Pixel PDAF, OIS, 3x optical zoom"></div>
-                    <div class="full-width"><label>Ultrawide</label><input type="text" id="cam_uw" placeholder="e.g. 50 MP, f/2.2, 13mm, 120˚ (ultrawide), Dual Pixel PDAF, Super Steady video"></div>
-                    <div class="full-width"><label>Macro / Other (Optional)</label><input type="text" id="cam_macro" placeholder="e.g. 5 MP, f/2.4 (macro)"></div>
-                    <div class="full-width"><label>Camera Features</label><input type="text" id="cam_features" placeholder="e.g. LED flash, auto-HDR, panorama, Zeiss optics"></div>
-                    <div class="full-width"><label>Video Capabilities</label><input type="text" id="cam_video" placeholder="e.g. 8K@24/30fps, 4K@30/60/120fps, 1080p@30/60/240fps, HDR10+, stereo sound rec., gyro-EIS"></div>
+                    <div class="full-width">
+                        <label>Main Module</label>
+                        <span class="helper-text">Format: MP, f/stop, focal length, sensor size, features</span>
+                        <input type="text" id="cam_main" placeholder="e.g. 200 MP, f/1.7, 24mm, 1/1.3&quot;, OIS">
+                    </div>
+                    <div class="full-width"><label>Telephoto 1</label><input type="text" id="cam_tele" placeholder="e.g. 50 MP, f/3.4, 111mm (periscope), 5x zoom"></div>
+                    <div class="full-width"><label>Telephoto 2 (Optional)</label><input type="text" id="cam_tele2" placeholder="e.g. 10 MP, 3x optical zoom"></div>
+                    <div class="full-width"><label>Ultrawide</label><input type="text" id="cam_uw" placeholder="e.g. 50 MP, f/2.2, 120˚"></div>
+                    <div class="full-width"><label>Macro / Other</label><input type="text" id="cam_macro" placeholder="e.g. 5 MP, f/2.4 (macro)"></div>
+                    <div class="full-width"><label>Features</label><input type="text" id="cam_features" placeholder="e.g. LED flash, auto-HDR, panorama"></div>
+                    <div class="full-width"><label>Video</label><input type="text" id="cam_video" placeholder="e.g. 8K@30fps, 4K@120fps, HDR10+"></div>
                 </div>
 
                 <div class="form-section"><h3>Selfie Camera</h3></div>
                 <div class="input-grid">
-                    <div class="full-width"><label>Module Specs</label><input type="text" id="cam_selfie" placeholder="e.g. 12 MP, f/2.2, 26mm (wide), Dual Pixel PDAF"></div>
-                    <div class="full-width"><label>Selfie Video</label><input type="text" id="cam_selfie_video" placeholder="e.g. 4K@30/60fps, 1080p@30fps"></div>
+                    <div class="full-width"><label>Module Specs</label><input type="text" id="cam_selfie" placeholder="e.g. 12 MP, f/2.2, 26mm, AF"></div>
+                    <div class="full-width"><label>Selfie Video</label><input type="text" id="cam_selfie_video" placeholder="e.g. 4K@60fps"></div>
                 </div>
 
                 <div class="form-section"><h3>Sound & Features</h3></div>
                 <div class="input-grid">
-                    <div><label>Sensors</label><input type="text" id="sensors" placeholder="e.g. Fingerprint (under display, ultrasonic), accelerometer, gyro, proximity"></div>
-                    <div><label>Audio / Comms</label><input type="text" id="comms" placeholder="e.g. Stereo Speakers, Wi-Fi 7, BT 5.4, NFC, USB Type-C 3.2"></div>
+                    <div><label>Sensors</label><input type="text" id="sensors" placeholder="e.g. Fingerprint (under display), Face ID"></div>
+                    <div><label>Audio / Comms</label><input type="text" id="comms" placeholder="e.g. Stereo Speakers, Wi-Fi 7, BT 5.4"></div>
                 </div>
 
-                <div class="form-section"><h3>Battery</h3><small>Separate from Body</small></div>
+                <div class="form-section"><h3>Battery</h3></div>
                 <div class="input-grid">
-                    <div><label>Capacity / Type</label><input type="text" id="battery" placeholder="e.g. Si-C Li-Ion 5500 mAh, non-removable"></div>
-                    <div><label>Wired Charging</label><input type="text" id="charge_wired" placeholder="e.g. 65W wired, PD3.0, 65% in 30 min"></div>
-                    <div><label>Wireless Charging</label><input type="text" id="charge_wireless" placeholder="e.g. 25W wireless (Qi2/MagSafe)"></div>
-                    <div><label>Reverse Charging</label><input type="text" id="charge_reverse" placeholder="e.g. 4.5W reverse wireless or wired"></div>
+                    <div><label>Capacity</label><input type="text" id="battery" placeholder="e.g. 5500 mAh"></div>
+                    <div><label>Wired Charging</label><input type="text" id="charge_wired" placeholder="e.g. 65W wired"></div>
+                    <div><label>Wireless Charging</label><input type="text" id="charge_wireless" placeholder="e.g. 25W wireless"></div>
+                    <div><label>Reverse Charging</label><input type="text" id="charge_reverse" placeholder="e.g. 4.5W reverse wireless"></div>
                 </div>
 
                 <div class="form-section"><h3>Tests & Price</h3></div>
                 <div class="input-grid">
-                    <div><label>Geekbench Single-Core</label><input type="text" id="geek_single" placeholder="e.g. 3100"></div>
-                    <div><label>Geekbench Multi-Core</label><input type="text" id="geek_multi" placeholder="e.g. 9500"></div>
-                    <div><label>AnTuTu Score</label><input type="text" id="antutu" placeholder="e.g. 2,100,000 (v10)"></div>
-                    <div><label>Starting Price</label><input type="text" id="price" placeholder="e.g. $1199 / €1449"></div>
+                    <div><label>Geekbench Single</label><input type="text" id="geek_single" placeholder="e.g. 3100"></div>
+                    <div><label>Geekbench Multi</label><input type="text" id="geek_multi" placeholder="e.g. 9500"></div>
+                    <div><label>AnTuTu Score</label><input type="text" id="antutu" placeholder="e.g. 2,100,000"></div>
+                    <div><label>Starting Price</label><input type="text" id="price" placeholder="e.g. $1199"></div>
                 </div>
                 
                 <button type="submit" class="submit-btn">Create JSON file</button>
             </form>
 
             <div id="outputArea">
-                <p style="text-align:center; color:#aaa; font-size:0.85rem; margin-bottom:10px;">Send this code to @spinoevrex (Discord):</p>
+                <p style="text-align:center; color:#aaa; font-size:0.85rem; margin-bottom:10px;">Send this code to the Admin:</p>
                 <textarea id="jsonOutput" readonly></textarea>
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                    <p class="note">⚠️ IMPORTANT: Send the image named <b id="imgNameDisplay" style="color:white;"></b> to @spinoevrex (Discord)! If requirement is not met, the upload will be disapproved.</p>
+                    <p class="note">⚠️ IMPORTANT: Email the image named <b id="imgNameDisplay" style="color:white;"></b> to admin!</p>
                     <button onclick="copyText()" class="copy-btn">Copy Code</button>
                 </div>
             </div>
@@ -282,10 +311,14 @@
             }
         }
 
+        // Helper to Capitalize First Letters (e.g. "samsung" -> "Samsung")
+        function capitalize(str) {
+            return str.replace(/\b\w/g, l => l.toUpperCase());
+        }
+
         document.getElementById('makerForm').addEventListener('submit', (e) => {
             e.preventDefault();
 
-            // ALL FIELD IDs
             const fields = [
                 'type', 'brand', 'model', 
                 'announced', 'released', 
@@ -302,8 +335,14 @@
             let data = {};
             
             fields.forEach(f => {
-                const val = document.getElementById(f).value;
-                if(val.trim() !== "") data[f] = val;
+                let val = document.getElementById(f).value;
+                if(val.trim() !== "") {
+                    // Auto-Capitalize specific fields for grammar
+                    if(['brand', 'model', 'colors'].includes(f)) {
+                        val = capitalize(val);
+                    }
+                    data[f] = val;
+                }
             });
 
             const fileInput = document.getElementById('imageFile');
