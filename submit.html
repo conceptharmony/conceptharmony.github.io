@@ -11,8 +11,21 @@
             --glass-border: rgba(255, 255, 255, 0.1);
             --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5);
             --accent: #ffffff;
+            --text-main: #ffffff;
+            --text-muted: #bbbbbb;
             --radius-main: 12px;
             --radius-btn: 6px;
+        }
+
+        /* LIGHT MODE VARIABLES */
+        body.light-mode {
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+            --accent: #000000;
+            --text-main: #1a1a1a;
+            --text-muted: #555555;
+            background-color: #f4f4f9;
         }
 
         /* Global Reset */
@@ -21,16 +34,20 @@
 
         body {
             background-color: #121212; 
-            color: white; 
+            color: var(--text-main);
             font-family: 'Segoe UI', Roboto, sans-serif;
             margin: 0; padding: 20px; min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background: url('background.jpg') no-repeat center center fixed; background-size: cover;
             filter: blur(20px); box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.4);
+            transition: filter 0.3s;
         }
+        
+        body.light-mode::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
 
         .container { max-width: 1100px; margin: auto; width: 100%; }
 
@@ -38,7 +55,7 @@
             background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.15);
             border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; box-shadow: var(--glass-shadow);
-            width: 100%;
+            width: 100%; transition: background 0.3s, border 0.3s;
         }
 
         /* --- NAVIGATION --- */
@@ -48,15 +65,17 @@
             position: relative; z-index: 100; 
         }
 
-        .logo { font-weight: 300; font-size: 1.5rem; letter-spacing: 2px; margin: 0; color: white; text-decoration: none; cursor: pointer; white-space: nowrap; }
+        .logo { font-weight: 300; font-size: 1.5rem; letter-spacing: 2px; margin: 0; color: var(--text-main); text-decoration: none; cursor: pointer; white-space: nowrap; }
         .logo span { font-weight: 700; }
         .nav-links { display: flex; gap: 10px; align-items: center; }
         
         .btn {
-            text-decoration: none; color: white; padding: 10px 20px; background: rgba(255,255,255,0.05);
+            text-decoration: none; color: var(--text-main); padding: 10px 20px; background: rgba(255,255,255,0.05);
             border: 1px solid var(--glass-border); border-radius: var(--radius-btn); font-weight: 500; font-size: 0.9rem; transition: all 0.2s ease; cursor: pointer; display: inline-block; white-space: nowrap;
         }
         .btn:hover { background: rgba(255,255,255,0.15); border-color: var(--accent); }
+        
+        body.light-mode .btn { background: rgba(255,255,255,0.5); color: #000; border-color: rgba(0,0,0,0.1); }
 
         /* DROPDOWN */
         .dropdown { position: relative; display: inline-block; }
@@ -66,17 +85,32 @@
             min-width: 200px; border: 1px solid var(--glass-border); border-radius: var(--radius-btn);
             box-shadow: 0 10px 40px rgba(0,0,0,0.8); z-index: 200; overflow: hidden;
         }
+        body.light-mode .dropdown-content { background: rgba(255,255,255,0.95); box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
         .dropdown:hover .dropdown-content { display: block; }
         .dropdown-item {
             display: flex; align-items: center; gap: 10px; padding: 12px 16px;
             text-decoration: none; color: #ddd; font-size: 0.9rem; transition: 0.2s;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
+        body.light-mode .dropdown-item { color: #333; border-bottom: 1px solid rgba(0,0,0,0.05); }
         .dropdown-item:last-child { border-bottom: none; }
         .dropdown-item:hover { background: rgba(255,255,255,0.1); color: white; padding-left: 20px; }
+        body.light-mode .dropdown-item:hover { background: rgba(0,0,0,0.05); color: black; }
         .social-icon { width: 16px; height: 16px; fill: white; opacity: 0.8; }
+        body.light-mode .social-icon { fill: #333; }
 
-        /* Form Styling */
+        /* THEME TOGGLE */
+        .theme-btn {
+            background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border);
+            width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.3s; margin-left: 5px;
+        }
+        body.light-mode .theme-btn { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); }
+        .theme-btn:hover { background: var(--accent); color: black; transform: rotate(15deg); }
+        .theme-icon { width: 20px; height: 20px; fill: var(--text-main); pointer-events: none; }
+
+        /* Form */
         .form-container { 
             width: 100%; box-sizing: border-box; padding: 40px; 
             position: relative; z-index: 1; 
@@ -106,6 +140,9 @@
         }
         input:focus { outline: none; border-color: var(--accent); background: rgba(0,0,0,0.5); }
         select option { background: #222; }
+        
+        body.light-mode input, body.light-mode select { color: #000; background: rgba(255,255,255,0.6); border-color: rgba(0,0,0,0.1); }
+        body.light-mode ::placeholder { color: #666; }
 
         .file-upload-wrapper {
             position: relative; width: 100%; height: 50px; border: 1px dashed rgba(255,255,255,0.3);
@@ -115,25 +152,32 @@
         .file-upload-wrapper:hover { background: rgba(255,255,255,0.05); border-color: var(--accent); }
         input[type="file"] { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
         .file-upload-text { pointer-events: none; color: #aaa; font-size: 0.9rem; }
+        body.light-mode .file-upload-text { color: #555; }
 
         .guidelines {
             background: rgba(255, 255, 255, 0.05); border-left: 3px solid var(--accent);
             padding: 15px; margin-bottom: 30px; font-size: 0.9rem; color: #ccc;
             border-radius: 0 var(--radius-btn) var(--radius-btn) 0; line-height: 1.5;
         }
-        .guidelines strong { color: white; display: block; margin-bottom: 5px; font-size: 1rem;}
+        body.light-mode .guidelines { background: rgba(0,0,0,0.03); color: #333; }
+        .guidelines strong { color: var(--text-main); display: block; margin-bottom: 5px; font-size: 1rem;}
 
         button.submit-btn { 
-            width: 100%; padding: 15px; background: rgba(255,255,255,0.1); color: white; 
+            width: 100%; padding: 15px; background: rgba(255,255,255,0.1); color: var(--text-main); 
             border: 1px solid rgba(255,255,255,0.2); border-radius: var(--radius-btn); 
             font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: 0.2s; margin-top: 40px;
         }
-        button.submit-btn:hover { background: white; color: black; }
+        button.submit-btn:hover { background: var(--accent); color: #000; }
+        body.light-mode button.submit-btn { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); }
+        body.light-mode button.submit-btn:hover { background: var(--accent); color: white; }
 
         #outputArea { display: none; margin-top: 25px; }
         textarea { width: 100%; height: 150px; background: rgba(0,0,0,0.5); color: #ccc; border: 1px solid #333; border-radius: var(--radius-btn); padding: 10px; box-sizing: border-box; font-family: monospace;}
+        body.light-mode textarea { background: rgba(0,0,0,0.05); color: #333; border-color: #ccc; }
+        
         .copy-btn { background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 8px 15px; border-radius: var(--radius-btn); cursor: pointer; margin-top: 5px; }
         .copy-btn:hover { background: var(--accent); color: black; }
+        body.light-mode .copy-btn:hover { color: white; }
         .note { font-size: 0.8rem; color: #888; margin-top: 5px; text-align: right;}
 
         /* --- MOBILE OPTIMIZATION --- */
@@ -160,7 +204,7 @@
             
             <div class="nav-links">
                 <a href="index.html" class="btn">Home</a>
-                <a href="submit.html" class="btn" style="background: rgba(255,255,255,0.15); border-color: white;">Add Concept</a>
+                <a href="submit.html" class="btn">Add Concept</a>
                 
                 <div class="dropdown">
                     <button class="btn" style="display:flex; align-items:center; gap:5px;">
@@ -181,6 +225,10 @@
                         </a>
                     </div>
                 </div>
+
+                <button id="themeToggle" class="theme-btn" title="Toggle Light/Dark Mode">
+                    <svg class="theme-icon" viewBox="0 0 24 24"><path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"/></svg>
+                </button>
             </div>
         </div>
 
@@ -294,7 +342,7 @@
                 <p style="text-align:center; color:#aaa; font-size:0.85rem; margin-bottom:10px;">Send this code to the Admin:</p>
                 <textarea id="jsonOutput" readonly></textarea>
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                    <p class="note">⚠️ IMPORTANT: Email the image named <b id="imgNameDisplay" style="color:white;"></b> to admin!</p>
+                    <p class="note">⚠️ IMPORTANT: Email the image named <b id="imgNameDisplay" style="color:var(--accent);"></b> to admin!</p>
                     <button onclick="copyText()" class="copy-btn">Copy Code</button>
                 </div>
             </div>
@@ -302,16 +350,25 @@
     </div>
 
     <script>
+        // --- THEME LOGIC ---
+        const themeBtn = document.getElementById('themeToggle');
+        const body = document.body;
+        if (localStorage.getItem('theme') === 'light') body.classList.add('light-mode');
+        themeBtn.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            localStorage.setItem('theme', body.classList.contains('light-mode') ? 'light' : 'dark');
+        });
+
         function updateFileName() {
             const input = document.getElementById('imageFile');
             const label = document.getElementById('fileText');
             if(input.files && input.files.length > 0) {
                 label.textContent = "Selected: " + input.files[0].name;
-                label.style.color = "white";
+                label.style.color = "var(--accent)";
             }
         }
 
-        // Helper to Capitalize First Letters (e.g. "samsung" -> "Samsung")
+        // Helper to Capitalize First Letters
         function capitalize(str) {
             return str.replace(/\b\w/g, l => l.toUpperCase());
         }
@@ -337,7 +394,6 @@
             fields.forEach(f => {
                 let val = document.getElementById(f).value;
                 if(val.trim() !== "") {
-                    // Auto-Capitalize specific fields for grammar
                     if(['brand', 'model', 'colors'].includes(f)) {
                         val = capitalize(val);
                     }
