@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News - ConceptHarmony</title>
     <style>
-        /* --- DESIGN SYSTEM --- */
+        /* --- DESIGN SYSTEM (MATCHING INDEX/SUBMIT) --- */
         :root {
             --glass-bg: rgba(20, 20, 20, 0.75); --glass-border: rgba(255, 255, 255, 0.1);
             --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); --accent: #ffffff;
@@ -16,16 +16,26 @@
             --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); --accent: #000000;
             --text-main: #1a1a1a; --text-muted: #555555; background-color: #f4f4f9;
         }
+        
+        /* LAYOUT RESET */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { overflow-x: hidden; }
-        body { background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; min-height: 100vh; }
+        
+        body { 
+            background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', sans-serif; 
+            margin: 0; padding: 20px; min-height: 100vh; 
+        }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: url('background.jpg') center/cover; filter: blur(20px); }
         body.light-mode::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
 
         .container { max-width: 1100px; margin: auto; width: 100%; }
-        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
+        
+        .glass-panel { 
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); 
+            border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; 
+        }
 
-        /* --- NAV (Matches Index) --- */
+        /* --- NAV (EXACT COPY OF INDEX) --- */
         .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
         .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
         .logo span { font-weight: 700; }
@@ -62,13 +72,15 @@
             stroke-linecap: round; stroke-linejoin: round; 
         }
 
-        /* --- MOBILE MENU FIX --- */
+        /* --- MOBILE MENU --- */
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
         
         @media (max-width: 768px) {
-            .container { padding: 0 10px; } /* Less padding on phones */
+            /* Standardize Padding with other pages */
+            body { padding: 10px; } 
+            .glass-panel { padding: 15px; }
+
             .mobile-menu-btn { display: block; }
-            
             .nav-links { 
                 display: none; position: absolute; top: 70px; left: 0; width: 100%; 
                 flex-direction: column; background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(20px); 
@@ -76,37 +88,28 @@
                 box-shadow: 0 10px 30px rgba(0,0,0,0.5); gap: 10px; height: auto;
             }
             body.light-mode .nav-links { background: rgba(255,255,255,0.98); }
-            
             .nav-links.active { display: flex; }
-            .nav-btn { width: 100%; justify-content: center; } /* Full width buttons */
-            
+            .nav-btn { width: 100%; }
             .dropdown-container { width: 100%; }
-            .dropdown-content { position: static; width: 100%; box-shadow: none; border: none; background: transparent; padding-left: 0; margin-top:5px; }
-            .dropdown-item { justify-content: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .dropdown-content { position: static; width: 100%; box-shadow: none; border: none; background: transparent; padding-left: 20px; margin-top:5px; }
             
-            /* Fix Theme Button shape */
-            .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 5px; }
+            /* Theme button positioning on mobile */
+            .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
 
         /* --- NEWS SPECIFIC --- */
-        .search-box { width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); font-size: 1rem;}
+        .search-box { width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
         
-        /* Grid Layout */
-        .news-grid { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; 
-        }
-        /* Mobile Grid Override */
-        @media (max-width: 600px) {
-            .news-grid { grid-template-columns: 1fr; } 
-        }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        @media (max-width: 600px) { .news-grid { grid-template-columns: 1fr; } } /* Stack on phones */
 
         .news-card { cursor: pointer; transition: transform 0.2s; padding: 0; overflow: hidden; display: flex; flex-direction: column; }
         .news-card:hover { transform: translateY(-5px); border-color: var(--accent); }
         .news-img { width: 100%; height: 180px; object-fit: cover; border-bottom: 1px solid var(--glass-border); }
         .news-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
         .news-meta { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-        .news-title { font-size: 1.3rem; margin: 0 0 10px 0; color: var(--text-main); line-height: 1.3; font-weight: 600; }
-        .news-summary { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; flex-grow: 1; }
+        .news-title { font-size: 1.2rem; margin: 0 0 10px 0; color: var(--text-main); line-height: 1.3; font-weight:600; }
+        .news-summary { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; flex-grow: 1; }
         
         /* Article View */
         .article-view { display: none; }
@@ -117,8 +120,8 @@
         .article-body p { margin-bottom: 20px; }
 
         @media (max-width: 768px) {
+            .article-hero { height: 200px; margin-bottom: 15px; } /* Smaller hero on mobile */
             .article-header h1 { font-size: 1.8rem; }
-            .article-hero { height: 200px; margin-bottom: 15px; }
             .article-body { font-size: 1rem; }
         }
     </style>
