@@ -38,7 +38,7 @@
         .social-icon { width: 18px; height: 18px; fill: currentColor; }
 
         .theme-btn { width: 40px; padding: 0; border-radius: 50%; }
-        .theme-icon { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+        .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
         @media (max-width: 768px) {
@@ -61,6 +61,15 @@
         input, select { width: 100%; padding: 12px; border-radius: var(--radius-btn); border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: white; font-family: inherit; font-size: 0.95rem; appearance: none; }
         body.light-mode input, body.light-mode select { background-color: rgba(255,255,255,0.6); color: black; border-color: rgba(0,0,0,0.1); }
         
+        /* Restored Guidelines */
+        .guidelines {
+            background: rgba(255, 255, 255, 0.05); border-left: 3px solid var(--accent);
+            padding: 15px; margin-bottom: 30px; font-size: 0.9rem; color: #ccc;
+            border-radius: 0 var(--radius-btn) var(--radius-btn) 0; line-height: 1.6;
+        }
+        body.light-mode .guidelines { background: rgba(0,0,0,0.03); color: #333; }
+        .guidelines strong { color: var(--text-main); display: block; margin-bottom: 5px; font-size: 1rem;}
+
         .file-upload-wrapper { position: relative; width: 100%; height: 50px; border: 1px dashed rgba(255,255,255,0.3); border-radius: var(--radius-btn); background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
         .file-upload-wrapper:hover { background: rgba(255,255,255,0.05); border-color: var(--accent); }
         input[type="file"] { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
@@ -78,6 +87,8 @@
         #outputArea { display: none; margin-top: 25px; }
         textarea { width: 100%; height: 150px; background: rgba(0,0,0,0.5); color: #ccc; border: 1px solid #333; border-radius: var(--radius-btn); padding: 10px; box-sizing: border-box; font-family: monospace;}
         body.light-mode textarea { background: rgba(0,0,0,0.05); color: black; }
+        .copy-btn { width:100%; margin-top:10px; padding:10px; cursor:pointer; border-radius:var(--radius-btn); border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--text-main); font-weight:bold; }
+        .copy-btn:hover { background:var(--accent); color:black; }
     </style>
 </head>
 <body>
@@ -99,13 +110,22 @@
                     </div>
                 </div>
                 <button id="themeToggle" class="nav-btn theme-btn">
-                    <svg class="theme-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <svg class="theme-icon" viewBox="0 0 24 24"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM12 18.75a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-1.5a.75.75 0 01.75-.75zM18.89 6.17a.75.75 0 010 1.06l-1.591 1.591a.75.75 0 11-1.06-1.061l1.591-1.59a.75.75 0 011.06 0zM6.17 18.89a.75.75 0 010 1.06l-1.59 1.591a.75.75 0 11-1.061-1.06l1.59-1.591a.75.75 0 011.06 0zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM5.25 12a.75.75 0 01-.75.75H2.25a.75.75 0 010-1.5H4.5a.75.75 0 01.75.75zM17.829 17.829a.75.75 0 011.061 0l1.59 1.59a.75.75 0 01-1.06 1.061l-1.591-1.59a.75.75 0 010-1.061zM5.11 5.11a.75.75 0 011.06 0l1.591 1.59a.75.75 0 01-1.06 1.061l-1.59-1.591a.75.75 0 010-1.06zM12 7a5 5 0 100 10 5 5 0 000-10z" /></svg>
                 </button>
             </div>
         </div>
 
         <div class="glass-panel form-container">
             <h2 style="text-align:center; margin-top:0;">Create Concept</h2>
+            
+            <div class="guidelines">
+                <strong>⚠️ Submission Guidelines</strong>
+                • <b>Capitalization:</b> Always use proper capitalization (e.g., "Samsung", not "samsung").<br>
+                • <b>Specificity:</b> Include details like MP, Aperture (f/1.8), Sensor Size, and OIS for cameras.<br>
+                • <b>Formatting:</b> Check for grammar errors before generating.<br>
+                • <b>Optional Fields:</b> You can leave fields blank if you don't have the info.
+            </div>
+
             <form id="makerForm">
                 
                 <div class="form-section"><h3>IDENTITY</h3></div>
@@ -179,9 +199,9 @@
 
                 <div class="form-section"><h3>EXTRAS</h3></div>
                 <div class="input-grid">
-                    <div><label>Geekbench Single</label><input type="number" id="geek_s" placeholder="3000"></div>
-                    <div><label>Geekbench Multi</label><input type="number" id="geek_m" placeholder="10000"></div>
-                    <div><label>AnTuTu v10</label><input type="number" id="antutu" placeholder="2500000"></div>
+                    <div><label>Geekbench Single (v6)</label><input type="number" id="geek_s" placeholder="3000"></div>
+                    <div><label>Geekbench Multi (v6)</label><input type="number" id="geek_m" placeholder="10000"></div>
+                    <div><label>AnTuTu (v11)</label><input type="number" id="antutu" placeholder="2500000"></div>
                     <div><label>Price (USD)</label><input type="number" id="price_usd" placeholder="999"></div>
                     <div><label>Price (EUR)</label><input type="number" id="price_eur" placeholder="1099"></div>
                 </div>
@@ -190,14 +210,17 @@
             </form>
 
             <div id="outputArea">
-                <p>Send this code + ALL images to Admin:</p>
+                <p style="text-align:center; color:#aaa; font-size:0.85rem; margin-bottom:10px;">
+                    Send this code + ALL images to <b style="color:var(--accent);">@spinoevrex</b> on Discord or <b style="color:var(--accent);">@spinach.technologi</b> on TikTok DMs!
+                </p>
                 <textarea id="jsonOutput" readonly></textarea>
-                <button onclick="copyText()" class="btn" style="width:100%; margin-top:5px; justify-content:center;">Copy Code</button>
+                <button onclick="copyText()" class="copy-btn">Copy Code</button>
             </div>
         </div>
     </div>
 
     <script>
+        // THEME & MENU
         if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
         document.getElementById('themeToggle').onclick = () => {
             document.body.classList.toggle('light-mode');
@@ -208,6 +231,7 @@
         window.onclick = function(e) { if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); }
         const capitalize = (s) => s.replace(/\b\w/g, c => c.toUpperCase());
 
+        // CAMERA LOGIC
         window.addEventListener('load', () => addCameraRow('Main', ''));
         function addCameraRow(typeVal='', specsVal='') {
             const div = document.createElement('div');
@@ -220,6 +244,7 @@
             document.getElementById('cameraContainer').appendChild(div);
         }
 
+        // FILE UPDATES
         function updateFileName(id, textId) {
             const input = document.getElementById(id);
             if(input.files.length > 0) document.getElementById(textId).innerText = "Selected: " + input.files[0].name;
@@ -229,10 +254,12 @@
             if(input.files.length > 0) document.getElementById('galleryText').innerText = `Selected ${input.files.length} images`;
         }
 
+        // SUBMIT
         document.getElementById('makerForm').addEventListener('submit', (e) => {
             e.preventDefault();
             let data = {};
 
+            // 1. Simple Fields
             const simpleIds = ['type','brand','model','status','ip_rating','weight','dimensions','colors','chipset','ram','storage','os','battery','charging','cam_video','cam_selfie','geek_s','geek_m','antutu'];
             simpleIds.forEach(id => {
                 const val = document.getElementById(id).value;
@@ -242,6 +269,7 @@
                 }
             });
 
+            // 2. Dates
             const formatDate = (id) => {
                 const val = document.getElementById(id).value;
                 if(!val) return null;
@@ -252,6 +280,7 @@
             if(formatDate('announced')) data.announced = formatDate('announced');
             if(formatDate('released')) data.released = formatDate('released');
 
+            // 3. Display
             const sType = document.getElementById('displayType').value;
             const sRefresh = document.getElementById('refresh').value;
             const sSize = document.getElementById('screen').value;
@@ -265,6 +294,7 @@
             if(screenStr.length > 0) data.screen = screenStr.join(', ');
             if(sRes) data.resolution = sRes;
 
+            // 4. Cameras
             const rows = document.querySelectorAll('.cam-row');
             if(rows.length > 0) {
                 data.cameras = [];
@@ -275,13 +305,16 @@
                 });
             }
 
+            // 5. Price
             const usd = document.getElementById('price_usd').value;
             const eur = document.getElementById('price_eur').value;
             if(usd || eur) data.price = `${usd ? '$'+usd : ''} ${eur ? '/ €'+eur : ''}`;
 
+            // 6. Main Image
             const f = document.getElementById('imageFile').files[0];
             if(f) data.image = "images/" + f.name;
 
+            // 7. Gallery Images
             const gFiles = document.getElementById('galleryFiles').files;
             if(gFiles.length > 0) {
                 data.gallery = [];
