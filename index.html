@@ -25,7 +25,7 @@
         .container { max-width: 1100px; margin: auto; width: 100%; }
         .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
 
-        /* NAV */
+        /* --- NAV --- */
         .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
         .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
         .logo span { font-weight: 700; }
@@ -57,7 +57,7 @@
         .dropdown-item:hover { background: var(--accent); color: black !important; }
         .social-icon { width: 18px; height: 18px; fill: currentColor; }
 
-        /* Theme Button */
+        /* Theme Button (Bold Stroke) */
         .theme-btn { width: 40px; padding: 0; border-radius: 50%; }
         .theme-icon { 
             width: 24px; height: 24px; 
@@ -83,6 +83,8 @@
             .nav-btn { width: 100%; }
             .dropdown-container { width: 100%; }
             .dropdown-content { position: static; width: 100%; box-shadow: none; border: none; background: transparent; padding-left: 20px; margin-top:5px; }
+            
+            /* Fix Theme Button on Mobile */
             .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
 
@@ -110,7 +112,7 @@
         .spec-text small { display: block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
         .spec-text span { font-size: 0.95rem; font-weight: 600; color: var(--text-main); display: block; line-height: 1.2; }
 
-        /* Tabs - Aligned Left */
+        /* Tabs */
         .tab-container { display: flex; gap: 15px; justify-content: flex-start; margin-bottom: 20px; margin-top: 20px; }
         
         table { width: 100%; border-collapse: collapse; margin-top: 5px; table-layout: fixed; }
@@ -198,17 +200,9 @@
             document.body.classList.toggle('light-mode');
             localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
         };
-        
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
-        function toggleSocials(e) {
-            e.stopPropagation();
-            document.getElementById('socialDropdown').classList.toggle('show');
-        }
-        window.onclick = function(e) {
-            if (!e.target.matches('.nav-btn')) {
-                document.getElementById('socialDropdown').classList.remove('show');
-            }
-        }
+        function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
+        window.onclick = function(e) { if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); }
 
         const staticSpecs = [
             { key: "announced", label: "Announced", cat: "Launch" },
@@ -216,7 +210,6 @@
             { key: "dimensions", label: "Dimensions", cat: "Body" },
             { key: "weight", label: "Weight", cat: "Body" },
             { key: "ip_rating", label: "IP Rating", cat: "Body" },
-            { key: "build", label: "Build", cat: "Body" },
             { key: "colors", label: "Colors", cat: "Body" },
             { key: "screen", label: "Display", cat: "Display" },
             { key: "resolution", label: "Resolution", cat: "Display" },
@@ -228,9 +221,9 @@
             { key: "charging", label: "Charging", cat: "Battery" },
             { key: "cam_video", label: "Video", cat: "Camera" },
             { key: "cam_selfie", label: "Selfie", cat: "Camera" },
-            { key: "geek_s", label: "Geekbench Single (v6)", cat: "Tests" },
-            { key: "geek_m", label: "Geekbench Multi (v6)", cat: "Tests" },
-            { key: "antutu", label: "AnTuTu (v11)", cat: "Tests" },
+            { key: "geek_s", label: "Geekbench Single", cat: "Tests" },
+            { key: "geek_m", label: "Geekbench Multi", cat: "Tests" },
+            { key: "antutu", label: "AnTuTu", cat: "Tests" },
             { key: "price", label: "Price", cat: "Misc" }
         ];
 
@@ -271,6 +264,7 @@
             const screen = d.screen ? d.screen.split(',').pop() : '-';
             const batt = d.battery || '-';
 
+            // Quick Specs Icons
             document.getElementById('d_quick_specs').innerHTML = `
                 <div class="spec-item">
                     <svg class="spec-icon" viewBox="0 0 24 24"><path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 2v16h12V4H6zm4 4h4v4h-4V8z"/></svg>
@@ -318,4 +312,29 @@
 
             document.getElementById('specTable').innerHTML = html;
 
-            const galleryDiv =
+            const galleryDiv = document.getElementById('galleryGrid');
+            galleryDiv.innerHTML = "";
+            if(d.gallery && d.gallery.length > 0) {
+                d.gallery.forEach(src => {
+                    galleryDiv.innerHTML += `<img src="${src}" style="width:100%; border-radius:6px; cursor:pointer;" onclick="window.open('${src}')">`;
+                });
+            } else {
+                galleryDiv.innerHTML = "<p style='color:var(--text-muted);'>No extra images.</p>";
+            }
+        };
+
+        window.setTab = (t) => {
+            document.getElementById('tab-specs').classList.add('hidden');
+            document.getElementById('tab-pics').classList.add('hidden');
+            document.getElementById('tab-'+t).classList.remove('hidden');
+        };
+
+        document.getElementById('searchInput').addEventListener('keyup', (e) => {
+            const term = e.target.value.toLowerCase();
+            renderGrid(allDevices.filter(d => d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term)));
+        });
+
+        init();
+    </script>
+</body>
+</html>
