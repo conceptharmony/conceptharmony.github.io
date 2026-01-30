@@ -153,10 +153,11 @@
                 <div class="form-section"><h3>LAUNCH</h3></div>
                 <div class="input-grid">
                     <div><label>Status</label><select id="status"><option>Released</option><option>Coming Soon</option><option>Rumored</option><option>Concept</option></select></div>
-                    <div><label>Announced</label><input type="month" id="announced"></div>
-                    <div><label>Release</label><input type="month" id="released"></div>
+                    <div><label>Announced (Exact Date)</label><input type="date" id="announced"></div>
+                    <div><label>Release (Exact Date)</label><input type="date" id="released"></div>
                 </div>
 
+            
                 <div class="form-section"><h3>BODY</h3></div>
                 <div class="input-grid">
                     <div><label>IP Rating</label><input type="text" id="ip_rating" placeholder="e.g. IP68, immersible up to 3m for 30 min"></div>
@@ -244,7 +245,7 @@
         window.onclick = function(e) { if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); }
         const capitalize = (s) => s.replace(/\b\w/g, c => c.toUpperCase());
 
-        // DYNAMIC ROW LOGIC (Generic for Cam/Sensor)
+        // DYNAMIC ROW LOGIC
         window.addEventListener('load', () => {
             addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'Main', '');
         });
@@ -286,15 +287,18 @@
             });
 
             // 2. Dates
-            const formatDate = (id) => {
-                const val = document.getElementById(id).value;
-                if(!val) return null;
-                const [y, m] = val.split('-');
-                const dateObj = new Date(y, m-1);
-                return dateObj.toLocaleString('default', { month: 'long', year: 'numeric' });
-            };
-            if(formatDate('announced')) data.announced = formatDate('announced');
-            if(formatDate('released')) data.released = formatDate('released');
+    const formatDate = (id) => {
+        const val = document.getElementById(id).value; // Returns YYYY-MM-DD
+        if(!val) return null;
+        const dateObj = new Date(val);
+        const userTimezoneOffset = dateObj.getTimezoneOffset() * 60000;
+        const adjustedDate = new Date(dateObj.getTime() + userTimezoneOffset);
+        return adjustedDate.toLocaleString('default', { day: 'numeric', month: 'long', year: 'numeric' });
+    };
+    
+    if(formatDate('announced')) data.announced = formatDate('announced');
+    if(formatDate('released')) data.released = formatDate('released');
+
 
             // 3. Display
             const sType = document.getElementById('displayType').value;
