@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoC Hub - ConceptHarmony</title>
+    <style>
+        /* --- DESIGN SYSTEM --- */
+        :root {
+            --glass-bg: rgba(20, 20, 20, 0.75); --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); --accent: #ffffff;
+            --text-main: #ffffff; --text-muted: #bbbbbb; --radius-main: 12px; --radius-btn: 6px;
+        }
+        body.light-mode {
+            --glass-bg: rgba(255, 255, 255, 0.85); --glass-border: rgba(0, 0, 0, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); --accent: #000000;
+            --text-main: #1a1a1a; --text-muted: #555555; background-color: #f4f4f9;
+        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { overflow-x: hidden; }
+        body { background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; min-height: 100vh; }
+        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: url('background.jpg') center/cover; filter: blur(20px); }
+        body.light-mode::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
+
+        .container { max-width: 1100px; margin: auto; width: 100%; }
+        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
+
+        /* NAV */
+        .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
+        .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
+        .logo span { font-weight: 700; }
+        .nav-links { display: flex; gap: 10px; align-items: center; height: 100%; }
+        
+        .nav-btn { 
+            text-decoration: none; color: var(--text-main); padding: 0 20px; height: 40px; 
+            background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); 
+            border-radius: var(--radius-btn); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+            font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease;
+        }
+        .nav-btn:hover, .nav-btn:active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
+        .nav-btn:focus { outline: none; }
+        body.light-mode .nav-btn:hover { color: white !important; }
+
+        /* Dropdown */
+        .dropdown-container { position: relative; }
+        .dropdown-content { display: none; position: absolute; right: 0; top: 50px; background: rgba(30, 30, 30, 0.98); min-width: 200px; border-radius: var(--radius-btn); box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 200; overflow: hidden; border: 1px solid var(--glass-border); }
+        .dropdown-content.show { display: block; }
+        body.light-mode .dropdown-content { background: rgba(255,255,255,0.98); }
+        .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; text-decoration: none; color: #ddd; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
+        body.light-mode .dropdown-item { color: #333; border-color: rgba(0,0,0,0.05); }
+        .dropdown-item:last-child { border-bottom: none; }
+        .dropdown-item:hover { background: var(--accent); color: black !important; }
+        .social-icon { width: 18px; height: 18px; fill: currentColor; }
+
+        .theme-btn { width: 40px; padding: 0; border-radius: 50%; }
+        .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; flex-direction: column; background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(20px); padding: 15px; border-radius: 0 0 12px 12px; border-bottom: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); gap: 10px; height: auto; }
+            body.light-mode .nav-links { background: rgba(255,255,255,0.98); }
+            .nav-links.active { display: flex; }
+            .nav-btn { width: 100%; }
+            .dropdown-container { width: 100%; }
+            .dropdown-content { position: static; width: 100%; box-shadow: none; border: none; background: transparent; padding-left: 20px; margin-top:5px; }
+            .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
+        }
+
+        /* GRID */
+        .search-box { width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .card { cursor: pointer; transition: transform 0.2s; padding: 15px; }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        
+        /* Chip Image Style (Square, Contain) */
+        .card img { 
+            width: 100%; height: 200px; 
+            object-fit: contain; 
+            background: rgba(0,0,0,0.2); 
+            padding: 20px; /* More padding for chips */
+            border-radius: 6px; 
+        }
+        
+        .card h3 { margin: 10px 0 5px 0; color: var(--accent); }
+        .card .type-tag { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 2px; text-transform: uppercase; color: var(--text-muted); }
+        
+        /* DETAILS VIEW */
+        .hidden { display: none; }
+        .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
+        .hero-img { flex: 1; min-width: 300px; }
+        .hero-img img { width: 100%; border-radius: 10px; background: rgba(0,0,0,0.2); padding: 20px; }
+        .specs-summary { flex: 1.5; }
+        @media (max-width: 700px) { .top-section { flex-direction: column; } .hero-img { width: 100%; } }
+        
+        /* Quick Specs Icons */
+        .quick-data { margin-top: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .spec-item { display: flex; align-items: center; gap: 12px; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
+        .spec-icon { width: 24px; height: 24px; fill: var(--text-muted); flex-shrink: 0; }
+        .spec-text small { display: block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .spec-text span { font-size: 0.95rem; font-weight: 600; color: var(--text-main); display: block; line-height: 1.2; }
+
+        .tab-container { display: flex; gap: 15px; justify-content: flex-start; margin-bottom: 20px; margin-top: 20px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 5px; table-layout: fixed; }
+        th, td { padding: 12px; border-bottom: 1px solid var(--glass-border); text-align: left; }
+        th { color: var(--text-muted); width: 35%; vertical-align: top; }
+        td { word-wrap: break-word; }
+        .cat-header { background: rgba(255,255,255,0.05); color: var(--accent); font-weight: bold; letter-spacing: 1px; padding: 8px 10px; font-size: 0.85rem; }
+        body.light-mode .cat-header { background: rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glass-panel nav-container">
+            <a href="index.html" class="logo">Concept<span>Harmony</span></a>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-btn">Devices</a>
+                <a href="soc.html" class="nav-btn" style="border-color:var(--accent);">SoC</a>
+                <a href="news.html" class="nav-btn">News</a>
+                <a href="submit.html" class="nav-btn">Submit</a>
+                
+                <div class="dropdown-container">
+                    <button class="nav-btn" onclick="toggleSocials(event)">Socials ▾</button>
+                    <div class="dropdown-content" id="socialDropdown">
+                        <a href="https://discord.gg/hNPtTVHurH" target="_blank" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg> Discord</a>
+                        <a href="https://www.tiktok.com/@spinach.tech?_r=1&_t=ZG-93ScgcKEI9R" target="_blank" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> TikTok Main</a>
+                        <a href="https://www.tiktok.com/@spinach.technologies?_r=1&_t=ZG-93SccZzS6zp" target="_blank" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> TikTok Concept</a>
+                    </div>
+                </div>
+                <button id="themeToggle" class="nav-btn theme-btn">
+                    <svg class="theme-icon" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="galleryView">
+            <div class="glass-panel" style="padding:15px;">
+                <input type="text" id="searchInput" class="search-box" placeholder="Search chipsets..." style="margin:0;">
+            </div>
+            <div id="chipGrid" class="grid">Loading...</div>
+        </div>
+
+        <div id="detailView" class="hidden">
+            <button onclick="location.reload()" class="nav-btn" style="margin-bottom:20px;">← Back</button>
+            <div class="glass-panel top-section">
+                <div class="hero-img"><img id="d_img" src=""></div>
+                <div class="specs-summary">
+                    <span id="d_type" class="nav-btn" style="padding: 2px 8px; font-size: 0.7rem; pointer-events:none; border:none; background:rgba(255,255,255,0.1); width:fit-content; height:auto;">SOC</span>
+                    <h1 id="d_model" style="font-size:2.5rem; margin:10px 0;">Model</h1>
+                    <h3 id="d_brand" style="color:var(--text-muted); margin:0;">Brand</h3>
+                    
+                    <div id="d_quick_specs" class="quick-data">
+                        </div>
+                </div>
+            </div>
+            
+            <div class="tab-container">
+                <button class="nav-btn" onclick="setTab('specs')">Specifications</button>
+                <button class="nav-btn" onclick="setTab('pics')">Gallery</button>
+            </div>
+
+            <div id="tab-specs" class="glass-panel">
+                <table id="specTable"></table>
+            </div>
+            
+            <div id="tab-pics" class="glass-panel hidden">
+                <div id="galleryGrid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:10px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
+        document.getElementById('themeToggle').onclick = () => {
+            document.body.classList.toggle('light-mode');
+            localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+        };
+        
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+        function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
+        window.onclick = function(e) { if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); }
+
+        const staticSpecs = [
+            { key: "announced", label: "Announced", cat: "Launch" },
+            { key: "process", label: "Process Node", cat: "Launch" },
+            { key: "cpu_cores", label: "CPU Config", cat: "CPU" },
+            { key: "cpu_clock", label: "Max Clock", cat: "CPU" },
+            { key: "gpu_model", label: "GPU Model", cat: "GPU" },
+            { key: "gpu_clock", label: "GPU Clock", cat: "GPU" },
+            { key: "npu", label: "AI Engine", cat: "AI" },
+            { key: "isp", label: "ISP (Camera)", cat: "Multimedia" },
+            { key: "modem", label: "5G Modem", cat: "Connectivity" },
+            { key: "geek_s", label: "Geekbench Single (v6)", cat: "Tests" },
+            { key: "geek_m", label: "Geekbench Multi (v6)", cat: "Tests" },
+            { key: "antutu", label: "AnTuTu (v11)", cat: "Tests" },
+            { key: "price", label: "Est. Cost", cat: "Misc" }
+        ];
+
+        let allChips = [];
+        async function init() {
+            try {
+                // IMPORTANT: You need to create 'chips.json' for this to work
+                const res = await fetch('chips.json');
+                allChips = await res.json();
+                renderGrid(allChips);
+            } catch(e) { document.getElementById('chipGrid').innerHTML = "No chipsets found. (Create chips.json)"; }
+        }
+
+        const renderGrid = (list) => {
+            const grid = document.getElementById('chipGrid');
+            grid.innerHTML = "";
+            list.forEach((d, i) => {
+                grid.innerHTML += `
+                    <div class="glass-panel card" onclick="showDetails(${i})">
+                        <img src="${d.image}" onerror="this.src='https://placehold.co/400x400?text=SoC'">
+                        <span class="type-tag">Chipset</span>
+                        <h3>${d.model}</h3>
+                        <p>${d.brand}</p>
+                    </div>`;
+            });
+        };
+
+        window.showDetails = (i) => {
+            const d = allChips[i];
+            document.getElementById('galleryView').classList.add('hidden');
+            document.getElementById('detailView').classList.remove('hidden');
+            document.getElementById('d_img').src = d.image;
+            document.getElementById('d_model').innerText = d.model;
+            document.getElementById('d_brand').innerText = d.brand;
+            
+            const node = d.process || '-';
+            const cores = d.cpu_cores || '-';
+            const gpu = d.gpu_model || '-';
+            const antutu = d.antutu || '-';
+
+            // Custom SVG Icons for Chipsets
+            document.getElementById('d_quick_specs').innerHTML = `
+                <div class="spec-item">
+                    <svg class="spec-icon" viewBox="0 0 24 24"><path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 2v16h12V4H6zm4 4h4v4h-4V8z"/></svg>
+                    <div class="spec-text"><small>NODE</small><span>${node}</span></div>
+                </div>
+                <div class="spec-item">
+                    <svg class="spec-icon" viewBox="0 0 24 24"><path d="M4 6h16v12H4z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                    <div class="spec-text"><small>CORES</small><span>${cores}</span></div>
+                </div>
+                <div class="spec-item">
+                    <svg class="spec-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                    <div class="spec-text"><small>GPU</small><span>${gpu}</span></div>
+                </div>
+                <div class="spec-item">
+                    <svg class="spec-icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor"/></svg>
+                    <div class="spec-text"><small>ANTUTU</small><span>${antutu}</span></div>
+                </div>
+            `;
+
+            let html = "";
+            let currentCat = "";
+            staticSpecs.forEach(f => {
+                if(d[f.key]) {
+                    if(f.cat !== currentCat) { currentCat = f.cat; html += `<tr><td colspan="2" class="cat-header">${currentCat}</td></tr>`; }
+                    
+                    let displayValue = d[f.key];
+                    if (f.key === "geek_s" || f.key === "geek_m") displayValue += " (v6)";
+                    if (f.key === "antutu") displayValue += " (v11)";
+                    
+                    html += `<tr><th>${f.label}</th><td>${displayValue}</td></tr>`;
+                }
+            });
+            document.getElementById('specTable').innerHTML = html;
+
+            const galleryDiv = document.getElementById('galleryGrid');
+            galleryDiv.innerHTML = "";
+            if(d.gallery && d.gallery.length > 0) {
+                d.gallery.forEach(src => {
+                    galleryDiv.innerHTML += `<img src="${src}" style="width:100%; border-radius:6px; cursor:pointer;" onclick="window.open('${src}')">`;
+                });
+            } else {
+                galleryDiv.innerHTML = "<p style='color:var(--text-muted);'>No extra images.</p>";
+            }
+        };
+
+        window.setTab = (t) => {
+            document.getElementById('tab-specs').classList.add('hidden');
+            document.getElementById('tab-pics').classList.add('hidden');
+            document.getElementById('tab-'+t).classList.remove('hidden');
+        };
+
+        document.getElementById('searchInput').addEventListener('keyup', (e) => {
+            const term = e.target.value.toLowerCase();
+            renderGrid(allChips.filter(d => d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term)));
+        });
+
+        init();
+    </script>
+</body>
+</html>
