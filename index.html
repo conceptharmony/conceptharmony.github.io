@@ -59,7 +59,14 @@
 
         /* Theme Button */
         .theme-btn { width: 40px; padding: 0; border-radius: 50%; }
-        .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+        .theme-icon { 
+            width: 24px; height: 24px; 
+            fill: none; 
+            stroke: currentColor; 
+            stroke-width: 2.5; 
+            stroke-linecap: round; 
+            stroke-linejoin: round; 
+        }
 
         /* Mobile Menu */
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
@@ -102,7 +109,7 @@
         .spec-text small { display: block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
         .spec-text span { font-size: 0.95rem; font-weight: 600; color: var(--text-main); display: block; line-height: 1.2; }
 
-        /* Tabs */
+        /* Tabs - Aligned Left */
         .tab-container { display: flex; gap: 15px; justify-content: flex-start; margin-bottom: 20px; margin-top: 20px; }
         
         table { width: 100%; border-collapse: collapse; margin-top: 5px; table-layout: fixed; }
@@ -132,7 +139,7 @@
                     </div>
                 </div>
                 <button id="themeToggle" class="nav-btn theme-btn">
-                    <svg class="theme-icon" viewBox="0 0 24 24"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM12 18.75a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-1.5a.75.75 0 01.75-.75zM18.89 6.17a.75.75 0 010 1.06l-1.591 1.591a.75.75 0 11-1.06-1.061l1.591-1.59a.75.75 0 011.06 0zM6.17 18.89a.75.75 0 010 1.06l-1.59 1.591a.75.75 0 11-1.061-1.06l1.59-1.591a.75.75 0 011.06 0zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM5.25 12a.75.75 0 01-.75.75H2.25a.75.75 0 010-1.5H4.5a.75.75 0 01.75.75zM17.829 17.829a.75.75 0 011.061 0l1.59 1.59a.75.75 0 01-1.06 1.061l-1.591-1.59a.75.75 0 010-1.061zM5.11 5.11a.75.75 0 011.06 0l1.591 1.59a.75.75 0 01-1.061 1.061l-1.59-1.591a.75.75 0 010-1.06zM12 7a5 5 0 100 10 5 5 0 000-10z" fill="currentColor" stroke="currentColor" stroke-width="1.5" /></svg>
+                    <svg class="theme-icon" viewBox="0 0 24 24"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM12 18.75a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-1.5a.75.75 0 01.75-.75zM18.89 6.17a.75.75 0 010 1.06l-1.591 1.591a.75.75 0 11-1.06-1.061l1.591-1.59a.75.75 0 011.06 0zM6.17 18.89a.75.75 0 010 1.06l-1.59 1.591a.75.75 0 11-1.061-1.06l1.59-1.591a.75.75 0 011.06 0zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM5.25 12a.75.75 0 01-.75.75H2.25a.75.75 0 010-1.5H4.5a.75.75 0 01.75.75zM17.829 17.829a.75.75 0 011.061 0l1.59 1.59a.75.75 0 01-1.06 1.061l-1.591-1.59a.75.75 0 010-1.061zM5.11 5.11a.75.75 0 011.06 0l1.591 1.59a.75.75 0 01-1.06 1.061l-1.59-1.591a.75.75 0 010-1.06zM12 7a5 5 0 100 10 5 5 0 000-10z" /></svg>
                 </button>
             </div>
         </div>
@@ -174,6 +181,7 @@
     </div>
 
     <script>
+        // THEME
         if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
         document.getElementById('themeToggle').onclick = () => {
             document.body.classList.toggle('light-mode');
@@ -208,9 +216,9 @@
             { key: "charging", label: "Charging", cat: "Battery" },
             { key: "cam_video", label: "Video", cat: "Camera" },
             { key: "cam_selfie", label: "Selfie", cat: "Camera" },
-            { key: "geek_s", label: "Geekbench Single (v6)", cat: "Tests" },
-            { key: "geek_m", label: "Geekbench Multi (v6)", cat: "Tests" },
-            { key: "antutu", label: "AnTuTu (v11)", cat: "Tests" },
+            { key: "geek_s", label: "Geekbench Single", cat: "Tests" },
+            { key: "geek_m", label: "Geekbench Multi", cat: "Tests" },
+            { key: "antutu", label: "AnTuTu", cat: "Tests" },
             { key: "price", label: "Price", cat: "Misc" }
         ];
 
@@ -275,7 +283,13 @@
             staticSpecs.forEach(f => {
                 if(d[f.key]) {
                     if(f.cat !== currentCat) { currentCat = f.cat; html += `<tr><td colspan="2" class="cat-header">${currentCat}</td></tr>`; }
-                    html += `<tr><th>${f.label}</th><td>${d[f.key]}</td></tr>`;
+                    
+                    // BENCHMARK LABEL FIX
+                    let displayValue = d[f.key];
+                    if (f.key === "geek_s" || f.key === "geek_m") displayValue += " (v6)";
+                    if (f.key === "antutu") displayValue += " (v11)";
+                    
+                    html += `<tr><th>${f.label}</th><td>${displayValue}</td></tr>`;
                 }
             });
             if(d.cameras && d.cameras.length > 0) {
