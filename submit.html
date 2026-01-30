@@ -73,7 +73,11 @@
         body.light-mode .file-upload-text { color: #555; }
 
         .dynamic-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
-        .dynamic-row input:first-child { width: 35%; }
+        /* Style for the double input rows (Camera Modules) */
+        .double-input input:first-child { width: 35%; }
+        /* Style for single input rows (Sensors) */
+        .single-input input { width: 100%; }
+
         .remove-btn { background: rgba(255,50,50,0.2); color: #ff5555; padding: 12px; border:1px solid rgba(255,50,50,0.2); border-radius: var(--radius-btn); cursor: pointer; font-weight:bold;}
         .add-btn { width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px dashed var(--glass-border); color: var(--text-muted); cursor: pointer; border-radius: var(--radius-btn); margin-bottom:10px; }
 
@@ -239,6 +243,7 @@
 
                 <div class="device-only">
                     <div class="form-section"><h3>CAMERA SYSTEM</h3></div>
+                    <label>Main Camera Modules (Lens + Specs)</label>
                     <div id="cameraContainer"></div>
                     <button type="button" class="add-btn" onclick="addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'Main', '')">+ Add Camera Module</button>
                     
@@ -247,9 +252,16 @@
                         <div class="full-width"><label>Selfie Camera</label><input type="text" id="cam_selfie" placeholder="e.g. 12 MP, f/2.2"></div>
                     </div>
 
+                    <div class="full-width" style="margin-top: 15px;">
+                        <label>Camera Features & Sensors (Name Only)</label>
+                        <div id="camSensorContainer"></div>
+                        <button type="button" class="add-btn" onclick="addSingleInputRow('camSensorContainer', 'Feature Name (e.g. Zeiss Optics, OIS, LiDAR)')">+ Add Camera Sensor/Feature</button>
+                    </div>
+
                     <div class="form-section"><h3>SENSORS & EXTRAS</h3></div>
+                    <label>Device Sensors & Extra Features (Name Only)</label>
                     <div id="sensorContainer"></div>
-                    <button type="button" class="add-btn" onclick="addDynamicRow('sensorContainer', 'sensor-label', 'sensor-specs', 'Sensor Type', 'Details')">+ Add Sensor</button>
+                    <button type="button" class="add-btn" onclick="addSingleInputRow('sensorContainer', 'Sensor/Feature Name (e.g. Fingerprint under display)')">+ Add Sensor/Extra</button>
                 </div>
 
                 <div class="form-section"><h3>GALLERY (OPTIONAL)</h3></div>
@@ -331,12 +343,24 @@
             addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'Main', '');
         });
 
+        // For Camera Modules (2 inputs: Type + Specs)
         function addDynamicRow(containerId, classType, classSpecs, phType='Type', phSpecs='Specs') {
             const div = document.createElement('div');
-            div.className = 'dynamic-row';
+            div.className = 'dynamic-row double-input';
             div.innerHTML = `
                 <input type="text" class="${classType}" placeholder="${phType}">
                 <input type="text" class="${classSpecs}" placeholder="${phSpecs}">
+                <button type="button" class="remove-btn" onclick="this.parentElement.remove()">X</button>
+            `;
+            document.getElementById(containerId).appendChild(div);
+        }
+
+        // For Sensors/Features (1 input: Name only)
+        function addSingleInputRow(containerId, placeholder) {
+            const div = document.createElement('div');
+            div.className = 'dynamic-row single-input';
+            div.innerHTML = `
+                <input type="text" placeholder="${placeholder}">
                 <button type="button" class="remove-btn" onclick="this.parentElement.remove()">X</button>
             `;
             document.getElementById(containerId).appendChild(div);
@@ -397,23 +421,31 @@
                 if(sArr.length > 0) data.screen = sArr.join(', ');
                 if(getVal('resolution')) data.resolution = getVal('resolution');
 
-                // Dynamic Cameras
+                // Dynamic Camera Modules (Objects)
                 const camRows = document.querySelectorAll('#cameraContainer .dynamic-row');
                 if(camRows.length > 0) {
-                    data.cameras = [];
+                    data.camera_modules = [];
                     camRows.forEach(r => {
                         const inputs = r.querySelectorAll('input');
-                        if(inputs[0].value) data.cameras.push({ label: inputs[0].value, specs: inputs[1].value });
+                        if(inputs[0].value) data.camera_modules.push({ label: inputs[0].value, specs: inputs[1].value });
                     });
                 }
                 
-                // Dynamic Sensors
-                const sensRows = document.querySelectorAll('#sensorContainer .dynamic-row');
+                // Dynamic Camera Sensors/Features (Array of Strings)
+                const camSensorRows = document.querySelectorAll('#camSensorContainer .dynamic-row input');
+                if(camSensorRows.length > 0) {
+                    data.camera_features = [];
+                    camSensorRows.forEach(input => {
+                        if(input.value) data.camera_features.push(input.value);
+                    });
+                }
+
+                // Dynamic General Sensors (Array of Strings)
+                const sensRows = document.querySelectorAll('#sensorContainer .dynamic-row input');
                 if(sensRows.length > 0) {
                     data.sensors = [];
-                    sensRows.forEach(r => {
-                        const inputs = r.querySelectorAll('input');
-                        if(inputs[0].value) data.sensors.push({ label: inputs[0].value, specs: inputs[1].value });
+                    sensRows.forEach(input => {
+                        if(input.value) data.sensors.push(input.value);
                     });
                 }
             } 
