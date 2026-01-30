@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News - ConceptHarmony</title>
     <style>
+        /* Shared Styles */
         :root { --glass-bg: rgba(20, 20, 20, 0.75); --glass-border: rgba(255, 255, 255, 0.1); --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); --accent: #ffffff; --text-main: #ffffff; --text-muted: #bbbbbb; --radius-main: 12px; --radius-btn: 6px; }
         body.light-mode { --glass-bg: rgba(255, 255, 255, 0.85); --glass-border: rgba(0, 0, 0, 0.1); --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); --accent: #000000; --text-main: #1a1a1a; --text-muted: #555555; background-color: #f4f4f9; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -37,7 +38,7 @@
         .social-icon { width: 18px; height: 18px; fill: currentColor; }
 
         .theme-btn { width: 40px; padding: 0; border-radius: 50%; }
-        .theme-icon { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+        .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
         @media (max-width: 768px) {
@@ -48,6 +49,8 @@
             .nav-btn { width: 100%; }
             .dropdown-container { width: 100%; }
             .dropdown-content { position: static; width: 100%; box-shadow: none; border: none; background: transparent; padding-left: 20px; margin-top:5px; }
+            /* FIX THEME BUTTON ON MOBILE */
+            .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
 
         /* NEWS */
@@ -75,7 +78,7 @@
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <div class="nav-links" id="navLinks">
                 <a href="index.html" class="nav-btn">Devices</a>
-                <a href="news.html" class="nav-btn" style="border-color:var(--accent);">News</a>
+                <a href="news.html" class="nav-btn">News</a>
                 <a href="submit.html" class="nav-btn">Submit</a>
                 
                 <div class="dropdown-container">
@@ -87,7 +90,17 @@
                     </div>
                 </div>
                 <button id="themeToggle" class="nav-btn theme-btn">
-                    <svg class="theme-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <svg class="theme-icon" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
                 </button>
             </div>
         </div>
@@ -105,6 +118,7 @@
     </div>
 
     <script>
+        // THEME & MENU
         if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
         document.getElementById('themeToggle').onclick = () => {
             document.body.classList.toggle('light-mode');
