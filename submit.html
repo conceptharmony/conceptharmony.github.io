@@ -86,16 +86,29 @@
         .copy-btn { width:100%; margin-top:10px; padding:10px; cursor:pointer; border-radius:var(--radius-btn); border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--text-main); font-weight:bold; }
         .copy-btn:hover { background:var(--accent); color:black; }
 
-        /* MODE SWITCHER */
+        /* Socials Icons in Footer */
+        .social-inline { 
+            width: 16px;
+            height: 16px; 
+            fill: var(--accent); 
+            vertical-align: text-bottom; 
+            margin-right: 2px;
+            transform: translateY(-1px);
+        .contact-link {
+            white-space: nowrap;
+            margin: 0 4px;
+        }
+
+
+        /* Mode Switcher Styles */
         .mode-switcher { display: flex; gap: 10px; margin-bottom: 20px; }
         .mode-btn { flex: 1; padding: 12px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text-muted); cursor: pointer; border-radius: var(--radius-btn); font-weight: bold; }
         .mode-btn.active { background: var(--accent); color: black; border-color: var(--accent); }
         body.light-mode .mode-btn.active { color: white; }
 
-        /* HIDE/SHOW LOGIC */
+        /* Toggle Logic */
         .soc-only { display: none; }
         .device-only { display: block; }
-        
         body[data-mode="soc"] .soc-only { display: block; }
         body[data-mode="soc"] .device-only { display: none; }
         body[data-mode="soc"] .full-width-soc { grid-column: span 2; }
@@ -145,12 +158,12 @@
             </div>
 
             <div class="guidelines">
-                <strong>⚠️ Submission Guidelines</strong>
+                <strong><svg fill="currentColor" style="transform: translateY(5px);" width="22px" height="22px" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><path d="M 9.5899 50.2070 L 46.4102 50.2070 C 49.9257 50.2070 52.1289 47.6758 52.1289 44.4883 C 52.1289 43.5273 51.8947 42.5664 51.3791 41.6758 L 32.9336 8.6758 C 31.8789 6.7773 29.9570 5.7930 28.0117 5.7930 C 26.0899 5.7930 24.1211 6.7773 23.0664 8.6758 L 4.6446 41.6992 C 4.1289 42.5898 3.8711 43.5273 3.8711 44.4883 C 3.8711 47.6758 6.0977 50.2070 9.5899 50.2070 Z M 28.0117 34.1523 C 26.7695 34.1523 26.0899 33.4492 26.0430 32.1836 L 25.7149 20.6055 C 25.6680 19.3399 26.6524 18.4024 27.9883 18.4024 C 29.3008 18.4024 30.3320 19.3633 30.2852 20.6289 L 29.9336 32.1836 C 29.8868 33.4726 29.2070 34.1523 28.0117 34.1523 Z M 28.0117 42.8008 C 26.6524 42.8008 25.3868 41.7227 25.3868 40.2695 C 25.3868 38.8164 26.6289 37.7383 28.0117 37.7383 C 29.3946 37.7383 30.6368 38.7930 30.6368 40.2695 C 30.6368 41.7461 29.3711 42.8008 28.0117 42.8008 Z"/></svg> Submission Guidelines</strong>
                 • <b>Capitalization:</b> Always use proper capitalization (e.g., "Spinach", not "spinach").<br>
                 • <b>Specificity:</b> Include details like MP, Aperture (f/1.8), Sensor Size, and OIS for cameras.<br>
                 • <b>Formatting:</b> Check for grammar errors before generating.<br>
-                • <b>Images:</b> Use transparent PNGs for the Main Profile. JPG/PNG works for Gallery.<br>
-                • <b>Optional:</b> Leave fields blank if they don't apply.
+                • <b>Images:</b> Please use png files with transparent background for the Main Profile image. This doesn't apply to gallery images.<br>
+                • <b>Optional Fields:</b> You can leave fields blank if you don't have the info or can't name it.
             </div>
 
             <form id="makerForm">
@@ -186,19 +199,19 @@
                 <div class="device-only">
                     <div class="form-section"><h3>BODY</h3></div>
                     <div class="input-grid">
-                        <div><label>IP Rating</label><input type="text" id="ip_rating" placeholder="e.g. IP68"></div>
+                        <div><label>IP Rating</label><input type="text" id="ip_rating" placeholder="e.g. IP68, immersible up to 3m for 30 min"></div>
                         <div><label>Weight (g)</label><input type="number" id="weight" placeholder="200"></div>
                         <div><label>Dimensions</label><input type="text" id="dimensions" placeholder="160 x 75 x 8 mm"></div>
                         <div><label>Colors</label><input type="text" id="colors" placeholder="Titanium, Black..."></div>
-                        <div class="full-width"><label>Build Materials</label><input type="text" id="build" placeholder="e.g. Glass front, aluminum frame"></div>
+                        <div class="full-width"><label>Build Materials</label><input type="text" id="build" placeholder="e.g. Glass front, aluminum frame, eco leather back"></div>
                     </div>
 
                     <div class="form-section"><h3>DISPLAY</h3></div>
                     <div class="input-grid">
                         <div><label>Panel Type</label><input type="text" id="displayType" list="displays" placeholder="e.g. LTPO AMOLED"></div>
                         <div><label>Refresh Rate</label><input type="text" id="refresh" list="refresh_rates" placeholder="e.g. 120Hz"></div>
-                        <div><label>Size (inch)</label><input type="number" step="0.1" id="screen" placeholder="6.8"></div>
-                        <div><label>Brightness</label><input type="number" id="brightness" placeholder="e.g. 3000"></div>
+                        <div><label>Size (inch)</label><input type="number" step="0.1" id="screen" placeholder="6.8 (inches)"></div>
+                        <div><label>Brightness</label><input type="number" id="brightness" placeholder="e.g. (3000 nits)"></div>
                         <div class="full-width"><label>Resolution</label><input type="text" id="resolution" placeholder="e.g. 1440 x 3200"></div>
                     </div>
                 </div>
@@ -207,8 +220,8 @@
                 <div class="input-grid">
                     <div class="device-only"><label>Chipset</label><input type="text" id="chipset" list="chipsets" placeholder="e.g. Snapdragon 8 Gen 5"></div>
                     <div class="device-only"><label>RAM Options</label><input type="text" id="ram" placeholder="e.g. 8GB / 12GB / 16GB"></div>
-                    <div class="device-only"><label>Storage Options</label><input type="text" id="storage" placeholder="e.g. 256GB / 512GB"></div>
-                    <div class="device-only"><label>OS</label><input type="text" id="os" placeholder="e.g. Android 16"></div>
+                    <div class="device-only"><label>Storage Options</label><input type="text" id="storage" placeholder="e.g. 256GB / 512GB / 1TB"></div>
+                    <div class="device-only"><label>OS</label><input type="text" id="os" placeholder="e.g. Android 16..."></div>
 
                     <div class="soc-only full-width-soc"><label>CPU Config</label><input type="text" id="cpu_cores" placeholder="e.g. 2x4.32GHz Prime + 6x3.53GHz Perf"></div>
                     <div class="soc-only"><label>GPU Model</label><input type="text" id="gpu_model" placeholder="e.g. Adreno 830"></div>
@@ -221,8 +234,8 @@
                 <div class="device-only">
                     <div class="form-section"><h3>POWER</h3></div>
                     <div class="input-grid">
-                        <div><label>Battery</label><input type="text" id="battery" placeholder="e.g. 5500 mAh"></div>
-                        <div><label>Charging</label><input type="text" id="charging" placeholder="e.g. 100W Wired"></div>
+                        <div><label>Battery</label><input type="text" id="battery" placeholder="e.g. Si/C Li-Ion 6000 mAh"></div>
+                        <div><label>Charging</label><input type="text" id="charging" placeholder="e.g. 100W Wired, 50W Wireless, 10W reverse wired"></div>
                     </div>
                 </div>
 
@@ -232,8 +245,8 @@
                     <button type="button" class="add-btn" onclick="addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'Main', '')">+ Add Camera Module</button>
                     
                     <div class="input-grid" style="margin-top:15px;">
-                        <div class="full-width"><label>Video Capabilities</label><input type="text" id="cam_video" placeholder="e.g. 8K@30fps..."></div>
-                        <div class="full-width"><label>Selfie Camera</label><input type="text" id="cam_selfie" placeholder="e.g. 12 MP"></div>
+                        <div class="full-width"><label>Video Capabilities</label><input type="text" id="cam_video" placeholder="e.g. 8K@30fps, Dolby Vision, LOG..."></div>
+                        <div class="full-width"><label>Selfie Camera</label><input type="text" id="cam_selfie" placeholder="e.g. 12 MP, f/2.2"></div>
                     </div>
 
                     <div class="form-section"><h3>SENSORS & EXTRAS</h3></div>
@@ -251,23 +264,42 @@
 
                 <div class="form-section"><h3>EXTRAS</h3></div>
                 <div class="input-grid">
-                    <div><label>Geekbench Single (v6)</label><input type="number" id="geek_s" placeholder="3000"></div>
-                    <div><label>Geekbench Multi (v6)</label><input type="number" id="geek_m" placeholder="10000"></div>
-                    <div><label>AnTuTu v10 (v11)</label><input type="number" id="antutu" placeholder="2500000"></div>
-                    <div><label>Price (USD)</label><input type="number" id="price_usd" placeholder="999"></div>
-                    <div><label>Price (EUR)</label><input type="number" id="price_eur" placeholder="1099"></div>
+                    <div><label>Geekbench Single (v6)</label><input type="number" id="geek_s" placeholder="1234"></div>
+                    <div><label>Geekbench Multi (v6)</label><input type="number" id="geek_m" placeholder="12345"></div>
+                    <div><label>AnTuTu v10 (v11)</label><input type="number" id="antutu" placeholder="1234567"></div>
+                    <div><label>Price (USD)</label><input type="number" id="price_usd" placeholder="1099"></div>
+                    <div><label>Price (EUR)</label><input type="number" id="price_eur" placeholder="999"></div>
                 </div>
 
                 <button type="submit" class="submit-btn">Generate JSON</button>
             </form>
 
             <div id="outputArea">
-                <p style="text-align:center; color:#aaa; font-size:0.85rem; margin-bottom:10px;">
-                    Send this code + ALL images to <b style="color:var(--accent);">@spinoevrex</b> on Discord or <b style="color:var(--accent);">@spinach.technologi</b> on TikTok DMs!
-                </p>
-                <textarea id="jsonOutput" readonly></textarea>
-                <button onclick="copyText()" class="copy-btn">Copy Code</button>
-            </div>
+    <p style="text-align:center; color:#aaa; font-size:0.85rem; margin-bottom:10px; line-height: 1.6;">
+        Send this code + ALL images to: 
+        
+        <span class="contact-link">
+            <svg class="social-inline" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg> 
+            <b style="color:var(--accent);">@spinoevrex</b>
+        </span> 
+        
+        or 
+        
+        <span class="contact-link">
+            <svg class="social-inline" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> 
+            <b style="color:var(--accent);">@spinach.tech</b>
+        </span>
+
+        or
+
+        <span class="contact-link">
+            <svg class="social-inline" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" /></svg>
+            <b style="color:var(--accent);">@photography._.y</b>
+        </span>
+    </p>
+    <textarea id="jsonOutput" readonly></textarea>
+    <button onclick="copyText()" class="copy-btn">Copy Code</button>
+</div
         </div>
     </div>
 
@@ -283,7 +315,7 @@
         window.onclick = function(e) { if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); }
         const capitalize = (s) => s.replace(/\b\w/g, c => c.toUpperCase());
 
-        // MODE SWITCHER LOGIC
+        // MODE SWITCHING LOGIC
         let currentMode = 'device';
         function setMode(mode) {
             currentMode = mode;
@@ -292,7 +324,7 @@
             document.querySelector(`button[onclick="setMode('${mode}')"]`).classList.add('active');
         }
 
-        // DYNAMIC ROWS
+        // DYNAMIC ROW LOGIC
         window.addEventListener('load', () => {
             addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'Main', '');
         });
@@ -318,7 +350,7 @@
             if(input.files.length > 0) document.getElementById('galleryText').innerText = `Selected ${input.files.length} images`;
         }
 
-        // SUBMIT GENERATOR
+        // SUBMIT LOGIC (UPDATED FOR DUAL MODE)
         document.getElementById('makerForm').addEventListener('submit', (e) => {
             e.preventDefault();
             let data = {};
@@ -341,6 +373,7 @@
             if(formatDate('announced')) data.announced = formatDate('announced');
 
             if (currentMode === 'device') {
+                // DEVICE DATA
                 data.type = getVal('type');
                 if(formatDate('released')) data.released = formatDate('released');
                 data.status = getVal('status');
@@ -362,7 +395,7 @@
                 if(sArr.length > 0) data.screen = sArr.join(', ');
                 if(getVal('resolution')) data.resolution = getVal('resolution');
 
-                // Dynamic Arrays
+                // Dynamic Cameras
                 const camRows = document.querySelectorAll('#cameraContainer .dynamic-row');
                 if(camRows.length > 0) {
                     data.cameras = [];
@@ -371,6 +404,8 @@
                         if(inputs[0].value) data.cameras.push({ label: inputs[0].value, specs: inputs[1].value });
                     });
                 }
+                
+                // Dynamic Sensors
                 const sensRows = document.querySelectorAll('#sensorContainer .dynamic-row');
                 if(sensRows.length > 0) {
                     data.sensors = [];
@@ -380,14 +415,15 @@
                     });
                 }
             } 
-            else { // SoC Mode
+            else { 
+                // SOC DATA
                 data.type = 'SoC';
                 ['process','cpu_cores','gpu_model','gpu_clock','npu','isp','modem'].forEach(k => {
                     if(getVal(k)) data[k] = getVal(k);
                 });
             }
 
-            // Benchmarks & Price
+            // Benchmarks & Price (Shared)
             ['geek_s','geek_m','antutu','price_usd'].forEach(k => { if(getVal(k)) data[k] = getVal(k); });
             if(getVal('price_usd')) data.price = '$' + getVal('price_usd');
 
