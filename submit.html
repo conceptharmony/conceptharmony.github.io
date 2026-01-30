@@ -49,7 +49,6 @@
             .nav-btn { width: 100%; }
             .dropdown-container { width: 100%; }
             .dropdown-content { position: static; width: 100%; box-shadow: none; border: none; background: transparent; padding-left: 20px; margin-top:5px; }
-            /* FIX THEME BUTTON ON MOBILE */
             .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
 
@@ -73,10 +72,10 @@
         .file-upload-text { pointer-events: none; color: #aaa; font-size: 0.9rem; }
         body.light-mode .file-upload-text { color: #555; }
 
-        .cam-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
-        .cam-row input:first-child { width: 35%; }
+        .dynamic-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+        .dynamic-row input:first-child { width: 35%; }
         .remove-btn { background: rgba(255,50,50,0.2); color: #ff5555; padding: 12px; border:1px solid rgba(255,50,50,0.2); border-radius: var(--radius-btn); cursor: pointer; font-weight:bold;}
-        .add-cam-btn { width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px dashed var(--glass-border); color: var(--text-muted); cursor: pointer; border-radius: var(--radius-btn); margin-bottom:10px; }
+        .add-btn { width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px dashed var(--glass-border); color: var(--text-muted); cursor: pointer; border-radius: var(--radius-btn); margin-bottom:10px; }
 
         button.submit-btn { width: 100%; padding: 15px; background: var(--glass-border); color: var(--text-main); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); font-weight: bold; margin-top: 30px; cursor: pointer; }
         button.submit-btn:hover { background: var(--accent); color: black; }
@@ -193,12 +192,16 @@
 
                 <div class="form-section"><h3>CAMERA SYSTEM</h3></div>
                 <div id="cameraContainer"></div>
-                <button type="button" class="add-cam-btn" onclick="addCameraRow()">+ Add Camera Module</button>
+                <button type="button" class="add-btn" onclick="addDynamicRow('cameraContainer', 'cam-type', 'cam-specs')">+ Add Camera Module</button>
                 
                 <div class="input-grid" style="margin-top:15px;">
                     <div class="full-width"><label>Video Capabilities</label><input type="text" id="cam_video" placeholder="e.g. 8K@30fps, Dolby Vision..."></div>
                     <div class="full-width"><label>Selfie Camera</label><input type="text" id="cam_selfie" placeholder="e.g. 12 MP, f/2.2"></div>
                 </div>
+
+                <div class="form-section"><h3>SENSORS & EXTRAS</h3></div>
+                <div id="sensorContainer"></div>
+                <button type="button" class="add-btn" onclick="addDynamicRow('sensorContainer', 'sensor-label', 'sensor-specs')">+ Add Sensor</button>
 
                 <div class="form-section"><h3>GALLERY (OPTIONAL)</h3></div>
                 <div class="full-width">
@@ -212,7 +215,7 @@
                 <div class="input-grid">
                     <div><label>Geekbench Single (v6)</label><input type="number" id="geek_s" placeholder="3000"></div>
                     <div><label>Geekbench Multi (v6)</label><input type="number" id="geek_m" placeholder="10000"></div>
-                    <div><label>AnTuTu (v11)</label><input type="number" id="antutu" placeholder="2500000"></div>
+                    <div><label>AnTuTu v10 (v11)</label><input type="number" id="antutu" placeholder="2500000"></div>
                     <div><label>Price (USD)</label><input type="number" id="price_usd" placeholder="999"></div>
                     <div><label>Price (EUR)</label><input type="number" id="price_eur" placeholder="1099"></div>
                 </div>
@@ -242,17 +245,20 @@
         window.onclick = function(e) { if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); }
         const capitalize = (s) => s.replace(/\b\w/g, c => c.toUpperCase());
 
-        // CAMERA LOGIC
-        window.addEventListener('load', () => addCameraRow('Main', ''));
-        function addCameraRow(typeVal='', specsVal='') {
+        // DYNAMIC ROW LOGIC (Generic for Cam/Sensor)
+        window.addEventListener('load', () => {
+            addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'Main', '');
+        });
+
+        function addDynamicRow(containerId, classType, classSpecs, phType='Type (e.g. Face ID)', phSpecs='Specs') {
             const div = document.createElement('div');
-            div.className = 'cam-row';
+            div.className = 'dynamic-row';
             div.innerHTML = `
-                <input type="text" class="cam-type" placeholder="Type" value="${typeVal}">
-                <input type="text" class="cam-specs" placeholder="Specs (e.g. 50MP)" value="${specsVal}">
+                <input type="text" class="${classType}" placeholder="${phType}">
+                <input type="text" class="${classSpecs}" placeholder="${phSpecs}">
                 <button type="button" class="remove-btn" onclick="this.parentElement.remove()">X</button>
             `;
-            document.getElementById('cameraContainer').appendChild(div);
+            document.getElementById(containerId).appendChild(div);
         }
 
         // FILE UPDATES
@@ -306,26 +312,38 @@
             if(sRes) data.resolution = sRes;
 
             // 4. Cameras
-            const rows = document.querySelectorAll('.cam-row');
-            if(rows.length > 0) {
+            const camContainer = document.getElementById('cameraContainer');
+            const camRows = camContainer.querySelectorAll('.dynamic-row');
+            if(camRows.length > 0) {
                 data.cameras = [];
-                rows.forEach(r => {
+                camRows.forEach(r => {
                     const t = r.querySelector('.cam-type').value;
                     const s = r.querySelector('.cam-specs').value;
                     if(t && s) data.cameras.push({ label: t, specs: s });
                 });
             }
 
-            // 5. Price
+            // 5. Sensors
+            const sensorContainer = document.getElementById('sensorContainer');
+            const sensorRows = sensorContainer.querySelectorAll('.dynamic-row');
+            if(sensorRows.length > 0) {
+                data.sensors = [];
+                sensorRows.forEach(r => {
+                    const t = r.querySelector('.sensor-label').value;
+                    const s = r.querySelector('.sensor-specs').value;
+                    if(t && s) data.sensors.push({ label: t, specs: s });
+                });
+            }
+
+            // 6. Price
             const usd = document.getElementById('price_usd').value;
             const eur = document.getElementById('price_eur').value;
             if(usd || eur) data.price = `${usd ? '$'+usd : ''} ${eur ? '/ €'+eur : ''}`;
 
-            // 6. Main Image
+            // 7. Images
             const f = document.getElementById('imageFile').files[0];
             if(f) data.image = "images/" + f.name;
 
-            // 7. Gallery Images
             const gFiles = document.getElementById('galleryFiles').files;
             if(gFiles.length > 0) {
                 data.gallery = [];
