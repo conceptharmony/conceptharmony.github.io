@@ -245,7 +245,7 @@
                     <div class="form-section"><h3>CAMERA SYSTEM</h3></div>
                     <label>Rear Camera Modules (Type + Specs)</label>
                     <div id="cameraContainer"></div>
-                    <button type="button" class="add-btn" onclick="addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'use &quot;Wide&quot; for &quot;Main&quot;', '')">+ Add Camera Module</button>
+                    <button type="button" class="add-btn" onclick="addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'Wide', '')">+ Add Camera Module</button>
                     
                     <div class="input-grid" style="margin-top:15px;">
                         <div class="full-width"><label>Video Capabilities</label><input type="text" id="cam_video" placeholder="e.g. 8K@30fps, Dolby Vision, LOG..."></div>
@@ -340,7 +340,7 @@
 
         // DYNAMIC ROW LOGIC
         window.addEventListener('load', () => {
-            addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'Main', '');
+            addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'Wide', '');
         });
 
         // For Camera Modules (2 inputs: Type + Specs)
@@ -427,9 +427,15 @@
                     data.camera_modules = [];
                     camRows.forEach(r => {
                         const inputs = r.querySelectorAll('input');
-                        if(inputs[0].value) data.camera_modules.push({ label: inputs[0].value, specs: inputs[1].value });
+                        let labelName = inputs[0].value;
+
+                        // If the user types "Main", change it to "Wide"
+                        if (labelName === "Main") labelName = "Wide"; 
+
+                        if(labelName) data.camera_modules.push({ label: labelName, specs: inputs[1].value });
                     });
                 }
+
                 
                 // Dynamic Camera Sensors/Features (Array of Strings)
                 const camSensorRows = document.querySelectorAll('#camSensorContainer .dynamic-row input');
