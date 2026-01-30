@@ -57,13 +57,13 @@
         .dropdown-item:hover { background: var(--accent); color: black !important; }
         .social-icon { width: 18px; height: 18px; fill: currentColor; }
 
-        /* Theme Button */
+        /* Theme Button (FIXED) */
         .theme-btn { width: 40px; padding: 0; border-radius: 50%; }
         .theme-icon { 
             width: 24px; height: 24px; 
             fill: none; 
             stroke: currentColor; 
-            stroke-width: 2.5; 
+            stroke-width: 2.5; /* Bold Stroke */
             stroke-linecap: round; 
             stroke-linejoin: round; 
         }
@@ -139,7 +139,17 @@
                     </div>
                 </div>
                 <button id="themeToggle" class="nav-btn theme-btn">
-                    <svg class="theme-icon" viewBox="0 0 24 24"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM12 18.75a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-1.5a.75.75 0 01.75-.75zM18.89 6.17a.75.75 0 010 1.06l-1.591 1.591a.75.75 0 11-1.06-1.061l1.591-1.59a.75.75 0 011.06 0zM6.17 18.89a.75.75 0 010 1.06l-1.59 1.591a.75.75 0 11-1.061-1.06l1.59-1.591a.75.75 0 011.06 0zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM5.25 12a.75.75 0 01-.75.75H2.25a.75.75 0 010-1.5H4.5a.75.75 0 01.75.75zM17.829 17.829a.75.75 0 011.061 0l1.59 1.59a.75.75 0 01-1.06 1.061l-1.591-1.59a.75.75 0 010-1.061zM5.11 5.11a.75.75 0 011.06 0l1.591 1.59a.75.75 0 01-1.06 1.061l-1.59-1.591a.75.75 0 010-1.06zM12 7a5 5 0 100 10 5 5 0 000-10z" /></svg>
+                    <svg class="theme-icon" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
                 </button>
             </div>
         </div>
@@ -216,9 +226,9 @@
             { key: "charging", label: "Charging", cat: "Battery" },
             { key: "cam_video", label: "Video", cat: "Camera" },
             { key: "cam_selfie", label: "Selfie", cat: "Camera" },
-            { key: "geek_s", label: "Geekbench Single", cat: "Tests" },
-            { key: "geek_m", label: "Geekbench Multi", cat: "Tests" },
-            { key: "antutu", label: "AnTuTu", cat: "Tests" },
+            { key: "geek_s", label: "Geekbench Single (v6)", cat: "Tests" },
+            { key: "geek_m", label: "Geekbench Multi (v6)", cat: "Tests" },
+            { key: "antutu", label: "AnTuTu (v11)", cat: "Tests" },
             { key: "price", label: "Price", cat: "Misc" }
         ];
 
@@ -284,7 +294,6 @@
                 if(d[f.key]) {
                     if(f.cat !== currentCat) { currentCat = f.cat; html += `<tr><td colspan="2" class="cat-header">${currentCat}</td></tr>`; }
                     
-                    // BENCHMARK LABEL FIX
                     let displayValue = d[f.key];
                     if (f.key === "geek_s" || f.key === "geek_m") displayValue += " (v6)";
                     if (f.key === "antutu") displayValue += " (v11)";
