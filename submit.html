@@ -94,7 +94,7 @@
             vertical-align: text-bottom; 
             margin-right: 2px;
             transform: translateY(-1px);
-        } /* Closing brace was missing here! */
+        }
         
         .contact-link {
             white-space: nowrap;
@@ -178,8 +178,8 @@
                     <div class="device-only"><label>Type</label><select id="type"><option>Phone</option><option>Tablet</option><option>Smartwatch</option></select></div>
                     <div class="soc-only"><label>Type</label><input type="text" value="Chipset" disabled style="opacity:0.6"></div>
                     
-                    <div><label>Brand</label><input type="text" id="brand" list="brands" placeholder="e.g. Samsung / Qualcomm" required></div>
-                    <div class="full-width"><label>Model Name</label><input type="text" id="model" placeholder="e.g. Galaxy S30 / Snapdragon 8 Gen 5" required></div>
+                    <div><label>Brand</label><input type="text" id="brand" list="brands" placeholder="e.g. Samsung" required></div>
+                    <div class="full-width"><label>Model Name</label><input type="text" id="model" placeholder="e.g. Galaxy S30" required></div>
                     <div class="full-width">
                         <label>Profile Image (Main)</label>
                         <div class="file-upload-wrapper">
@@ -318,6 +318,15 @@
             document.body.setAttribute('data-mode', mode);
             document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
             document.querySelector(`button[onclick="setMode('${mode}')"]`).classList.add('active');
+
+            // Dynamic Placeholders
+            if(mode === 'device') {
+                document.getElementById('brand').placeholder = "e.g. Spinach";
+                document.getElementById('model').placeholder = "e.g. Experix Ultra";
+            } else {
+                document.getElementById('brand').placeholder = "e.g. Spinach";
+                document.getElementById('model').placeholder = "e.g. B61";
+            }
         }
 
         // DYNAMIC ROW LOGIC
