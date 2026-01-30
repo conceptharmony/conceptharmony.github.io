@@ -243,28 +243,28 @@
 
                 <div class="device-only">
                     <div class="form-section"><h3>CAMERA SYSTEM</h3></div>
-                    <label>Main Camera Modules (Lens + Specs)</label>
+                    <label>Rear Camera Modules (Type + Specs)</label>
                     <div id="cameraContainer"></div>
-                    <button type="button" class="add-btn" onclick="addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'Main', '')">+ Add Camera Module</button>
+                    <button type="button" class="add-btn" onclick="addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'use &quot;Wide&quot; for &quot;Main&quot;', '')">+ Add Camera Module</button>
                     
                     <div class="input-grid" style="margin-top:15px;">
                         <div class="full-width"><label>Video Capabilities</label><input type="text" id="cam_video" placeholder="e.g. 8K@30fps, Dolby Vision, LOG..."></div>
-                        <div class="full-width"><label>Selfie Camera</label><input type="text" id="cam_selfie" placeholder="e.g. 12 MP, f/2.2"></div>
+                        <div class="full-width"><label>Selfie Camera</label><input type="text" id="cam_selfie" placeholder="e.g. 12 MP, f/2.2 or none"></div>
                     </div>
 
                     <div class="full-width" style="margin-top: 15px;">
-                        <label>Camera Features & Sensors (Name Only)</label>
+                        <label>Camera Features & Sensors</label>
                         <div id="camSensorContainer"></div>
-                        <button type="button" class="add-btn" onclick="addSingleInputRow('camSensorContainer', 'Feature Name (e.g. Zeiss Optics, OIS, LiDAR)')">+ Add Camera Sensor/Feature</button>
+                        <button type="button" class="add-btn" onclick="addSingleInputRow('camSensorContainer', 'Feature Name (e.g. Zeiss Optics, LiDAR)')">+ Add Camera Sensor/Feature</button>
                     </div>
 
-                    <div class="form-section"><h3>SENSORS & EXTRAS</h3></div>
-                    <label>Device Sensors & Extra Features (Name Only)</label>
+                    <div class="form-section"><h3>FEATURES</h3></div>
+                    <label>Device Sensors & Extra Features</label>
                     <div id="sensorContainer"></div>
-                    <button type="button" class="add-btn" onclick="addSingleInputRow('sensorContainer', 'Sensor/Feature Name (e.g. Fingerprint under display)')">+ Add Sensor/Extra</button>
+                    <button type="button" class="add-btn" onclick="addSingleInputRow('sensorContainer', 'Sensor/Feature Name (e.g. Fingerprint under-display)')">+ Add Sensor/Extra</button>
                 </div>
 
-                <div class="form-section"><h3>GALLERY (OPTIONAL)</h3></div>
+                <div class="form-section"><h3>PICTURES (OPTIONAL)</h3></div>
                 <div class="full-width">
                     <div class="file-upload-wrapper">
                         <span class="file-upload-text" id="galleryText">Click to select multiple Gallery images...</span>
