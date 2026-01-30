@@ -25,14 +25,12 @@
         .container { max-width: 1100px; margin: auto; width: 100%; }
         .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
 
-        /* --- NAVIGATION --- */
+        /* NAV */
         .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
         .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
         .logo span { font-weight: 700; }
-        
         .nav-links { display: flex; gap: 10px; align-items: center; height: 100%; }
         
-        /* Unified Button Style */
         .nav-btn { 
             text-decoration: none; color: var(--text-main); padding: 0 20px; height: 40px; 
             background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); 
@@ -40,10 +38,10 @@
             font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease;
         }
         .nav-btn:hover, .nav-btn:active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
-        .nav-btn:focus { outline: none; } /* Prevents blanking on mobile click */
+        .nav-btn:focus { outline: none; }
         body.light-mode .nav-btn:hover { color: white !important; }
 
-        /* Social Dropdown */
+        /* Dropdown */
         .dropdown-container { position: relative; }
         .dropdown-content { 
             display: none; position: absolute; right: 0; top: 50px; 
@@ -60,10 +58,8 @@
         .social-icon { width: 18px; height: 18px; fill: currentColor; }
 
         /* Theme Button */
-        .theme-btn { 
-            width: 40px; padding: 0; border-radius: 50%; /* Circle */ 
-        }
-        .theme-icon { width: 22px; height: 22px; fill: currentColor; stroke: currentColor; stroke-width: 1; }
+        .theme-btn { width: 40px; padding: 0; border-radius: 50%; }
+        .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
         /* Mobile Menu */
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
@@ -107,9 +103,9 @@
         .spec-text span { font-size: 0.95rem; font-weight: 600; color: var(--text-main); display: block; line-height: 1.2; }
 
         /* Tabs */
-        .tab-container { display: flex; gap: 10px; margin-top: 20px; }
+        .tab-container { display: flex; gap: 15px; justify-content: flex-start; margin-bottom: 20px; margin-top: 20px; }
         
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
+        table { width: 100%; border-collapse: collapse; margin-top: 5px; table-layout: fixed; }
         th, td { padding: 12px; border-bottom: 1px solid var(--glass-border); text-align: left; }
         th { color: var(--text-muted); width: 35%; vertical-align: top; }
         td { word-wrap: break-word; }
@@ -162,32 +158,28 @@
                 </div>
             </div>
             
-            <div class="glass-panel" style="margin-top:20px;">
-                <div class="tab-container">
-                    <button class="nav-btn" onclick="setTab('specs')">Specifications</button>
-                    <button class="nav-btn" onclick="setTab('pics')">Gallery</button>
-                </div>
+            <div class="tab-container">
+                <button class="nav-btn" onclick="setTab('specs')">Specifications</button>
+                <button class="nav-btn" onclick="setTab('pics')">Gallery</button>
             </div>
 
-            <div id="tab-specs" class="glass-panel" style="margin-top:0; border-top:none; border-radius: 0 0 12px 12px;">
+            <div id="tab-specs" class="glass-panel">
                 <table id="specTable"></table>
             </div>
             
-            <div id="tab-pics" class="glass-panel hidden" style="margin-top:0; border-top:none; border-radius: 0 0 12px 12px;">
+            <div id="tab-pics" class="glass-panel hidden">
                 <div id="galleryGrid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:10px;"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // THEME
         if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
         document.getElementById('themeToggle').onclick = () => {
             document.body.classList.toggle('light-mode');
             localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
         };
         
-        // MENUS
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
         function toggleSocials(e) {
             e.stopPropagation();
@@ -216,9 +208,9 @@
             { key: "charging", label: "Charging", cat: "Battery" },
             { key: "cam_video", label: "Video", cat: "Camera" },
             { key: "cam_selfie", label: "Selfie", cat: "Camera" },
-            { key: "geek_s", label: "Geekbench (S)", cat: "Tests" },
-            { key: "geek_m", label: "Geekbench (M)", cat: "Tests" },
-            { key: "antutu", label: "AnTuTu", cat: "Tests" },
+            { key: "geek_s", label: "Geekbench Single (v6)", cat: "Tests" },
+            { key: "geek_m", label: "Geekbench Multi (v6)", cat: "Tests" },
+            { key: "antutu", label: "AnTuTu (v11)", cat: "Tests" },
             { key: "price", label: "Price", cat: "Misc" }
         ];
 
@@ -254,9 +246,8 @@
             document.getElementById('d_brand').innerText = d.brand;
             document.getElementById('d_type').innerText = d.type || "DEVICE";
             
-            // QUICK SPECS WITH SVGs
             const chip = d.chipset || '-';
-            const ram = (d.ram || '-').split(' / ')[0]; // Show first option
+            const ram = (d.ram || '-').split(' / ')[0];
             const screen = d.screen ? d.screen.split(',').pop() : '-';
             const batt = d.battery || '-';
 
@@ -293,7 +284,6 @@
             }
             document.getElementById('specTable').innerHTML = html;
 
-            // Render Gallery
             const galleryDiv = document.getElementById('galleryGrid');
             galleryDiv.innerHTML = "";
             if(d.gallery && d.gallery.length > 0) {
