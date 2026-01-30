@@ -125,17 +125,14 @@
             <h2 style="text-align:center; margin-top:0;">Create Concept</h2>
             
             <div class="guidelines">
-                <strong>⚠️ Submission Guidelines</strong>
-                • <b>Capitalization:</b> Always use proper capitalization (e.g., "Samsung", not "samsung").<br>
+                <strong><svg fill="#000000" width="800px" height="800px" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><path d="M 9.5899 50.2070 L 46.4102 50.2070 C 49.9257 50.2070 52.1289 47.6758 52.1289 44.4883 C 52.1289 43.5273 51.8947 42.5664 51.3791 41.6758 L 32.9336 8.6758 C 31.8789 6.7773 29.9570 5.7930 28.0117 5.7930 C 26.0899 5.7930 24.1211 6.7773 23.0664 8.6758 L 4.6446 41.6992 C 4.1289 42.5898 3.8711 43.5273 3.8711 44.4883 C 3.8711 47.6758 6.0977 50.2070 9.5899 50.2070 Z M 28.0117 34.1523 C 26.7695 34.1523 26.0899 33.4492 26.0430 32.1836 L 25.7149 20.6055 C 25.6680 19.3399 26.6524 18.4024 27.9883 18.4024 C 29.3008 18.4024 30.3320 19.3633 30.2852 20.6289 L 29.9336 32.1836 C 29.8868 33.4726 29.2070 34.1523 28.0117 34.1523 Z M 28.0117 42.8008 C 26.6524 42.8008 25.3868 41.7227 25.3868 40.2695 C 25.3868 38.8164 26.6289 37.7383 28.0117 37.7383 C 29.3946 37.7383 30.6368 38.7930 30.6368 40.2695 C 30.6368 41.7461 29.3711 42.8008 28.0117 42.8008 Z"/></svg> Submission Guidelines</strong>
+                • <b>Capitalization:</b> Always use proper capitalization (e.g., "Spinach", not "spinach").<br>
                 • <b>Specificity:</b> Include details like MP, Aperture (f/1.8), Sensor Size, and OIS for cameras.<br>
                 • <b>Formatting:</b> Check for grammar errors before generating.<br>
-                • <b>Optional Fields:</b> You can leave fields blank if you don't have the info.
+                • <b>Optional Fields:</b> You can leave fields blank if you don't have the info or can't name it.
             </div>
 
             <form id="makerForm">
-                <datalist id="brands"><option value="Samsung"><option value="Apple"><option value="Xiaomi"><option value="Google"><option value="OnePlus"><option value="Sony"></datalist>
-                <datalist id="chipsets"><option value="Snapdragon 8 Gen 4"><option value="Snapdragon 8 Gen 5"><option value="Dimensity 9400"><option value="Apple A19 Pro"><option value="Google Tensor G6"></datalist>
-                <datalist id="displays"><option value="LTPO AMOLED"><option value="OLED"><option value="IPS LCD"><option value="Foldable OLED"></datalist>
                 <datalist id="refresh_rates"><option value="60Hz"><option value="90Hz"><option value="120Hz"><option value="144Hz"><option value="165Hz"><option value="240Hz"></datalist>
 
                 <div class="form-section"><h3>IDENTITY</h3></div>
@@ -161,18 +158,19 @@
 
                 <div class="form-section"><h3>BODY</h3></div>
                 <div class="input-grid">
-                    <div><label>IP Rating</label><input type="text" id="ip_rating" placeholder="e.g. IP68, 5 ATM"></div>
+                    <div><label>IP Rating</label><input type="text" id="ip_rating" placeholder="e.g. IP68, immersible up to 3m for 30 min"></div>
                     <div><label>Weight (g)</label><input type="number" id="weight" placeholder="200"></div>
                     <div><label>Dimensions</label><input type="text" id="dimensions" placeholder="160 x 75 x 8 mm"></div>
                     <div><label>Colors</label><input type="text" id="colors" placeholder="Titanium, Black..."></div>
+                    <div class="full-width"><label>Build Materials</label><input type="text" id="build" placeholder="e.g. Glass front, aluminum frame, eco leather back"></div>
                 </div>
 
                 <div class="form-section"><h3>DISPLAY</h3></div>
                 <div class="input-grid">
                     <div><label>Panel Type</label><input type="text" id="displayType" list="displays" placeholder="e.g. LTPO AMOLED"></div>
                     <div><label>Refresh Rate</label><input type="text" id="refresh" list="refresh_rates" placeholder="e.g. 120Hz"></div>
-                    <div><label>Size (inch)</label><input type="number" step="0.1" id="screen" placeholder="6.8"></div>
-                    <div><label>Brightness</label><input type="number" id="brightness" placeholder="e.g. 3000"></div>
+                    <div><label>Size (inch)</label><input type="number" step="0.1" id="screen" placeholder="6.8 (inches)"></div>
+                    <div><label>Brightness</label><input type="number" id="brightness" placeholder="e.g. (3000 nits)"></div>
                     <div class="full-width"><label>Resolution</label><input type="text" id="resolution" placeholder="e.g. 1440 x 3200"></div>
                 </div>
 
@@ -181,27 +179,27 @@
                     <div><label>Chipset</label><input type="text" id="chipset" list="chipsets" placeholder="e.g. Snapdragon 8 Gen 5"></div>
                     <div><label>RAM Options</label><input type="text" id="ram" placeholder="e.g. 8GB / 12GB / 16GB"></div>
                     <div><label>Storage Options</label><input type="text" id="storage" placeholder="e.g. 256GB / 512GB / 1TB"></div>
-                    <div><label>OS</label><input type="text" id="os" placeholder="e.g. Android 16"></div>
+                    <div><label>OS</label><input type="text" id="os" placeholder="e.g. Android 16..."></div>
                 </div>
 
                 <div class="form-section"><h3>POWER</h3></div>
                 <div class="input-grid">
                     <div><label>Battery</label><input type="text" id="battery" placeholder="e.g. 5500 mAh"></div>
-                    <div><label>Charging</label><input type="text" id="charging" placeholder="e.g. 100W Wired, 50W Wireless"></div>
+                    <div><label>Charging</label><input type="text" id="charging" placeholder="e.g. 100W Wired, 50W Wireless, 10W reverse wired"></div>
                 </div>
 
                 <div class="form-section"><h3>CAMERA SYSTEM</h3></div>
                 <div id="cameraContainer"></div>
-                <button type="button" class="add-btn" onclick="addDynamicRow('cameraContainer', 'cam-type', 'cam-specs')">+ Add Camera Module</button>
+                <button type="button" class="add-btn" onclick="addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'Main', '')">+ Add Camera Module</button>
                 
                 <div class="input-grid" style="margin-top:15px;">
-                    <div class="full-width"><label>Video Capabilities</label><input type="text" id="cam_video" placeholder="e.g. 8K@30fps, Dolby Vision..."></div>
+                    <div class="full-width"><label>Video Capabilities</label><input type="text" id="cam_video" placeholder="e.g. 8K@30fps, Dolby Vision, LOG..."></div>
                     <div class="full-width"><label>Selfie Camera</label><input type="text" id="cam_selfie" placeholder="e.g. 12 MP, f/2.2"></div>
                 </div>
 
                 <div class="form-section"><h3>SENSORS & EXTRAS</h3></div>
                 <div id="sensorContainer"></div>
-                <button type="button" class="add-btn" onclick="addDynamicRow('sensorContainer', 'sensor-label', 'sensor-specs')">+ Add Sensor</button>
+                <button type="button" class="add-btn" onclick="addDynamicRow('sensorContainer', 'sensor-label', 'sensor-specs', 'Sensor Type', 'Details')">+ Add Sensor</button>
 
                 <div class="form-section"><h3>GALLERY (OPTIONAL)</h3></div>
                 <div class="full-width">
@@ -213,11 +211,11 @@
 
                 <div class="form-section"><h3>EXTRAS</h3></div>
                 <div class="input-grid">
-                    <div><label>Geekbench Single (v6)</label><input type="number" id="geek_s" placeholder="3000"></div>
-                    <div><label>Geekbench Multi (v6)</label><input type="number" id="geek_m" placeholder="10000"></div>
-                    <div><label>AnTuTu v10 (v11)</label><input type="number" id="antutu" placeholder="2500000"></div>
-                    <div><label>Price (USD)</label><input type="number" id="price_usd" placeholder="999"></div>
-                    <div><label>Price (EUR)</label><input type="number" id="price_eur" placeholder="1099"></div>
+                    <div><label>Geekbench Single (v6)</label><input type="number" id="geek_s" placeholder="1234"></div>
+                    <div><label>Geekbench Multi (v6)</label><input type="number" id="geek_m" placeholder="12345"></div>
+                    <div><label>AnTuTu v10 (v11)</label><input type="number" id="antutu" placeholder="1234567"></div>
+                    <div><label>Price (USD)</label><input type="number" id="price_usd" placeholder="1099"></div>
+                    <div><label>Price (EUR)</label><input type="number" id="price_eur" placeholder="999"></div>
                 </div>
 
                 <button type="submit" class="submit-btn">Generate JSON</button>
@@ -225,7 +223,7 @@
 
             <div id="outputArea">
                 <p style="text-align:center; color:#aaa; font-size:0.85rem; margin-bottom:10px;">
-                    Send this code + ALL images to <b style="color:var(--accent);">@spinoevrex</b> on Discord or <b style="color:var(--accent);">@spinach.technologi</b> on TikTok DMs!
+                    Send this code + ALL images to <b style="color:var(--accent);">@spinoevrex</b> on Discord or <b style="color:var(--accent);">@spinach.technologies</b> on TikTok DMs!
                 </p>
                 <textarea id="jsonOutput" readonly></textarea>
                 <button onclick="copyText()" class="copy-btn">Copy Code</button>
@@ -277,7 +275,7 @@
             let data = {};
 
             // 1. Simple Fields
-            const simpleIds = ['type','brand','model','status','ip_rating','weight','dimensions','colors','chipset','ram','storage','os','battery','charging','cam_video','cam_selfie','geek_s','geek_m','antutu'];
+            const simpleIds = ['type','brand','model','status','ip_rating','weight','dimensions','colors','build','chipset','ram','storage','os','battery','charging','cam_video','cam_selfie','geek_s','geek_m','antutu'];
             simpleIds.forEach(id => {
                 const val = document.getElementById(id).value;
                 if(val) {
