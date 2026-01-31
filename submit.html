@@ -187,7 +187,7 @@
             <h2 style="text-align:center; margin-top:0;">Create Submission</h2>
             
             <div class="mode-switcher">
-                <button class="mode-btn active" onclick="setMode('device')">Device (Phone/Tablet/Watch)</button>
+                <button class="mode-btn active" onclick="setMode('device')">Device</button>
                 <button class="mode-btn" onclick="setMode('soc')">Chipset (SoC)</button>
             </div>
 
@@ -205,7 +205,7 @@
 
                 <div class="form-section"><h3>IDENTITY</h3></div>
                 <div class="input-grid">
-                    <div class="device-only"><label>Type</label><select id="type"><option>Phone</option><option>Tablet</option><option>Smartwatch</option></select></div>
+                    <div class="device-only"><label>Type</label><select id="type"><option>Phone</option><option>Tablet</option><option>Smartwatch</option><option>Laptop</option></select></div>
                     <div class="soc-only"><label>Type</label><input type="text" value="Chipset" disabled style="opacity:0.6"></div>
                     
                     <div><label>Brand</label><input type="text" id="brand" list="brands" placeholder="e.g. Spinach" required></div>
@@ -514,6 +514,10 @@
 
             addIf('brand', capitalize(getVal('brand')));
             addIf('model', capitalize(getVal('model')));
+            addIf('colors', capitalize(getVal('colors')));
+            addIf('chipset', capitalize(getVal('chipset')));
+            addIf('os', capitalize(getVal('os')));
+            addIf('charging', capitalize(getVal('charging')));
             
             const formatDate = (id) => {
                 const val = getVal(id);
