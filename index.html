@@ -83,11 +83,16 @@
         .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
         .hero-img { flex: 1; min-width: 300px; }
         .hero-img img { width: 100%; border-radius: 10px; }
-        .specs-summary { flex: 1.5; text-align: left; } /* FORCE LEFT ALIGNMENT */
+        .specs-summary { flex: 1.5; text-align: left; }
         
         @media (max-width: 768px) { 
-            .top-section { flex-direction: column; align-items: flex-start; } /* Align left on mobile */
-            .hero-img { width: 100%; max-width: 250px; margin: 0 auto; display: block; } /* Center Image Only */
+            .top-section { flex-direction: column; align-items: flex-start; } 
+            .hero-img { 
+                width: 100%; 
+                max-width: 280px; /* Bigger image on mobile */
+                margin: 0 auto; 
+                display: block; 
+            }
             .specs-summary { width: 100%; margin-top: 15px; }
             .quick-data { text-align: left; }
         }
@@ -107,50 +112,66 @@
         table { width: 100%; border-collapse: collapse; margin-top: 5px; table-layout: fixed; }
         th, td { padding: 15px 12px; border-bottom: 1px solid var(--glass-border); text-align: left; }
         
-        /* Make keys distinct from values */
-        th { 
-            color: var(--accent); /* Accent color for keys */
-            width: 35%; 
-            vertical-align: top; 
-            font-weight: 500;
-            opacity: 0.9;
-        }
+        th { color: var(--accent); width: 35%; vertical-align: top; font-weight: 500; opacity: 0.9; }
         td { word-wrap: break-word; line-height: 1.5; color: var(--text-main); }
         
-        /* Subtle hover row for clarity */
         tr:not(.cat-header):hover { background: rgba(255,255,255,0.02); }
         body.light-mode tr:not(.cat-header):hover { background: rgba(0,0,0,0.02); }
 
-        .cat-header { 
-            background: rgba(255,255,255,0.08); 
-            color: var(--accent); 
-            font-weight: 800; 
-            letter-spacing: 1px; 
-            padding: 10px 12px; 
-            font-size: 0.9rem; 
-            text-transform: uppercase;
-            border-bottom: none;
-            margin-top: 10px;
-        }
+        .cat-header { background: rgba(255,255,255,0.08); color: var(--accent); font-weight: 800; letter-spacing: 1px; padding: 10px 12px; font-size: 0.9rem; text-transform: uppercase; border-bottom: none; margin-top: 10px; }
         body.light-mode .cat-header { background: rgba(0,0,0,0.08); }
 
-        /* COMPARE STYLES */
-        .compare-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; position: relative; padding-bottom: 10px; }
-        .compare-table { min-width: 600px; width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; }
-        .compare-table th { width: 120px; position: sticky; left: 0; background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 20; border-right: 1px solid var(--glass-border); font-size: 0.85rem; }
-        .compare-table td { width: 33%; text-align: center; border-right: 1px solid var(--glass-border); padding: 10px 5px; font-size: 0.9rem; }
+        /* COMPARE STYLES - OPTIMIZED */
+        .compare-wrapper { 
+            overflow-x: auto; 
+            -webkit-overflow-scrolling: touch; 
+            position: relative; 
+            padding-bottom: 10px; 
+        }
+        
+        /* Force enough width so mobile scrolls but shows ~2 cols */
+        .compare-table { 
+            width: 100%;
+            min-width: 500px; /* Small enough for 2 devices on typical phones */
+            table-layout: fixed; 
+            border-collapse: separate; 
+            border-spacing: 0; 
+        }
+        
+        /* Sticky Column sizing */
+        .compare-table th { 
+            width: 90px; /* Narrower sticky column */
+            position: sticky; 
+            left: 0; 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+            z-index: 20; 
+            border-right: 1px solid var(--glass-border); 
+            font-size: 0.75rem; /* Smaller text for headers */
+            word-wrap: break-word;
+        }
+        
+        /* Data Slot sizing */
+        .compare-table td { 
+            width: 30%; /* Even distribution */
+            text-align: center; 
+            border-right: 1px solid var(--glass-border); 
+            padding: 10px 5px; 
+            font-size: 0.85rem; 
+        }
         
         .slot-header { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 15px 0; position: relative; }
         .slot-img { width: 60px; height: 80px; object-fit: contain; background: rgba(0,0,0,0.1); border-radius: 6px; }
-        .slot-search { width: 95%; padding: 8px; font-size: 0.75rem; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: 4px; }
-        .slot-dropdown { position: absolute; top: 100%; left: 2%; width: 96%; background: #1a1a1a; border: 1px solid var(--glass-border); z-index: 100; max-height: 200px; overflow-y: auto; display: none; text-align: left; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .slot-search { width: 90%; padding: 6px; font-size: 0.75rem; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: 4px; }
+        .slot-dropdown { position: absolute; top: 100%; left: 5%; width: 90%; background: #1a1a1a; border: 1px solid var(--glass-border); z-index: 100; max-height: 200px; overflow-y: auto; display: none; text-align: left; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         body.light-mode .slot-dropdown { background: #fff; }
         .slot-item { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; }
         body.light-mode .slot-item { border-bottom: 1px solid rgba(0,0,0,0.1); color: #333; }
         .slot-item:hover { background: var(--accent); color: black !important; }
         .slot-item img { width: 30px; height: 30px; object-fit: contain; }
 
-        .diff-mode-active .row-same td { opacity: 0.3; filter: grayscale(1); }
+        .diff-mode-active .row-same td { opacity: 0.2; filter: grayscale(1); }
         .diff-mode-active .row-diff td { color: var(--accent); font-weight: bold; }
         .diff-btn { margin-left: auto; border-color: var(--accent); font-size: 0.8rem; }
 
@@ -263,9 +284,11 @@
             if (!e.target.matches('.slot-search')) document.querySelectorAll('.slot-dropdown').forEach(d => d.style.display='none');
         }
 
+        // --- SPEC SHEET CONFIGURATION (Fixed Status/Release) ---
         const staticSpecs = [
             { key: "announced", label: "Announced", cat: "Launch" },
-            { key: "released", label: "Status", cat: "Launch" },
+            { key: "status", label: "Status", cat: "Launch" }, // Reads correctly now
+            { key: "released", label: "Release Date", cat: "Launch" }, // Added Release Date row
             { key: "dimensions", label: "Dimensions", cat: "Body" },
             { key: "weight", label: "Weight", cat: "Body" },
             { key: "ip_rating", label: "IP Rating", cat: "Body" },
@@ -276,11 +299,8 @@
             { key: "chipset", label: "Chipset", cat: "Platform" },
             { key: "storage", label: "Storage", cat: "Memory" },
             { key: "ram", label: "RAM", cat: "Memory" },
-            
-            // MERGED CAMERA + BATTERY
             { key: "cam_video", label: "Video", cat: "Camera" },
             { key: "cam_selfie", label: "Selfie", cat: "Camera" },
-
             { key: "battery", label: "Type", cat: "Battery" },
             { key: "charging", label: "Charging", cat: "Battery" }
         ];
@@ -339,7 +359,6 @@
             let currentCat = "";
             let cameraModulesRendered = false;
 
-            // RENDER SPECS
             staticSpecs.forEach(f => {
                 if(f.cat !== currentCat) { 
                     currentCat = f.cat; 
@@ -364,7 +383,6 @@
                 }
             });
 
-            // SENSORS
             if(d.sensors && d.sensors.length > 0) {
                 html += `<tr><td colspan="2" class="cat-header">Sensors & Extras</td></tr>`;
                 if (typeof d.sensors[0] === 'string') {
@@ -374,7 +392,6 @@
                 }
             }
 
-            // TESTS
             if (d.geek_s || d.geek_m || d.antutu) {
                 html += `<tr><td colspan="2" class="cat-header">Tests</td></tr>`;
                 if(d.geek_s) html += `<tr><th>Geekbench Single</th><td>${d.geek_s} (v6)</td></tr>`;
@@ -382,7 +399,7 @@
                 if(d.antutu) html += `<tr><th>AnTuTu</th><td>${d.antutu} (v11)</td></tr>`;
             }
 
-            // PRICE
+            // PRICE LOGIC (CHECK BOTH CURRENCIES)
             let finalPrice = d.price || '';
             if (d.price_eur) {
                 finalPrice = finalPrice ? `${finalPrice} / ${d.price_eur}` : d.price_eur;
@@ -393,11 +410,8 @@
             }
 
             document.getElementById('specTable').innerHTML = html;
-            
-            // SIMILAR PHONES (Brand > Competitors)
             renderSimilarDevices(d);
-
-            // IMAGES
+            
             const galleryDiv = document.getElementById('galleryGrid');
             galleryDiv.innerHTML = "";
             if(d.gallery && d.gallery.length > 0) {
@@ -410,38 +424,23 @@
             setTab('specs');
         };
 
-        // RENDER SIMILAR DEVICES
         function renderSimilarDevices(current) {
             const grid = document.getElementById('similarGrid');
             grid.innerHTML = "";
-            
-            // 1. Same Brand (excluding current)
             let matches = allDevices.filter(d => d.brand === current.brand && d.model !== current.model);
-            
-            // 2. If less than 4, fill with randoms (simulated competitors)
             if(matches.length < 4) {
                 const others = allDevices.filter(d => d.brand !== current.brand);
-                // Shuffle others (simple randomization)
                 others.sort(() => .5 - Math.random());
                 matches = matches.concat(others.slice(0, 4 - matches.length));
             }
-            
-            // Limit to 4 total
             matches = matches.slice(0, 4);
 
             if(matches.length > 0) {
                 matches.forEach(m => {
-                    // Find index in main list
                     const originalIndex = allDevices.findIndex(x => x.model === m.model);
-                    grid.innerHTML += `
-                    <div class="mini-card" onclick="showDetails(${originalIndex}); window.scrollTo(0,0);">
-                        <img src="${m.image}">
-                        <h4>${m.model}</h4>
-                    </div>`;
+                    grid.innerHTML += `<div class="mini-card" onclick="showDetails(${originalIndex}); window.scrollTo(0,0);"><img src="${m.image}"><h4>${m.model}</h4></div>`;
                 });
-            } else {
-                grid.innerHTML = "<p style='font-size:0.8rem; color:grey;'>No similar devices found.</p>";
-            }
+            } else { grid.innerHTML = "<p style='font-size:0.8rem; color:grey;'>No similar devices found.</p>"; }
         }
 
         window.setTab = (t) => {
@@ -454,22 +453,13 @@
             if(t === 'compare') renderCompareTable();
         };
 
-        // COMPARE
+        // --- COMPARISON RENDER ---
         function renderCompareTable() {
             const table = document.getElementById('compareTable');
             let html = `<thead><tr><th></th>`;
-            
             compareSlots.forEach((devIdx, slotId) => {
                 const dev = devIdx !== null ? allDevices[devIdx] : null;
-                html += `
-                <td>
-                    <div class="slot-header">
-                        <img class="slot-img" src="${dev ? dev.image : ''}" style="${dev?'':'opacity:0'}">
-                        <div>${dev ? dev.model : 'Empty Slot'}</div>
-                        <input type="text" class="slot-search" placeholder="Search..." onkeyup="searchForSlot(this, ${slotId})">
-                        <div class="slot-dropdown" id="dropdown-${slotId}"></div>
-                    </div>
-                </td>`;
+                html += `<td><div class="slot-header"><img class="slot-img" src="${dev ? dev.image : ''}" style="${dev?'':'opacity:0'}"><div>${dev ? dev.model : 'Empty Slot'}</div><input type="text" class="slot-search" placeholder="Search..." onkeyup="searchForSlot(this, ${slotId})"><div class="slot-dropdown" id="dropdown-${slotId}"></div></div></td>`;
             });
             html += `</tr></thead><tbody>`;
 
@@ -487,7 +477,15 @@
                 html += `<tr class="${isDiff?'row-diff':'row-same'}"><th>${spec.label}</th><td>${val1}</td><td>${val2}</td><td>${val3}</td></tr>`;
             });
             
-            html += `<tr><td colspan="4" class="cat-header" style="text-align:center;">Tests & Price</td></tr>`;
+            // COMPARE EXTRAS
+            html += `<tr><td colspan="4" class="cat-header" style="text-align:center;">Features & Price</td></tr>`;
+            
+            // Compare Cameras Detail
+            const cam1 = getDev(0)?.camera_modules?.map(m=>m.specs).join('<br>') || '-';
+            const cam2 = getDev(1)?.camera_modules?.map(m=>m.specs).join('<br>') || '-';
+            const cam3 = getDev(2)?.camera_modules?.map(m=>m.specs).join('<br>') || '-';
+            html += `<tr class="row-same"><th>Main Cams</th><td>${cam1}</td><td>${cam2}</td><td>${cam3}</td></tr>`;
+
             const p1 = getCompareVal(0, 'price');
             const p2 = getCompareVal(1, 'price');
             const p3 = getCompareVal(2, 'price');
