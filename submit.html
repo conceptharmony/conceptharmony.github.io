@@ -1,4 +1,314 @@
-    <script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Concept</title>
+    <style>
+        /* Shared Styles */
+        :root { --glass-bg: rgba(20, 20, 20, 0.75); --glass-border: rgba(255, 255, 255, 0.1); --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); --accent: #ffffff; --text-main: #ffffff; --text-muted: #bbbbbb; --radius-main: 12px; --radius-btn: 6px; }
+        body.light-mode { --glass-bg: rgba(255, 255, 255, 0.85); --glass-border: rgba(0, 0, 0, 0.1); --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); --accent: #000000; --text-main: #1a1a1a; --text-muted: #555555; background-color: #f4f4f9; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { overflow-x: hidden; }
+        body { background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; min-height: 100vh; }
+        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: url('background.jpg') center/cover; filter: blur(20px); }
+        body.light-mode::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
+        .container { max-width: 1100px; margin: auto; width: 100%; }
+        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
+
+        /* NAV */
+        .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
+        .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
+        .logo span { font-weight: 700; }
+        .nav-links { display: flex; gap: 10px; align-items: center; height: 100%; }
+        
+        .nav-btn { text-decoration: none; color: var(--text-main); padding: 0 20px; height: 40px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; }
+        .nav-btn:hover, .nav-btn:active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
+        .nav-btn:focus { outline: none; }
+        body.light-mode .nav-btn:hover { color: white !important; }
+
+        .dropdown-container { position: relative; }
+        .dropdown-content { display: none; position: absolute; right: 0; top: 50px; background: rgba(30, 30, 30, 0.98); min-width: 200px; border-radius: var(--radius-btn); box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 200; overflow: hidden; border: 1px solid var(--glass-border); }
+        .dropdown-content.show { display: block; }
+        body.light-mode .dropdown-content { background: rgba(255,255,255,0.98); }
+        .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; text-decoration: none; color: #ddd; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
+        body.light-mode .dropdown-item { color: #333; border-color: rgba(0,0,0,0.05); }
+        .dropdown-item:last-child { border-bottom: none; }
+        .dropdown-item:hover { background: var(--accent); color: black !important; }
+        .social-icon { width: 18px; height: 18px; fill: currentColor; }
+
+        .theme-btn { width: 40px; padding: 0; border-radius: 50%; }
+        .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; flex-direction: column; background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(20px); padding: 15px; border-radius: 0 0 12px 12px; border-bottom: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); gap: 10px; height: auto; }
+            body.light-mode .nav-links { background: rgba(255,255,255,0.98); }
+            .nav-links.active { display: flex; }
+            .nav-btn { width: 100%; }
+            .dropdown-container { width: 100%; }
+            .dropdown-content { position: static; width: 100%; box-shadow: none; border: none; background: transparent; padding-left: 20px; margin-top:5px; }
+            .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
+        }
+
+        /* FORM */
+        .form-section { margin-top: 40px; margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 8px; display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 10px; color: var(--accent); font-weight: 700; letter-spacing: 1px; font-size: 0.9rem; }
+        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 700px) { .input-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
+        .full-width { grid-column: span 2; }
+        
+        label { font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 6px; font-weight: 500; }
+        input, select { width: 100%; padding: 12px; border-radius: var(--radius-btn); border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: white; font-family: inherit; font-size: 0.95rem; appearance: none; }
+        body.light-mode input, body.light-mode select { background-color: rgba(255,255,255,0.6); color: black; border-color: rgba(0,0,0,0.1); }
+        
+        .guidelines { background: rgba(255, 255, 255, 0.05); border-left: 3px solid var(--accent); padding: 15px; margin-bottom: 30px; font-size: 0.9rem; color: #ccc; border-radius: 0 var(--radius-btn) var(--radius-btn) 0; line-height: 1.6; }
+        body.light-mode .guidelines { background: rgba(0,0,0,0.03); color: #333; }
+        .guidelines strong { color: var(--text-main); display: block; margin-bottom: 5px; font-size: 1rem;}
+
+        .file-upload-wrapper { position: relative; width: 100%; height: 50px; border: 1px dashed rgba(255,255,255,0.3); border-radius: var(--radius-btn); background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
+        .file-upload-wrapper:hover { background: rgba(255,255,255,0.05); border-color: var(--accent); }
+        input[type="file"] { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+        .file-upload-text { pointer-events: none; color: #aaa; font-size: 0.9rem; }
+        body.light-mode .file-upload-text { color: #555; }
+
+        .dynamic-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+        /* Style for the double input rows (Camera Modules) */
+        .double-input input:first-child { width: 35%; }
+        /* Style for single input rows (Sensors) */
+        .single-input input { width: 100%; }
+
+        .remove-btn { background: rgba(255,50,50,0.2); color: #ff5555; padding: 12px; border:1px solid rgba(255,50,50,0.2); border-radius: var(--radius-btn); cursor: pointer; font-weight:bold;}
+        .add-btn { width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px dashed var(--glass-border); color: var(--text-muted); cursor: pointer; border-radius: var(--radius-btn); margin-bottom:10px; }
+
+        button.submit-btn { width: 100%; padding: 15px; background: var(--glass-border); color: var(--text-main); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); font-weight: bold; margin-top: 30px; cursor: pointer; }
+        button.submit-btn:hover { background: var(--accent); color: black; }
+        
+        #outputArea { display: none; margin-top: 25px; }
+        textarea { width: 100%; height: 150px; background: rgba(0,0,0,0.5); color: #ccc; border: 1px solid #333; border-radius: var(--radius-btn); padding: 10px; box-sizing: border-box; font-family: monospace;}
+        body.light-mode textarea { background: rgba(0,0,0,0.05); color: black; }
+        .copy-btn { width:100%; margin-top:10px; padding:10px; cursor:pointer; border-radius:var(--radius-btn); border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--text-main); font-weight:bold; }
+        .copy-btn:hover { background:var(--accent); color:black; }
+
+        /* Socials Icons in Footer */
+        .social-inline { 
+            width: 16px;
+            height: 16px; 
+            fill: var(--accent); 
+            vertical-align: text-bottom; 
+            margin-right: 2px;
+            transform: translateY(-1px);
+        }
+        
+        .contact-link {
+            white-space: nowrap;
+            margin: 0 4px;
+        }
+
+        /* Mode Switcher Styles */
+        .mode-switcher { display: flex; gap: 10px; margin-bottom: 20px; }
+        .mode-btn { flex: 1; padding: 12px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text-muted); cursor: pointer; border-radius: var(--radius-btn); font-weight: bold; }
+        .mode-btn.active { background: var(--accent); color: black; border-color: var(--accent); }
+        body.light-mode .mode-btn.active { color: white; }
+
+        /* Toggle Logic */
+        .soc-only { display: none; }
+        .device-only { display: block; }
+        body[data-mode="soc"] .soc-only { display: block; }
+        body[data-mode="soc"] .device-only { display: none; }
+        body[data-mode="soc"] .full-width-soc { grid-column: span 2; }
+    </style>
+</head>
+<body data-mode="device">
+    <div class="container">
+        <div class="glass-panel nav-container">
+            <a href="index.html" class="logo">Concept<span>Harmony</span></a>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-btn">Devices</a>
+                <a href="soc.html" class="nav-btn">SoCs</a>
+                <a href="news.html" class="nav-btn">News</a>
+                <a href="submit.html" class="nav-btn" style="border-color:var(--accent);">Submit</a>
+                
+                <div class="dropdown-container">
+                    <button class="nav-btn" onclick="toggleSocials(event)">Socials ▾</button>
+                    <div class="dropdown-content" id="socialDropdown">
+                        <a href="https://discord.gg/hNPtTVHurH" target="_blank" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg> Discord</a>
+                        <a href="https://www.tiktok.com/@spinach.tech?_r=1&_t=ZG-93ScgcKEI9R" target="_blank" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> TikTok Main</a>
+                        <a href="https://www.tiktok.com/@spinach.technologies?_r=1&_t=ZG-93SccZzS6zp" target="_blank" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> TikTok Concept</a>
+                    </div>
+                </div>
+                <button id="themeToggle" class="nav-btn theme-btn">
+                    <svg class="theme-icon" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="glass-panel form-container">
+            <h2 style="text-align:center; margin-top:0;">Create Submission</h2>
+            
+            <div class="mode-switcher">
+                <button class="mode-btn active" onclick="setMode('device')">Device (Phone/Tablet/Watch)</button>
+                <button class="mode-btn" onclick="setMode('soc')">Chipset (SoC)</button>
+            </div>
+
+            <div class="guidelines">
+                <strong><svg fill="currentColor" style="transform: translateY(5px);" width="22px" height="22px" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><path d="M 9.5899 50.2070 L 46.4102 50.2070 C 49.9257 50.2070 52.1289 47.6758 52.1289 44.4883 C 52.1289 43.5273 51.8947 42.5664 51.3791 41.6758 L 32.9336 8.6758 C 31.8789 6.7773 29.9570 5.7930 28.0117 5.7930 C 26.0899 5.7930 24.1211 6.7773 23.0664 8.6758 L 4.6446 41.6992 C 4.1289 42.5898 3.8711 43.5273 3.8711 44.4883 C 3.8711 47.6758 6.0977 50.2070 9.5899 50.2070 Z M 28.0117 34.1523 C 26.7695 34.1523 26.0899 33.4492 26.0430 32.1836 L 25.7149 20.6055 C 25.6680 19.3399 26.6524 18.4024 27.9883 18.4024 C 29.3008 18.4024 30.3320 19.3633 30.2852 20.6289 L 29.9336 32.1836 C 29.8868 33.4726 29.2070 34.1523 28.0117 34.1523 Z M 28.0117 42.8008 C 26.6524 42.8008 25.3868 41.7227 25.3868 40.2695 C 25.3868 38.8164 26.6289 37.7383 28.0117 37.7383 C 29.3946 37.7383 30.6368 38.7930 30.6368 40.2695 C 30.6368 41.7461 29.3711 42.8008 28.0117 42.8008 Z"/></svg> Submission Guidelines</strong>
+                • <b>Capitalization:</b> Always use proper capitalization (e.g., "Spinach", not "spinach").<br>
+                • <b>Specificity:</b> Include details like MP, Aperture (f/1.8), Sensor Size, and OIS for cameras.<br>
+                • <b>Formatting:</b> Check for grammar errors before generating.<br>
+                • <b>Images:</b> Please use png files with transparent background for the Main Profile image. The front- and backside of the phone should be shown and be centered. This doesn't apply to picture gallery images.<br>
+                • <b>Optional Fields:</b> You can leave fields blank if you don't have the info or can't name it.
+            </div>
+
+            <form id="makerForm">
+                <datalist id="refresh_rates"><option value="60Hz"><option value="90Hz"><option value="120Hz"><option value="144Hz"><option value="165Hz"><option value="240Hz"></datalist>
+
+                <div class="form-section"><h3>IDENTITY</h3></div>
+                <div class="input-grid">
+                    <div class="device-only"><label>Type</label><select id="type"><option>Phone</option><option>Tablet</option><option>Smartwatch</option></select></div>
+                    <div class="soc-only"><label>Type</label><input type="text" value="Chipset" disabled style="opacity:0.6"></div>
+                    
+                    <div><label>Brand</label><input type="text" id="brand" list="brands" placeholder="e.g. Spinach" required></div>
+                    <div class="full-width"><label>Model Name</label><input type="text" id="model" placeholder="e.g. Experix 2" required></div>
+                    <div class="full-width">
+                        <label>Profile Image (Main)</label>
+                        <div class="file-upload-wrapper">
+                            <span class="file-upload-text" id="fileText">Click to Upload Main Image (Front- and Backside, Transparent PNG)...</span>
+                            <input type="file" id="imageFile" accept="image/*" required onchange="updateFileName('imageFile', 'fileText')">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section"><h3>LAUNCH</h3></div>
+                <div class="input-grid">
+                    <div class="device-only"><label>Status</label><select id="status"><option>Released</option><option>Coming Soon</option><option>Rumored</option><option>Concept</option></select></div>
+                    <div class="soc-only"><label>Process Node</label><input type="text" id="process" placeholder="e.g. TSMC 3nm"></div>
+                    <div><label>Announced (Exact Date)</label><input type="date" id="announced"></div>
+                    <div class="device-only"><label>Release (Exact Date)</label><input type="date" id="released"></div>
+                </div>
+
+                <div class="device-only">
+                    <div class="form-section"><h3>BODY</h3></div>
+                    <div class="input-grid">
+                        <div><label>IP Rating</label><input type="text" id="ip_rating" placeholder="e.g. IP68, immersible up to 3m for 30 min"></div>
+                        <div><label>Weight (g)</label><input type="number" id="weight" placeholder="200"></div>
+                        <div><label>Dimensions</label><input type="text" id="dimensions" placeholder="160 x 75 x 8 mm"></div>
+                        <div><label>Colors</label><input type="text" id="colors" placeholder="Titanium, Black..."></div>
+                        <div class="full-width"><label>Build Materials</label><input type="text" id="build" placeholder="e.g. Glass front, aluminum frame, eco leather back"></div>
+                    </div>
+
+                    <div class="form-section"><h3>DISPLAY</h3></div>
+                    <div class="input-grid">
+                        <div><label>Panel Type</label><input type="text" id="displayType" list="displays" placeholder="e.g. LTPO AMOLED"></div>
+                        <div><label>Refresh Rate</label><input type="text" id="refresh" list="refresh_rates" placeholder="e.g. 120Hz"></div>
+                        <div><label>Size (inch)</label><input type="number" step="0.01" id="screen" placeholder="6.8"></div>
+                        <div><label>Brightness (nit)</label><input type="number" id="brightness" placeholder="e.g. 3000"></div>
+                        <div class="full-width"><label>Resolution</label><input type="text" id="resolution" placeholder="e.g. 1440 x 3200"></div>
+                    </div>
+                </div>
+
+                <div class="form-section"><h3>PERFORMANCE</h3></div>
+                <div class="input-grid">
+                    <div class="device-only"><label>Chipset</label><input type="text" id="chipset" list="chipsets" placeholder="e.g. Spinach B61"></div>
+                    <div class="device-only"><label>RAM Options</label><input type="text" id="ram" placeholder="e.g. 8GB / 12GB / 16GB"></div>
+                    <div class="device-only"><label>Storage Options</label><input type="text" id="storage" placeholder="e.g. 256GB / 512GB / 1TB"></div>
+                    <div class="device-only"><label>OS</label><input type="text" id="os" placeholder="e.g. Android 16..."></div>
+
+                    <div class="soc-only full-width-soc"><label>CPU Config</label><input type="text" id="cpu_cores" placeholder="e.g. 2x3.1.80GHz Prime + 6x2.80GHz Performance"></div>
+                    <div class="soc-only"><label>GPU Model</label><input type="text" id="gpu_model" placeholder="e.g. Iodine 501"></div>
+                    <div class="soc-only"><label>GPU Clock</label><input type="text" id="gpu_clock" placeholder="e.g. 700 MHz"></div>
+                    <div class="soc-only"><label>NPU (AI Engine)</label><input type="text" id="npu" placeholder="e.g. Synapse X610"></div>
+                    <div class="soc-only"><label>ISP</label><input type="text" id="isp" placeholder="e.g. Omnistream G310"></div>
+                    <div class="soc-only"><label>Modem</label><input type="text" id="modem" placeholder="e.g. NextGate N11 5G"></div>
+                </div>
+
+                <div class="device-only">
+                    <div class="form-section"><h3>POWER</h3></div>
+                    <div class="input-grid">
+                        <div><label>Battery</label><input type="text" id="battery" placeholder="e.g. Si/C Li-Ion 6000 mAh"></div>
+                        <div><label>Charging</label><input type="text" id="charging" placeholder="e.g. 100W wired, 50W wireless, 10W reverse wired"></div>
+                    </div>
+                </div>
+
+                <div class="device-only">
+                    <div class="form-section"><h3>CAMERA SYSTEM</h3></div>
+                    <label>Rear Camera Modules (Type + Specs)</label>
+                    <div id="cameraContainer"></div>
+                    <button type="button" class="add-btn" onclick="addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'Wide', '')">+ Add Camera Module</button>
+                    
+                    <div class="input-grid" style="margin-top:15px;">
+                        <div class="full-width"><label>Video Capabilities</label><input type="text" id="cam_video" placeholder="e.g. 8K@30fps, Dolby Vision, LOG..."></div>
+                        <div class="full-width"><label>Selfie Camera</label><input type="text" id="cam_selfie" placeholder="e.g. 12 MP, f/2.2 or none"></div>
+                    </div>
+
+                    <div class="full-width" style="margin-top: 15px;">
+                        <label>Camera Features & Sensors</label>
+                        <div id="camSensorContainer"></div>
+                        <button type="button" class="add-btn" onclick="addSingleInputRow('camSensorContainer', 'Feature Name (e.g. Zeiss Optics, LiDAR)')">+ Add Camera Sensor/Feature</button>
+                    </div>
+
+                    <div class="form-section"><h3>FEATURES</h3></div>
+                    <label>Device Sensors & Extra Features</label>
+                    <div id="sensorContainer"></div>
+                    <button type="button" class="add-btn" onclick="addSingleInputRow('sensorContainer', 'Sensor/Feature Name (e.g. Fingerprint under-display)')">+ Add Sensor/Extra</button>
+                </div>
+
+                <div class="form-section"><h3>PICTURES (OPTIONAL)</h3></div>
+                <div class="full-width">
+                    <div class="file-upload-wrapper">
+                        <span class="file-upload-text" id="galleryText">Click to select multiple Gallery images...</span>
+                        <input type="file" id="galleryFiles" multiple accept="image/*" onchange="updateGalleryName()">
+                    </div>
+                </div>
+
+                <div class="form-section"><h3>EXTRAS</h3></div>
+                <div class="input-grid">
+                    <div><label>Geekbench Single (v6)</label><input type="number" id="geek_s" placeholder="1234"></div>
+                    <div><label>Geekbench Multi (v6)</label><input type="number" id="geek_m" placeholder="12345"></div>
+                    <div><label>AnTuTu (v11)</label><input type="number" id="antutu" placeholder="1234567"></div>
+                    <div><label>Price (USD)</label><input type="number" id="price_usd" placeholder="1099"></div>
+                    <div><label>Price (EUR)</label><input type="number" id="price_eur" placeholder="999"></div>
+                </div>
+
+                <button type="submit" class="submit-btn">Generate JSON</button>
+            </form>
+
+            <div id="outputArea">
+                <p style="text-align:center; color:#aaa; font-size:0.85rem; margin-bottom:10px; line-height: 1.6;">
+                    Send this code + ALL images to: 
+                    <span class="contact-link">
+                        <svg class="social-inline" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg> 
+                        <b style="color:var(--accent);">@spinoevrex</b>
+                    </span> 
+                    or 
+                    <span class="contact-link">
+                        <svg class="social-inline" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> 
+                        <b style="color:var(--accent);">@spinach.tech</b>
+                    </span>
+                    or
+                    <span class="contact-link">
+                        <svg class="social-inline" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" /></svg>
+                        <b style="color:var(--accent);">@photography._.y</b>
+                    </span>
+                </p>
+                <textarea id="jsonOutput" readonly></textarea>
+                <button onclick="copyText()" class="copy-btn">Copy Code</button>
+            </div>
+        </div>
+    </div>
+
+                 <script>
         // --- THEME & MENU LOGIC ---
         if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
         
@@ -75,35 +385,55 @@
         }
 
         // ---------------------------------------------------------
-        //  SMART FORMATTER
+        //  SMART FORMATTER (Fixed for Numbers+Units)
         // ---------------------------------------------------------
         function smartFormat(key, text) {
-            if (!text) return null; // Return null if empty
+            if (!text) return null;
             let val = text.trim();
             if (val === "") return null;
 
             const isCam = (key.includes('cam') || key.includes('camera') || key === 'camera_modules');
 
-            // 1. Units & Terms
-            val = val.replace(/(\d+)\s*hz\b/gi, "$1Hz").replace(/\bhz\b/gi, "Hz")
-                     .replace(/(\d+)\s*ghz\b/gi, "$1GHz").replace(/\bghz\b/gi, "GHz")
-                     .replace(/(\d+)\s*mhz\b/gi, "$1MHz").replace(/\bmhz\b/gi, "MHz");
+            // 1. UNIT CORRECTIONS (Handles "128gb" and "128 gb")
             
+            // Frequency (Hz)
+            val = val.replace(/(\d+)\s*hz\b/gi, "$1Hz").replace(/\bhz\b/gi, "Hz");
+            val = val.replace(/(\d+)\s*ghz\b/gi, "$1GHz").replace(/\bghz\b/gi, "GHz");
+            val = val.replace(/(\d+)\s*mhz\b/gi, "$1MHz").replace(/\bmhz\b/gi, "MHz");
+
+            // Memory (GB, TB)
+            val = val.replace(/(\d+)\s*gb\b/gi, "$1GB").replace(/\bgb\b/gi, "GB");
+            val = val.replace(/(\d+)\s*tb\b/gi, "$1TB").replace(/\btb\b/gi, "TB");
+
+            // Battery (mAh, W)
+            val = val.replace(/(\d+)\s*mah\b/gi, "$1mAh").replace(/\bmah\b/gi, "mAh");
+            val = val.replace(/(\d+)\s*w\b/gi, "$1W").replace(/\bw\b/gi, "W"); // be careful with single W
+
+            // Camera (MP, f/)
+            val = val.replace(/(\d+)\s*mp\b/gi, "$1MP").replace(/\bmp\b/gi, "MP");
+            val = val.replace(/f\s*\//gi, "f/"); // Fix spaces in f / 1.8
+
+            // Process (nm)
+            val = val.replace(/(\d+)\s*nm\b/gi, "$1nm").replace(/\bnm\b/gi, "nm");
+
+            // IP Rating
+            val = val.replace(/\bip\s*(?=\d)/gi, "IP"); // Fix ip 68 -> IP68
+
+            // Performance
             val = val.replace(/\bperf\b/gi, "Performance");
-            val = val.replace(/\bnm\b/gi, "nm");
-            val = val.replace(/\bgb\b/gi, "GB");
-            val = val.replace(/\bmah\b/gi, "mAh").replace(/\bw\b/gi, "W");
-            val = val.replace(/\bmp\b/gi, "MP").replace(/f\//gi, "f/");
-            val = val.replace(/\bip(?=\d)/gi, "IP").replace(/\bip\s/gi, "IP ");
 
-            if (key === 'cam_video' || key === 'all') val = val.replace(/\bfps\b/gi, "fps");
+            // FPS
+            if (key === 'cam_video' || key === 'all') {
+                val = val.replace(/\bfps\b/gi, "fps");
+            }
 
+            // Battery Chemistry
             if (key === 'battery') {
                 val = val.replace(/li[\s-]ion/gi, "Li-Ion");
                 val = val.replace(/si[\s-\/]+c|silicon\s+carbon/gi, "Si/C");
             }
 
-            // 2. Display Terms
+            // 2. DISPLAY TERMS
             if (['displayType', 'screen'].includes(key) || key === 'all') {
                 const displayTerms = ['ltpo', 'ltps', 'oled', 'amoled', 'p-oled', 'ips', 'tft', 'lcd'];
                 displayTerms.forEach(term => {
@@ -112,21 +442,21 @@
                 });
             }
 
-            // 3. Comma Logic
+            // 3. COMMA LOGIC
             val = val.replace(/,(?=[^\s])/g, ", ");
 
-            // 4. Slash Expansion (Skip Camera)
+            // 4. SLASH EXPANSION (Skip Camera)
             if (!isCam) {
                 val = val.replace(/\//g, " / ");
-                val = val.replace(/Si\s+\/\s+C/gi, "Si/C");
+                val = val.replace(/Si\s+\/\s+C/gi, "Si/C"); // Fix Si/C break
             }
 
-            // 5. 'x' Spacing (Skip Camera)
+            // 5. 'x' SPACING (Skip Camera)
             if (!isCam) {
-                val = val.replace(/(\d)x(\d)/gi, "$1 x $2");
+                val = val.replace(/(\d)\s*x\s*(\d)/gi, "$1 x $2");
             }
 
-            // 6. Capitalize Colors
+            // 6. CAPITALIZATION (Colors)
             if (key === 'colors') {
                 val = val.replace(/\b\w/g, c => c.toUpperCase());
             }
@@ -143,18 +473,15 @@
 
             const getVal = (id) => document.getElementById(id).value;
             
-            // Helper to only add key if value exists
             const addIf = (key, val) => {
                 if (val !== null && val !== undefined && val !== "") {
                     data[key] = val;
                 }
             };
 
-            // Identity
             addIf('brand', capitalize(getVal('brand')));
             addIf('model', capitalize(getVal('model')));
             
-            // Dates
             const formatDate = (id) => {
                 const val = getVal(id);
                 if(!val) return null;
@@ -170,7 +497,6 @@
                 addIf('status', getVal('status'));
                 addIf('released', formatDate('released'));
                 
-                // Standard Fields
                 const fields = ['ip_rating','weight','dimensions','colors','build','chipset','ram','storage','os','battery','charging','cam_video','cam_selfie'];
                 fields.forEach(k => {
                     addIf(k, smartFormat(k, getVal(k)));
@@ -191,7 +517,7 @@
                 if(sArr.length > 0) data.screen = sArr.join(', ');
                 addIf('resolution', getVal('resolution'));
 
-                // Camera Modules (Array)
+                // Camera Modules
                 const camRows = document.querySelectorAll('#cameraContainer .dynamic-row');
                 const camModules = [];
                 camRows.forEach(r => {
@@ -207,7 +533,7 @@
                 });
                 if(camModules.length > 0) data.camera_modules = camModules;
                 
-                // Camera Features (Array of Strings)
+                // Camera Features
                 const camFeatRows = document.querySelectorAll('#camSensorContainer .dynamic-row input');
                 const camFeats = [];
                 camFeatRows.forEach(input => {
@@ -220,7 +546,7 @@
                 });
                 if(camFeats.length > 0) data.camera_features = camFeats;
 
-                // Sensors (Array of Strings)
+                // Sensors
                 const sensRows = document.querySelectorAll('#sensorContainer .dynamic-row input');
                 const sensors = [];
                 sensRows.forEach(input => {
@@ -244,14 +570,12 @@
             // Extras
             ['geek_s','geek_m','antutu'].forEach(k => addIf(k, getVal(k)));
             
-            // Pricing (Only add if value exists)
             const pUSD = getVal('price_usd');
             if(pUSD) data.price = '$' + pUSD;
             
             const pEUR = getVal('price_eur');
             if(pEUR) data.price_eur = '€' + pEUR;
 
-            // Images (Only add if selected)
             const f = document.getElementById('imageFile').files[0];
             if(f) data.image = "images/" + f.name;
 
@@ -262,7 +586,6 @@
                 data.gallery = gal;
             }
 
-            // Output without trailing comma logic to keep it simple JSON
             document.getElementById('outputArea').style.display = 'block';
             document.getElementById('jsonOutput').value = JSON.stringify(data, null, 4) + ",";
         });
@@ -273,3 +596,5 @@
             alert("Copied Code!");
         }
     </script>
+</body>
+</html>
