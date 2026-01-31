@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ConceptHarmony</title>
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') document.documentElement.classList.add('light-mode');
+        })();
+    </script>
     <style>
         /* --- DESIGN SYSTEM --- */
         :root {
@@ -11,49 +17,51 @@
             --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); --accent: #ffffff;
             --text-main: #ffffff; --text-muted: #bbbbbb; --radius-main: 12px; --radius-btn: 6px;
         }
-        body.light-mode {
+        .light-mode body {
             --glass-bg: rgba(255, 255, 255, 0.85); --glass-border: rgba(0, 0, 0, 0.1);
             --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); --accent: #000000;
             --text-main: #1a1a1a; --text-muted: #555555; background-color: #f4f4f9;
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { overflow-x: hidden; }
-        body { background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; min-height: 100vh; }
+        
+        body { 
+            background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', sans-serif; 
+            margin: 0; padding: 20px; min-height: 100vh; transition: none !important;
+        }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: url('background.jpg') center/cover; filter: blur(20px); }
-        body.light-mode::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
+        .light-mode body::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
 
         .container { max-width: 1100px; margin: auto; width: 100%; }
-        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
+        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
 
         /* NAV */
         .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
         .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
         .logo span { font-weight: 700; }
         .nav-links { display: flex; gap: 10px; align-items: center; height: 100%; }
-        
         .nav-btn { text-decoration: none; color: var(--text-main); padding: 0 20px; height: 40px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; }
-        .nav-btn:hover, .nav-btn:active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
-        .nav-btn:focus { outline: none; }
-        body.light-mode .nav-btn:hover { color: white !important; }
+        .nav-btn:hover, .nav-btn.active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
+        .light-mode .nav-btn:hover, .light-mode .nav-btn.active { color: white !important; }
 
+        /* DROPDOWN */
         .dropdown-container { position: relative; }
         .dropdown-content { display: none; position: absolute; right: 0; top: 50px; background: rgba(30, 30, 30, 0.98); min-width: 200px; border-radius: var(--radius-btn); box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 200; overflow: hidden; border: 1px solid var(--glass-border); }
         .dropdown-content.show { display: block; }
-        body.light-mode .dropdown-content { background: rgba(255,255,255,0.98); }
+        .light-mode .dropdown-content { background: rgba(255,255,255,0.98); }
         .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; text-decoration: none; color: #ddd; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
-        body.light-mode .dropdown-item { color: #333; border-color: rgba(0,0,0,0.05); }
-        .dropdown-item:last-child { border-bottom: none; }
+        .light-mode .dropdown-item { color: #333; border-color: rgba(0,0,0,0.05); }
         .dropdown-item:hover { background: var(--accent); color: black !important; }
         .social-icon { width: 18px; height: 18px; fill: currentColor; }
-
         .theme-btn { width: 40px; padding: 0; border-radius: 50%; }
         .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
+        /* MOBILE MENU */
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
         @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
             .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; flex-direction: column; background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(20px); padding: 15px; border-radius: 0 0 12px 12px; border-bottom: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); gap: 10px; height: auto; }
-            body.light-mode .nav-links { background: rgba(255,255,255,0.98); }
+            .light-mode .nav-links { background: rgba(255,255,255,0.98); }
             .nav-links.active { display: flex; }
             .nav-btn { width: 100%; }
             .dropdown-container { width: 100%; }
@@ -61,40 +69,25 @@
             .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
 
-        /* GRID */
+        /* SEARCH & GRID */
         .search-box { width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         .card { cursor: pointer; transition: transform 0.2s; padding: 15px; }
         .card:hover { transform: translateY(-5px); border-color: var(--accent); }
-        
-        .card img { 
-            width: 100%; height: 200px; 
-            object-fit: contain; 
-            background: rgba(0,0,0,0.2); 
-            padding: 5px;
-            border-radius: 6px; 
-        }
-        
+        .card img { width: 100%; height: 200px; object-fit: contain; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 6px; }
         .card h3 { margin: 10px 0 5px 0; color: var(--accent); }
         .card .type-tag { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 2px; text-transform: uppercase; color: var(--text-muted); }
         
-        /* DETAILS VIEW & MOBILE OPTIMIZATION */
+        /* DETAILS VIEW */
         .hidden { display: none !important; }
         .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
         .hero-img { flex: 1; min-width: 300px; }
         .hero-img img { width: 100%; border-radius: 10px; }
         .specs-summary { flex: 1.5; text-align: left; }
-        
         @media (max-width: 768px) { 
             .top-section { flex-direction: column; align-items: flex-start; } 
-            .hero-img { 
-                width: 100%; 
-                max-width: 280px; 
-                margin: 0 auto; 
-                display: block; 
-            }
+            .hero-img { width: 100%; max-width: 280px; margin: 0 auto; display: block; }
             .specs-summary { width: 100%; margin-top: 15px; }
-            .quick-data { text-align: left; }
         }
         
         .quick-data { margin-top: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
@@ -103,89 +96,73 @@
         .spec-text small { display: block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
         .spec-text span { font-size: 0.95rem; font-weight: 600; color: var(--text-main); display: block; line-height: 1.2; }
 
-        /* TABS */
         .tab-container { display: flex; gap: 10px; justify-content: flex-start; margin-bottom: 20px; margin-top: 20px; flex-wrap: wrap; }
         .tab-container .nav-btn { flex: 1; text-align: center; min-width: 100px; }
-        .tab-container button.active { background: var(--accent); color: black !important; border-color: var(--accent); }
 
-        /* CLEANER SPEC TABLE */
-        table { width: 100%; border-collapse: collapse; margin-top: 5px; table-layout: fixed; }
-        th, td { padding: 15px 12px; border-bottom: 1px solid var(--glass-border); text-align: left; }
+        /* --- CLARIFIED SPEC TABLE --- */
+        table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 5px; table-layout: fixed; }
+        th, td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: left; vertical-align: top; }
+        .light-mode th, .light-mode td { border-bottom: 1px solid rgba(0,0,0,0.05); }
         
-        th { color: var(--accent); width: 35%; vertical-align: top; font-weight: 500; opacity: 0.9; }
-        td { word-wrap: break-word; line-height: 1.5; color: var(--text-main); }
-        
-        tr:not(.cat-header):hover { background: rgba(255,255,255,0.02); }
-        body.light-mode tr:not(.cat-header):hover { background: rgba(0,0,0,0.02); }
+        /* Alternating backgrounds for better readability */
+        tr:nth-child(odd) { background: rgba(255,255,255,0.02); }
+        .light-mode tr:nth-child(odd) { background: rgba(0,0,0,0.02); }
 
-        .cat-header { background: rgba(255,255,255,0.08); color: var(--accent); font-weight: 800; letter-spacing: 1px; padding: 10px 12px; font-size: 0.9rem; text-transform: uppercase; border-bottom: none; margin-top: 10px; }
-        body.light-mode .cat-header { background: rgba(0,0,0,0.08); }
+        th { color: var(--accent); width: 35%; font-weight: 600; opacity: 0.9; }
+        td { color: var(--text-main); line-height: 1.6; }
 
-        /* COMPARE STYLES - OPTIMIZED FOR MOBILE */
-        .compare-wrapper { 
-            overflow-x: auto; 
-            -webkit-overflow-scrolling: touch; 
-            position: relative; 
-            padding-bottom: 10px; 
+        .cat-header { 
+            background: transparent !important; /* Removed BG for cleaner look */
+            color: var(--text-muted); 
+            font-size: 0.8rem; 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            padding-top: 30px; 
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--accent);
+            font-weight: 800;
         }
+
+        /* --- OPTIMIZED MOBILE COMPARISON --- */
+        .compare-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; position: relative; padding-bottom: 10px; }
         
-        /* Width Calculation: Sticky(80) + 2 Slots(140*2) = 360px (Fits on most phones) */
-        .compare-table { 
-            min-width: 500px; 
-            width: 100%; 
-            table-layout: fixed; 
-            border-collapse: separate; 
-            border-spacing: 0; 
-        }
+        /* Reduced Sticky Width to 60px for mobile to show more data */
+        .compare-table { min-width: 100%; width: max-content; border-collapse: separate; border-spacing: 0; }
         
-        /* Sticky Column sizing */
         .compare-table th { 
-            width: 85px; /* Narrow enough so it doesn't cover content */
-            position: sticky; 
-            left: 0; 
-            background: var(--glass-bg); 
-            backdrop-filter: blur(20px); 
-            -webkit-backdrop-filter: blur(20px); 
-            z-index: 20; 
-            border-right: 1px solid var(--glass-border); 
-            font-size: 0.7rem; 
-            padding: 10px 5px;
-            word-wrap: break-word;
+            width: 120px; /* Desktop default */
+            position: sticky; left: 0; 
+            background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            z-index: 20; border-right: 1px solid var(--glass-border); 
+            font-size: 0.75rem; padding: 10px 5px; word-wrap: break-word; 
         }
         
-        /* Data Slot sizing */
         .compare-table td { 
-            /* width handled by table layout but we ensure min-width via table */
-            text-align: center; 
-            border-right: 1px solid var(--glass-border); 
-            padding: 10px 5px; 
-            font-size: 0.85rem; 
+            width: 160px; /* Fixed width per slot */
+            text-align: center; border-right: 1px solid var(--glass-border); padding: 10px; font-size: 0.85rem; 
+        }
+
+        /* Mobile specific adjustments for Comparison */
+        @media (max-width: 600px) {
+            .compare-table th { width: 60px; font-size: 0.65rem; padding: 5px 2px; } /* Tiny sticky bar */
+            .compare-table td { width: 140px; } /* Fit ~2.5 columns */
         }
         
         .slot-header { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 15px 0; position: relative; }
+        .slot-img { width: 90px; height: 110px; object-fit: contain; background: rgba(0,0,0,0.1); border-radius: 6px; }
+        .slot-search { width: 95%; padding: 6px; font-size: 0.75rem; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: 4px; }
         
-        /* Larger image in compare slot */
-        .slot-img { 
-            width: 100px; 
-            height: 120px; 
-            object-fit: contain; 
-            background: rgba(0,0,0,0.1); 
-            border-radius: 6px; 
-        }
-        
-        .slot-search { width: 95%; padding: 8px; font-size: 0.75rem; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: 4px; }
         .slot-dropdown { position: absolute; top: 100%; left: 2%; width: 96%; background: #1a1a1a; border: 1px solid var(--glass-border); z-index: 100; max-height: 200px; overflow-y: auto; display: none; text-align: left; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        body.light-mode .slot-dropdown { background: #fff; }
+        .light-mode .slot-dropdown { background: #fff; }
         .slot-item { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; }
-        body.light-mode .slot-item { border-bottom: 1px solid rgba(0,0,0,0.1); color: #333; }
+        .light-mode .slot-item { border-bottom: 1px solid rgba(0,0,0,0.1); color: #333; }
         .slot-item:hover { background: var(--accent); color: black !important; }
         .slot-item img { width: 30px; height: 30px; object-fit: contain; }
 
-        .diff-mode-active .row-same td { opacity: 0.2; filter: grayscale(1); }
-        .diff-mode-active .row-diff td { color: var(--accent); font-weight: bold; }
+        .diff-mode-active .row-same td { opacity: 0.15; filter: grayscale(1); }
+        .diff-mode-active .row-diff td { color: var(--accent); font-weight: bold; background: rgba(255,255,255,0.05); }
         .diff-btn { margin-left: auto; border-color: var(--accent); font-size: 0.8rem; }
 
-        /* SIMILAR PHONES SECTION */
         .similar-section { margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--glass-border); }
         .similar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; margin-top: 15px; }
         .mini-card { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; cursor: pointer; text-align: center; border: 1px solid transparent; transition: 0.2s; }
@@ -257,7 +234,6 @@
 
             <div id="tab-specs" class="glass-panel">
                 <table id="specTable"></table>
-                
                 <div class="similar-section">
                     <h3 style="color:var(--accent);">Similar Devices</h3>
                     <div id="similarGrid" class="similar-grid"></div>
@@ -281,10 +257,9 @@
     </div>
 
     <script>
-        if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
         document.getElementById('themeToggle').onclick = () => {
-            document.body.classList.toggle('light-mode');
-            localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+            const isLight = document.documentElement.classList.toggle('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
         };
         
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
@@ -294,10 +269,9 @@
             if (!e.target.matches('.slot-search')) document.querySelectorAll('.slot-dropdown').forEach(d => d.style.display='none');
         }
 
-        // --- UPDATED SPEC ORDER ---
         const staticSpecs = [
-            { key: "status", label: "Status", cat: "Launch" },    // 1. Status Top
-            { key: "announced", label: "Announced", cat: "Launch" }, // 2. Announced
+            { key: "status", label: "Status", cat: "Launch" },
+            { key: "announced", label: "Announced", cat: "Launch" },
             { key: "released", label: "Release Date", cat: "Launch" }, 
             { key: "dimensions", label: "Dimensions", cat: "Body" },
             { key: "weight", label: "Weight", cat: "Body" },
@@ -309,12 +283,8 @@
             { key: "chipset", label: "Chipset", cat: "Platform" },
             { key: "storage", label: "Storage", cat: "Memory" },
             { key: "ram", label: "RAM", cat: "Memory" },
-            
-            // CAMERA
             { key: "cam_video", label: "Video", cat: "Camera" },
             { key: "cam_selfie", label: "Selfie", cat: "Camera" },
-
-            // BATTERY (Will render AFTER features)
             { key: "battery", label: "Type", cat: "Battery" },
             { key: "charging", label: "Charging", cat: "Battery" }
         ];
@@ -375,16 +345,15 @@
             let sensorsRendered = false;
 
             staticSpecs.forEach(f => {
-                // INJECT SENSORS *BEFORE* BATTERY
+                // SENSORS BEFORE BATTERY
                 if (f.cat === "Battery" && !sensorsRendered) {
                     if(d.sensors && d.sensors.length > 0) {
                         html += `<tr><td colspan="2" class="cat-header">Features</td></tr>`;
-                        let sVal = Array.isArray(d.sensors) ? d.sensors.join(', ') : '-';
-                        // Handle legacy object format if needed
-                        if(typeof d.sensors[0] !== 'string') {
-                            d.sensors.forEach(s => html += `<tr><th>${s.label}</th><td>${s.specs}</td></tr>`);
+                        let sVal = Array.isArray(d.sensors) ? d.sensors.join(', ') : (d.sensors || '-');
+                        if (typeof d.sensors[0] !== 'string' && d.sensors.length > 0) {
+                             d.sensors.forEach(s => html += `<tr><th>${s.label}</th><td>${s.specs}</td></tr>`);
                         } else {
-                            html += `<tr><th>Sensors</th><td>${sVal}</td></tr>`;
+                             html += `<tr><th>Sensors</th><td>${sVal}</td></tr>`;
                         }
                     }
                     sensorsRendered = true;
@@ -421,14 +390,13 @@
                 if(d.antutu) html += `<tr><th>AnTuTu</th><td>${d.antutu} (v11)</td></tr>`;
             }
 
-            // PRICE - ROBUST CHECK
-            let pUSD = d.price || '';
-            let pEUR = d.price_eur || '';
-            let finalPrice = '';
-            
-            if (pUSD && pEUR) finalPrice = `${pUSD} / ${pEUR}`;
-            else if (pUSD) finalPrice = pUSD;
-            else if (pEUR) finalPrice = pEUR;
+            // PRICE
+            let pUSD = d.price;
+            let pEUR = d.price_eur;
+            let finalPrice = "";
+            if(pUSD && pEUR) finalPrice = `${pUSD} / ${pEUR}`;
+            else if(pUSD) finalPrice = pUSD;
+            else if(pEUR) finalPrice = pEUR;
 
             if (finalPrice) {
                 html += `<tr><td colspan="2" class="cat-header">Starting Price</td></tr>`;
@@ -493,7 +461,6 @@
             let sensorsRendered = false;
 
             staticSpecs.forEach(spec => {
-                // INJECT SENSORS IN COMPARE (BEFORE BATTERY)
                 if (spec.cat === "Battery" && !sensorsRendered) {
                     html += `<tr><td colspan="4" class="cat-header" style="text-align:center;">Features</td></tr>`;
                     const s1 = getCompareVal(0, 'sensors');
@@ -531,7 +498,6 @@
             const d = getDev(slotIdx);
             if(!d) return '-';
             
-            // SPECIAL HANDLING FOR SENSORS
             if (key === 'sensors') {
                 return Array.isArray(d.sensors) ? d.sensors.join(', ') : (d.sensors || '-');
             }
@@ -539,13 +505,12 @@
             let val = d[key];
             if(key === 'weight' && val && !val.toString().toLowerCase().endsWith('g')) val += 'g';
             
-            // PRICE (ROBUST)
             if(key === 'price') {
-                let pUSD = d.price || '';
-                let pEUR = d.price_eur || '';
-                if (pUSD && pEUR) return `${pUSD} / ${pEUR}`;
-                if (pUSD) return pUSD;
-                if (pEUR) return pEUR;
+                let pUSD = d.price;
+                let pEUR = d.price_eur;
+                if(pUSD && pEUR) return `${pUSD} / ${pEUR}`;
+                if(pUSD) return pUSD;
+                if(pEUR) return pEUR;
                 return '-';
             }
             return val || '-';
