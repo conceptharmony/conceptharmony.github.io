@@ -19,7 +19,7 @@
     "charging": "82W Wired, 50W Wireless",
     "cam_video": "4k@24/30/60/120fps, 1080p@24/30/60/120/240/480/960fps, HDR, 10-bit video, Dolby vision, LOG, Tianyu LUMOS video color accuracy",
     "cam_selfie": "24MP, 16mm, f/2.2, 1/3”-type 1:1 Sensor, PDAF",
-    "screen": "LTPO AMOLED, 120Hz, 6.78", 3000 nits",
+    "screen": "LTPO AMOLED, 120Hz, 6.78\", 3000 nits",
     "resolution": "1279x2778",
     "camera_modules": [
         {
