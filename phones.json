@@ -1,3 +1,61 @@
 [
-  
+  {
+    "brand": "Spinach",
+    "model": "Experix Ultra",
+    "announced": "June 24, 2025",
+    "type": "Phone",
+    "released": "June 24, 2025",
+    "status": "Released",
+    "ip_rating": "IP69 / IP68 (immersible up to 3m for 30min)",
+    "weight": "234",
+    "dimensions": "164 x 76.8 x 8.8 mm",
+    "colors": "Dark, Grey",
+    "build": "Glass front, aluminum frame, eco leather and titanium alloy back",
+    "chipset": "Spinach B61",
+    "ram": "16GB / 24GB",
+    "storage": "256Gb / 512GB / 1TB",
+    "os": "LimeUI 1.1",
+    "battery": "6250mah",
+    "charging": "120W PD3.0 wired, 80W wireless, 10W reverse wireless",
+    "cam_video": "8k@24/30fps, 4k@24/30/60/120fps, 1080p@24/30/60/120/240/480fps, gyro EIS, HDR, 10-bit video, Dolby Vision, LOG",
+    "cam_selfie": "32MP f/2.4 22mm 1/2.8\" PDAF",
+    "screen": "LTPO AMOLED, 165Hz, 6.8\", 3200 nits",
+    "resolution": "1440 x 3200",
+    "camera_modules": [
+        {
+            "label": "Wide",
+            "specs": "200MP, f/1.7, 24mm, 1\"-type, dual-pixel PDAF, OIS"
+        },
+        {
+            "label": "Periscope Telephoto",
+            "specs": "50MP, f/2.3, 105mm, 1/1.28\", PDAF, sensor-shift OIS, 4.4x optical zoom"
+        },
+        {
+            "label": "Ultrawide",
+            "specs": "50MP, f/2.0, 14mm, 120°, 1/1.7\", PDAF"
+        }
+    ],
+    "camera_features": [
+        "Laser-AF",
+        "Depth",
+        "sensor",
+        "Real-Tone Dual-Flash",
+        "HDR",
+        "panorama"
+    ],
+    "sensors": [
+        "Fingerprint (under-display",
+        "ultrasonic)",
+        "accelerometer",
+        "gyro",
+        "proximity",
+        "compass"
+    ],
+    "geek_s": "2917",
+    "geek_m": "9221",
+    "antutu": "2848349",
+    "price_usd": "1499",
+    "price": "$1499",
+    "image": "images/1000037540.png"
+},
 ]
