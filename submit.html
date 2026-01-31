@@ -308,7 +308,7 @@
         </div>
     </div>
 
-                <script>
+                    <script>
         // THEME & MENU
         if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
         document.getElementById('themeToggle').onclick = () => {
@@ -382,11 +382,15 @@
             if (!text) return text;
             let val = text;
 
+            // 0. PRE-CLEAN: Collapse existing spaced slashes to tight slashes temporarily
+            // This prevents the "Space -> Comma" rule from messing up "Red / Blue"
+            val = val.replace(/\s*\/\s*/g, "/"); 
+
             // 1. UNIT REPLACEMENTS (Global)
-            // Frequencies
-            val = val.replace(/\bhz\b/gi, "Hz")
-                     .replace(/\bghz\b/gi, "GHz")
-                     .replace(/\bmhz\b/gi, "MHz");
+            // Frequencies (Hz, GHz, MHz)
+            val = val.replace(/(\d+)\s*hz\b/gi, "$1Hz").replace(/\bhz\b/gi, "Hz")
+                     .replace(/(\d+)\s*ghz\b/gi, "$1GHz").replace(/\bghz\b/gi, "GHz")
+                     .replace(/(\d+)\s*mhz\b/gi, "$1MHz").replace(/\bmhz\b/gi, "MHz");
             
             // SoC: perf -> Performance
             val = val.replace(/\bperf\b/gi, "Performance");
@@ -408,7 +412,6 @@
 
 
             // 2. VIDEO SPECIFIC (fps)
-            // Force fps to be lowercase (e.g. 30FPS -> 30fps)
             if (key === 'cam_video' || key === 'all') {
                 val = val.replace(/\bfps\b/gi, "fps");
             }
@@ -416,12 +419,12 @@
             // 3. BATTERY SPECIFIC (Li-Ion, Si/C)
             if (key === 'battery') {
                 val = val.replace(/li[\s-]ion/gi, "Li-Ion");
-                val = val.replace(/si[\s-\/]c|silicon\s+carbon/gi, "Si/C");
+                val = val.replace(/si[\s-\/]+c|silicon\s+carbon/gi, "Si/C");
             }
 
-            // 4. DISPLAY SPECIFIC (OLED, AMOLED, etc.)
+            // 4. DISPLAY SPECIFIC
             if (['displayType', 'screen'].includes(key) || key === 'all') {
-                const displayTerms = ['oled', 'amoled', 'p-oled', 'ips', 'tft', 'lcd'];
+                const displayTerms = ['ltpo', 'ltps', 'oled', 'amoled', 'p-oled', 'ips', 'tft', 'lcd'];
                 displayTerms.forEach(term => {
                     const regex = new RegExp(`\\b${term}\\b`, 'gi');
                     val = val.replace(regex, term.toUpperCase());
@@ -430,10 +433,27 @@
 
             // 5. LIST RULE: Space -> Comma + Space
             if (['ram', 'storage', 'colors', 'sensors', 'camera_features'].includes(key)) {
-                val = val.trim().replace(/\s+/g, ", ");
+                val = val.trim();
+                // Replace commas with correct spacing
+                val = val.replace(/,\s*/g, ",");
+                // Replace spaces with commas (But NOT if they are part of a slash, because we tightened slashes in Step 0)
+                val = val.replace(/\s+/g, ",");
+                // Finalize commas
+                val = val.replace(/,/g, ", ");
             }
 
-            // 6. CAPITALIZATION RULE (Colors)
+            // 6. SLASH EXPANSION: / -> " / "
+            // We expand all slashes to have spaces
+            val = val.replace(/\//g, " / ");
+
+            // 7. EXCEPTIONS: Re-tighten specific terms that shouldn't have spaced slashes
+            // Fix f/ (Aperture)
+            val = val.replace(/f\s+\/\s+/gi, "f/");
+            // Fix Si/C (Battery)
+            val = val.replace(/Si\s+\/\s+C/gi, "Si/C");
+
+
+            // 8. CAPITALIZATION RULE (Colors)
             if (key === 'colors') {
                 val = capitalize(val);
             }
