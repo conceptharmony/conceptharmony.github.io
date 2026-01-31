@@ -167,7 +167,7 @@
                 • <b>Capitalization:</b> Always use proper capitalization (e.g., "Spinach", not "spinach").<br>
                 • <b>Specificity:</b> Include details like MP, Aperture (f/1.8), Sensor Size, and OIS for cameras.<br>
                 • <b>Formatting:</b> Check for grammar errors before generating.<br>
-                • <b>Images:</b> Please use png files with transparent background for the Main Profile image. This doesn't apply to gallery images.<br>
+                • <b>Images:</b> Please use png files with transparent background for the Main Profile image. The front- and backside of the phone should be shown and be centered. This doesn't apply to picture gallery images.<br>
                 • <b>Optional Fields:</b> You can leave fields blank if you don't have the info or can't name it.
             </div>
 
@@ -184,7 +184,7 @@
                     <div class="full-width">
                         <label>Profile Image (Main)</label>
                         <div class="file-upload-wrapper">
-                            <span class="file-upload-text" id="fileText">Click to Upload Main Profile...</span>
+                            <span class="file-upload-text" id="fileText">Click to Upload Main Image (Front- and Backside, Transparent PNG)...</span>
                             <input type="file" id="imageFile" accept="image/*" required onchange="updateFileName('imageFile', 'fileText')">
                         </div>
                     </div>
@@ -308,21 +308,40 @@
         </div>
     </div>
 
-                    <script>
-        // THEME & MENU
+                        <script>
+        // --- THEME & MENU LOGIC ---
         if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
+        
         document.getElementById('themeToggle').onclick = () => {
             document.body.classList.toggle('light-mode');
             localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
         };
+
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
-        function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
-        window.onclick = function(e) { if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); }
         
-        // HELPER: Capitalize Words (Titanium Black)
+        function toggleSocials(e) { 
+            e.stopPropagation(); 
+            document.getElementById('socialDropdown').classList.toggle('show'); 
+        }
+        
+        window.onclick = function(e) { 
+            if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); 
+        }
+        
+        // --- HELPER FUNCTIONS ---
         const capitalize = (s) => s.replace(/\b\w/g, c => c.toUpperCase());
 
-        // MODE SWITCHING LOGIC
+        function updateFileName(id, textId) {
+            const input = document.getElementById(id);
+            if(input.files.length > 0) document.getElementById(textId).innerText = "Selected: " + input.files[0].name;
+        }
+
+        function updateGalleryName() {
+            const input = document.getElementById('galleryFiles');
+            if(input.files.length > 0) document.getElementById('galleryText').innerText = `Selected ${input.files.length} images`;
+        }
+
+        // --- MODE SWITCHING (Device vs SoC) ---
         let currentMode = 'device';
         function setMode(mode) {
             currentMode = mode;
@@ -339,11 +358,12 @@
             }
         }
 
-        // DYNAMIC ROW LOGIC
+        // --- DYNAMIC ROWS ---
         window.addEventListener('load', () => {
             addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'Wide', '');
         });
 
+        // Double Input Row (for Camera Modules)
         function addDynamicRow(containerId, classType, classSpecs, phType='Type', phSpecs='Specs') {
             const div = document.createElement('div');
             div.className = 'dynamic-row double-input';
@@ -355,6 +375,7 @@
             document.getElementById(containerId).appendChild(div);
         }
 
+        // Single Input Row (for Sensors/Features)
         function addSingleInputRow(containerId, placeholder) {
             const div = document.createElement('div');
             div.className = 'dynamic-row single-input';
@@ -365,64 +386,39 @@
             document.getElementById(containerId).appendChild(div);
         }
 
-        // FILE UPDATES
-        function updateFileName(id, textId) {
-            const input = document.getElementById(id);
-            if(input.files.length > 0) document.getElementById(textId).innerText = "Selected: " + input.files[0].name;
-        }
-        function updateGalleryName() {
-            const input = document.getElementById('galleryFiles');
-            if(input.files.length > 0) document.getElementById('galleryText').innerText = `Selected ${input.files.length} images`;
-        }
-
         // ---------------------------------------------------------
-        //  SMART FORMATTER
+        //  THE SMART FORMATTER (Formatting Logic)
         // ---------------------------------------------------------
         function smartFormat(key, text) {
             if (!text) return text;
             let val = text;
 
-            // 0. PRE-CLEAN: Collapse existing spaced slashes to tight slashes temporarily
-            // This prevents the "Space -> Comma" rule from messing up "Red / Blue"
-            val = val.replace(/\s*\/\s*/g, "/"); 
+            // Check if we are in a camera section (to exclude specific slash/x spacing rules)
+            const isCam = (key.includes('cam') || key.includes('camera') || key === 'camera_modules');
 
-            // 1. UNIT REPLACEMENTS (Global)
-            // Frequencies (Hz, GHz, MHz)
+            // 1. UNIT & TERM REPLACEMENTS (Global)
+            // Frequency: 120hz -> 120Hz
             val = val.replace(/(\d+)\s*hz\b/gi, "$1Hz").replace(/\bhz\b/gi, "Hz")
                      .replace(/(\d+)\s*ghz\b/gi, "$1GHz").replace(/\bghz\b/gi, "GHz")
                      .replace(/(\d+)\s*mhz\b/gi, "$1MHz").replace(/\bmhz\b/gi, "MHz");
             
-            // SoC: perf -> Performance
             val = val.replace(/\bperf\b/gi, "Performance");
-
-            // Process Node: nm (always lowercase)
-            val = val.replace(/\bnm\b/gi, "nm");
-
-            // Memory: GB
+            val = val.replace(/\bnm\b/gi, "nm"); // Always lowercase
             val = val.replace(/\bgb\b/gi, "GB");
-
-            // Power: mAh, W
             val = val.replace(/\bmah\b/gi, "mAh").replace(/\bw\b/gi, "W");
+            val = val.replace(/\bmp\b/gi, "MP").replace(/f\//gi, "f/"); // f/ stays lowercase
+            val = val.replace(/\bip(?=\d)/gi, "IP").replace(/\bip\s/gi, "IP "); // IP68 -> IP68
 
-            // Camera: MP, f/
-            val = val.replace(/\bmp\b/gi, "MP").replace(/f\//gi, "f/");
+            // FPS is lowercase
+            if (key === 'cam_video' || key === 'all') val = val.replace(/\bfps\b/gi, "fps");
 
-            // IP Rating: IP
-            val = val.replace(/\bip(?=\d)/gi, "IP").replace(/\bip\s/gi, "IP ");
-
-
-            // 2. VIDEO SPECIFIC (fps)
-            if (key === 'cam_video' || key === 'all') {
-                val = val.replace(/\bfps\b/gi, "fps");
-            }
-
-            // 3. BATTERY SPECIFIC (Li-Ion, Si/C)
+            // Battery Chemistry
             if (key === 'battery') {
                 val = val.replace(/li[\s-]ion/gi, "Li-Ion");
                 val = val.replace(/si[\s-\/]+c|silicon\s+carbon/gi, "Si/C");
             }
 
-            // 4. DISPLAY SPECIFIC
+            // 2. DISPLAY TERMS (Capitalization)
             if (['displayType', 'screen'].includes(key) || key === 'all') {
                 const displayTerms = ['ltpo', 'ltps', 'oled', 'amoled', 'p-oled', 'ips', 'tft', 'lcd'];
                 displayTerms.forEach(term => {
@@ -431,37 +427,35 @@
                 });
             }
 
-            // 5. LIST RULE: Space -> Comma + Space
-            if (['ram', 'storage', 'colors', 'sensors', 'camera_features'].includes(key)) {
-                val = val.trim();
-                // Replace commas with correct spacing
-                val = val.replace(/,\s*/g, ",");
-                // Replace spaces with commas (But NOT if they are part of a slash, because we tightened slashes in Step 0)
-                val = val.replace(/\s+/g, ",");
-                // Finalize commas
-                val = val.replace(/,/g, ", ");
+            // 3. COMMA LOGIC
+            // Ensure there is a space AFTER a comma. "A,B" -> "A, B"
+            val = val.replace(/,(?=[^\s])/g, ", ");
+
+            // 4. SLASH EXPANSION (Exclude Camera Sections)
+            // "/" -> " / " unless it's f/ or Si/C
+            if (!isCam) {
+                val = val.replace(/\//g, " / ");
+                // Restore protected terms
+                val = val.replace(/Si\s+\/\s+C/gi, "Si/C");
             }
 
-            // 6. SLASH EXPANSION: / -> " / "
-            // We expand all slashes to have spaces
-            val = val.replace(/\//g, " / ");
+            // 5. 'x' SPACING (Exclude Camera Sections)
+            // "160x160" -> "160 x 160"
+            if (!isCam) {
+                val = val.replace(/(\d)x(\d)/gi, "$1 x $2");
+            }
 
-            // 7. EXCEPTIONS: Re-tighten specific terms that shouldn't have spaced slashes
-            // Fix f/ (Aperture)
-            val = val.replace(/f\s+\/\s+/gi, "f/");
-            // Fix Si/C (Battery)
-            val = val.replace(/Si\s+\/\s+C/gi, "Si/C");
-
-
-            // 8. CAPITALIZATION RULE (Colors)
+            // 6. CAPITALIZATION (Colors only)
             if (key === 'colors') {
-                val = capitalize(val);
+                val = val.replace(/\b\w/g, c => c.toUpperCase());
             }
 
             return val;
         }
 
-        // SUBMIT GENERATOR
+        // ---------------------------------------------------------
+        //  SUBMIT GENERATOR
+        // ---------------------------------------------------------
         document.getElementById('makerForm').addEventListener('submit', (e) => {
             e.preventDefault();
             let data = {};
@@ -484,12 +478,12 @@
             if(formatDate('announced')) data.announced = formatDate('announced');
 
             if (currentMode === 'device') {
-                // DEVICE DATA
+                // --- DEVICE MODE ---
                 data.type = getVal('type');
                 if(formatDate('released')) data.released = formatDate('released');
                 data.status = getVal('status');
                 
-                // Fields to extract and clean
+                // Process Standard Fields
                 const fields = ['ip_rating','weight','dimensions','colors','build','chipset','ram','storage','os','battery','charging','cam_video','cam_selfie'];
                 
                 fields.forEach(k => {
@@ -513,7 +507,7 @@
                 if(sArr.length > 0) data.screen = sArr.join(', ');
                 if(getVal('resolution')) data.resolution = getVal('resolution');
 
-                // Camera Modules
+                // Camera Modules (Handles Main -> Wide replacement)
                 const camRows = document.querySelectorAll('#cameraContainer .dynamic-row');
                 if(camRows.length > 0) {
                     data.camera_modules = [];
@@ -531,30 +525,34 @@
                     });
                 }
                 
-                // Camera Features
+                // Camera Features (Array List)
                 const camSensorRows = document.querySelectorAll('#camSensorContainer .dynamic-row input');
                 if(camSensorRows.length > 0) {
                     data.camera_features = [];
                     camSensorRows.forEach(input => {
                         let val = smartFormat('camera_features', input.value);
-                        val.split(', ').forEach(v => { if(v) data.camera_features.push(v); });
+                        // Split only by comma (spaces don't count as splitters anymore)
+                        val.split(',').forEach(v => { 
+                            if(v.trim()) data.camera_features.push(v.trim()); 
+                        });
                     });
                 }
 
-                // General Sensors
+                // General Sensors (Array List)
                 const sensRows = document.querySelectorAll('#sensorContainer .dynamic-row input');
                 if(sensRows.length > 0) {
                     data.sensors = [];
                     sensRows.forEach(input => {
                         let val = smartFormat('sensors', input.value);
-                        val.split(', ').forEach(v => { if(v) data.sensors.push(v); });
+                        val.split(',').forEach(v => { 
+                            if(v.trim()) data.sensors.push(v.trim()); 
+                        });
                     });
                 }
             } 
             else { 
-                // SOC DATA
+                // --- SOC MODE ---
                 data.type = 'SoC';
-                // Apply smartFormat to SoC fields
                 ['process','cpu_cores','gpu_model','gpu_clock','npu','isp','modem'].forEach(k => {
                     let rawVal = getVal(k);
                     if(rawVal) data[k] = smartFormat('all', rawVal);
@@ -564,6 +562,7 @@
             // Benchmarks & Price
             ['geek_s','geek_m','antutu','price_usd'].forEach(k => { if(getVal(k)) data[k] = getVal(k); });
             if(getVal('price_usd')) data.price = '$' + getVal('price_usd');
+            if(getVal('price_eur')) data.price_eur = '€' + getVal('price_eur');
 
             // Images
             const f = document.getElementById('imageFile').files[0];
@@ -575,6 +574,7 @@
                 for(let i=0; i<gFiles.length; i++) data.gallery.push("images/" + gFiles[i].name);
             }
 
+            // Output
             document.getElementById('outputArea').style.display = 'block';
             document.getElementById('jsonOutput').value = JSON.stringify(data, null, 4) + ",";
         });
@@ -582,7 +582,7 @@
         function copyText() {
             document.getElementById("jsonOutput").select();
             document.execCommand("copy");
-            alert("Copied!");
+            alert("Copied Code!");
         }
     </script>
 </body>
