@@ -1,5 +1,66 @@
 [
   {
+    "brand": "Crescent",
+    "model": "Haze 8",
+    "announced": "August 25, 2025",
+    "type": "Phone",
+    "released": "August 25, 2025",
+    "status": "Released",
+    "ip_rating": "IP68 / 69 (immersible up to 2m for 30 min)",
+    "weight": "235",
+    "dimensions": "163 x 77.9 x 8.1 mm",
+    "colors": "Onyx, Black",
+    "build": "Glass front, aluminum frame, glass back",
+    "chipset": "Spectre P5 Plus",
+    "ram": "12GB / 16GB",
+    "storage": "256GB / 512GB / 1TB",
+    "os": "Andromeda 15, PrismOS 5 ",
+    "battery": "Si/C Li-Ion 6000 mAh",
+    "charging": "100W Wired, 60W Wireless, 20W reverse Wireless ",
+    "cam_video": "8k@30fps, 4k@30/60/120fps, 1080p@30/60/120/240/480/960fps, HDR, Dolby Vision, LOG, gyro EIS, OIS",
+    "cam_selfie": "50MP, f/2.2, 1 / 2.88\", AF",
+    "screen": "Crescent 2x TANDEM OLED, 144Hz, 6.8\", 2800 nits",
+    "resolution": "1440x3200",
+    "camera_modules": [
+        {
+            "label": "Wide",
+            "specs": "50MP, f/1.6, 23mm, 1.0\"-type, multi directional PDAF, OIS"
+        },
+        {
+            "label": "Periscope Telephoto ",
+            "specs": "50MP, f/2.4, 83mm, 1/1.28\", 3.7x optical zoom, PDAF, sensor shift OIS "
+        },
+        {
+            "label": "Periscope Telephoto ",
+            "specs": "12.5MP, f/3.5, 230mm, 10x optical zoom, PDAF, sensor shift OIS "
+        },
+        {
+            "label": "Ultrawide",
+            "specs": "40MP, f/2.2, 13mm, AF, OIS"
+        }
+    ],
+    "camera_features": [
+        "TOF 3D",
+        "LiDAR scanner (depth)",
+        "Dual LED dual-tone flash",
+        "HDR"
+    ],
+    "sensors": [
+        "Fingerprint (under-display",
+        "ultrasonic)",
+        "Accelerometer",
+        "gyro",
+        "proximity",
+        "compass",
+        "barometer"
+    ],
+    "geek_s": "3189",
+    "geek_m": "9638",
+    "antutu": "2910285",
+    "price": "$1599",
+    "image": "images/Group_1_6.png"
+},
+  {
     "brand": "Tianyu",
     "model": "R10",
     "announced": "January 31, 2026",
