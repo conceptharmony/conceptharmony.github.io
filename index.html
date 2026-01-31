@@ -13,12 +13,13 @@
     <style>
         /* --- DESIGN SYSTEM --- */
         :root {
-            --glass-bg: rgba(20, 20, 20, 0.75); --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(20, 20, 20, 0.90);
+            --glass-border: rgba(255, 255, 255, 0.1);
             --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); --accent: #ffffff;
             --text-main: #ffffff; --text-muted: #bbbbbb; --radius-main: 12px; --radius-btn: 6px;
         }
         .light-mode body {
-            --glass-bg: rgba(255, 255, 255, 0.85); --glass-border: rgba(0, 0, 0, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.95); --glass-border: rgba(0, 0, 0, 0.1);
             --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); --accent: #000000;
             --text-main: #1a1a1a; --text-muted: #555555; background-color: #f4f4f9;
         }
@@ -69,7 +70,7 @@
             .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
 
-        /* SEARCH & GRID */
+        /* GRID */
         .search-box { width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         .card { cursor: pointer; transition: transform 0.2s; padding: 15px; }
@@ -99,67 +100,115 @@
         .tab-container { display: flex; gap: 10px; justify-content: flex-start; margin-bottom: 20px; margin-top: 20px; flex-wrap: wrap; }
         .tab-container .nav-btn { flex: 1; text-align: center; min-width: 100px; }
 
-        /* --- CLARIFIED SPEC TABLE --- */
+        /* --- SPEC TABLE --- */
         table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 5px; table-layout: fixed; }
         th, td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: left; vertical-align: top; }
         .light-mode th, .light-mode td { border-bottom: 1px solid rgba(0,0,0,0.05); }
         
-        /* Alternating backgrounds for better readability */
-        tr:nth-child(odd) { background: rgba(255,255,255,0.02); }
-        .light-mode tr:nth-child(odd) { background: rgba(0,0,0,0.02); }
+        /* ZEBRA STRIPING */
+        tr:nth-child(odd) { background: rgba(255,255,255,0.03); }
+        .light-mode tr:nth-child(odd) { background: rgba(0,0,0,0.03); }
 
-        th { color: var(--accent); width: 35%; font-weight: 600; opacity: 0.9; }
+        th { color: var(--accent); width: 40%; font-weight: 600; opacity: 0.9; }
         td { color: var(--text-main); line-height: 1.6; }
 
         .cat-header { 
-            background: transparent !important; /* Removed BG for cleaner look */
+            background: transparent !important; 
             color: var(--text-muted); 
-            font-size: 0.8rem; 
+            font-size: 0.9rem; 
             letter-spacing: 2px; 
             text-transform: uppercase; 
-            padding-top: 30px; 
-            padding-bottom: 5px;
-            border-bottom: 2px solid var(--accent);
+            padding-top: 35px; 
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent) !important;
             font-weight: 800;
         }
 
-        /* --- OPTIMIZED MOBILE COMPARISON --- */
-        .compare-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; position: relative; padding-bottom: 10px; }
+        /* --- MOBILE OPTIMIZED COMPARISON --- */
+        .compare-wrapper { 
+            overflow-x: auto; 
+            -webkit-overflow-scrolling: touch; 
+            position: relative; 
+            padding-bottom: 10px; 
+        }
         
-        /* Reduced Sticky Width to 60px for mobile to show more data */
-        .compare-table { min-width: 100%; width: max-content; border-collapse: separate; border-spacing: 0; }
+        .compare-table { 
+            min-width: 100%; 
+            width: max-content; 
+            border-collapse: separate; 
+            border-spacing: 0; 
+        }
         
+        /* STICKY HEADER (Phone Names/Images) */
+        .compare-table thead th, .compare-table thead td {
+            position: sticky; 
+            top: 0;
+            z-index: 100;
+            background: var(--glass-bg); 
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        /* DESKTOP SIDE BAR (Sticky) */
         .compare-table th { 
-            width: 120px; /* Desktop default */
-            position: sticky; left: 0; 
-            background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            z-index: 20; border-right: 1px solid var(--glass-border); 
-            font-size: 0.75rem; padding: 10px 5px; word-wrap: break-word; 
+            width: 150px; 
+            position: sticky; 
+            left: 0; 
+            background: var(--glass-bg); 
+            z-index: 50; 
+            border-right: 1px solid var(--glass-border); 
+            font-size: 0.85rem; 
+            padding: 10px;
         }
         
         .compare-table td { 
-            width: 160px; /* Fixed width per slot */
-            text-align: center; border-right: 1px solid var(--glass-border); padding: 10px; font-size: 0.85rem; 
+            width: 220px; 
+            text-align: center; 
+            border-right: 1px solid var(--glass-border); 
+            padding: 15px 10px; 
+            font-size: 0.9rem; 
         }
 
-        /* Mobile specific adjustments for Comparison */
-        @media (max-width: 600px) {
-            .compare-table th { width: 60px; font-size: 0.65rem; padding: 5px 2px; } /* Tiny sticky bar */
-            .compare-table td { width: 140px; } /* Fit ~2.5 columns */
+        /* MOBILE ADJUSTMENTS */
+        @media (max-width: 768px) {
+            /* 1. Un-stick the sidebar so it scrolls away */
+            .compare-table th { 
+                position: static; 
+                width: 90px; 
+                font-size: 0.75rem;
+                white-space: normal;
+                background: transparent;
+            }
+            
+            /* 2. Set width to fit exactly 2 phones (45vw each approx) */
+            .compare-table td { 
+                width: 45vw; /* 45% of screen width */
+                min-width: 160px; /* Minimum readable size */
+                font-size: 0.85rem;
+            } 
         }
         
         .slot-header { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 15px 0; position: relative; }
-        .slot-img { width: 90px; height: 110px; object-fit: contain; background: rgba(0,0,0,0.1); border-radius: 6px; }
-        .slot-search { width: 95%; padding: 6px; font-size: 0.75rem; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: 4px; }
         
-        .slot-dropdown { position: absolute; top: 100%; left: 2%; width: 96%; background: #1a1a1a; border: 1px solid var(--glass-border); z-index: 100; max-height: 200px; overflow-y: auto; display: none; text-align: left; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        /* BIGGER IMAGES */
+        .slot-img { 
+            width: 130px; 
+            height: 160px; 
+            object-fit: contain; 
+            background: rgba(0,0,0,0.1); 
+            border-radius: 6px; 
+        }
+        
+        .slot-search { width: 95%; padding: 8px; font-size: 0.8rem; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: 4px; }
+        .slot-dropdown { position: absolute; top: 100%; left: 2%; width: 96%; background: #1a1a1a; border: 1px solid var(--glass-border); z-index: 200; max-height: 200px; overflow-y: auto; display: none; text-align: left; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .light-mode .slot-dropdown { background: #fff; }
-        .slot-item { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; }
+        .slot-item { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; }
         .light-mode .slot-item { border-bottom: 1px solid rgba(0,0,0,0.1); color: #333; }
         .slot-item:hover { background: var(--accent); color: black !important; }
         .slot-item img { width: 30px; height: 30px; object-fit: contain; }
 
-        .diff-mode-active .row-same td { opacity: 0.15; filter: grayscale(1); }
+        /* DIFF MODE */
+        .diff-mode-active .row-same { display: none !important; } /* Hard hide identical */
         .diff-mode-active .row-diff td { color: var(--accent); font-weight: bold; background: rgba(255,255,255,0.05); }
         .diff-btn { margin-left: auto; border-color: var(--accent); font-size: 0.8rem; }
 
@@ -257,9 +306,10 @@
     </div>
 
     <script>
+        if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
         document.getElementById('themeToggle').onclick = () => {
-            const isLight = document.documentElement.classList.toggle('light-mode');
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            document.body.classList.toggle('light-mode');
+            localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
         };
         
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
@@ -268,26 +318,6 @@
             if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); 
             if (!e.target.matches('.slot-search')) document.querySelectorAll('.slot-dropdown').forEach(d => d.style.display='none');
         }
-
-        const staticSpecs = [
-            { key: "status", label: "Status", cat: "Launch" },
-            { key: "announced", label: "Announced", cat: "Launch" },
-            { key: "released", label: "Release Date", cat: "Launch" }, 
-            { key: "dimensions", label: "Dimensions", cat: "Body" },
-            { key: "weight", label: "Weight", cat: "Body" },
-            { key: "ip_rating", label: "IP Rating", cat: "Body" },
-            { key: "colors", label: "Colors", cat: "Body" },
-            { key: "screen", label: "Display", cat: "Display" },
-            { key: "resolution", label: "Resolution", cat: "Display" },
-            { key: "os", label: "OS", cat: "Platform" },
-            { key: "chipset", label: "Chipset", cat: "Platform" },
-            { key: "storage", label: "Storage", cat: "Memory" },
-            { key: "ram", label: "RAM", cat: "Memory" },
-            { key: "cam_video", label: "Video", cat: "Camera" },
-            { key: "cam_selfie", label: "Selfie", cat: "Camera" },
-            { key: "battery", label: "Type", cat: "Battery" },
-            { key: "charging", label: "Charging", cat: "Battery" }
-        ];
 
         let allDevices = [];
         let currentDeviceIndex = 0;
@@ -315,6 +345,7 @@
             });
         };
 
+        // --- SPEC SHEET GENERATOR (SEPARATED ROWS) ---
         window.showDetails = (i) => {
             currentDeviceIndex = i;
             compareSlots = [i, null, null];
@@ -329,78 +360,87 @@
             
             const chip = d.chipset || '-';
             const ram = (d.ram || '-').split(' / ')[0];
-            const screen = d.screen ? d.screen.split(',').pop() : '-';
+            const screenStr = d.screen ? d.screen.split(',').pop() : '-';
             const batt = d.battery || '-';
 
             document.getElementById('d_quick_specs').innerHTML = `
                 <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 2v16h12V4H6zm4 4h4v4h-4V8z"/></svg><div class="spec-text"><small>CHIPSET</small><span>${chip}</span></div></div>
                 <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M2 5h20v14H2V5zm2 2v10h16V7H4zm2 2h2v6H6V9zm4 0h2v6h-2V9zm4 0h2v6h-2V9z"/></svg><div class="spec-text"><small>MEMORY</small><span>${ram}</span></div></div>
-                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg><div class="spec-text"><small>DISPLAY</small><span>${screen}</span></div></div>
+                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg><div class="spec-text"><small>DISPLAY</small><span>${screenStr}</span></div></div>
                 <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M16.667 4H15V2H9v2H7.333C6.59 4 6 4.6 6 5.333v15.334C6 21.4 6.59 22 7.333 22h9.334C17.41 22 18 21.4 18 20.667V5.333C18 4.6 17.41 4 16.667 4z"/></svg><div class="spec-text"><small>BATTERY</small><span>${batt}</span></div></div>
             `;
 
             let html = "";
-            let currentCat = "";
-            let cameraModulesRendered = false;
-            let sensorsRendered = false;
+            const row = (lbl, val) => `<tr><th>${lbl}</th><td>${val || '-'}</td></tr>`;
+            const header = (title) => `<tr><td colspan="2" class="cat-header">${title}</td></tr>`;
 
-            staticSpecs.forEach(f => {
-                // SENSORS BEFORE BATTERY
-                if (f.cat === "Battery" && !sensorsRendered) {
-                    if(d.sensors && d.sensors.length > 0) {
-                        html += `<tr><td colspan="2" class="cat-header">Features</td></tr>`;
-                        let sVal = Array.isArray(d.sensors) ? d.sensors.join(', ') : (d.sensors || '-');
-                        if (typeof d.sensors[0] !== 'string' && d.sensors.length > 0) {
-                             d.sensors.forEach(s => html += `<tr><th>${s.label}</th><td>${s.specs}</td></tr>`);
-                        } else {
-                             html += `<tr><th>Sensors</th><td>${sVal}</td></tr>`;
-                        }
-                    }
-                    sensorsRendered = true;
-                }
+            // LAUNCH
+            html += header("Launch");
+            if(d.status) html += row("Status", d.status);
+            if(d.announced) html += row("Announced", d.announced);
+            if(d.released) html += row("Release Date", d.released);
 
-                if(f.cat !== currentCat) { 
-                    currentCat = f.cat; 
-                    html += `<tr><td colspan="2" class="cat-header">${currentCat}</td></tr>`; 
-                }
+            // BODY
+            html += header("Body");
+            if(d.dimensions) html += row("Dimensions", d.dimensions);
+            if(d.weight) html += row("Weight", d.weight + (d.weight.includes('g')?'':'g'));
+            if(d.build) html += row("Build", d.build);
+            if(d.colors) html += row("Colors", d.colors);
+            if(d.ip_rating) html += row("IP Rating", d.ip_rating);
 
-                if (f.cat === "Camera" && !cameraModulesRendered) {
-                    if(d.camera_modules && d.camera_modules.length > 0) {
-                        d.camera_modules.forEach(cam => { html += `<tr><th>${cam.label}</th><td>${cam.specs}</td></tr>`; });
-                    }
-                    if(d.camera_features && d.camera_features.length > 0) {
-                        let feats = Array.isArray(d.camera_features) ? d.camera_features.join(', ') : d.camera_features;
-                        html += `<tr><th>Features</th><td>${feats}</td></tr>`;
-                    }
-                    cameraModulesRendered = true;
-                }
-
-                if(d[f.key]) {
-                    let displayValue = d[f.key];
-                    if(f.key === 'weight' && displayValue && !displayValue.toString().toLowerCase().endsWith('g')) displayValue += 'g';
-                    html += `<tr><th>${f.label}</th><td>${displayValue}</td></tr>`;
-                }
-            });
-
-            // TESTS
-            if (d.geek_s || d.geek_m || d.antutu) {
-                html += `<tr><td colspan="2" class="cat-header">Tests</td></tr>`;
-                if(d.geek_s) html += `<tr><th>Geekbench Single</th><td>${d.geek_s} (v6)</td></tr>`;
-                if(d.geek_m) html += `<tr><th>Geekbench Multi</th><td>${d.geek_m} (v6)</td></tr>`;
-                if(d.antutu) html += `<tr><th>AnTuTu</th><td>${d.antutu} (v11)</td></tr>`;
+            // DISPLAY (Exploded)
+            html += header("Display");
+            if(d.screen) {
+                const parts = d.screen.split(', ');
+                if(parts[0]) html += row("Type", parts[0]);
+                if(parts[1]) html += row("Refresh Rate", parts[1]);
+                if(parts[2]) html += row("Size", parts[2]);
+                if(parts[3]) html += row("Brightness", parts[3]);
             }
+            if(d.resolution) html += row("Resolution", d.resolution);
 
-            // PRICE
-            let pUSD = d.price;
-            let pEUR = d.price_eur;
-            let finalPrice = "";
-            if(pUSD && pEUR) finalPrice = `${pUSD} / ${pEUR}`;
-            else if(pUSD) finalPrice = pUSD;
-            else if(pEUR) finalPrice = pEUR;
+            // PLATFORM
+            html += header("Platform");
+            if(d.os) html += row("OS", d.os);
+            if(d.chipset) html += row("Chipset", d.chipset);
 
-            if (finalPrice) {
-                html += `<tr><td colspan="2" class="cat-header">Starting Price</td></tr>`;
-                html += `<tr><th>Global</th><td>${finalPrice}</td></tr>`;
+            // MEMORY
+            html += header("Memory");
+            if(d.storage) html += row("Storage", d.storage);
+            if(d.ram) html += row("RAM", d.ram);
+
+            // CAMERA
+            html += header("Camera");
+            if(d.camera_modules) d.camera_modules.forEach(m => html += row(m.label, m.specs));
+            if(d.camera_features) html += row("Features", Array.isArray(d.camera_features) ? d.camera_features.join(', ') : d.camera_features);
+            if(d.cam_video) html += row("Video", d.cam_video);
+            if(d.cam_selfie) html += row("Selfie", d.cam_selfie);
+
+            // BATTERY & FEATURES
+            html += header("Features & Power");
+            if(d.sensors) {
+                if(Array.isArray(d.sensors)) {
+                    html += row("Sensors", d.sensors.join(', '));
+                } else { // Handle legacy object format
+                    d.sensors.forEach(s => html += row(s.label, s.specs));
+                }
+            }
+            if(d.battery) html += row("Battery", d.battery);
+            if(d.charging) html += row("Charging", d.charging);
+
+            // TESTS & PRICE
+            let hasTests = d.geek_s || d.geek_m || d.antutu;
+            let priceStr = "";
+            if(d.price && d.price_eur) priceStr = `${d.price} / ${d.price_eur}`;
+            else if(d.price) priceStr = d.price;
+            else if(d.price_eur) priceStr = d.price_eur;
+
+            if(hasTests || priceStr) {
+                html += header("Tests & Price");
+                if(d.geek_s) html += row("Geekbench 6 (S)", d.geek_s);
+                if(d.geek_m) html += row("Geekbench 6 (M)", d.geek_m);
+                if(d.antutu) html += row("AnTuTu v11", d.antutu);
+                if(priceStr) html += row("Price", priceStr);
             }
 
             document.getElementById('specTable').innerHTML = html;
@@ -447,7 +487,7 @@
             if(t === 'compare') renderCompareTable();
         };
 
-        // COMPARE
+        // --- COMPARISON RENDER ---
         function renderCompareTable() {
             const table = document.getElementById('compareTable');
             let html = `<thead><tr><th></th>`;
@@ -457,39 +497,44 @@
             });
             html += `</tr></thead><tbody>`;
 
-            let currentCat = "";
-            let sensorsRendered = false;
+            const specKeys = [
+                {k:'status', l:'Status'}, {k:'released', l:'Released'},
+                {k:'dimensions', l:'Dimensions'}, {k:'weight', l:'Weight'},
+                {k:'colors', l:'Colors'}, {k:'screen', l:'Display'},
+                {k:'chipset', l:'Chipset'}, {k:'ram', l:'RAM'}, {k:'storage', l:'Storage'},
+                {k:'battery', l:'Battery'}, {k:'charging', l:'Charging'},
+                {k:'cam_video', l:'Video'}, {k:'price', l:'Price'}
+            ];
 
-            staticSpecs.forEach(spec => {
-                if (spec.cat === "Battery" && !sensorsRendered) {
-                    html += `<tr><td colspan="4" class="cat-header" style="text-align:center;">Features</td></tr>`;
-                    const s1 = getCompareVal(0, 'sensors');
-                    const s2 = getCompareVal(1, 'sensors');
-                    const s3 = getCompareVal(2, 'sensors');
-                    html += `<tr class="row-same"><th>Sensors</th><td>${s1}</td><td>${s2}</td><td>${s3}</td></tr>`;
-                    sensorsRendered = true;
-                }
-
-                if(spec.cat !== currentCat) {
-                    currentCat = spec.cat;
-                    html += `<tr><td colspan="4" class="cat-header" style="text-align:center;">${currentCat}</td></tr>`;
-                }
-                const val1 = getCompareVal(0, spec.key);
-                const val2 = getCompareVal(1, spec.key);
-                const val3 = getCompareVal(2, spec.key);
-                const activeValues = [val1, val2, val3].filter(v => v !== '-');
-                const isDiff = activeValues.length > 1 && new Set(activeValues).size > 1;
-                html += `<tr class="${isDiff?'row-diff':'row-same'}"><th>${spec.label}</th><td>${val1}</td><td>${val2}</td><td>${val3}</td></tr>`;
+            specKeys.forEach(s => {
+                const v1 = getCompareVal(0, s.k);
+                const v2 = getCompareVal(1, s.k);
+                const v3 = getCompareVal(2, s.k);
+                const isDiff = checkDiff(v1, v2, v3);
+                html += `<tr class="${isDiff?'row-diff':'row-same'}"><th>${s.l}</th><td>${v1}</td><td>${v2}</td><td>${v3}</td></tr>`;
             });
-            
-            html += `<tr><td colspan="4" class="cat-header" style="text-align:center;">Tests & Price</td></tr>`;
-            const p1 = getCompareVal(0, 'price');
-            const p2 = getCompareVal(1, 'price');
-            const p3 = getCompareVal(2, 'price');
-            html += `<tr class="row-same"><th>Price</th><td>${p1}</td><td>${p2}</td><td>${p3}</td></tr>`;
 
             html += `</tbody>`;
             table.innerHTML = html;
+        }
+
+        // STRICT DIFF CHECKER
+        function checkDiff(v1, v2, v3) {
+            const vals = [v1, v2, v3].filter(v => v !== '-' && v !== '');
+            if (vals.length < 2) return false; // Can't differ if only 0 or 1 item
+            
+            // Normalize strings (remove spaces, lowercase, split commas, sort)
+            const clean = vals.map(v => {
+                return v.toString()
+                    .toLowerCase()
+                    .split(',')
+                    .map(item => item.trim()) // Remove space around items
+                    .sort() // Sort to handle "A, B" vs "B, A"
+                    .join(',');
+            });
+            
+            const unique = new Set(clean);
+            return unique.size > 1; // If size > 1, there are differences
         }
 
         function getDev(slotIdx) { return compareSlots[slotIdx] !== null ? allDevices[compareSlots[slotIdx]] : null; }
@@ -498,21 +543,16 @@
             const d = getDev(slotIdx);
             if(!d) return '-';
             
-            if (key === 'sensors') {
-                return Array.isArray(d.sensors) ? d.sensors.join(', ') : (d.sensors || '-');
+            if(key === 'price') {
+                let p = "";
+                if(d.price && d.price_eur) p = `${d.price} / ${d.price_eur}`;
+                else if(d.price) p = d.price;
+                else if(d.price_eur) p = d.price_eur;
+                return p || '-';
             }
-
+            
             let val = d[key];
             if(key === 'weight' && val && !val.toString().toLowerCase().endsWith('g')) val += 'g';
-            
-            if(key === 'price') {
-                let pUSD = d.price;
-                let pEUR = d.price_eur;
-                if(pUSD && pEUR) return `${pUSD} / ${pEUR}`;
-                if(pUSD) return pUSD;
-                if(pEUR) return pEUR;
-                return '-';
-            }
             return val || '-';
         }
 
