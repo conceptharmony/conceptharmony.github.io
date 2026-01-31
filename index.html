@@ -344,7 +344,11 @@
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
         };
         
-        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+        function toggleMenu() { 
+    document.getElementById('navLinks').classList.toggle('active'); 
+    document.querySelector('.nav-container').classList.toggle('menu-open');
+}
+
         function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
         window.onclick = function(e) { 
             if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); 
