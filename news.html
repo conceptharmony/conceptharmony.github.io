@@ -17,7 +17,7 @@
     </script>
 
     <style>
-        /* --- EXACT MATCH TO INDEX.HTML --- */
+        /* --- DESIGN SYSTEM (EXACT MATCH TO INDEX) --- */
         :root {
             --glass-bg: rgba(20, 20, 20, 0.75); 
             --glass-border: rgba(255, 255, 255, 0.1);
@@ -116,7 +116,7 @@
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
         
         @media (max-width: 768px) {
-            body { padding: 10px; } /* Consistent Padding */
+            body { padding: 10px; }
             .glass-panel { padding: 15px; }
 
             .mobile-menu-btn { display: block; }
@@ -211,7 +211,7 @@
     </div>
 
     <script>
-        // THEME TOGGLE (Init is now in head)
+        // TOGGLE LOGIC ONLY (Init logic is in HEAD now)
         document.getElementById('themeToggle').onclick = () => {
             const isLight = document.documentElement.classList.toggle('light-mode');
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
