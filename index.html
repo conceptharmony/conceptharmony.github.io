@@ -13,13 +13,13 @@
     <style>
         /* --- DESIGN SYSTEM --- */
         :root {
-            --glass-bg: rgba(20, 20, 20, 0.90);
+            --glass-bg: rgba(20, 20, 20, 0.92);
             --glass-border: rgba(255, 255, 255, 0.1);
             --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); --accent: #ffffff;
             --text-main: #ffffff; --text-muted: #bbbbbb; --radius-main: 12px; --radius-btn: 6px;
         }
         .light-mode body {
-            --glass-bg: rgba(255, 255, 255, 0.95); --glass-border: rgba(0, 0, 0, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.96); --glass-border: rgba(0, 0, 0, 0.1);
             --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); --accent: #000000;
             --text-main: #1a1a1a; --text-muted: #555555; background-color: #f4f4f9;
         }
@@ -149,7 +149,7 @@
             border-bottom: 1px solid var(--glass-border);
         }
 
-        /* DESKTOP SIDE BAR (Sticky) */
+        /* SIDE BAR (Labels) */
         .compare-table th { 
             width: 150px; 
             position: sticky; 
@@ -180,6 +180,8 @@
                 background: transparent;
             }
             
+            .compare-table thead td { top: 0; }
+
             /* 2. Set width to fit exactly 2 phones (45vw each approx) */
             .compare-table td { 
                 width: 45vw; /* 45% of screen width */
@@ -345,7 +347,7 @@
             });
         };
 
-        // --- SPEC SHEET GENERATOR (SEPARATED ROWS) ---
+        // --- SPEC SHEET GENERATOR ---
         window.showDetails = (i) => {
             currentDeviceIndex = i;
             compareSlots = [i, null, null];
@@ -421,7 +423,7 @@
             if(d.sensors) {
                 if(Array.isArray(d.sensors)) {
                     html += row("Sensors", d.sensors.join(', '));
-                } else { // Handle legacy object format
+                } else { 
                     d.sensors.forEach(s => html += row(s.label, s.specs));
                 }
             }
@@ -497,13 +499,20 @@
             });
             html += `</tr></thead><tbody>`;
 
+            // EXPANDED COMPARISON LIST
             const specKeys = [
                 {k:'status', l:'Status'}, {k:'released', l:'Released'},
-                {k:'dimensions', l:'Dimensions'}, {k:'weight', l:'Weight'},
-                {k:'colors', l:'Colors'}, {k:'screen', l:'Display'},
-                {k:'chipset', l:'Chipset'}, {k:'ram', l:'RAM'}, {k:'storage', l:'Storage'},
+                {k:'dimensions', l:'Dimensions'}, {k:'weight', l:'Weight'}, {k:'build', l:'Build'},
+                {k:'ip_rating', l:'IP Rating'}, {k:'colors', l:'Colors'}, 
+                {k:'screen', l:'Display'}, {k:'resolution', l:'Resolution'},
+                {k:'os', l:'OS'}, {k:'chipset', l:'Chipset'}, 
+                {k:'storage', l:'Storage'}, {k:'ram', l:'RAM'}, 
+                {k:'camera_modules', l:'Camera Setup'}, {k:'camera_features', l:'Cam Features'}, 
+                {k:'cam_video', l:'Video'}, {k:'cam_selfie', l:'Selfie'},
+                {k:'sensors', l:'Sensors'},
                 {k:'battery', l:'Battery'}, {k:'charging', l:'Charging'},
-                {k:'cam_video', l:'Video'}, {k:'price', l:'Price'}
+                {k:'geek_s', l:'Geekbench (S)'}, {k:'geek_m', l:'Geekbench (M)'}, {k:'antutu', l:'AnTuTu'},
+                {k:'price', l:'Price'}
             ];
 
             specKeys.forEach(s => {
@@ -518,23 +527,23 @@
             table.innerHTML = html;
         }
 
-        // STRICT DIFF CHECKER
+        // SMART DIFF CHECKER (SORTED LISTS)
         function checkDiff(v1, v2, v3) {
             const vals = [v1, v2, v3].filter(v => v !== '-' && v !== '');
-            if (vals.length < 2) return false; // Can't differ if only 0 or 1 item
+            if (vals.length < 2) return false; 
             
-            // Normalize strings (remove spaces, lowercase, split commas, sort)
+            // Normalize: lowercase, remove spaces, split commas, sort alphabetically, rejoin
             const clean = vals.map(v => {
                 return v.toString()
                     .toLowerCase()
-                    .split(',')
-                    .map(item => item.trim()) // Remove space around items
-                    .sort() // Sort to handle "A, B" vs "B, A"
+                    .split(/,\s*|\/\s*/) // Split by comma or slash
+                    .map(item => item.trim())
+                    .sort()
                     .join(',');
             });
             
             const unique = new Set(clean);
-            return unique.size > 1; // If size > 1, there are differences
+            return unique.size > 1; // If size > 1, there is a difference
         }
 
         function getDev(slotIdx) { return compareSlots[slotIdx] !== null ? allDevices[compareSlots[slotIdx]] : null; }
@@ -543,6 +552,17 @@
             const d = getDev(slotIdx);
             if(!d) return '-';
             
+            // 1. Handle Camera Modules (Array of Objects)
+            if (key === 'camera_modules' && d.camera_modules) {
+                return d.camera_modules.map(m => `<b>${m.label}:</b> ${m.specs}`).join('<br>');
+            }
+
+            // 2. Handle Simple Arrays (Sensors, Features)
+            if (['sensors', 'camera_features'].includes(key) && Array.isArray(d[key])) {
+                return d[key].join(', ');
+            }
+
+            // 3. Handle Price
             if(key === 'price') {
                 let p = "";
                 if(d.price && d.price_eur) p = `${d.price} / ${d.price_eur}`;
@@ -551,6 +571,7 @@
                 return p || '-';
             }
             
+            // 4. Handle Standard Keys
             let val = d[key];
             if(key === 'weight' && val && !val.toString().toLowerCase().endsWith('g')) val += 'g';
             return val || '-';
