@@ -308,7 +308,7 @@
         </div>
     </div>
 
-    <script>
+        <script>
         // THEME & MENU
         if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
         document.getElementById('themeToggle').onclick = () => {
@@ -318,6 +318,8 @@
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
         function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
         window.onclick = function(e) { if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); }
+        
+        // HELPER: Capitalize Words (Titanium Black)
         const capitalize = (s) => s.replace(/\b\w/g, c => c.toUpperCase());
 
         // MODE SWITCHING LOGIC
@@ -328,7 +330,6 @@
             document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
             document.querySelector(`button[onclick="setMode('${mode}')"]`).classList.add('active');
 
-            // Dynamic Placeholders
             if(mode === 'device') {
                 document.getElementById('brand').placeholder = "e.g. Spinach";
                 document.getElementById('model').placeholder = "e.g. Experix Ultra";
@@ -343,19 +344,17 @@
             addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'Wide', '');
         });
 
-        // For Camera Modules (2 inputs: Type + Specs)
         function addDynamicRow(containerId, classType, classSpecs, phType='Type', phSpecs='Specs') {
             const div = document.createElement('div');
             div.className = 'dynamic-row double-input';
             div.innerHTML = `
-                <input type="text" class="${classType}" placeholder="${phType}">
+                <input type="text" class="${classType}" placeholder="${phType}" value="${phType === 'Wide' ? 'Wide' : ''}">
                 <input type="text" class="${classSpecs}" placeholder="${phSpecs}">
                 <button type="button" class="remove-btn" onclick="this.parentElement.remove()">X</button>
             `;
             document.getElementById(containerId).appendChild(div);
         }
 
-        // For Sensors/Features (1 input: Name only)
         function addSingleInputRow(containerId, placeholder) {
             const div = document.createElement('div');
             div.className = 'dynamic-row single-input';
@@ -376,6 +375,48 @@
             if(input.files.length > 0) document.getElementById('galleryText').innerText = `Selected ${input.files.length} images`;
         }
 
+        // ---------------------------------------------------------
+        //  SMART FORMATTER
+        // ---------------------------------------------------------
+        function smartFormat(key, text) {
+            if (!text) return text;
+            let val = text;
+
+            // 1. IP RATING RULE: Ip/ip -> IP
+            if (key === 'ip_rating') {
+                val = val.replace(/\bip/gi, "IP"); 
+            }
+
+            // 2. CAMERA RULE: mp -> MP, f/ -> f/
+            if (key === 'cam_selfie' || key === 'cam_specs' || key === 'camera_modules') {
+                val = val.replace(/\bmp\b/gi, "MP").replace(/f\//gi, "f/");
+            }
+
+            // 3. MEMORY RULE: gb -> GB
+            if (key === 'ram' || key === 'storage') {
+                val = val.replace(/\bgb\b/gi, "GB");
+            }
+
+            // 4. POWER RULE: mah -> mAh, w -> W
+            if (key === 'battery' || key === 'charging') {
+                val = val.replace(/\bmah\b/gi, "mAh").replace(/\bw\b/gi, "W");
+            }
+
+            // 5. LIST RULE: Space -> Comma + Space
+            // Applies to lists like RAM, Storage, Colors, Sensors
+            if (['ram', 'storage', 'colors', 'sensors', 'camera_features'].includes(key)) {
+                val = val.trim().replace(/\s+/g, ", ");
+            }
+
+            // 6. CAPITALIZATION RULE (Specific fields)
+            // Colors need to be Capitalized (e.g. "titanium black" -> "Titanium Black")
+            if (key === 'colors') {
+                val = capitalize(val);
+            }
+
+            return val;
+        }
+
         // SUBMIT GENERATOR
         document.getElementById('makerForm').addEventListener('submit', (e) => {
             e.preventDefault();
@@ -383,7 +424,7 @@
 
             const getVal = (id) => document.getElementById(id).value;
 
-            // Common Fields
+            // Brand & Model (Auto Capitalized)
             data.brand = capitalize(getVal('brand'));
             data.model = capitalize(getVal('model'));
             
@@ -404,8 +445,14 @@
                 if(formatDate('released')) data.released = formatDate('released');
                 data.status = getVal('status');
                 
-                ['ip_rating','weight','dimensions','colors','build','chipset','ram','storage','os','battery','charging','cam_video','cam_selfie'].forEach(k => {
-                    if(getVal(k)) data[k] = getVal(k);
+                // Fields to run through smartFormat
+                const fields = ['ip_rating','weight','dimensions','colors','build','chipset','ram','storage','os','battery','charging','cam_video','cam_selfie'];
+                
+                fields.forEach(k => {
+                    let rawVal = getVal(k);
+                    if(rawVal) {
+                        data[k] = smartFormat(k, rawVal);
+                    }
                 });
 
                 // Screen
@@ -421,7 +468,7 @@
                 if(sArr.length > 0) data.screen = sArr.join(', ');
                 if(getVal('resolution')) data.resolution = getVal('resolution');
 
-                // Dynamic Camera Modules (Objects)
+                // Dynamic Camera Modules
                 const camRows = document.querySelectorAll('#cameraContainer .dynamic-row');
                 if(camRows.length > 0) {
                     data.camera_modules = [];
@@ -429,29 +476,40 @@
                         const inputs = r.querySelectorAll('input');
                         let labelName = inputs[0].value;
 
-                        // If the user types "Main", change it to "Wide"
+                        // 1. Capitalize first
+                        if(labelName) labelName = capitalize(labelName);
+                        // 2. Swap Main -> Wide
                         if (labelName === "Main") labelName = "Wide"; 
 
-                        if(labelName) data.camera_modules.push({ label: labelName, specs: inputs[1].value });
+                        // Format Specs (MP, f/)
+                        let specVal = inputs[1].value;
+                        specVal = smartFormat('cam_specs', specVal);
+
+                        if(labelName) data.camera_modules.push({ label: labelName, specs: specVal });
                     });
                 }
-
                 
-                // Dynamic Camera Sensors/Features (Array of Strings)
+                // Dynamic Camera Features
                 const camSensorRows = document.querySelectorAll('#camSensorContainer .dynamic-row input');
                 if(camSensorRows.length > 0) {
                     data.camera_features = [];
                     camSensorRows.forEach(input => {
-                        if(input.value) data.camera_features.push(input.value);
+                        let val = smartFormat('camera_features', input.value);
+                        val.split(', ').forEach(v => {
+                            if(v) data.camera_features.push(v);
+                        });
                     });
                 }
 
-                // Dynamic General Sensors (Array of Strings)
+                // Dynamic General Sensors
                 const sensRows = document.querySelectorAll('#sensorContainer .dynamic-row input');
                 if(sensRows.length > 0) {
                     data.sensors = [];
                     sensRows.forEach(input => {
-                        if(input.value) data.sensors.push(input.value);
+                        let val = smartFormat('sensors', input.value);
+                        val.split(', ').forEach(v => {
+                            if(v) data.sensors.push(v);
+                        });
                     });
                 }
             } 
@@ -463,7 +521,7 @@
                 });
             }
 
-            // Benchmarks & Price (Shared)
+            // Benchmarks & Price
             ['geek_s','geek_m','antutu','price_usd'].forEach(k => { if(getVal(k)) data[k] = getVal(k); });
             if(getVal('price_usd')) data.price = '$' + getVal('price_usd');
 
