@@ -61,32 +61,45 @@
 
         /* MOBILE MENU FIXES */
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
-        @media (max-width: 768px) {
+                        @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
+            
+            /* ADD THIS NEW RULE */
+            .nav-container.menu-open {
+                border-radius: 12px 12px 0 0 !important; /* Flattens bottom corners */
+                border-bottom: 1px solid rgba(255,255,255,0.05) !important; /* Optional: lighter separator */
+            }
+
             .nav-links { 
                 display: none; 
                 position: absolute; 
-                top: 70px; /* Aligns exactly below header */
+                top: 70px; 
                 left: 0; 
                 width: 100%; 
                 flex-direction: column; 
                 background: rgba(20, 20, 20, 0.98); 
                 backdrop-filter: blur(20px); 
+                -webkit-backdrop-filter: blur(20px);
                 padding: 15px; 
-                border-radius: 0 0 12px 12px; /* Flat top to join header, rounded bottom */
+                border-radius: 0 0 12px 12px; 
                 border-bottom: 1px solid var(--glass-border); 
+                border-left: 1px solid var(--glass-border); /* Add side borders if missing */
+                border-right: 1px solid var(--glass-border);
                 box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
                 gap: 10px; 
-                height: auto; 
-                z-index: 900; /* Below logo/toggle but above content */
+                height: auto;
+                z-index: 900;
             }
-            html.light-mode .nav-links { background: rgba(255,255,255,0.98); }
+            
+            /* ... rest of your mobile styles ... */
+            .light-mode .nav-links { background: rgba(255,255,255,0.98); }
             .nav-links.active { display: flex; }
             .nav-btn { width: 100%; }
             .dropdown-container { width: 100%; }
             .dropdown-content { position: static; width: 100%; box-shadow: none; border: none; background: transparent; padding-left: 20px; margin-top:5px; }
             .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
+
 
         /* GRID */
         .search-box { width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
