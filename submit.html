@@ -308,7 +308,7 @@
         </div>
     </div>
 
-        <script>
+            <script>
         // THEME & MENU
         if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
         document.getElementById('themeToggle').onclick = () => {
@@ -376,40 +376,54 @@
         }
 
         // ---------------------------------------------------------
-        //  SMART FORMATTER
+        //  SMART FORMATTER (The Logic You Requested)
         // ---------------------------------------------------------
         function smartFormat(key, text) {
             if (!text) return text;
             let val = text;
 
-            // 1. IP RATING RULE: Ip/ip -> IP
-            if (key === 'ip_rating') {
-                val = val.replace(/\bip/gi, "IP"); 
+            // 1. UNIT REPLACEMENTS (Global)
+            // Fix Frequencies: hz -> Hz, ghz -> GHz, mhz -> MHz
+            val = val.replace(/\bhz\b/gi, "Hz")
+                     .replace(/\bghz\b/gi, "GHz")
+                     .replace(/\bmhz\b/gi, "MHz");
+
+            // Fix SoC Terms: perf -> Performance
+            val = val.replace(/\bperf\b/gi, "Performance");
+            
+            // Fix Process Node: NM/Nm/nm -> nm (always lowercase)
+            val = val.replace(/\bnm\b/gi, "nm");
+
+            // Fix Memory: gb -> GB
+            val = val.replace(/\bgb\b/gi, "GB");
+
+            // Fix Power: mah -> mAh, w -> W
+            val = val.replace(/\bmah\b/gi, "mAh").replace(/\bw\b/gi, "W");
+
+            // Fix Camera: mp -> MP, f/ -> f/
+            val = val.replace(/\bmp\b/gi, "MP").replace(/f\//gi, "f/");
+
+            // Fix IP Rating: ip -> IP
+            val = val.replace(/\bip(?=\d)/gi, "IP").replace(/\bip\s/gi, "IP ");
+
+
+            // 2. DISPLAY SPECIFIC (OLED, AMOLED, etc.)
+            // Detects these words case-insensitively and uppercases them
+            if (['displayType', 'screen'].includes(key) || key === 'all') { // 'all' allows general check
+                const displayTerms = ['oled', 'amoled', 'p-oled', 'ips', 'tft', 'lcd'];
+                displayTerms.forEach(term => {
+                    const regex = new RegExp(`\\b${term}\\b`, 'gi');
+                    val = val.replace(regex, term.toUpperCase());
+                });
             }
 
-            // 2. CAMERA RULE: mp -> MP, f/ -> f/
-            if (key === 'cam_selfie' || key === 'cam_specs' || key === 'camera_modules') {
-                val = val.replace(/\bmp\b/gi, "MP").replace(/f\//gi, "f/");
-            }
-
-            // 3. MEMORY RULE: gb -> GB
-            if (key === 'ram' || key === 'storage') {
-                val = val.replace(/\bgb\b/gi, "GB");
-            }
-
-            // 4. POWER RULE: mah -> mAh, w -> W
-            if (key === 'battery' || key === 'charging') {
-                val = val.replace(/\bmah\b/gi, "mAh").replace(/\bw\b/gi, "W");
-            }
-
-            // 5. LIST RULE: Space -> Comma + Space
-            // Applies to lists like RAM, Storage, Colors, Sensors
+            // 3. LIST RULE: Space -> Comma + Space
+            // Only applies to specific list fields to avoid breaking sentences
             if (['ram', 'storage', 'colors', 'sensors', 'camera_features'].includes(key)) {
                 val = val.trim().replace(/\s+/g, ", ");
             }
 
-            // 6. CAPITALIZATION RULE (Specific fields)
-            // Colors need to be Capitalized (e.g. "titanium black" -> "Titanium Black")
+            // 4. CAPITALIZATION RULE (Colors)
             if (key === 'colors') {
                 val = capitalize(val);
             }
@@ -445,7 +459,7 @@
                 if(formatDate('released')) data.released = formatDate('released');
                 data.status = getVal('status');
                 
-                // Fields to run through smartFormat
+                // Fields to extract and clean
                 const fields = ['ip_rating','weight','dimensions','colors','build','chipset','ram','storage','os','battery','charging','cam_video','cam_selfie'];
                 
                 fields.forEach(k => {
@@ -455,11 +469,13 @@
                     }
                 });
 
-                // Screen
-                const sType = getVal('displayType');
-                const sRef = getVal('refresh');
+                // Screen Section
+                // Note: We run smartFormat with 'displayType' key to trigger OLED/AMOLED fixing
+                const sType = smartFormat('displayType', getVal('displayType'));
+                const sRef = smartFormat('all', getVal('refresh')); // 'all' triggers general Hz fix
                 const sSize = getVal('screen');
                 const sBri = getVal('brightness');
+                
                 let sArr = [];
                 if(sType) sArr.push(sType);
                 if(sRef) sArr.push(sRef);
@@ -468,7 +484,7 @@
                 if(sArr.length > 0) data.screen = sArr.join(', ');
                 if(getVal('resolution')) data.resolution = getVal('resolution');
 
-                // Dynamic Camera Modules
+                // Camera Modules
                 const camRows = document.querySelectorAll('#cameraContainer .dynamic-row');
                 if(camRows.length > 0) {
                     data.camera_modules = [];
@@ -476,12 +492,9 @@
                         const inputs = r.querySelectorAll('input');
                         let labelName = inputs[0].value;
 
-                        // 1. Capitalize first
                         if(labelName) labelName = capitalize(labelName);
-                        // 2. Swap Main -> Wide
                         if (labelName === "Main") labelName = "Wide"; 
 
-                        // Format Specs (MP, f/)
                         let specVal = inputs[1].value;
                         specVal = smartFormat('cam_specs', specVal);
 
@@ -489,35 +502,33 @@
                     });
                 }
                 
-                // Dynamic Camera Features
+                // Camera Features
                 const camSensorRows = document.querySelectorAll('#camSensorContainer .dynamic-row input');
                 if(camSensorRows.length > 0) {
                     data.camera_features = [];
                     camSensorRows.forEach(input => {
                         let val = smartFormat('camera_features', input.value);
-                        val.split(', ').forEach(v => {
-                            if(v) data.camera_features.push(v);
-                        });
+                        val.split(', ').forEach(v => { if(v) data.camera_features.push(v); });
                     });
                 }
 
-                // Dynamic General Sensors
+                // General Sensors
                 const sensRows = document.querySelectorAll('#sensorContainer .dynamic-row input');
                 if(sensRows.length > 0) {
                     data.sensors = [];
                     sensRows.forEach(input => {
                         let val = smartFormat('sensors', input.value);
-                        val.split(', ').forEach(v => {
-                            if(v) data.sensors.push(v);
-                        });
+                        val.split(', ').forEach(v => { if(v) data.sensors.push(v); });
                     });
                 }
             } 
             else { 
                 // SOC DATA
                 data.type = 'SoC';
+                // Apply smartFormat to SoC fields for GHz, MHz, nm, Perf fixes
                 ['process','cpu_cores','gpu_model','gpu_clock','npu','isp','modem'].forEach(k => {
-                    if(getVal(k)) data[k] = getVal(k);
+                    let rawVal = getVal(k);
+                    if(rawVal) data[k] = smartFormat('all', rawVal);
                 });
             }
 
