@@ -11,35 +11,26 @@
         })();
     </script>
     <style>
+        /* --- DESIGN SYSTEM --- */
         :root {
             --glass-bg: rgba(20, 20, 20, 0.95);
             --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); 
-            --accent: #ffffff;
-            --text-main: #ffffff; 
-            --text-muted: #bbbbbb; 
-            --radius-main: 12px; 
-            --radius-btn: 6px;
+            --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); --accent: #ffffff;
+            --text-main: #ffffff; --text-muted: #bbbbbb; --radius-main: 12px; --radius-btn: 6px;
+            --diff-color: #ff9d9d;
         }
         html.light-mode body {
-            --glass-bg: rgba(255, 255, 255, 0.98); 
-            --glass-border: rgba(0, 0, 0, 0.1);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); 
-            --accent: #000000;
-            --text-main: #1a1a1a; 
-            --text-muted: #555555; 
-            background-color: #f4f4f9;
+            --glass-bg: rgba(255, 255, 255, 0.98); --glass-border: rgba(0, 0, 0, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); --accent: #000000;
+            --text-main: #1a1a1a; --text-muted: #555555; background-color: #f4f4f9;
+            --diff-color: #d32f2f;
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { overflow-x: hidden; }
         
         body { 
-            background-color: #121212; 
-            color: var(--text-main); 
-            font-family: 'Segoe UI', sans-serif; 
-            margin: 0; padding: 20px; 
-            min-height: 100vh; 
-            transition: none !important;
+            background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', sans-serif; 
+            margin: 0; padding: 20px; min-height: 100vh; transition: none !important;
         }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: url('background.jpg') center/cover; filter: blur(20px); }
         html.light-mode body::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
@@ -47,6 +38,7 @@
         .container { max-width: 1100px; margin: auto; width: 100%; }
         .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
 
+        /* NAV */
         .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
         .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
         .logo span { font-weight: 700; }
@@ -55,6 +47,7 @@
         .nav-btn:hover, .nav-btn.active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
         html.light-mode .nav-btn:hover, html.light-mode .nav-btn.active { color: white !important; }
 
+        /* DROPDOWN */
         .dropdown-container { position: relative; }
         .dropdown-content { display: none; position: absolute; right: 0; top: 50px; background: rgba(30, 30, 30, 0.98); min-width: 200px; border-radius: var(--radius-btn); box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 200; overflow: hidden; border: 1px solid var(--glass-border); }
         .dropdown-content.show { display: block; }
@@ -66,10 +59,27 @@
         .theme-btn { width: 40px; padding: 0; border-radius: 50%; }
         .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
+        /* MOBILE MENU FIXES */
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
         @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
-            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; flex-direction: column; background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(20px); padding: 15px; border-radius: 0 0 12px 12px; border-bottom: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); gap: 10px; height: auto; }
+            .nav-links { 
+                display: none; 
+                position: absolute; 
+                top: 70px; /* Aligns exactly below header */
+                left: 0; 
+                width: 100%; 
+                flex-direction: column; 
+                background: rgba(20, 20, 20, 0.98); 
+                backdrop-filter: blur(20px); 
+                padding: 15px; 
+                border-radius: 0 0 12px 12px; /* Flat top to join header, rounded bottom */
+                border-bottom: 1px solid var(--glass-border); 
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+                gap: 10px; 
+                height: auto; 
+                z-index: 900; /* Below logo/toggle but above content */
+            }
             html.light-mode .nav-links { background: rgba(255,255,255,0.98); }
             .nav-links.active { display: flex; }
             .nav-btn { width: 100%; }
@@ -78,6 +88,7 @@
             .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
 
+        /* GRID */
         .search-box { width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         .card { cursor: pointer; transition: transform 0.2s; padding: 15px; }
@@ -86,14 +97,16 @@
         .card h3 { margin: 10px 0 5px 0; color: var(--accent); }
         .card .type-tag { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 2px; text-transform: uppercase; color: var(--text-muted); }
         
+        /* DETAILS VIEW */
         .hidden { display: none !important; }
         .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
-        .hero-img { flex: 1; min-width: 300px; }
-        .hero-img img { width: 100%; border-radius: 10px; }
+        /* Prevent Profile Image Overlap */
+        .hero-img { flex: 1; min-width: 300px; max-width: 100%; }
+        .hero-img img { width: 100%; height: auto; border-radius: 10px; }
         .specs-summary { flex: 1.5; text-align: left; }
         @media (max-width: 768px) { 
             .top-section { flex-direction: column; align-items: flex-start; } 
-            .hero-img { width: 100%; max-width: 280px; margin: 0 auto; display: block; }
+            .hero-img { width: 100%; min-width: unset; margin: 0 auto; display: block; }
             .specs-summary { width: 100%; margin-top: 15px; }
         }
         
@@ -106,8 +119,12 @@
         .tab-container { display: flex; gap: 10px; justify-content: flex-start; margin-bottom: 20px; margin-top: 20px; flex-wrap: wrap; }
         .tab-container .nav-btn { flex: 1; text-align: center; min-width: 100px; }
 
+        /* --- SPEC TABLE --- */
         table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 5px; table-layout: fixed; }
         th, td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: left; vertical-align: top; }
+        /* Prevent text overlap/overflow */
+        td { word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
+        
         html.light-mode th, html.light-mode td { border-bottom: 1px solid rgba(0,0,0,0.05); }
         tr:nth-child(odd) { background: rgba(255,255,255,0.03); }
         html.light-mode tr:nth-child(odd) { background: rgba(0,0,0,0.03); }
@@ -119,6 +136,7 @@
             border-bottom: 2px solid var(--accent) !important; font-weight: 800;
         }
 
+        /* --- COMPARE VIEW --- */
         .compare-wrapper { 
             overflow-x: auto; 
             -webkit-overflow-scrolling: touch; 
@@ -131,6 +149,7 @@
             min-width: 100%; 
             border-collapse: separate; 
             border-spacing: 0; 
+            table-layout: fixed; /* Strict column sizing */
         }
         
         .compare-table thead th, .compare-table thead td {
@@ -158,19 +177,22 @@
             text-align: center; 
             border-right: 1px solid var(--glass-border); 
             padding: 15px 10px; 
-            font-size: 0.9rem; 
+            font-size: 0.9rem;
+            vertical-align: middle;
         }
 
         @media (max-width: 768px) {
             .compare-table tbody th { 
-                position: static; 
+                position: static; /* No stickiness on mobile sidebar */
                 width: 60px !important; 
+                min-width: 60px;
                 font-size: 0.65rem; 
                 padding: 5px;
                 background: transparent;
             }
             .compare-table thead th { width: 60px !important; min-width: 60px; }
             
+            /* Two Phones Calculation: (Screen - Sidebar) / 2 */
             .compare-table td { 
                 width: calc((100vw - 60px) / 2); 
                 min-width: calc((100vw - 60px) / 2);
@@ -190,21 +212,23 @@
         .slot-item:hover { background: var(--accent); color: black !important; }
         .slot-item img { width: 30px; height: 30px; object-fit: contain; }
 
-        /* DIFF MODE - STYLES */
+        /* DIFF MODE */
         .diff-mode-active .row-same { display: none !important; }
         
-        /* 1. Fade out everything */
+        /* Grey out common cells */
         .diff-mode-active td { 
             color: var(--text-muted) !important; 
-            opacity: 0.5; 
+            opacity: 0.4; 
         }
         
-        /* 2. Pop the unique cells */
+        /* Highlight unique cells (White/Bold) */
         .diff-mode-active .cell-unique { 
             color: var(--text-main) !important; 
             opacity: 1; 
-            font-weight: 700; 
+            font-weight: 800; 
+            text-shadow: 0 0 10px rgba(255,255,255,0.1);
         }
+        html.light-mode .diff-mode-active .cell-unique { color: #000 !important; }
         
         .diff-btn { margin-left: auto; border-color: var(--accent); font-size: 0.8rem; }
 
@@ -404,12 +428,14 @@
             if(d.cam_video) html += row("Video", d.cam_video);
             if(d.cam_selfie) html += row("Selfie", d.cam_selfie);
 
-            html += header("Features & Power");
+            html += header("Features");
             if(d.sensors) {
                 if(Array.isArray(d.sensors)) {
                     html += row("Sensors", d.sensors.join(', '));
                 } else { d.sensors.forEach(s => html += row(s.label, s.specs)); }
             }
+            
+            html += header("Battery");
             if(d.battery) html += row("Battery", d.battery);
             if(d.charging) html += row("Charging", d.charging);
 
@@ -421,9 +447,9 @@
 
             if(hasTests || priceStr) {
                 html += header("Tests & Price");
-                if(d.geek_s) html += row("Geekbench 6 (S)", d.geek_s);
-                if(d.geek_m) html += row("Geekbench 6 (M)", d.geek_m);
-                if(d.antutu) html += row("AnTuTu v11", d.antutu);
+                if(d.geek_s) html += row("Geekbench Single", d.geek_s + " (v6)");
+                if(d.geek_m) html += row("Geekbench Multi", d.geek_m + " (v6)");
+                if(d.antutu) html += row("AnTuTu", d.antutu + " (v11)");
                 if(priceStr) html += row("Price", priceStr);
             }
 
