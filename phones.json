@@ -1,5 +1,56 @@
 [
   {
+    "brand": "Tianyu",
+    "model": "R10",
+    "announced": "January 31, 2026",
+    "type": "Phone",
+    "released": "February 1, 2026",
+    "status": "Coming Soon",
+    "ip_rating": "IP68, submersion up to 6m for 30 min",
+    "weight": "241",
+    "dimensions": "161 x 76 x 8.4 mm",
+    "colors": "Space Gray, Jet Black, Snow",
+    "build": "Glass front, Titanium backplate, Aluminium frame",
+    "chipset": "Tianyu Delta 9100",
+    "ram": "12GB  /  16GB",
+    "storage": "256GB  /  512GB  /  1TB",
+    "os": "NitrogenOS 1",
+    "battery": "Si/C 6490mAh",
+    "charging": "82W Wired, 50W Wireless",
+    "cam_video": "4k@24/30/60/120fps, 1080p@24/30/60/120/240/480/960fps, HDR, 10-bit video, Dolby vision, LOG, Tianyu LUMOS video color accuracy",
+    "cam_selfie": "24MP, 16mm, f/2.2, 1/3”-type 1:1 Sensor, PDAF",
+    "screen": "LTPO AMOLED, 120Hz, 6.78", 3000 nits",
+    "resolution": "1279x2778",
+    "camera_modules": [
+        {
+            "label": "Wide",
+            "specs": "50MP, 24mm, f/1.8, 1/1.31”-type, PDAF, Sensor-shift OIS"
+        },
+        {
+            "label": "Periscope Telephoto",
+            "specs": "64MP, 91mm (3.8x Optical Zoom), f/2.2, 1/1.95”-type, PDAF, Ball-type OIS"
+        },
+        {
+            "label": "Ultra-Wide",
+            "specs": "12MP, 13mm, f/2.1, 1/2.76”-type, PDAF"
+        }
+    ],
+    "camera_features": [
+        "Flash",
+        "HDR",
+        "Proximity Sensor"
+    ],
+    "sensors": [
+        "Ultrasonic under-display fingerprint scanner"
+    ],
+    "geek_s": "2290",
+    "geek_m": "7120",
+    "antutu": "2452988",
+    "price": "$745",
+    "price_eur": "€629",
+    "image": "images/Untitled745_20260131210336.png"
+},
+  {
     "brand": "Spinach",
     "model": "Experix Ultra",
     "announced": "June 24, 2025",
@@ -13,7 +64,7 @@
     "build": "Glass front, aluminum frame, eco leather and titanium alloy back",
     "chipset": "Spinach B61",
     "ram": "16GB / 24GB",
-    "storage": "256Gb / 512GB / 1TB",
+    "storage": "256GB / 512GB / 1TB",
     "os": "LimeUI 1.1",
     "battery": "6250mah",
     "charging": "120W PD3.0 wired, 80W wireless, 10W reverse wireless",
@@ -54,7 +105,6 @@
     "geek_s": "2917",
     "geek_m": "9221",
     "antutu": "2848349",
-    "price_usd": "1499",
     "price": "$1499",
     "image": "images/Untitled34_20260129013049.png"
   }
