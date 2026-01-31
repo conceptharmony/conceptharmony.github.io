@@ -67,11 +67,10 @@
         .card { cursor: pointer; transition: transform 0.2s; padding: 15px; }
         .card:hover { transform: translateY(-5px); border-color: var(--accent); }
         
-        /* IMAGE FIX: Contain ensures no crop. Background padding ensures visibility. */
         .card img { 
             width: 100%; height: 200px; 
-            object-fit: contain; /* Shows whole phone */
-            background: rgba(0,0,0,0.2); /* Subtle box background */
+            object-fit: contain; 
+            background: rgba(0,0,0,0.2); 
             padding: 5px;
             border-radius: 6px; 
         }
@@ -85,7 +84,27 @@
         .hero-img { flex: 1; min-width: 300px; }
         .hero-img img { width: 100%; border-radius: 10px; }
         .specs-summary { flex: 1.5; }
-        @media (max-width: 700px) { .top-section { flex-direction: column; } .hero-img { width: 100%; } }
+        
+        /* MOBILE OPTIMIZATION for Details View */
+        @media (max-width: 768px) { 
+            .top-section { 
+                flex-direction: column; 
+                text-align: center;
+                align-items: center;
+            } 
+            .hero-img { 
+                width: 180px; 
+                min-width: auto;
+                flex: none; /* Prevents stretching */
+            }
+            .specs-summary { 
+                width: 100%; 
+                flex: none;
+            }
+            .quick-data {
+                text-align: left; /* Keep icons/text aligned nicely even if container centered */
+            }
+        }
         
         .quick-data { margin-top: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .spec-item { display: flex; align-items: center; gap: 12px; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
@@ -190,7 +209,7 @@
             { key: "announced", label: "Announced", cat: "Launch" },
             { key: "released", label: "Status", cat: "Launch" },
             { key: "dimensions", label: "Dimensions", cat: "Body" },
-            { key: "weight", label: "Weight", cat: "Body" },
+            { key: "weight", label: "Weight", cat: "Body" }, // Will handle 'g' in logic
             { key: "ip_rating", label: "IP Rating", cat: "Body" },
             { key: "colors", label: "Colors", cat: "Body" },
             { key: "screen", label: "Display", cat: "Display" },
@@ -206,7 +225,7 @@
             { key: "geek_s", label: "Geekbench Single", cat: "Tests" },
             { key: "geek_m", label: "Geekbench Multi", cat: "Tests" },
             { key: "antutu", label: "AnTuTu", cat: "Tests" },
-            { key: "price", label: "Price", cat: "Misc" }
+            { key: "price", label: "Price", cat: "Misc" } // Will handle dual price logic
         ];
 
         let allDevices = [];
@@ -268,11 +287,35 @@
 
             let html = "";
             let currentCat = "";
+
+            // LOGIC TO COMBINE PRICES
+            let priceDisplay = d.price || '';
+            if(d.price_eur) {
+                // If we have both, show "$1000 / €900"
+                if(priceDisplay) priceDisplay += " / " + d.price_eur;
+                else priceDisplay = d.price_eur;
+            }
+
             staticSpecs.forEach(f => {
-                if(d[f.key]) {
+                if(d[f.key] || f.key === 'price') {
+                    // Logic to show Header
                     if(f.cat !== currentCat) { currentCat = f.cat; html += `<tr><td colspan="2" class="cat-header">${currentCat}</td></tr>`; }
                     
                     let displayValue = d[f.key];
+
+                    // FIX: Weight (Add 'g' if missing)
+                    if(f.key === 'weight') {
+                        if(displayValue && !displayValue.toString().toLowerCase().endsWith('g')) {
+                            displayValue += 'g';
+                        }
+                    }
+
+                    // FIX: Price (Show combined)
+                    if(f.key === 'price') {
+                        displayValue = priceDisplay;
+                        if(!displayValue) return; // Skip if no price at all
+                    }
+
                     if (f.key === "geek_s" || f.key === "geek_m") displayValue += " (v6)";
                     if (f.key === "antutu") displayValue += " (v11)";
                     
@@ -280,16 +323,30 @@
                 }
             });
 
-            // Dynamic Cameras
-            if(d.cameras && d.cameras.length > 0) {
+            // FIX: Dynamic Camera Modules (replaces old cameras)
+            if(d.camera_modules && d.camera_modules.length > 0) {
                 html += `<tr><td colspan="2" class="cat-header">Camera System</td></tr>`;
-                d.cameras.forEach(cam => { html += `<tr><th>${cam.label}</th><td>${cam.specs}</td></tr>`; });
+                d.camera_modules.forEach(cam => { html += `<tr><th>${cam.label}</th><td>${cam.specs}</td></tr>`; });
             }
 
-            // Dynamic Sensors
+            // FIX: Camera Features (Array of Strings)
+            if(d.camera_features && d.camera_features.length > 0) {
+                // Join array into string
+                let feats = Array.isArray(d.camera_features) ? d.camera_features.join(', ') : d.camera_features;
+                html += `<tr><th>Features</th><td>${feats}</td></tr>`;
+            }
+
+            // FIX: Dynamic Sensors (Array of Strings) - Fixes "undefined"
             if(d.sensors && d.sensors.length > 0) {
                 html += `<tr><td colspan="2" class="cat-header">Sensors & Extras</td></tr>`;
-                d.sensors.forEach(s => { html += `<tr><th>${s.label}</th><td>${s.specs}</td></tr>`; });
+                
+                // Handle new format (Array of Strings)
+                if (typeof d.sensors[0] === 'string') {
+                    html += `<tr><th>Sensors</th><td>${d.sensors.join(', ')}</td></tr>`;
+                } else {
+                    // Fallback for old JSON format
+                    d.sensors.forEach(s => { html += `<tr><th>${s.label}</th><td>${s.specs}</td></tr>`; });
+                }
             }
 
             document.getElementById('specTable').innerHTML = html;
