@@ -308,7 +308,7 @@
         </div>
     </div>
 
-            <script>
+                <script>
         // THEME & MENU
         if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
         document.getElementById('themeToggle').onclick = () => {
@@ -376,40 +376,51 @@
         }
 
         // ---------------------------------------------------------
-        //  SMART FORMATTER (The Logic You Requested)
+        //  SMART FORMATTER
         // ---------------------------------------------------------
         function smartFormat(key, text) {
             if (!text) return text;
             let val = text;
 
             // 1. UNIT REPLACEMENTS (Global)
-            // Fix Frequencies: hz -> Hz, ghz -> GHz, mhz -> MHz
+            // Frequencies
             val = val.replace(/\bhz\b/gi, "Hz")
                      .replace(/\bghz\b/gi, "GHz")
                      .replace(/\bmhz\b/gi, "MHz");
-
-            // Fix SoC Terms: perf -> Performance
-            val = val.replace(/\bperf\b/gi, "Performance");
             
-            // Fix Process Node: NM/Nm/nm -> nm (always lowercase)
+            // SoC: perf -> Performance
+            val = val.replace(/\bperf\b/gi, "Performance");
+
+            // Process Node: nm (always lowercase)
             val = val.replace(/\bnm\b/gi, "nm");
 
-            // Fix Memory: gb -> GB
+            // Memory: GB
             val = val.replace(/\bgb\b/gi, "GB");
 
-            // Fix Power: mah -> mAh, w -> W
+            // Power: mAh, W
             val = val.replace(/\bmah\b/gi, "mAh").replace(/\bw\b/gi, "W");
 
-            // Fix Camera: mp -> MP, f/ -> f/
+            // Camera: MP, f/
             val = val.replace(/\bmp\b/gi, "MP").replace(/f\//gi, "f/");
 
-            // Fix IP Rating: ip -> IP
+            // IP Rating: IP
             val = val.replace(/\bip(?=\d)/gi, "IP").replace(/\bip\s/gi, "IP ");
 
 
-            // 2. DISPLAY SPECIFIC (OLED, AMOLED, etc.)
-            // Detects these words case-insensitively and uppercases them
-            if (['displayType', 'screen'].includes(key) || key === 'all') { // 'all' allows general check
+            // 2. VIDEO SPECIFIC (fps)
+            // Force fps to be lowercase (e.g. 30FPS -> 30fps)
+            if (key === 'cam_video' || key === 'all') {
+                val = val.replace(/\bfps\b/gi, "fps");
+            }
+
+            // 3. BATTERY SPECIFIC (Li-Ion, Si/C)
+            if (key === 'battery') {
+                val = val.replace(/li[\s-]ion/gi, "Li-Ion");
+                val = val.replace(/si[\s-\/]c|silicon\s+carbon/gi, "Si/C");
+            }
+
+            // 4. DISPLAY SPECIFIC (OLED, AMOLED, etc.)
+            if (['displayType', 'screen'].includes(key) || key === 'all') {
                 const displayTerms = ['oled', 'amoled', 'p-oled', 'ips', 'tft', 'lcd'];
                 displayTerms.forEach(term => {
                     const regex = new RegExp(`\\b${term}\\b`, 'gi');
@@ -417,13 +428,12 @@
                 });
             }
 
-            // 3. LIST RULE: Space -> Comma + Space
-            // Only applies to specific list fields to avoid breaking sentences
+            // 5. LIST RULE: Space -> Comma + Space
             if (['ram', 'storage', 'colors', 'sensors', 'camera_features'].includes(key)) {
                 val = val.trim().replace(/\s+/g, ", ");
             }
 
-            // 4. CAPITALIZATION RULE (Colors)
+            // 6. CAPITALIZATION RULE (Colors)
             if (key === 'colors') {
                 val = capitalize(val);
             }
@@ -470,9 +480,8 @@
                 });
 
                 // Screen Section
-                // Note: We run smartFormat with 'displayType' key to trigger OLED/AMOLED fixing
                 const sType = smartFormat('displayType', getVal('displayType'));
-                const sRef = smartFormat('all', getVal('refresh')); // 'all' triggers general Hz fix
+                const sRef = smartFormat('all', getVal('refresh')); 
                 const sSize = getVal('screen');
                 const sBri = getVal('brightness');
                 
@@ -525,7 +534,7 @@
             else { 
                 // SOC DATA
                 data.type = 'SoC';
-                // Apply smartFormat to SoC fields for GHz, MHz, nm, Perf fixes
+                // Apply smartFormat to SoC fields
                 ['process','cpu_cores','gpu_model','gpu_clock','npu','isp','modem'].forEach(k => {
                     let rawVal = getVal(k);
                     if(rawVal) data[k] = smartFormat('all', rawVal);
