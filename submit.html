@@ -65,16 +65,15 @@
         textarea { width: 100%; height: 250px; background: rgba(0,0,0,0.5); color: #ccc; border: 1px solid #333; border-radius: var(--radius-btn); padding: 10px; font-family: monospace;}
         .social-inline { width: 16px; height: 16px; fill: var(--accent); vertical-align: text-bottom; margin-right: 2px; transform: translateY(-1px); }
         .contact-link { white-space: nowrap; margin: 0 4px; }
-        .mode-switcher { display: flex; gap: 10px; margin-bottom: 20px; }
-        .mode-btn { flex: 1; padding: 12px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text-muted); cursor: pointer; border-radius: var(--radius-btn); font-weight: bold; }
-        .mode-btn.active { background: var(--accent); color: black; border-color: var(--accent); }
-        body.light-mode .mode-btn.active { color: white; }
         .show-device, .show-laptop, .show-soc, .show-sensor { display: none; }
         body[data-mode="device"] .show-device { display: block; }
         body[data-mode="device"] .show-device-laptop { display: block; }
+        body[data-mode="device"] .show-device-extras { display: block; }
         body[data-mode="laptop"] .show-laptop { display: block; }
         body[data-mode="laptop"] .show-device-laptop { display: block; }
+        body[data-mode="laptop"] .show-device-extras { display: block; }
         body[data-mode="soc"] .show-soc { display: block; }
+        body[data-mode="soc"] .show-device-extras { display: block; }
         body[data-mode="sensor"] .show-sensor { display: block; }
         body[data-mode="sensor"] .hide-on-sensor { display: none; }
         .full-width-soc { grid-column: span 2; }
@@ -117,23 +116,23 @@
                 • <b>Optional Fields:</b> You can leave fields blank if you don't have the info or can't name it.
             </div>
 
-            <div class="mode-switcher">
-                <button class="mode-btn active" onclick="setMode('device')">Device</button>
-                <button class="mode-btn" onclick="setMode('laptop')">Laptop</button>
-                <button class="mode-btn" onclick="setMode('soc')">Chipset (SoC)</button>
-                <button class="mode-btn" onclick="setMode('sensor')">Sensor</button>
-            </div>
-
             <h2 style="text-align:center; margin-top:0;">Create Submission</h2>
 
             <form id="makerForm">
                 <div class="form-section"><h3>IDENTITY</h3></div>
                 <div class="input-grid">
-                    <div class="show-device"><label>Type</label><select id="type"><option>Phone</option><option>Tablet</option><option>Smartwatch</option><option>Console</option></select></div>
-                    <div class="show-laptop"><label>Type</label><input type="text" value="Laptop" disabled style="opacity:0.6"></div>
-                    <div class="show-soc"><label>Type</label><input type="text" value="Chipset" disabled style="opacity:0.6"></div>
-                    <div class="show-sensor"><label>Type</label><input type="text" value="Sensor" disabled style="opacity:0.6"></div>
-                    
+                    <div class="full-width"><label>Type</label>
+                        <select id="type" onchange="handleTypeChange()">
+                            <option value="Phone">Phone</option>
+                            <option value="Tablet">Tablet</option>
+                            <option value="Smartwatch">Smartwatch</option>
+                            <option value="Console">Console</option>
+                            <option value="Laptop">Laptop</option>
+                            <option value="Mobile SoC">Mobile SoC</option>
+                            <option value="Laptop Chipset">Laptop Chipset</option>
+                            <option value="Camera Sensor">Camera Sensor</option>
+                        </select>
+                    </div>
                     <div><label>Brand</label><input type="text" id="brand" list="brands" placeholder="e.g. Spinach" required></div>
                     <div class="full-width"><label>Model Name</label><input type="text" id="model" placeholder="e.g. Experix 2" required></div>
                     <div class="full-width">
@@ -182,7 +181,7 @@
                         <div><label>Size (inch)</label><input type="number" step="0.01" id="screen" placeholder="6.8"></div>
                         <div><label>Brightness (nit)</label><input type="number" id="brightness" placeholder="e.g. 3000"></div>
                         <div class="full-width">
-                            <label>Resolution (pixels)</label>
+                            <label>Resolution</label>
                             <div class="dynamic-row double-input">
                                 <input type="number" id="res_w" placeholder="Width (1440)">
                                 <input type="number" id="res_h" placeholder="Height (3200)">
@@ -196,9 +195,9 @@
                             <div><label>Sec. Panel</label><input type="text" id="sec_type" placeholder="e.g. OLED"></div>
                             <div><label>Sec. Hz</label><input type="number" id="sec_refresh" placeholder="60"></div>
                             <div><label>Sec. Size</label><input type="number" step="0.01" id="sec_size" placeholder="3.4"></div>
-                            <div><label>Sec. Brightness (nits)</label><input type="number" id="sec_bri" placeholder="1200"></div>
+                            <div><label>Sec. Bri (nits)</label><input type="number" id="sec_bri" placeholder="1200"></div>
                             <div class="full-width">
-                                <label>Sec. Resolution (pixels)</label>
+                                <label>Sec. Resolution</label>
                                 <div class="dynamic-row double-input">
                                     <input type="number" id="sec_res_w" placeholder="Width (720)">
                                     <input type="number" id="sec_res_h" placeholder="Height (748)">
@@ -222,6 +221,9 @@
                     <div class="show-soc"><label>NPU (AI Engine)</label><input type="text" id="npu" placeholder="e.g. Synapse X610"></div>
                     <div class="show-soc"><label>ISP</label><input type="text" id="isp" placeholder="e.g. Omnistream G310"></div>
                     <div class="show-soc"><label>Modem</label><input type="text" id="modem" placeholder="e.g. NextGate N11 5G"></div>
+                    
+                    <div class="show-sensor"><label>Bit Depth</label><input type="text" id="sens_bit" placeholder="e.g. 14-bit"></div>
+                    <div class="show-sensor full-width"><label>Key Features</label><input type="text" id="sens_feat" placeholder="e.g. Dual-ISO, Staggered HDR"></div>
                 </div>
 
                 <div class="show-device show-laptop">
@@ -252,7 +254,7 @@
                     <div class="form-section"><h3>FEATURES</h3></div>
                     <label>Device Sensors & Extra Features</label>
                     <div id="sensorContainer"></div>
-                    <button type="button" class="add-btn" onclick="addSingleInputRow('sensorContainer', 'Sensor/Feature Name (e.g. Fingerprint under-display)')">+ Add Sensor/Feature</button>
+                    <button type="button" class="add-btn" onclick="addSingleInputRow('sensorContainer', 'Sensor/Feature Name (e.g. Fingerprint under-display)')">+ Add Sensor/Extra</button>
                 </div>
 
                 <div class="form-section"><h3>PICTURES (OPTIONAL)</h3></div>
@@ -296,10 +298,13 @@
             const isLight = document.documentElement.classList.toggle('light-mode');
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
         };
-        function setMode(m) { 
-            document.body.setAttribute('data-mode', m); 
-            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active')); 
-            event.target.classList.add('active');
+        function handleTypeChange() {
+            const t = document.getElementById('type').value;
+            let m = 'device';
+            if (t === 'Laptop') m = 'laptop';
+            else if (t === 'Mobile SoC' || t === 'Laptop Chipset') m = 'soc';
+            else if (t === 'Camera Sensor') m = 'sensor';
+            document.body.setAttribute('data-mode', m);
             if(m==='device') { document.getElementById('brand').placeholder="e.g. Spinach"; document.getElementById('model').placeholder="e.g. Experix Ultra"; }
             else if(m==='laptop') { document.getElementById('brand').placeholder="e.g. Spinach"; document.getElementById('model').placeholder="e.g. Book Pro 14"; }
             else { document.getElementById('brand').placeholder="e.g. Tianyu"; document.getElementById('model').placeholder="e.g. EON 210"; }
@@ -330,12 +335,18 @@
         }
         document.getElementById('makerForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            let d = {}; const get = (id) => document.getElementById(id).value; const mode = document.body.getAttribute('data-mode');
+            let d = {}; const get = (id) => document.getElementById(id).value; 
+            const type = document.getElementById('type').value;
+            let mode = 'device';
+            if (type === 'Laptop') mode = 'laptop';
+            else if (type === 'Mobile SoC' || type === 'Laptop Chipset') mode = 'soc';
+            else if (type === 'Camera Sensor') mode = 'sensor';
+
             d.brand = cap(get('brand')); d.model = cap(get('model')); d.colors = cap(get('colors'));
             const fmtDate = (id) => { const v = get(id); if(!v) return null; const [y, m, day] = v.split('-'); return new Date(y, m-1, day).toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'}); };
             d.announced = fmtDate('announced');
             if (mode === 'device' || mode === 'laptop') {
-                d.type = mode === 'laptop' ? 'Laptop' : get('type'); d.status = get('status'); d.released = fmtDate('released');
+                d.type = type; d.status = get('status'); d.released = fmtDate('released');
                 if(mode==='device' && get('dim_h')) d.dimensions = `${get('dim_h')} x ${get('dim_w')} x ${get('dim_d')} mm`;
                 if(mode==='device' && get('weight')) d.weight = get('weight') + "g";
                 d.battery = smart('battery', get('battery')); d.charging = get('charging');
@@ -345,7 +356,7 @@
                     let sec = []; if(get('sec_type')) sec.push(smart('d', get('sec_type'))); if(get('sec_refresh')) sec.push(get('sec_refresh')+'Hz'); if(get('sec_size')) sec.push(get('sec_size')+'"'); if(get('sec_bri')) sec.push(get('sec_bri')+' nits'); if(get('sec_res_w')) sec.push(`${get('sec_res_w')} x ${get('sec_res_h')} pixels`); if(sec.length > 0) d.second_screen = sec.join(', ');
                     const camRows = document.querySelectorAll('#cameraContainer .dynamic-row'); const cams = []; camRows.forEach(r => { const ins = r.querySelectorAll('input'); let label = ins[0].value; let specs = smart('cam_specs', ins[1].value); if(label && specs) { label = cap(label); if (label === "Main") label = "Wide"; cams.push({ label, specs }); } });
                     if(cams.length > 0) d.camera_modules = cams;
-                    addIf('cam_video', getVal('cam_video')); addIf('cam_selfie', getVal('cam_selfie'));
+                    addIf('cam_video', get('cam_video')); addIf('cam_selfie', get('cam_selfie'));
                     const camFeatRows = document.querySelectorAll('#camSensorContainer .dynamic-row input'); const cFeats = []; camFeatRows.forEach(i => { let val = smart('camera_features', i.value); if(val) val.split(',').forEach(v => { if(v.trim()) cFeats.push(v.trim()); }); }); if(cFeats.length > 0) d.camera_features = cFeats;
                     const sensRows = document.querySelectorAll('#sensorContainer .dynamic-row input'); const sens = []; sensRows.forEach(i => { let val = smart('sensors', i.value); if(val) val.split(',').forEach(v => { if(v.trim()) sens.push(v.trim()); }); }); if(sens.length > 0) d.sensors = sens;
                 }
@@ -360,7 +371,6 @@
             if(mode !== 'sensor') { ['geek_s','geek_m','antutu'].forEach(k => { if(get(k)) d[k] = get(k); }); }
             const pUSD = get('price_usd'); if(pUSD) d.price = '$' + pUSD;
             const pEUR = get('price_eur'); if(pEUR) d.price_eur = '€' + pEUR;
-            
             const f = document.getElementById('imageFile').files[0]; if(f) d.image = "images/" + f.name;
             const gf = document.getElementById('galleryFiles').files; if(gf.length > 0) { const gal = []; for(let i=0; i<gf.length; i++) gal.push("images/" + gf[i].name); d.gallery = gal; }
             function addIf(k, v) { if(v) d[k] = v; }
