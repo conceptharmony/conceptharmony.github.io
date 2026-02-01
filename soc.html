@@ -89,7 +89,11 @@
             .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
 
-        .search-box { width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
+        .controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .search-box { flex: 2; min-width: 200px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
+        .filter-box { flex: 1; min-width: 140px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); cursor: pointer; }
+        html.light-mode .search-box, html.light-mode .filter-box { background: rgba(255,255,255,0.6); color: black; border-color: rgba(0,0,0,0.1); }
+
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         .card { cursor: pointer; transition: transform 0.2s; padding: 15px; }
         .card:hover { transform: translateY(-5px); border-color: var(--accent); }
@@ -106,6 +110,7 @@
             .top-section { flex-direction: column; align-items: flex-start; } 
             .hero-img { width: 100%; min-width: unset; margin: 0 auto; display: block; }
             .specs-summary { width: 100%; margin-top: 15px; }
+            .controls { flex-direction: column; }
         }
         
         .quick-data { margin-top: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
@@ -252,7 +257,16 @@
 
         <div id="galleryView">
             <div class="glass-panel" style="padding:15px;">
-                <input type="text" id="searchInput" class="search-box" placeholder="Search chipsets..." style="margin:0;">
+                <div class="controls">
+                    <input type="text" id="searchInput" class="search-box" placeholder="Search chipsets...">
+                    <select id="brandFilter" class="filter-box"><option value="all">All Brands</option></select>
+                    <select id="sortOrder" class="filter-box">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="az">Name (A-Z)</option>
+                        <option value="za">Name (Z-A)</option>
+                    </select>
+                </div>
             </div>
             <div id="chipGrid" class="grid">Loading...</div>
         </div>
@@ -338,9 +352,50 @@
             try {
                 const res = await fetch('chips.json');
                 allChips = await res.json();
-                renderGrid(allChips);
+                populateBrands(allChips);
+                filterAndSort();
             } catch(e) { document.getElementById('chipGrid').innerHTML = "No chipsets found. (Create chips.json)"; }
         }
+
+        function populateBrands(list) {
+            const brands = new Set(list.map(d => d.brand));
+            const select = document.getElementById('brandFilter');
+            brands.forEach(b => {
+                const opt = document.createElement('option');
+                opt.value = b;
+                opt.innerText = b;
+                select.appendChild(opt);
+            });
+        }
+
+        function filterAndSort() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const brand = document.getElementById('brandFilter').value;
+            const sort = document.getElementById('sortOrder').value;
+
+            let filtered = allChips.filter(d => {
+                const matchSearch = d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term);
+                const matchBrand = brand === 'all' || d.brand === brand;
+                return matchSearch && matchBrand;
+            });
+
+            filtered.sort((a, b) => {
+                if (sort === 'az') return a.model.localeCompare(b.model);
+                if (sort === 'za') return b.model.localeCompare(a.model);
+                
+                const dateA = new Date(a.released || a.announced).getTime() || 0;
+                const dateB = new Date(b.released || b.announced).getTime() || 0;
+                
+                if (sort === 'newest') return dateB - dateA;
+                if (sort === 'oldest') return dateA - dateB;
+            });
+
+            renderGrid(filtered);
+        }
+
+        document.getElementById('searchInput').addEventListener('keyup', filterAndSort);
+        document.getElementById('brandFilter').addEventListener('change', filterAndSort);
+        document.getElementById('sortOrder').addEventListener('change', filterAndSort);
 
         const renderGrid = (list) => {
             const grid = document.getElementById('chipGrid');
@@ -401,6 +456,11 @@
                     let displayValue = d[f.key];
                     if (f.key === "geek_s" || f.key === "geek_m") displayValue += " (v6)";
                     if (f.key === "antutu") displayValue += " (v11)";
+                    if (f.key === "price") {
+                        if (d.price && d.price_eur) displayValue = `${d.price} / ${d.price_eur}`;
+                        else if (d.price) displayValue = d.price;
+                        else if (d.price_eur) displayValue = d.price_eur;
+                    }
                     
                     html += `<tr><th>${f.label}</th><td>${displayValue}</td></tr>`;
                 }
@@ -444,7 +504,7 @@
                 {cat: "GPU", keys: [{k:'gpu_model', l:'Model'}, {k:'gpu_clock', l:'Clock'}]},
                 {cat: "AI & Media", keys: [{k:'npu', l:'NPU'}, {k:'isp', l:'ISP'}]},
                 {cat: "Connectivity", keys: [{k:'modem', l:'Modem'}]},
-                {cat: "Tests", keys: [{k:'geek_s', l:'Geekbench Single'}, {k:'geek_m', l:'Geekbench Multi'}, {k:'antutu', l:'AnTuTu'}]}
+                {cat: "Tests", keys: [{k:'geek_s', l:'Geekbench Single'}, {k:'geek_m', l:'Geekbench Multi'}, {k:'antutu', l:'AnTuTu'}, {k:'price', l:'Price'}]}
             ];
 
             specKeys.forEach(section => {
@@ -506,6 +566,11 @@
             if (key === 'geek_s') return d.geek_s ? d.geek_s + " (v6)" : '-';
             if (key === 'geek_m') return d.geek_m ? d.geek_m + " (v6)" : '-';
             if (key === 'antutu') return d.antutu ? d.antutu + " (v11)" : '-';
+            if (key === 'price') {
+                if (d.price && d.price_eur) return `${d.price} / ${d.price_eur}`;
+                else if (d.price) return d.price;
+                else if (d.price_eur) return d.price_eur;
+            }
             
             return d[key] || '-';
         }
@@ -567,10 +632,9 @@
             renderCompareTable();
         }
 
-        document.getElementById('searchInput').addEventListener('keyup', (e) => {
-            const term = e.target.value.toLowerCase();
-            renderGrid(allChips.filter(d => d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term)));
-        });
+        document.getElementById('searchInput').addEventListener('keyup', filterAndSort);
+        document.getElementById('brandFilter').addEventListener('change', filterAndSort);
+        document.getElementById('sortOrder').addEventListener('change', filterAndSort);
 
         init();
     </script>
