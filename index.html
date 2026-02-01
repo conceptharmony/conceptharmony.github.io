@@ -75,7 +75,7 @@
         .search-box { flex: 2; min-width: 200px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
         .filter-box { flex: 1; min-width: 140px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); cursor: pointer; }
         html.light-mode .search-box, html.light-mode .filter-box { background: rgba(255,255,255,0.6); color: black; border-color: rgba(0,0,0,0.1); }
-        
+
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         .card { cursor: pointer; transition: transform 0.2s; padding: 15px; }
         .card:hover { transform: translateY(-5px); border-color: var(--accent); }
@@ -438,6 +438,15 @@
                 if(parts[2]) html += row("Size", parts[2]);
                 if(parts[3]) html += row("Brightness", parts[3]);
             }
+            if(d.second_screen) {
+                html += `<tr><th colspan="2" style="color:var(--accent); text-align:center; padding-top:10px;">Secondary Display</th></tr>`;
+                const sec = d.second_screen.split(', ');
+                if(sec[0]) html += row("Type", sec[0]);
+                if(sec[1]) html += row("Refresh Rate", sec[1]);
+                if(sec[2]) html += row("Size", sec[2]);
+                if(sec[3]) html += row("Brightness", sec[3]);
+                if(sec[4]) html += row("Resolution", sec[4]);
+            }
             if(d.resolution) html += row("Resolution", d.resolution);
 
             html += header("Platform");
@@ -536,6 +545,7 @@
                 {cat: "Launch", keys: [{k:'status', l:'Status'}, {k:'released', l:'Released'}]},
                 {cat: "Body", keys: [{k:'dimensions', l:'Dimensions'}, {k:'weight', l:'Weight'}, {k:'build', l:'Build'}, {k:'ip_rating', l:'IP Rating'}, {k:'colors', l:'Colors'}]},
                 {cat: "Display", keys: [{k:'screen_type', l:'Type'}, {k:'screen_refresh', l:'Refresh'}, {k:'screen_size', l:'Size'}, {k:'screen_bri', l:'Brightness'}, {k:'resolution', l:'Resolution'}]},
+                {cat: "Secondary Display", keys: [{k:'sec_type', l:'Cover Type'}, {k:'sec_refresh', l:'Cover Refresh'}, {k:'sec_size', l:'Cover Size'}, {k:'sec_bri', l:'Cover Bri'}, {k:'sec_res', l:'Cover Res'}]},
                 {cat: "Platform", keys: [{k:'os', l:'OS'}, {k:'chipset', l:'Chipset'}]},
                 {cat: "Memory", keys: [{k:'storage', l:'Storage'}, {k:'ram', l:'RAM'}]},
                 {cat: "Camera", keys: [{k:'cam_0', l:'Main Camera'}, {k:'cam_1', l:'Second Camera'}, {k:'cam_2', l:'Third Camera'}, {k:'cam_3', l:'Fourth Camera'}, {k:'camera_features', l:'Features'}, {k:'cam_video', l:'Video'}, {k:'cam_selfie', l:'Selfie'}]},
@@ -595,6 +605,15 @@
                 if (key === 'screen_refresh') return parts[1] || '-';
                 if (key === 'screen_size') return parts[2] || '-';
                 if (key === 'screen_bri') return parts[3] || '-';
+            }
+
+            if (key.startsWith('sec_') && d.second_screen) {
+                const parts = d.second_screen.split(', ');
+                if (key === 'sec_type') return parts[0] || '-';
+                if (key === 'sec_refresh') return parts[1] || '-';
+                if (key === 'sec_size') return parts[2] || '-';
+                if (key === 'sec_bri') return parts[3] || '-';
+                if (key === 'sec_res') return parts[4] || '-';
             }
 
             if (key.startsWith('cam_') && !key.includes('video') && !key.includes('selfie')) {
@@ -677,6 +696,15 @@
                 if (key === 'screen_bri') return parts[3] || '-';
             }
 
+            if (key.startsWith('sec_') && d.second_screen) {
+                const parts = d.second_screen.split(', ');
+                if (key === 'sec_type') return parts[0] || '-';
+                if (key === 'sec_refresh') return parts[1] || '-';
+                if (key === 'sec_size') return parts[2] || '-';
+                if (key === 'sec_bri') return parts[3] || '-';
+                if (key === 'sec_res') return parts[4] || '-';
+            }
+
             if (key.startsWith('cam_') && !key.includes('video') && !key.includes('selfie')) {
                 const idx = parseInt(key.split('_')[1]);
                 if (d.camera_modules && d.camera_modules[idx]) {
@@ -724,6 +752,10 @@
             document.getElementById('tab-compare').classList.toggle('diff-mode-active'); 
             renderCompareTable();
         }
+
+        document.getElementById('searchInput').addEventListener('keyup', filterAndSort);
+        document.getElementById('brandFilter').addEventListener('change', filterAndSort);
+        document.getElementById('sortOrder').addEventListener('change', filterAndSort);
 
         init();
     </script>
