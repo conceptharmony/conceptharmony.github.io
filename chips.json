@@ -1,5 +1,27 @@
 [
   {
+    "brand": "Phoyo",
+    "model": "Blacksilk 1000",
+    "announced": "December 9, 2025",
+    "type": "SoC",
+    "process": "PHOYO 7nm",
+    "cpu_cores": "4 × 2.6GHz + 4 × 1.8GHz",
+    "gpu_model": "Whitesilk",
+    "gpu_clock": "950MHz",
+    "npu": "Phoyo GSL1200",
+    "isp": "Phoyo ISP 100",
+    "modem": "Blacksilk MD1",
+    "geek_s": "1250",
+    "geek_m": "3689",
+    "antutu": "700000",
+    "price": "$0",
+    "price_eur": "€0",
+    "image": "images/blacksilk.png",
+    "gallery": [
+        "images/blacksilk.png"
+    ]
+},
+  {
     "brand": "Spinach",
     "model": "B62",
     "announced": "September 17, 2025",
