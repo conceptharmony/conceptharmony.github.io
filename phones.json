@@ -1,6 +1,61 @@
 [
   {
     "brand": "Flowa",
+    "model": "FlowPhone Lite",
+    "colors": "White, Black",
+    "chipset": "Proton 330",
+    "os": "LeafOS 2 (updatable to LeafOS 4)",
+    "charging": "35W Wired, 15W Wireless, 5W Reverse Wireless",
+    "announced": "December 13, 2025",
+    "type": "Phone",
+    "status": "Released",
+    "released": "December 13, 2025",
+    "ip_rating": "IP68 (immersible up to 1.5m for 30min)",
+    "weight": "180",
+    "dimensions": "7.6mm thickness",
+    "build": "Aluminum frame, Matt glass back",
+    "ram": "6GB / 8GB",
+    "storage": "256GB / 512GB",
+    "battery": "Li-Ion 4500mAh",
+    "cam_video": "4K@30/24, 1080p@60/30/24",
+    "cam_selfie": "12MP, f/2.2, 20mm, 1/3.2\", dual-pixel PDAF",
+    "screen": "LTPS OLED, 120Hz, 6.3\", 1500 nits",
+    "resolution": "1080x2340",
+    "camera_modules": [
+        {
+            "label": "Wide",
+            "specs": "48MP, f/1.6, 24mm, 1/1.6”, dual-pixel PDAF, OIS"
+        },
+        {
+            "label": "UltraWide",
+            "specs": "12MP, f/2.7, 12mm, 1/3.11\", PDAF, 120°"
+        }
+    ],
+    "camera_features": [
+        "Stability Mode",
+        "Night Mode",
+        "Portrait Mode",
+        "Macro Mode",
+        "Panorama",
+        "Slow-Mo"
+    ],
+    "sensors": [
+        "UnderDisplay Optical Fingerprint Sensor"
+    ],
+    "geek_s": "750",
+    "geek_m": "3200",
+    "antutu": "1000000",
+    "price": "$349",
+    "price_eur": "€299",
+    "image": "images/IMG_0241.png",
+    "gallery": [
+        "images/IMG_0236.png",
+        "images/IMG_0237.png",
+        "images/IMG_0238.png"
+    ]
+},
+  {
+    "brand": "Flowa",
     "model": "FlowPhone",
     "announced": "December 9, 2025",
     "type": "Phone",
@@ -8,7 +63,7 @@
     "released": "December 9, 2025",
     "ip_rating": "IP68 (immersible up to 5m for 30min)",
     "weight": "190",
-    "dimensions": "7.8mm thick",
+    "dimensions": "7.8mm thickness",
     "colors": "White, Black",
     "build": "Aluminum frame, Matt glass back",
     "chipset": "Proton 820",
@@ -19,7 +74,7 @@
     "charging": "45W Wired, 20W Wireless, 5W Reverse Wireless",
     "cam_video": "4K@60/30/24, 1080p@120/60/30/24",
     "cam_selfie": "12MP, f/2.2, 20mm, 1/3.2\", dual-pixel PDAF",
-    "screen": "LTPO OLED, 10-120Hz, 6.5\", 2000 nits",
+    "screen": "LTPO OLED, 120Hz, 6.5\", 2000 nits",
     "resolution": "1080x2340",
     "camera_modules": [
         {
@@ -183,7 +238,7 @@
     "storage": "256GB / 512GB / 1TB",
     "os": "LimeUI 1.1",
     "battery": "6250mah",
-    "charging": "120W PD3.0 Wired, 80W Wireless, 10W reverse Wireless",
+    "charging": "120W PD3.0 Wired, 80W Wireless, 10W Reverse Wireless",
     "cam_video": "8k@24/30fps, 4k@24/30/60/120fps, 1080p@24/30/60/120/240/480fps, gyro EIS, HDR, 10-bit video, Dolby Vision, LOG",
     "cam_selfie": "32MP f/2.4 22mm 1/2.8\" PDAF",
     "screen": "LTPO AMOLED, 165Hz, 6.8\", 3200 nits",
