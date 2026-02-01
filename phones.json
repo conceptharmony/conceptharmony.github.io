@@ -1,5 +1,6 @@
 [
-  "brand": "Phoyo",
+  {
+    "brand": "Phoyo",
     "model": "Vera 1",
     "colors": "Matte Black, White",
     "chipset": "Blacksilk 1000",
