@@ -476,54 +476,54 @@
             html += `</tr></thead><tbody>`;
 
             const specKeys = [
-                {k:'status', l:'Status'}, {k:'released', l:'Released'},
-                {k:'dimensions', l:'Dimensions'}, {k:'weight', l:'Weight'}, {k:'build', l:'Build'},
-                {k:'ip_rating', l:'IP Rating'}, {k:'colors', l:'Colors'}, 
-                {k:'screen', l:'Display'}, {k:'resolution', l:'Resolution'},
-                {k:'os', l:'OS'}, {k:'chipset', l:'Chipset'}, 
-                {k:'storage', l:'Storage'}, {k:'ram', l:'RAM'}, 
-                {k:'camera_modules', l:'Camera Setup'}, {k:'camera_features', l:'Cam Features'}, 
-                {k:'cam_video', l:'Video'}, {k:'cam_selfie', l:'Selfie'},
-                {k:'sensors', l:'Sensors'},
-                {k:'battery', l:'Battery'}, {k:'charging', l:'Charging'},
-                {k:'geek_s', l:'Geekbench (S)'}, {k:'geek_m', l:'Geekbench (M)'}, {k:'antutu', l:'AnTuTu'},
-                {k:'price', l:'Price'}
+                {cat: "Launch", keys: [{k:'status', l:'Status'}, {k:'released', l:'Released'}]},
+                {cat: "Body", keys: [{k:'dimensions', l:'Dimensions'}, {k:'weight', l:'Weight'}, {k:'build', l:'Build'}, {k:'ip_rating', l:'IP Rating'}, {k:'colors', l:'Colors'}]},
+                {cat: "Display", keys: [{k:'screen_type', l:'Type'}, {k:'screen_refresh', l:'Refresh'}, {k:'screen_size', l:'Size'}, {k:'screen_bri', l:'Brightness'}, {k:'resolution', l:'Resolution'}]},
+                {cat: "Platform", keys: [{k:'os', l:'OS'}, {k:'chipset', l:'Chipset'}]},
+                {cat: "Memory", keys: [{k:'storage', l:'Storage'}, {k:'ram', l:'RAM'}]},
+                {cat: "Camera", keys: [{k:'cam_0', l:'Main'}, {k:'cam_1', l:'2nd'}, {k:'cam_2', l:'3rd'}, {k:'cam_3', l:'4th'}, {k:'camera_features', l:'Features'}, {k:'cam_video', l:'Video'}, {k:'cam_selfie', l:'Selfie'}]},
+                {cat: "Features", keys: [{k:'sensors', l:'Sensors'}]},
+                {cat: "Power", keys: [{k:'battery', l:'Battery'}, {k:'charging', l:'Charging'}]},
+                {cat: "Tests & Price", keys: [{k:'geek_s', l:'Geekbench (S)'}, {k:'geek_m', l:'Geekbench (M)'}, {k:'antutu', l:'AnTuTu'}, {k:'price', l:'Price'}]}
             ];
 
             const activeDevs = compareSlots.filter(s => s !== null).map(s => allDevices[s]);
             
-            specKeys.forEach(s => {
-                const v1 = getCompareVal(0, s.k);
-                const v2 = getCompareVal(1, s.k);
-                const v3 = getCompareVal(2, s.k);
-                
-                const raw1 = getRawVal(0, s.k);
-                const raw2 = getRawVal(1, s.k);
-                const raw3 = getRawVal(2, s.k);
+            specKeys.forEach(section => {
+                html += `<tr><td colspan="4" class="cat-header" style="text-align:center;">${section.cat}</td></tr>`;
+                section.keys.forEach(s => {
+                    const v1 = getCompareVal(0, s.k);
+                    const v2 = getCompareVal(1, s.k);
+                    const v3 = getCompareVal(2, s.k);
+                    
+                    const raw1 = getRawVal(0, s.k);
+                    const raw2 = getRawVal(1, s.k);
+                    const raw3 = getRawVal(2, s.k);
 
-                let isRowSame = false;
-                let html1 = v1, html2 = v2, html3 = v3;
+                    let isRowSame = false;
+                    let html1 = v1, html2 = v2, html3 = v3;
 
-                if (diffMode) {
-                    const rowTokens = getRowTokens([raw1, raw2, raw3]);
-                    if (rowTokens.isAllSame) {
-                        isRowSame = true; 
-                    } else {
-                        html1 = highlightDiff(raw1, rowTokens.common);
-                        html2 = highlightDiff(raw2, rowTokens.common);
-                        html3 = highlightDiff(raw3, rowTokens.common);
+                    if (diffMode) {
+                        const rowTokens = getRowTokens([raw1, raw2, raw3]);
+                        if (rowTokens.isAllSame) {
+                            isRowSame = true; 
+                        } else {
+                            html1 = highlightDiff(raw1, rowTokens.common);
+                            html2 = highlightDiff(raw2, rowTokens.common);
+                            html3 = highlightDiff(raw3, rowTokens.common);
+                        }
                     }
-                }
 
-                let rowClass = (diffMode && isRowSame) ? 'row-same' : 'row-diff';
-                if (!diffMode) rowClass = '';
+                    let rowClass = (diffMode && isRowSame) ? 'row-same' : 'row-diff';
+                    if (!diffMode) rowClass = '';
 
-                html += `<tr class="${rowClass}">
-                    <th>${s.l}</th>
-                    <td>${html1}</td>
-                    <td>${html2}</td>
-                    <td>${html3}</td>
-                </tr>`;
+                    html += `<tr class="${rowClass}">
+                        <th>${s.l}</th>
+                        <td>${html1}</td>
+                        <td>${html2}</td>
+                        <td>${html3}</td>
+                    </tr>`;
+                });
             });
 
             html += `</tbody>`;
@@ -534,9 +534,22 @@
             const d = getDev(slotIdx);
             if(!d) return '';
             
-            if (key === 'camera_modules' && d.camera_modules) {
-                return d.camera_modules.map(m => `${m.label}: ${m.specs}`).join(', ');
+            if (key.startsWith('screen_') && d.screen) {
+                const parts = d.screen.split(', ');
+                if (key === 'screen_type') return parts[0] || '-';
+                if (key === 'screen_refresh') return parts[1] || '-';
+                if (key === 'screen_size') return parts[2] || '-';
+                if (key === 'screen_bri') return parts[3] || '-';
             }
+
+            if (key.startsWith('cam_') && !key.includes('video') && !key.includes('selfie')) {
+                const idx = parseInt(key.split('_')[1]);
+                if (d.camera_modules && d.camera_modules[idx]) {
+                    return `${d.camera_modules[idx].specs} ${d.camera_modules[idx].label}`;
+                }
+                return '-';
+            }
+
             if (['sensors', 'camera_features'].includes(key) && Array.isArray(d[key])) {
                 return d[key].join(', ');
             }
@@ -553,7 +566,7 @@
         }
 
         function getRowTokens(values) {
-            const validValues = values.filter(v => v !== '');
+            const validValues = values.filter(v => v !== '' && v !== '-');
             if (validValues.length < 2) return { isAllSame: false, common: new Set() };
 
             const tokenize = (str) => {
@@ -597,9 +610,22 @@
             const d = getDev(slotIdx);
             if(!d) return '-';
             
-            if (key === 'camera_modules' && d.camera_modules) {
-                return d.camera_modules.map(m => `<b>${m.label}:</b> ${m.specs}`).join('<br>');
+            if (key.startsWith('screen_') && d.screen) {
+                const parts = d.screen.split(', ');
+                if (key === 'screen_type') return parts[0] || '-';
+                if (key === 'screen_refresh') return parts[1] || '-';
+                if (key === 'screen_size') return parts[2] || '-';
+                if (key === 'screen_bri') return parts[3] || '-';
             }
+
+            if (key.startsWith('cam_') && !key.includes('video') && !key.includes('selfie')) {
+                const idx = parseInt(key.split('_')[1]);
+                if (d.camera_modules && d.camera_modules[idx]) {
+                    return `<b>${d.camera_modules[idx].label}</b><br>${d.camera_modules[idx].specs}`;
+                }
+                return '-';
+            }
+
             if (['sensors', 'camera_features'].includes(key) && Array.isArray(d[key])) {
                 return d[key].join(', ');
             }
