@@ -81,12 +81,13 @@
         
         .hidden { display: none !important; }
         .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
-        .hero-img { flex: 1; min-width: 300px; max-width: 100%; }
-        .hero-img img { width: 100%; height: auto; border-radius: 10px; }
+        .hero-img { flex: 1; min-width: 300px; }
+        .hero-img img { width: 100%; height: auto; border-radius: 10px; object-fit: contain; }
         .specs-summary { flex: 1.5; text-align: left; }
+        
         @media (max-width: 768px) { 
             .top-section { flex-direction: column; align-items: flex-start; } 
-            .hero-img { width: 100%; margin: 0 auto; display: block; }
+            .hero-img { width: 100%; min-width: unset; max-width: 100%; margin: 0 auto; display: block; }
             .specs-summary { width: 100%; margin-top: 15px; }
         }
         
@@ -102,7 +103,6 @@
         table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 5px; table-layout: fixed; }
         th, td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: left; vertical-align: top; }
         td { word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
-        
         html.light-mode th, html.light-mode td { border-bottom: 1px solid rgba(0,0,0,0.05); }
         tr:nth-child(odd) { background: rgba(255,255,255,0.03); }
         html.light-mode tr:nth-child(odd) { background: rgba(0,0,0,0.03); }
@@ -118,8 +118,7 @@
             overflow-x: auto; 
             -webkit-overflow-scrolling: touch; 
             position: relative; 
-            padding-bottom: 10px;
-            /* CRITICAL: Enforce vertical scroll area so sticky headers work */
+            padding-bottom: 10px; 
             max-height: 75vh;
             overflow-y: auto; 
         }
@@ -132,17 +131,15 @@
             table-layout: fixed; 
         }
         
-        /* Sticky Header */
         .compare-table thead th, .compare-table thead td {
             position: sticky; 
             top: 0; 
             z-index: 100;
-            background: #1a1a1a; 
+            background: #121212; 
             border-bottom: 1px solid var(--glass-border);
         }
         html.light-mode .compare-table thead th, html.light-mode .compare-table thead td { background: #f4f4f9; }
 
-        /* Sticky Sidebar */
         .compare-table tbody th { 
             width: 150px; 
             position: sticky; 
@@ -174,11 +171,10 @@
             }
             .compare-table thead th { width: 60px !important; min-width: 60px; }
             
-            /* EXACT 2-COLUMN FIT: (100% container - 60px sidebar) / 2 */
             .compare-table td { 
-                width: calc((100% - 60px) / 2); 
-                min-width: calc((100% - 60px) / 2);
-                max-width: calc((100% - 60px) / 2);
+                width: calc((100vw - 100px) / 2); /* 100vw - 40px Padding - 60px Sidebar / 2 */
+                min-width: calc((100vw - 100px) / 2);
+                max-width: calc((100vw - 100px) / 2);
                 font-size: 0.8rem;
             } 
         }
@@ -194,9 +190,7 @@
         .slot-item:hover { background: var(--accent); color: black !important; }
         .slot-item img { width: 30px; height: 30px; object-fit: contain; }
 
-        /* DIFF HIGHLIGHTING */
         .diff-mode-active .row-same { display: none !important; }
-        
         .diff-word-common { color: var(--diff-dim); }
         .diff-word-unique { color: var(--diff-highlight); font-weight: 700; }
         
@@ -410,7 +404,7 @@
                 } else { d.sensors.forEach(s => html += row(s.label, s.specs)); }
             }
             
-            html += header("Battery");
+            html += header("Power");
             if(d.battery) html += row("Battery", d.battery);
             if(d.charging) html += row("Charging", d.charging);
 
@@ -488,7 +482,9 @@
                 {k:'screen', l:'Display'}, {k:'resolution', l:'Resolution'},
                 {k:'os', l:'OS'}, {k:'chipset', l:'Chipset'}, 
                 {k:'storage', l:'Storage'}, {k:'ram', l:'RAM'}, 
-                {k:'camera_modules', l:'Camera Setup'}, {k:'camera_features', l:'Cam Features'}, 
+                {k:'cam_0', l:'Main Camera'}, {k:'cam_1', l:'2nd Camera'}, 
+                {k:'cam_2', l:'3rd Camera'}, {k:'cam_3', l:'4th Camera'},
+                {k:'camera_features', l:'Cam Features'}, 
                 {k:'cam_video', l:'Video'}, {k:'cam_selfie', l:'Selfie'},
                 {k:'sensors', l:'Sensors'},
                 {k:'battery', l:'Battery'}, {k:'charging', l:'Charging'},
@@ -496,8 +492,6 @@
                 {k:'price', l:'Price'}
             ];
 
-            const activeDevs = compareSlots.filter(s => s !== null).map(s => allDevices[s]);
-            
             specKeys.forEach(s => {
                 const v1 = getCompareVal(0, s.k);
                 const v2 = getCompareVal(1, s.k);
@@ -540,9 +534,14 @@
             const d = getDev(slotIdx);
             if(!d) return '';
             
-            if (key === 'camera_modules' && d.camera_modules) {
-                return d.camera_modules.map(m => `${m.label}: ${m.specs}`).join(', ');
+            if (key.startsWith('cam_')) {
+                const idx = parseInt(key.split('_')[1]);
+                if (d.camera_modules && d.camera_modules[idx]) {
+                    return `${d.camera_modules[idx].specs} ${d.camera_modules[idx].label}`;
+                }
+                return '-';
             }
+
             if (['sensors', 'camera_features'].includes(key) && Array.isArray(d[key])) {
                 return d[key].join(', ');
             }
@@ -559,7 +558,7 @@
         }
 
         function getRowTokens(values) {
-            const validValues = values.filter(v => v !== '');
+            const validValues = values.filter(v => v !== '' && v !== '-');
             if (validValues.length < 2) return { isAllSame: false, common: new Set() };
 
             const tokenize = (str) => {
@@ -571,10 +570,7 @@
 
             const sets = validValues.map(v => new Set(tokenize(v)));
             
-            // Intersection of all sets
             const common = new Set([...sets[0]].filter(x => sets.every(s => s.has(x))));
-            
-            // Check if all sets are identical to common (meaning full match)
             const isAllSame = sets.every(s => s.size === common.size);
 
             return { isAllSame, common };
@@ -583,14 +579,12 @@
         function highlightDiff(text, commonSet) {
             if (!text || text === '-') return '-';
             
-            // Split by space/comma but keep delimiters to rebuild string
             const parts = text.toString().split(/(\s+|,\s*)/); 
             
             return parts.map(part => {
                 const clean = part.toLowerCase().trim();
-                if (!clean || clean.match(/^\s*$/)) return part; // return delimiters as is
+                if (!clean || clean.match(/^\s*$/)) return part; 
                 
-                // Punctuation check
                 const isWord = clean.match(/[a-z0-9]/);
                 if (!isWord) return part;
 
@@ -608,9 +602,14 @@
             const d = getDev(slotIdx);
             if(!d) return '-';
             
-            if (key === 'camera_modules' && d.camera_modules) {
-                return d.camera_modules.map(m => `<b>${m.label}:</b> ${m.specs}`).join('<br>');
+            if (key.startsWith('cam_')) {
+                const idx = parseInt(key.split('_')[1]);
+                if (d.camera_modules && d.camera_modules[idx]) {
+                    return `<b>${d.camera_modules[idx].label}</b><br>${d.camera_modules[idx].specs}`;
+                }
+                return '-';
             }
+
             if (['sensors', 'camera_features'].includes(key) && Array.isArray(d[key])) {
                 return d[key].join(', ');
             }
