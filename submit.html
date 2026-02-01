@@ -3,76 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Concept</title>
+    <title>ConceptHarmony</title>
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') document.documentElement.classList.add('light-mode');
+        })();
+    </script>
     <style>
-        /* Shared Styles */
-        :root { --glass-bg: rgba(20, 20, 20, 0.75); --glass-border: rgba(255, 255, 255, 0.1); --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); --accent: #ffffff; --text-main: #ffffff; --text-muted: #bbbbbb; --radius-main: 12px; --radius-btn: 6px; }
-        body.light-mode { --glass-bg: rgba(255, 255, 255, 0.85); --glass-border: rgba(0, 0, 0, 0.1); --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); --accent: #000000; --text-main: #1a1a1a; --text-muted: #555555; background-color: #f4f4f9; }
+        :root {
+            --glass-bg: rgba(20, 20, 20, 0.95);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); --accent: #ffffff;
+            --text-main: #ffffff; --text-muted: #bbbbbb; --radius-main: 12px; --radius-btn: 6px;
+            --diff-highlight: #fff;
+            --diff-dim: #555;
+        }
+        html.light-mode body {
+            --glass-bg: rgba(255, 255, 255, 0.98); --glass-border: rgba(0, 0, 0, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); --accent: #000000;
+            --text-main: #1a1a1a; --text-muted: #555555; background-color: #f4f4f9;
+            --diff-highlight: #000;
+            --diff-dim: #ccc;
+        }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { overflow-x: hidden; }
-        body { background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; min-height: 100vh; }
+        
+        body { 
+            background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', sans-serif; 
+            margin: 0; padding: 20px; min-height: 100vh; transition: none !important;
+        }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: url('background.jpg') center/cover; filter: blur(20px); }
-        body.light-mode::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
-        .container { max-width: 1100px; margin: auto; width: 100%; }
-        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
+        html.light-mode body::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
 
-        /* NAV */
+        .container { max-width: 1100px; margin: auto; width: 100%; }
+        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
+
         .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
         .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
         .logo span { font-weight: 700; }
         .nav-links { display: flex; gap: 10px; align-items: center; height: 100%; }
-        
         .nav-btn { text-decoration: none; color: var(--text-main); padding: 0 20px; height: 40px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; }
-        .nav-btn:hover, .nav-btn:active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
-        .nav-btn:focus { outline: none; }
-        body.light-mode .nav-btn:hover { color: white !important; }
+        .nav-btn:hover, .nav-btn.active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
+        html.light-mode .nav-btn:hover, html.light-mode .nav-btn.active { color: white !important; }
 
         .dropdown-container { position: relative; }
         .dropdown-content { display: none; position: absolute; right: 0; top: 50px; background: rgba(30, 30, 30, 0.98); min-width: 200px; border-radius: var(--radius-btn); box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 200; overflow: hidden; border: 1px solid var(--glass-border); }
         .dropdown-content.show { display: block; }
-        body.light-mode .dropdown-content { background: rgba(255,255,255,0.98); }
+        html.light-mode .dropdown-content { background: rgba(255,255,255,0.98); }
         .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; text-decoration: none; color: #ddd; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
-        body.light-mode .dropdown-item { color: #333; border-color: rgba(0,0,0,0.05); }
-        .dropdown-item:last-child { border-bottom: none; }
+        html.light-mode .dropdown-item { color: #333; border-color: rgba(0,0,0,0.05); }
         .dropdown-item:hover { background: var(--accent); color: black !important; }
         .social-icon { width: 18px; height: 18px; fill: currentColor; }
-
         .theme-btn { width: 40px; padding: 0; border-radius: 50%; }
         .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
-                @media (max-width: 768px) {
+        @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
-            
-            /* ADD THIS NEW RULE */
-            .nav-container.menu-open {
-                border-radius: 12px 12px 0 0 !important; /* Flattens bottom corners */
-                border-bottom: 1px solid rgba(255,255,255,0.05) !important; /* Optional: lighter separator */
-            }
-
-            .nav-links { 
-                display: none; 
-                position: absolute; 
-                top: 70px; 
-                left: 0; 
-                width: 100%; 
-                flex-direction: column; 
-                background: rgba(20, 20, 20, 0.98); 
-                backdrop-filter: blur(20px); 
-                -webkit-backdrop-filter: blur(20px);
-                padding: 15px; 
-                border-radius: 0 0 12px 12px; 
-                border-bottom: 1px solid var(--glass-border); 
-                border-left: 1px solid var(--glass-border); /* Add side borders if missing */
-                border-right: 1px solid var(--glass-border);
-                box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-                gap: 10px; 
-                height: auto;
-                z-index: 900;
-            }
-            
-            /* ... rest of your mobile styles ... */
-            .light-mode .nav-links { background: rgba(255,255,255,0.98); }
+            .nav-container.menu-open { border-radius: 12px 12px 0 0 !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
+            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; flex-direction: column; background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 15px; border-radius: 0 0 12px 12px; border-bottom: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); gap: 10px; height: auto; z-index: 900; }
+            html.light-mode .nav-links { background: rgba(255,255,255,0.98); }
             .nav-links.active { display: flex; }
             .nav-btn { width: 100%; }
             .dropdown-container { width: 100%; }
@@ -80,91 +71,156 @@
             .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
 
-
-        /* FORM */
-        .form-section { margin-top: 40px; margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 8px; display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 10px; color: var(--accent); font-weight: 700; letter-spacing: 1px; font-size: 0.9rem; }
-        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        @media (max-width: 700px) { .input-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
-        .full-width { grid-column: span 2; }
+        .search-box { width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .card { cursor: pointer; transition: transform 0.2s; padding: 15px; }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .card img { width: 100%; height: 200px; object-fit: contain; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 6px; }
+        .card h3 { margin: 10px 0 5px 0; color: var(--accent); }
+        .card .type-tag { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 2px; text-transform: uppercase; color: var(--text-muted); }
         
-        label { font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 6px; font-weight: 500; }
-        input, select { width: 100%; padding: 12px; border-radius: var(--radius-btn); border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: white; font-family: inherit; font-size: 0.95rem; appearance: none; }
-        body.light-mode input, body.light-mode select { background-color: rgba(255,255,255,0.6); color: black; border-color: rgba(0,0,0,0.1); }
+        .hidden { display: none !important; }
+        .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
+        .hero-img { flex: 1; min-width: 300px; }
+        .hero-img img { width: 100%; height: auto; border-radius: 10px; object-fit: contain; }
+        .specs-summary { flex: 1.5; text-align: left; }
         
-        .guidelines { background: rgba(255, 255, 255, 0.05); border-left: 3px solid var(--accent); padding: 15px; margin-bottom: 30px; font-size: 0.9rem; color: #ccc; border-radius: 0 var(--radius-btn) var(--radius-btn) 0; line-height: 1.6; }
-        body.light-mode .guidelines { background: rgba(0,0,0,0.03); color: #333; }
-        .guidelines strong { color: var(--text-main); display: block; margin-bottom: 5px; font-size: 1rem;}
-
-        .file-upload-wrapper { position: relative; width: 100%; height: 50px; border: 1px dashed rgba(255,255,255,0.3); border-radius: var(--radius-btn); background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
-        .file-upload-wrapper:hover { background: rgba(255,255,255,0.05); border-color: var(--accent); }
-        input[type="file"] { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
-        .file-upload-text { pointer-events: none; color: #aaa; font-size: 0.9rem; }
-        body.light-mode .file-upload-text { color: #555; }
-
-        .dynamic-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
-        /* Style for the double input rows (Camera Modules) */
-        .double-input input:first-child { width: 35%; }
-        /* Style for single input rows (Sensors) */
-        .single-input input { width: 100%; }
-
-        .remove-btn { background: rgba(255,50,50,0.2); color: #ff5555; padding: 12px; border:1px solid rgba(255,50,50,0.2); border-radius: var(--radius-btn); cursor: pointer; font-weight:bold;}
-        .add-btn { width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px dashed var(--glass-border); color: var(--text-muted); cursor: pointer; border-radius: var(--radius-btn); margin-bottom:10px; }
-
-        button.submit-btn { width: 100%; padding: 15px; background: var(--glass-border); color: var(--text-main); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); font-weight: bold; margin-top: 30px; cursor: pointer; }
-        button.submit-btn:hover { background: var(--accent); color: black; }
-        
-        #outputArea { display: none; margin-top: 25px; }
-        textarea { width: 100%; height: 150px; background: rgba(0,0,0,0.5); color: #ccc; border: 1px solid #333; border-radius: var(--radius-btn); padding: 10px; box-sizing: border-box; font-family: monospace;}
-        body.light-mode textarea { background: rgba(0,0,0,0.05); color: black; }
-        .copy-btn { width:100%; margin-top:10px; padding:10px; cursor:pointer; border-radius:var(--radius-btn); border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--text-main); font-weight:bold; }
-        .copy-btn:hover { background:var(--accent); color:black; }
-
-        /* Socials Icons in Footer */
-        .social-inline { 
-            width: 16px;
-            height: 16px; 
-            fill: var(--accent); 
-            vertical-align: text-bottom; 
-            margin-right: 2px;
-            transform: translateY(-1px);
+        @media (max-width: 768px) { 
+            .top-section { flex-direction: column; align-items: flex-start; } 
+            .hero-img { width: 100%; min-width: unset; max-width: 100%; margin: 0 auto; display: block; }
+            .specs-summary { width: 100%; margin-top: 15px; }
         }
         
-        .contact-link {
-            white-space: nowrap;
-            margin: 0 4px;
+        .quick-data { margin-top: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .spec-item { display: flex; align-items: center; gap: 12px; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
+        .spec-icon { width: 24px; height: 24px; fill: var(--text-muted); flex-shrink: 0; }
+        .spec-text small { display: block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .spec-text span { font-size: 0.95rem; font-weight: 600; color: var(--text-main); display: block; line-height: 1.2; }
+
+        .tab-container { display: flex; gap: 10px; justify-content: flex-start; margin-bottom: 20px; margin-top: 20px; flex-wrap: wrap; }
+        .tab-container .nav-btn { flex: 1; text-align: center; min-width: 100px; }
+
+        table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 5px; table-layout: fixed; }
+        th, td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: left; vertical-align: top; }
+        td { word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
+        html.light-mode th, html.light-mode td { border-bottom: 1px solid rgba(0,0,0,0.05); }
+        tr:nth-child(odd) { background: rgba(255,255,255,0.03); }
+        html.light-mode tr:nth-child(odd) { background: rgba(0,0,0,0.03); }
+        th { color: var(--accent); width: 40%; font-weight: 600; opacity: 0.9; }
+        td { color: var(--text-main); line-height: 1.6; }
+        .cat-header { 
+            background: transparent !important; color: var(--text-muted); font-size: 0.9rem; 
+            letter-spacing: 2px; text-transform: uppercase; padding-top: 35px; padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent) !important; font-weight: 800;
         }
 
-        /* Mode Switcher Styles */
-        .mode-switcher { display: flex; gap: 10px; margin-bottom: 20px; }
-        .mode-btn { flex: 1; padding: 12px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text-muted); cursor: pointer; border-radius: var(--radius-btn); font-weight: bold; }
-        .mode-btn.active { background: var(--accent); color: black; border-color: var(--accent); }
-        body.light-mode .mode-btn.active { color: white; }
+        .compare-wrapper { 
+            overflow-x: auto; 
+            -webkit-overflow-scrolling: touch; 
+            position: relative; 
+            padding-bottom: 10px; 
+            max-height: 75vh;
+            overflow-y: auto; 
+        }
+        
+        .compare-table { 
+            width: max-content; 
+            min-width: 100%; 
+            border-collapse: separate; 
+            border-spacing: 0; 
+            table-layout: fixed; 
+        }
+        
+        .compare-table thead th, .compare-table thead td {
+            position: sticky; 
+            top: 0; 
+            z-index: 100;
+            background: #121212; 
+            border-bottom: 1px solid var(--glass-border);
+        }
+        html.light-mode .compare-table thead th, html.light-mode .compare-table thead td { background: #f4f4f9; }
 
-        /* Toggle Logic */
-        .soc-only { display: none; }
-        .device-only { display: block; }
-        body[data-mode="soc"] .soc-only { display: block; }
-        body[data-mode="soc"] .device-only { display: none; }
-        body[data-mode="soc"] .full-width-soc { grid-column: span 2; }
+        .compare-table tbody th { 
+            width: 150px; 
+            position: sticky; 
+            left: 0; 
+            background: var(--glass-bg);
+            z-index: 50; 
+            border-right: 1px solid var(--glass-border); 
+            font-size: 0.85rem; 
+            padding: 10px;
+        }
+        
+        .compare-table td { 
+            width: 220px; 
+            text-align: center; 
+            border-right: 1px solid var(--glass-border); 
+            padding: 15px 10px; 
+            font-size: 0.9rem; 
+            vertical-align: middle;
+        }
+
+        @media (max-width: 768px) {
+            .compare-table tbody th { 
+                position: static; 
+                width: 60px !important; 
+                min-width: 60px;
+                font-size: 0.65rem; 
+                padding: 5px;
+                background: transparent;
+            }
+            .compare-table thead th { width: 60px !important; min-width: 60px; }
+            
+            .compare-table td { 
+                width: calc((100vw - 100px) / 2); /* 100vw - 40px Padding - 60px Sidebar / 2 */
+                min-width: calc((100vw - 100px) / 2);
+                max-width: calc((100vw - 100px) / 2);
+                font-size: 0.8rem;
+            } 
+        }
+        
+        .slot-header { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 15px 0; }
+        .slot-img { width: 100px; height: 160px; object-fit: contain; background: rgba(0,0,0,0.1); border-radius: 6px; }
+        
+        .slot-search { width: 90%; padding: 8px; font-size: 0.8rem; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: 4px; }
+        .slot-dropdown { position: absolute; top: 100%; left: 0; width: 100%; background: #1a1a1a; border: 1px solid var(--glass-border); z-index: 200; max-height: 200px; overflow-y: auto; display: none; text-align: left; }
+        html.light-mode .slot-dropdown { background: #fff; }
+        .slot-item { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        html.light-mode .slot-item { border-bottom: 1px solid rgba(0,0,0,0.1); color: #333; }
+        .slot-item:hover { background: var(--accent); color: black !important; }
+        .slot-item img { width: 30px; height: 30px; object-fit: contain; }
+
+        .diff-mode-active .row-same { display: none !important; }
+        .diff-word-common { color: var(--diff-dim); }
+        .diff-word-unique { color: var(--diff-highlight); font-weight: 700; }
+        
+        .diff-btn { margin-left: auto; border-color: var(--accent); font-size: 0.8rem; }
+
+        .similar-section { margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--glass-border); }
+        .similar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; margin-top: 15px; }
+        .mini-card { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; cursor: pointer; text-align: center; border: 1px solid transparent; transition: 0.2s; }
+        .mini-card:hover { border-color: var(--accent); background: rgba(255,255,255,0.1); }
+        .mini-card img { width: 100%; height: 100px; object-fit: contain; margin-bottom: 5px; }
+        .mini-card h4 { font-size: 0.8rem; margin: 0; color: var(--text-main); }
     </style>
 </head>
-<body data-mode="device">
+<body>
     <div class="container">
         <div class="glass-panel nav-container">
             <a href="index.html" class="logo">Concept<span>Harmony</span></a>
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <div class="nav-links" id="navLinks">
-                <a href="index.html" class="nav-btn">Devices</a>
+                <a href="index.html" class="nav-btn" style="border-color:var(--accent);">Devices</a>
                 <a href="soc.html" class="nav-btn">SoCs</a>
                 <a href="news.html" class="nav-btn">News</a>
-                <a href="submit.html" class="nav-btn" style="border-color:var(--accent);">Submit</a>
-                
+                <a href="submit.html" class="nav-btn">Submit</a>
+      
                 <div class="dropdown-container">
                     <button class="nav-btn" onclick="toggleSocials(event)">Socials ▾</button>
                     <div class="dropdown-content" id="socialDropdown">
-                        <a href="https://discord.gg/hNPtTVHurH" target="_blank" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg> Discord</a>
-                        <a href="https://www.tiktok.com/@spinach.tech?_r=1&_t=ZG-93ScgcKEI9R" target="_blank" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> TikTok Main</a>
-                        <a href="https://www.tiktok.com/@spinach.technologies?_r=1&_t=ZG-93SccZzS6zp" target="_blank" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> TikTok Concept</a>
+                        <a href="#" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg> Discord</a>
+                        <a href="#" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> TikTok Main</a>
+                        <a href="#" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> TikTok Concept</a>
                     </div>
                 </div>
                 <button id="themeToggle" class="nav-btn theme-btn">
@@ -183,455 +239,419 @@
             </div>
         </div>
 
-        <div class="glass-panel form-container">
-            <h2 style="text-align:center; margin-top:0;">Create Submission</h2>
+        <div id="galleryView">
+            <div class="glass-panel" style="padding:15px;">
+                <input type="text" id="searchInput" class="search-box" placeholder="Search devices..." style="margin:0;">
+            </div>
+            <div id="phoneGrid" class="grid">Loading...</div>
+        </div>
+
+        <div id="detailView" class="hidden">
+            <button onclick="location.reload()" class="nav-btn" style="margin-bottom:20px;">← Back</button>
+            <div class="glass-panel top-section">
+                <div class="hero-img"><img id="d_img" src=""></div>
+                <div class="specs-summary">
+                    <span id="d_type" class="nav-btn" style="padding: 2px 8px; font-size: 0.7rem; pointer-events:none; border:none; background:rgba(255,255,255,0.1); width:fit-content; height:auto;">TYPE</span>
+                    <h1 id="d_model" style="font-size:2.5rem; margin:10px 0;">Model</h1>
+                    <h3 id="d_brand" style="color:var(--text-muted); margin:0;">Brand</h3>
+                    
+                    <div id="d_quick_specs" class="quick-data"></div>
+                </div>
+            </div>
             
-            <div class="mode-switcher">
-                <button class="mode-btn active" onclick="setMode('device')">Device</button>
-                <button class="mode-btn" onclick="setMode('soc')">Chipset (SoC)</button>
+            <div class="tab-container">
+                <button id="btn-specs" class="nav-btn active" onclick="setTab('specs')">Specifications</button>
+                <button id="btn-pics" class="nav-btn" onclick="setTab('pics')">Images</button>
+                <button id="btn-compare" class="nav-btn" onclick="setTab('compare')">Compare</button>
             </div>
 
-            <div class="guidelines">
-                <strong><svg fill="currentColor" style="transform: translateY(5px);" width="22px" height="22px" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><path d="M 9.5899 50.2070 L 46.4102 50.2070 C 49.9257 50.2070 52.1289 47.6758 52.1289 44.4883 C 52.1289 43.5273 51.8947 42.5664 51.3791 41.6758 L 32.9336 8.6758 C 31.8789 6.7773 29.9570 5.7930 28.0117 5.7930 C 26.0899 5.7930 24.1211 6.7773 23.0664 8.6758 L 4.6446 41.6992 C 4.1289 42.5898 3.8711 43.5273 3.8711 44.4883 C 3.8711 47.6758 6.0977 50.2070 9.5899 50.2070 Z M 28.0117 34.1523 C 26.7695 34.1523 26.0899 33.4492 26.0430 32.1836 L 25.7149 20.6055 C 25.6680 19.3399 26.6524 18.4024 27.9883 18.4024 C 29.3008 18.4024 30.3320 19.3633 30.2852 20.6289 L 29.9336 32.1836 C 29.8868 33.4726 29.2070 34.1523 28.0117 34.1523 Z M 28.0117 42.8008 C 26.6524 42.8008 25.3868 41.7227 25.3868 40.2695 C 25.3868 38.8164 26.6289 37.7383 28.0117 37.7383 C 29.3946 37.7383 30.6368 38.7930 30.6368 40.2695 C 30.6368 41.7461 29.3711 42.8008 28.0117 42.8008 Z"/></svg> Submission Guidelines</strong>
-                • <b>Capitalization:</b> Always use proper capitalization (e.g., "Spinach", not "spinach").<br>
-                • <b>Specificity:</b> Include details like MP, Aperture (f/1.8), Sensor Size, and OIS for cameras.<br>
-                • <b>Formatting:</b> Check for grammar errors before generating.<br>
-                • <b>Images:</b> Please use png files with transparent background for the Main Profile image. The front- and backside of the phone should be shown and be centered. This doesn't apply to picture gallery images.<br>
-                • <b>Optional Fields:</b> You can leave fields blank if you don't have the info or can't name it.
+            <div id="tab-specs" class="glass-panel">
+                <table id="specTable"></table>
+                <div class="similar-section">
+                    <h3 style="color:var(--accent);">Similar Devices</h3>
+                    <div id="similarGrid" class="similar-grid"></div>
+                </div>
+            </div>
+            
+            <div id="tab-pics" class="glass-panel hidden">
+                <div id="galleryGrid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:10px;"></div>
             </div>
 
-            <form id="makerForm">
-                <datalist id="refresh_rates"><option value="60Hz"><option value="90Hz"><option value="120Hz"><option value="144Hz"><option value="165Hz"><option value="240Hz"></datalist>
-
-                <div class="form-section"><h3>IDENTITY</h3></div>
-                <div class="input-grid">
-                    <div class="device-only"><label>Type</label><select id="type"><option>Phone</option><option>Tablet</option><option>Smartwatch</option><option>Laptop</option></select></div>
-                    <div class="soc-only"><label>Type</label><input type="text" value="Chipset" disabled style="opacity:0.6"></div>
-                    
-                    <div><label>Brand</label><input type="text" id="brand" list="brands" placeholder="e.g. Spinach" required></div>
-                    <div class="full-width"><label>Model Name</label><input type="text" id="model" placeholder="e.g. Experix 2" required></div>
-                    <div class="full-width">
-                        <label>Profile Image (Main)</label>
-                        <div class="file-upload-wrapper">
-                            <span class="file-upload-text" id="fileText">Click to Upload Main Image (Front- and Backside, Transparent PNG)...</span>
-                            <input type="file" id="imageFile" accept="image/*" required onchange="updateFileName('imageFile', 'fileText')">
-                        </div>
-                    </div>
+            <div id="tab-compare" class="glass-panel hidden">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                    <h3 style="margin:0;">Compare Devices</h3>
+                    <button class="nav-btn diff-btn" onclick="toggleDiffMode()">Show Differences</button>
                 </div>
-
-                <div class="form-section"><h3>LAUNCH</h3></div>
-                <div class="input-grid">
-                    <div class="device-only"><label>Status</label><select id="status"><option>Released</option><option>Coming Soon</option><option>Rumored</option><option>Concept</option></select></div>
-                    <div class="soc-only"><label>Process Node</label><input type="text" id="process" placeholder="e.g. TSMC 3nm"></div>
-                    <div><label>Announced (Exact Date)</label><input type="date" id="announced"></div>
-                    <div class="device-only"><label>Release (Exact Date)</label><input type="date" id="released"></div>
+                <div class="compare-wrapper">
+                    <table class="compare-table" id="compareTable"></table>
                 </div>
-
-                <div class="device-only">
-                    <div class="form-section"><h3>BODY</h3></div>
-                    <div class="input-grid">
-                        <div><label>IP Rating</label><input type="text" id="ip_rating" placeholder="e.g. IP68, immersible up to 3m for 30 min"></div>
-                        <div><label>Weight (g)</label><input type="number" id="weight" placeholder="200"></div>
-                        <div><label>Dimensions</label><input type="text" id="dimensions" placeholder="160 x 75 x 8 mm"></div>
-                        <div><label>Colors</label><input type="text" id="colors" placeholder="Titanium, Black..."></div>
-                        <div class="full-width"><label>Build Materials</label><input type="text" id="build" placeholder="e.g. Glass front, aluminum frame, eco leather back"></div>
-                    </div>
-
-                    <div class="form-section"><h3>DISPLAY</h3></div>
-                    <div class="input-grid">
-                        <div><label>Panel Type</label><input type="text" id="displayType" list="displays" placeholder="e.g. LTPO AMOLED"></div>
-                        <div><label>Refresh Rate</label><input type="text" id="refresh" list="refresh_rates" placeholder="e.g. 120Hz"></div>
-                        <div><label>Size (inch)</label><input type="number" step="0.01" id="screen" placeholder="6.8"></div>
-                        <div><label>Brightness (nit)</label><input type="number" id="brightness" placeholder="e.g. 3000"></div>
-                        <div class="full-width"><label>Resolution</label><input type="text" id="resolution" placeholder="e.g. 1440 x 3200"></div>
-                    </div>
-                </div>
-
-                <div class="form-section"><h3>PERFORMANCE</h3></div>
-                <div class="input-grid">
-                    <div class="device-only"><label>Chipset</label><input type="text" id="chipset" list="chipsets" placeholder="e.g. Spinach B61"></div>
-                    <div class="device-only"><label>RAM Options</label><input type="text" id="ram" placeholder="e.g. 8GB / 12GB / 16GB"></div>
-                    <div class="device-only"><label>Storage Options</label><input type="text" id="storage" placeholder="e.g. 256GB / 512GB / 1TB"></div>
-                    <div class="device-only"><label>OS</label><input type="text" id="os" placeholder="e.g. Android 16..."></div>
-
-                    <div class="soc-only full-width-soc"><label>CPU Config</label><input type="text" id="cpu_cores" placeholder="e.g. 2x3.1.80GHz Prime + 6x2.80GHz Performance"></div>
-                    <div class="soc-only"><label>GPU Model</label><input type="text" id="gpu_model" placeholder="e.g. Iodine 501"></div>
-                    <div class="soc-only"><label>GPU Clock</label><input type="text" id="gpu_clock" placeholder="e.g. 700 MHz"></div>
-                    <div class="soc-only"><label>NPU (AI Engine)</label><input type="text" id="npu" placeholder="e.g. Synapse X610"></div>
-                    <div class="soc-only"><label>ISP</label><input type="text" id="isp" placeholder="e.g. Omnistream G310"></div>
-                    <div class="soc-only"><label>Modem</label><input type="text" id="modem" placeholder="e.g. NextGate N11 5G"></div>
-                </div>
-
-                <div class="device-only">
-                    <div class="form-section"><h3>POWER</h3></div>
-                    <div class="input-grid">
-                        <div><label>Battery</label><input type="text" id="battery" placeholder="e.g. Si/C Li-Ion 6000 mAh"></div>
-                        <div><label>Charging</label><input type="text" id="charging" placeholder="e.g. 100W wired, 50W wireless, 10W reverse wired"></div>
-                    </div>
-                </div>
-
-                <div class="device-only">
-                    <div class="form-section"><h3>CAMERA SYSTEM</h3></div>
-                    <label>Rear Camera Modules (Type + Specs)</label>
-                    <div id="cameraContainer"></div>
-                    <button type="button" class="add-btn" onclick="addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'Wide', '')">+ Add Camera Module</button>
-                    
-                    <div class="input-grid" style="margin-top:15px;">
-                        <div class="full-width"><label>Video Capabilities</label><input type="text" id="cam_video" placeholder="e.g. 8K@30fps, Dolby Vision, LOG..."></div>
-                        <div class="full-width"><label>Selfie Camera</label><input type="text" id="cam_selfie" placeholder="e.g. 12 MP, f/2.2 or none"></div>
-                    </div>
-
-                    <div class="full-width" style="margin-top: 15px;">
-                        <label>Camera Features & Sensors</label>
-                        <div id="camSensorContainer"></div>
-                        <button type="button" class="add-btn" onclick="addSingleInputRow('camSensorContainer', 'Feature Name (e.g. Zeiss Optics, LiDAR)')">+ Add Camera Sensor/Feature</button>
-                    </div>
-
-                    <div class="form-section"><h3>FEATURES</h3></div>
-                    <label>Device Sensors & Extra Features</label>
-                    <div id="sensorContainer"></div>
-                    <button type="button" class="add-btn" onclick="addSingleInputRow('sensorContainer', 'Sensor/Feature Name (e.g. Fingerprint under-display)')">+ Add Sensor/Extra</button>
-                </div>
-
-                <div class="form-section"><h3>PICTURES (OPTIONAL)</h3></div>
-                <div class="full-width">
-                    <div class="file-upload-wrapper">
-                        <span class="file-upload-text" id="galleryText">Click to select multiple Gallery images...</span>
-                        <input type="file" id="galleryFiles" multiple accept="image/*" onchange="updateGalleryName()">
-                    </div>
-                </div>
-
-                <div class="form-section"><h3>EXTRAS</h3></div>
-                <div class="input-grid">
-                    <div><label>Geekbench Single (v6)</label><input type="number" id="geek_s" placeholder="1234"></div>
-                    <div><label>Geekbench Multi (v6)</label><input type="number" id="geek_m" placeholder="12345"></div>
-                    <div><label>AnTuTu (v11)</label><input type="number" id="antutu" placeholder="1234567"></div>
-                    <div><label>Price (USD)</label><input type="number" id="price_usd" placeholder="1099"></div>
-                    <div><label>Price (EUR)</label><input type="number" id="price_eur" placeholder="999"></div>
-                </div>
-
-                <button type="submit" class="submit-btn">Generate JSON</button>
-            </form>
-
-            <div id="outputArea">
-                <p style="text-align:center; color:#aaa; font-size:0.85rem; margin-bottom:10px; line-height: 1.6;">
-                    Send this code + ALL images to: 
-                    <span class="contact-link">
-                        <svg class="social-inline" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg> 
-                        <b style="color:var(--accent);">@spinoevrex</b>
-                    </span> 
-                    or 
-                    <span class="contact-link">
-                        <svg class="social-inline" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> 
-                        <b style="color:var(--accent);">@spinach.tech</b>
-                    </span>
-                    or
-                    <span class="contact-link">
-                        <svg class="social-inline" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" /></svg>
-                        <b style="color:var(--accent);">@photography._.y</b>
-                    </span>
-                </p>
-                <textarea id="jsonOutput" readonly></textarea>
-                <button onclick="copyText()" class="copy-btn">Copy Code</button>
             </div>
         </div>
     </div>
 
-                 <script>
-        // --- THEME & MENU LOGIC ---
-        if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
-        
+    <script>
         document.getElementById('themeToggle').onclick = () => {
-            document.body.classList.toggle('light-mode');
-            localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+            const isLight = document.documentElement.classList.toggle('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
         };
-
-        function toggleMenu() { 
-    document.getElementById('navLinks').classList.toggle('active'); 
-    document.querySelector('.nav-container').classList.toggle('menu-open');
-}
-
         
-        function toggleSocials(e) { 
-            e.stopPropagation(); 
-            document.getElementById('socialDropdown').classList.toggle('show'); 
+        function toggleMenu() { 
+            document.getElementById('navLinks').classList.toggle('active'); 
+            document.querySelector('.nav-container').classList.toggle('menu-open');
         }
         
+        function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
         window.onclick = function(e) { 
             if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); 
-        }
-        
-        // --- HELPER FUNCTIONS ---
-        const capitalize = (s) => s.replace(/\b\w/g, c => c.toUpperCase());
-
-        function updateFileName(id, textId) {
-            const input = document.getElementById(id);
-            if(input.files.length > 0) document.getElementById(textId).innerText = "Selected: " + input.files[0].name;
+            if (!e.target.matches('.slot-search')) document.querySelectorAll('.slot-dropdown').forEach(d => d.style.display='none');
         }
 
-        function updateGalleryName() {
-            const input = document.getElementById('galleryFiles');
-            if(input.files.length > 0) document.getElementById('galleryText').innerText = `Selected ${input.files.length} images`;
+        let allDevices = [];
+        let currentDeviceIndex = 0;
+        let compareSlots = [null, null, null];
+        let diffMode = false;
+
+        async function init() {
+            try {
+                const res = await fetch('phones.json');
+                allDevices = await res.json();
+                renderGrid(allDevices);
+            } catch(e) { document.getElementById('phoneGrid').innerHTML = "No devices found."; }
         }
 
-        // --- MODE SWITCHING ---
-        let currentMode = 'device';
-        function setMode(mode) {
-            currentMode = mode;
-            document.body.setAttribute('data-mode', mode);
-            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-            document.querySelector(`button[onclick="setMode('${mode}')"]`).classList.add('active');
+        const renderGrid = (list) => {
+            const grid = document.getElementById('phoneGrid');
+            grid.innerHTML = "";
+            list.forEach((d, i) => {
+                grid.innerHTML += `
+                    <div class="glass-panel card" onclick="showDetails(${i})">
+                        <img src="${d.image}" onerror="this.src='https://placehold.co/400x600?text=No+Img'">
+                        <span class="type-tag">${d.type || 'Device'}</span>
+                        <h3>${d.model}</h3>
+                        <p>${d.brand}</p>
+                    </div>`;
+            });
+        };
 
-            if(mode === 'device') {
-                document.getElementById('brand').placeholder = "e.g. Spinach";
-                document.getElementById('model').placeholder = "e.g. Experix Ultra";
+        window.showDetails = (i) => {
+            currentDeviceIndex = i;
+            compareSlots = [i, null, null];
+            
+            const d = allDevices[i];
+            document.getElementById('galleryView').classList.add('hidden');
+            document.getElementById('detailView').classList.remove('hidden');
+            document.getElementById('d_img').src = d.image;
+            document.getElementById('d_model').innerText = d.model;
+            document.getElementById('d_brand').innerText = d.brand;
+            document.getElementById('d_type').innerText = d.type || "DEVICE";
+            
+            const chip = d.chipset || '-';
+            const ram = (d.ram || '-').split(' / ')[0];
+            const screenStr = d.screen ? d.screen.split(',').pop() : '-';
+            const batt = d.battery || '-';
+
+            document.getElementById('d_quick_specs').innerHTML = `
+                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 2v16h12V4H6zm4 4h4v4h-4V8z"/></svg><div class="spec-text"><small>CHIPSET</small><span>${chip}</span></div></div>
+                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M2 5h20v14H2V5zm2 2v10h16V7H4zm2 2h2v6H6V9zm4 0h2v6h-2V9zm4 0h2v6h-2V9z"/></svg><div class="spec-text"><small>MEMORY</small><span>${ram}</span></div></div>
+                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg><div class="spec-text"><small>DISPLAY</small><span>${screenStr}</span></div></div>
+                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M16.667 4H15V2H9v2H7.333C6.59 4 6 4.6 6 5.333v15.334C6 21.4 6.59 22 7.333 22h9.334C17.41 22 18 21.4 18 20.667V5.333C18 4.6 17.41 4 16.667 4z"/></svg><div class="spec-text"><small>BATTERY</small><span>${batt}</span></div></div>
+            `;
+
+            let html = "";
+            const row = (lbl, val) => `<tr><th>${lbl}</th><td>${val || '-'}</td></tr>`;
+            const header = (title) => `<tr><td colspan="2" class="cat-header">${title}</td></tr>`;
+
+            html += header("Launch");
+            if(d.status) html += row("Status", d.status);
+            if(d.announced) html += row("Announced", d.announced);
+            if(d.released) html += row("Release Date", d.released);
+
+            html += header("Body");
+            if(d.dimensions) html += row("Dimensions", d.dimensions);
+            if(d.weight) html += row("Weight", d.weight + (d.weight.includes('g')?'':'g'));
+            if(d.build) html += row("Build", d.build);
+            if(d.colors) html += row("Colors", d.colors);
+            if(d.ip_rating) html += row("IP Rating", d.ip_rating);
+
+            html += header("Display");
+            if(d.screen) {
+                const parts = d.screen.split(', ');
+                if(parts[0]) html += row("Type", parts[0]);
+                if(parts[1]) html += row("Refresh Rate", parts[1]);
+                if(parts[2]) html += row("Size", parts[2]);
+                if(parts[3]) html += row("Brightness", parts[3]);
+            }
+            if(d.resolution) html += row("Resolution", d.resolution);
+
+            html += header("Platform");
+            if(d.os) html += row("OS", d.os);
+            if(d.chipset) html += row("Chipset", d.chipset);
+
+            html += header("Memory");
+            if(d.storage) html += row("Storage", d.storage);
+            if(d.ram) html += row("RAM", d.ram);
+
+            html += header("Camera");
+            if(d.camera_modules) d.camera_modules.forEach(m => html += row(m.label, m.specs));
+            if(d.camera_features) html += row("Features", Array.isArray(d.camera_features) ? d.camera_features.join(', ') : d.camera_features);
+            if(d.cam_video) html += row("Video", d.cam_video);
+            if(d.cam_selfie) html += row("Selfie", d.cam_selfie);
+
+            html += header("Features");
+            if(d.sensors) {
+                if(Array.isArray(d.sensors)) {
+                    html += row("Sensors", d.sensors.join(', '));
+                } else { d.sensors.forEach(s => html += row(s.label, s.specs)); }
+            }
+            
+            html += header("Power");
+            if(d.battery) html += row("Battery", d.battery);
+            if(d.charging) html += row("Charging", d.charging);
+
+            let hasTests = d.geek_s || d.geek_m || d.antutu;
+            let priceStr = "";
+            if(d.price && d.price_eur) priceStr = `${d.price} / ${d.price_eur}`;
+            else if(d.price) priceStr = d.price;
+            else if(d.price_eur) priceStr = d.price_eur;
+
+            if(hasTests || priceStr) {
+                html += header("Tests & Price");
+                if(d.geek_s) html += row("Geekbench Single", d.geek_s + " (v6)");
+                if(d.geek_m) html += row("Geekbench Multi", d.geek_m + " (v6)");
+                if(d.antutu) html += row("AnTuTu", d.antutu + " (v11)");
+                if(priceStr) html += row("Price", priceStr);
+            }
+
+            document.getElementById('specTable').innerHTML = html;
+            renderSimilarDevices(d);
+            
+            const galleryDiv = document.getElementById('galleryGrid');
+            galleryDiv.innerHTML = "";
+            if(d.gallery && d.gallery.length > 0) {
+                d.gallery.forEach(src => {
+                    galleryDiv.innerHTML += `<img src="${src}" style="width:100%; border-radius:6px; cursor:pointer;" onclick="window.open('${src}')">`;
+                });
             } else {
-                document.getElementById('brand').placeholder = "e.g. Tianyu";
-                document.getElementById('model').placeholder = "e.g. EON 210";
+                galleryDiv.innerHTML = "<p style='color:var(--text-muted);'>No extra images.</p>";
             }
-        }
+            setTab('specs');
+        };
 
-        // --- DYNAMIC ROWS ---
-        window.addEventListener('load', () => {
-            addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'Wide', '');
-        });
-
-        function addDynamicRow(containerId, classType, classSpecs, phType='Type', phSpecs='Specs') {
-            const div = document.createElement('div');
-            div.className = 'dynamic-row double-input';
-            div.innerHTML = `
-                <input type="text" class="${classType}" placeholder="${phType}" value="${phType === 'Wide' ? 'Wide' : ''}">
-                <input type="text" class="${classSpecs}" placeholder="${phSpecs}">
-                <button type="button" class="remove-btn" onclick="this.parentElement.remove()">X</button>
-            `;
-            document.getElementById(containerId).appendChild(div);
-        }
-
-        function addSingleInputRow(containerId, placeholder) {
-            const div = document.createElement('div');
-            div.className = 'dynamic-row single-input';
-            div.innerHTML = `
-                <input type="text" placeholder="${placeholder}">
-                <button type="button" class="remove-btn" onclick="this.parentElement.remove()">X</button>
-            `;
-            document.getElementById(containerId).appendChild(div);
-        }
-
-        // ---------------------------------------------------------
-        //  SMART FORMATTER (Fixed for Numbers+Units)
-        // ---------------------------------------------------------
-        function smartFormat(key, text) {
-            if (!text) return null;
-            let val = text.trim();
-            if (val === "") return null;
-
-            const isCam = (key.includes('cam') || key.includes('camera') || key === 'camera_modules');
-
-            // 1. UNIT CORRECTIONS (Handles "128gb" and "128 gb")
-            
-            // Frequency (Hz)
-            val = val.replace(/(\d+)\s*hz\b/gi, "$1Hz").replace(/\bhz\b/gi, "Hz");
-            val = val.replace(/(\d+)\s*ghz\b/gi, "$1GHz").replace(/\bghz\b/gi, "GHz");
-            val = val.replace(/(\d+)\s*mhz\b/gi, "$1MHz").replace(/\bmhz\b/gi, "MHz");
-
-            // Memory (GB, TB)
-            val = val.replace(/(\d+)\s*gb\b/gi, "$1GB").replace(/\bgb\b/gi, "GB");
-            val = val.replace(/(\d+)\s*tb\b/gi, "$1TB").replace(/\btb\b/gi, "TB");
-
-            // Battery (mAh, W)
-            val = val.replace(/(\d+)\s*mah\b/gi, "$1mAh").replace(/\bmah\b/gi, "mAh");
-            val = val.replace(/(\d+)\s*w\b/gi, "$1W").replace(/\bw\b/gi, "W"); // be careful with single W
-
-            // Camera (MP, f/)
-            val = val.replace(/(\d+)\s*mp\b/gi, "$1MP").replace(/\bmp\b/gi, "MP");
-            val = val.replace(/f\s*\//gi, "f/"); // Fix spaces in f / 1.8
-
-            // Process (nm)
-            val = val.replace(/(\d+)\s*nm\b/gi, "$1nm").replace(/\bnm\b/gi, "nm");
-
-            // IP Rating
-            val = val.replace(/\bip\s*(?=\d)/gi, "IP"); // Fix ip 68 -> IP68
-
-            // Performance
-            val = val.replace(/\bperf\b/gi, "Performance");
-
-            // FPS
-            if (key === 'cam_video' || key === 'all') {
-                val = val.replace(/\bfps\b/gi, "fps");
+        function renderSimilarDevices(current) {
+            const grid = document.getElementById('similarGrid');
+            grid.innerHTML = "";
+            let matches = allDevices.filter(d => d.brand === current.brand && d.model !== current.model);
+            if(matches.length < 4) {
+                const others = allDevices.filter(d => d.brand !== current.brand);
+                others.sort(() => .5 - Math.random());
+                matches = matches.concat(others.slice(0, 4 - matches.length));
             }
+            matches = matches.slice(0, 4);
 
-            // Battery Chemistry
-            if (key === 'battery') {
-                val = val.replace(/li[\s-]ion/gi, "Li-Ion");
-                val = val.replace(/si[\s-\/]+c|silicon\s+carbon/gi, "Si/C");
-            }
-
-            // 2. DISPLAY TERMS
-            if (['displayType', 'screen'].includes(key) || key === 'all') {
-                const displayTerms = ['ltpo', 'ltps', 'oled', 'amoled', 'p-oled', 'ips', 'tft', 'lcd'];
-                displayTerms.forEach(term => {
-                    const regex = new RegExp(`\\b${term}\\b`, 'gi');
-                    val = val.replace(regex, term.toUpperCase());
+            if(matches.length > 0) {
+                matches.forEach(m => {
+                    const originalIndex = allDevices.findIndex(x => x.model === m.model);
+                    grid.innerHTML += `<div class="mini-card" onclick="showDetails(${originalIndex}); window.scrollTo(0,0);"><img src="${m.image}"><h4>${m.model}</h4></div>`;
                 });
-            }
-
-            // 3. COMMA LOGIC
-            val = val.replace(/,(?=[^\s])/g, ", ");
-
-            // 4. SLASH EXPANSION (Skip Camera)
-            if (!isCam) {
-                val = val.replace(/\//g, " / ");
-                val = val.replace(/Si\s+\/\s+C/gi, "Si/C"); // Fix Si/C break
-            }
-
-            // 5. 'x' SPACING (Skip Camera)
-            if (!isCam) {
-                val = val.replace(/(\d)\s*x\s*(\d)/gi, "$1 x $2");
-            }
-
-            // 6. CAPITALIZATION (Colors)
-            if (key === 'colors') {
-                val = val.replace(/\b\w/g, c => c.toUpperCase());
-            }
-
-            return val;
+            } else { grid.innerHTML = "<p style='font-size:0.8rem; color:grey;'>No similar devices found.</p>"; }
         }
 
-        // ---------------------------------------------------------
-        //  OPTIMIZED GENERATOR
-        // ---------------------------------------------------------
-        document.getElementById('makerForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            let data = {};
+        window.setTab = (t) => {
+            ['specs', 'pics', 'compare'].forEach(x => {
+                document.getElementById('tab-'+x).classList.add('hidden');
+                document.getElementById('btn-'+x).classList.remove('active');
+            });
+            document.getElementById('tab-'+t).classList.remove('hidden');
+            document.getElementById('btn-'+t).classList.add('active');
+            if(t === 'compare') renderCompareTable();
+        };
 
-            const getVal = (id) => document.getElementById(id).value;
-            
-            const addIf = (key, val) => {
-                if (val !== null && val !== undefined && val !== "") {
-                    data[key] = val;
+        function renderCompareTable() {
+            const table = document.getElementById('compareTable');
+            let html = `<thead><tr><th></th>`;
+            compareSlots.forEach((devIdx, slotId) => {
+                const dev = devIdx !== null ? allDevices[devIdx] : null;
+                html += `<td><div class="slot-header"><img class="slot-img" src="${dev ? dev.image : ''}" style="${dev?'':'opacity:0'}"><div>${dev ? dev.model : 'Empty Slot'}</div><input type="text" class="slot-search" placeholder="Search..." onkeyup="searchForSlot(this, ${slotId})"><div class="slot-dropdown" id="dropdown-${slotId}"></div></div></td>`;
+            });
+            html += `</tr></thead><tbody>`;
+
+            const specKeys = [
+                {k:'status', l:'Status'}, {k:'released', l:'Released'},
+                {k:'dimensions', l:'Dimensions'}, {k:'weight', l:'Weight'}, {k:'build', l:'Build'},
+                {k:'ip_rating', l:'IP Rating'}, {k:'colors', l:'Colors'}, 
+                {k:'screen', l:'Display'}, {k:'resolution', l:'Resolution'},
+                {k:'os', l:'OS'}, {k:'chipset', l:'Chipset'}, 
+                {k:'storage', l:'Storage'}, {k:'ram', l:'RAM'}, 
+                {k:'cam_0', l:'Main Camera'}, {k:'cam_1', l:'2nd Camera'}, 
+                {k:'cam_2', l:'3rd Camera'}, {k:'cam_3', l:'4th Camera'},
+                {k:'camera_features', l:'Cam Features'}, 
+                {k:'cam_video', l:'Video'}, {k:'cam_selfie', l:'Selfie'},
+                {k:'sensors', l:'Sensors'},
+                {k:'battery', l:'Battery'}, {k:'charging', l:'Charging'},
+                {k:'geek_s', l:'Geekbench (S)'}, {k:'geek_m', l:'Geekbench (M)'}, {k:'antutu', l:'AnTuTu'},
+                {k:'price', l:'Price'}
+            ];
+
+            specKeys.forEach(s => {
+                const v1 = getCompareVal(0, s.k);
+                const v2 = getCompareVal(1, s.k);
+                const v3 = getCompareVal(2, s.k);
+                
+                const raw1 = getRawVal(0, s.k);
+                const raw2 = getRawVal(1, s.k);
+                const raw3 = getRawVal(2, s.k);
+
+                let isRowSame = false;
+                let html1 = v1, html2 = v2, html3 = v3;
+
+                if (diffMode) {
+                    const rowTokens = getRowTokens([raw1, raw2, raw3]);
+                    if (rowTokens.isAllSame) {
+                        isRowSame = true; 
+                    } else {
+                        html1 = highlightDiff(raw1, rowTokens.common);
+                        html2 = highlightDiff(raw2, rowTokens.common);
+                        html3 = highlightDiff(raw3, rowTokens.common);
+                    }
                 }
-            };
 
-            addIf('brand', capitalize(getVal('brand')));
-            addIf('model', capitalize(getVal('model')));
-            addIf('colors', capitalize(getVal('colors')));
-            addIf('chipset', capitalize(getVal('chipset')));
-            addIf('os', capitalize(getVal('os')));
-            addIf('charging', capitalize(getVal('charging')));
+                let rowClass = (diffMode && isRowSame) ? 'row-same' : 'row-diff';
+                if (!diffMode) rowClass = '';
+
+                html += `<tr class="${rowClass}">
+                    <th>${s.l}</th>
+                    <td>${html1}</td>
+                    <td>${html2}</td>
+                    <td>${html3}</td>
+                </tr>`;
+            });
+
+            html += `</tbody>`;
+            table.innerHTML = html;
+        }
+
+        function getRawVal(slotIdx, key) {
+            const d = getDev(slotIdx);
+            if(!d) return '';
             
-            const formatDate = (id) => {
-                const val = getVal(id);
-                if(!val) return null;
-                const dateObj = new Date(val);
-                const userTimezoneOffset = dateObj.getTimezoneOffset() * 60000;
-                const adjustedDate = new Date(dateObj.getTime() + userTimezoneOffset);
-                return adjustedDate.toLocaleString('default', { day: 'numeric', month: 'long', year: 'numeric' });
-            };
-            addIf('announced', formatDate('announced'));
-
-            if (currentMode === 'device') {
-                addIf('type', getVal('type'));
-                addIf('status', getVal('status'));
-                addIf('released', formatDate('released'));
-                
-                const fields = ['ip_rating','weight','dimensions','colors','build','chipset','ram','storage','os','battery','charging','cam_video','cam_selfie'];
-                fields.forEach(k => {
-                    addIf(k, smartFormat(k, getVal(k)));
-                });
-
-                // Screen
-                const sType = smartFormat('displayType', getVal('displayType'));
-                const sRef = smartFormat('all', getVal('refresh')); 
-                const sSize = getVal('screen');
-                const sBri = getVal('brightness');
-                
-                let sArr = [];
-                if(sType) sArr.push(sType);
-                if(sRef) sArr.push(sRef);
-                if(sSize) sArr.push(sSize + '"');
-                if(sBri) sArr.push(sBri + ' nits');
-                
-                if(sArr.length > 0) data.screen = sArr.join(', ');
-                addIf('resolution', getVal('resolution'));
-
-                // Camera Modules
-                const camRows = document.querySelectorAll('#cameraContainer .dynamic-row');
-                const camModules = [];
-                camRows.forEach(r => {
-                    const inputs = r.querySelectorAll('input');
-                    let label = inputs[0].value;
-                    let specs = smartFormat('cam_specs', inputs[1].value);
-
-                    if(label && specs) {
-                        label = capitalize(label);
-                        if (label === "Main") label = "Wide"; 
-                        camModules.push({ label, specs });
-                    }
-                });
-                if(camModules.length > 0) data.camera_modules = camModules;
-                
-                // Camera Features
-                const camFeatRows = document.querySelectorAll('#camSensorContainer .dynamic-row input');
-                const camFeats = [];
-                camFeatRows.forEach(input => {
-                    let val = smartFormat('camera_features', input.value);
-                    if(val) {
-                        val.split(',').forEach(v => { 
-                            if(v.trim()) camFeats.push(v.trim()); 
-                        });
-                    }
-                });
-                if(camFeats.length > 0) data.camera_features = camFeats;
-
-                // Sensors
-                const sensRows = document.querySelectorAll('#sensorContainer .dynamic-row input');
-                const sensors = [];
-                sensRows.forEach(input => {
-                    let val = smartFormat('sensors', input.value);
-                    if(val) {
-                        val.split(',').forEach(v => { 
-                            if(v.trim()) sensors.push(v.trim()); 
-                        });
-                    }
-                });
-                if(sensors.length > 0) data.sensors = sensors;
-            } 
-            else { 
-                // SoC Mode
-                data.type = 'SoC';
-                ['process','cpu_cores','gpu_model','gpu_clock','npu','isp','modem'].forEach(k => {
-                    addIf(k, smartFormat('all', getVal(k)));
-                });
+            if (key.startsWith('cam_')) {
+                const idx = parseInt(key.split('_')[1]);
+                if (d.camera_modules && d.camera_modules[idx]) {
+                    return `${d.camera_modules[idx].specs} ${d.camera_modules[idx].label}`;
+                }
+                return '-';
             }
 
-            // Extras
-            ['geek_s','geek_m','antutu'].forEach(k => addIf(k, getVal(k)));
-            
-            const pUSD = getVal('price_usd');
-            if(pUSD) data.price = '$' + pUSD;
-            
-            const pEUR = getVal('price_eur');
-            if(pEUR) data.price_eur = '€' + pEUR;
+            if (['sensors', 'camera_features'].includes(key) && Array.isArray(d[key])) {
+                return d[key].join(', ');
+            }
+            if(key === 'price') {
+                let p = "";
+                if(d.price && d.price_eur) p = `${d.price} / ${d.price_eur}`;
+                else if(d.price) p = d.price;
+                else if(d.price_eur) p = d.price_eur;
+                return p;
+            }
+            let val = d[key];
+            if(key === 'weight' && val && !val.toString().toLowerCase().endsWith('g')) val += 'g';
+            return val || '';
+        }
 
-            const f = document.getElementById('imageFile').files[0];
-            if(f) data.image = "images/" + f.name;
+        function getRowTokens(values) {
+            const validValues = values.filter(v => v !== '' && v !== '-');
+            if (validValues.length < 2) return { isAllSame: false, common: new Set() };
 
-            const gFiles = document.getElementById('galleryFiles').files;
-            if(gFiles.length > 0) {
-                const gal = [];
-                for(let i=0; i<gFiles.length; i++) gal.push("images/" + gFiles[i].name);
-                data.gallery = gal;
+            const tokenize = (str) => {
+                return str.toString().toLowerCase()
+                    .replace(/,/g, ' ') 
+                    .split(/\s+/)
+                    .filter(w => w.length > 0); 
+            };
+
+            const sets = validValues.map(v => new Set(tokenize(v)));
+            
+            const common = new Set([...sets[0]].filter(x => sets.every(s => s.has(x))));
+            const isAllSame = sets.every(s => s.size === common.size);
+
+            return { isAllSame, common };
+        }
+
+        function highlightDiff(text, commonSet) {
+            if (!text || text === '-') return '-';
+            
+            const parts = text.toString().split(/(\s+|,\s*)/); 
+            
+            return parts.map(part => {
+                const clean = part.toLowerCase().trim();
+                if (!clean || clean.match(/^\s*$/)) return part; 
+                
+                const isWord = clean.match(/[a-z0-9]/);
+                if (!isWord) return part;
+
+                if (commonSet.has(clean)) {
+                    return `<span class="diff-word-common">${part}</span>`;
+                } else {
+                    return `<span class="diff-word-unique">${part}</span>`;
+                }
+            }).join('');
+        }
+
+        function getDev(slotIdx) { return compareSlots[slotIdx] !== null ? allDevices[compareSlots[slotIdx]] : null; }
+
+        function getCompareVal(slotIdx, key) {
+            const d = getDev(slotIdx);
+            if(!d) return '-';
+            
+            if (key.startsWith('cam_')) {
+                const idx = parseInt(key.split('_')[1]);
+                if (d.camera_modules && d.camera_modules[idx]) {
+                    return `<b>${d.camera_modules[idx].label}</b><br>${d.camera_modules[idx].specs}`;
+                }
+                return '-';
             }
 
-            document.getElementById('outputArea').style.display = 'block';
-            document.getElementById('jsonOutput').value = JSON.stringify(data, null, 4) + ",";
+            if (['sensors', 'camera_features'].includes(key) && Array.isArray(d[key])) {
+                return d[key].join(', ');
+            }
+            if(key === 'price') {
+                let p = "";
+                if(d.price && d.price_eur) p = `${d.price} / ${d.price_eur}`;
+                else if(d.price) p = d.price;
+                else if(d.price_eur) p = d.price_eur;
+                return p || '-';
+            }
+            let val = d[key];
+            if(key === 'weight' && val && !val.toString().toLowerCase().endsWith('g')) val += 'g';
+            return val || '-';
+        }
+
+        function searchForSlot(input, slotId) {
+            const term = input.value.toLowerCase();
+            const drop = document.getElementById(`dropdown-${slotId}`);
+            drop.innerHTML = "";
+            if(term.length < 1) { drop.style.display = 'none'; return; }
+            const matches = allDevices.map((d, i) => ({...d, idx: i})).filter(d => d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term));
+            if(matches.length > 0) {
+                drop.style.display = 'block';
+                matches.forEach(m => {
+                    drop.innerHTML += `<div class="slot-item" onclick="setSlot(${slotId}, ${m.idx})"><img src="${m.image}"><span>${m.model}</span></div>`;
+                });
+            } else { drop.style.display = 'none'; }
+        }
+
+        function setSlot(slotId, devIdx) { compareSlots[slotId] = devIdx; renderCompareTable(); }
+        function toggleDiffMode() { 
+            diffMode = !diffMode;
+            document.getElementById('tab-compare').classList.toggle('diff-mode-active'); 
+            renderCompareTable();
+        }
+
+        document.getElementById('searchInput').addEventListener('keyup', (e) => {
+            const term = e.target.value.toLowerCase();
+            renderGrid(allDevices.filter(d => d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term)));
         });
 
-        function copyText() {
-            document.getElementById("jsonOutput").select();
-            document.execCommand("copy");
-            alert("Copied Code!");
-        }
+        init();
     </script>
 </body>
 </html>
