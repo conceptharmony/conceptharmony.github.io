@@ -336,6 +336,7 @@
         window.showDetails = (i) => {
             currentDeviceIndex = i;
             compareSlots = [i, null, null];
+            window.scrollTo(0,0);
             
             const d = allDevices[i];
             document.getElementById('galleryView').classList.add('hidden');
