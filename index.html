@@ -481,14 +481,12 @@
                 {cat: "Display", keys: [{k:'screen_type', l:'Type'}, {k:'screen_refresh', l:'Refresh'}, {k:'screen_size', l:'Size'}, {k:'screen_bri', l:'Brightness'}, {k:'resolution', l:'Resolution'}]},
                 {cat: "Platform", keys: [{k:'os', l:'OS'}, {k:'chipset', l:'Chipset'}]},
                 {cat: "Memory", keys: [{k:'storage', l:'Storage'}, {k:'ram', l:'RAM'}]},
-                {cat: "Camera", keys: [{k:'cam_0', l:'Main'}, {k:'cam_1', l:'2nd'}, {k:'cam_2', l:'3rd'}, {k:'cam_3', l:'4th'}, {k:'camera_features', l:'Features'}, {k:'cam_video', l:'Video'}, {k:'cam_selfie', l:'Selfie'}]},
+                {cat: "Camera", keys: [{k:'cam_0', l:'Main Camera'}, {k:'cam_1', l:'Second Camera'}, {k:'cam_2', l:'Third Camera'}, {k:'cam_3', l:'Fourth Camera'}, {k:'camera_features', l:'Features'}, {k:'cam_video', l:'Video'}, {k:'cam_selfie', l:'Selfie'}]},
                 {cat: "Features", keys: [{k:'sensors', l:'Sensors'}]},
                 {cat: "Power", keys: [{k:'battery', l:'Battery'}, {k:'charging', l:'Charging'}]},
-                {cat: "Tests & Price", keys: [{k:'geek_s', l:'Geekbench (S)'}, {k:'geek_m', l:'Geekbench (M)'}, {k:'antutu', l:'AnTuTu'}, {k:'price', l:'Price'}]}
+                {cat: "Tests & Price", keys: [{k:'geek_s', l:'Geekbench Single'}, {k:'geek_m', l:'Geekbench Multi'}, {k:'antutu', l:'AnTuTu'}, {k:'price', l:'Price'}]}
             ];
 
-            const activeDevs = compareSlots.filter(s => s !== null).map(s => allDevices[s]);
-            
             specKeys.forEach(section => {
                 html += `<tr><td colspan="4" class="cat-header" style="text-align:center;">${section.cat}</td></tr>`;
                 section.keys.forEach(s => {
@@ -549,6 +547,10 @@
                 }
                 return '-';
             }
+
+            if (key === 'geek_s') return d.geek_s ? d.geek_s + " (v6)" : '-';
+            if (key === 'geek_m') return d.geek_m ? d.geek_m + " (v6)" : '-';
+            if (key === 'antutu') return d.antutu ? d.antutu + " (v11)" : '-';
 
             if (['sensors', 'camera_features'].includes(key) && Array.isArray(d[key])) {
                 return d[key].join(', ');
@@ -625,6 +627,10 @@
                 }
                 return '-';
             }
+
+            if (key === 'geek_s') return d.geek_s ? d.geek_s + " (v6)" : '-';
+            if (key === 'geek_m') return d.geek_m ? d.geek_m + " (v6)" : '-';
+            if (key === 'antutu') return d.antutu ? d.antutu + " (v11)" : '-';
 
             if (['sensors', 'camera_features'].includes(key) && Array.isArray(d[key])) {
                 return d[key].join(', ');
