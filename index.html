@@ -719,7 +719,21 @@
             if(!d) return '';
             
             // ... (Screen logic same) ...
-            if (key.startsWith('screen_') && d.screen) { /*...*/ } // (abbreviated for brevity, use same logic as getCompareVal but return raw string)
+            if (key.startsWith('screen_') && d.screen) {
+                const parts = d.screen.split(', ');
+                if (key === 'screen_type') return parts[0] || '-';
+                if (key === 'screen_refresh') return parts[1] || '-';
+                if (key === 'screen_size') return parts[2] || '-';
+                if (key === 'screen_bri') return parts[3] || '-';
+            }
+            if (key.startsWith('sec_') && d.second_screen) {
+                const parts = d.second_screen.split(', ');
+                if (key === 'sec_type') return parts[0] || '-';
+                if (key === 'sec_refresh') return parts[1] || '-';
+                if (key === 'sec_size') return parts[2] || '-';
+                if (key === 'sec_bri') return parts[3] || '-';
+                if (key === 'sec_res') return parts[4] || '-';
+            }
             
             if (key.startsWith('dyn_cam_')) {
                 const targetType = key.replace('dyn_cam_', '');
