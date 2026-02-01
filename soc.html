@@ -11,7 +11,6 @@
         })();
     </script>
     <style>
-        /* --- DESIGN SYSTEM --- */
         :root {
             --glass-bg: rgba(20, 20, 20, 0.95);
             --glass-border: rgba(255, 255, 255, 0.1);
@@ -21,6 +20,8 @@
             --text-muted: #bbbbbb; 
             --radius-main: 12px; 
             --radius-btn: 6px;
+            --diff-highlight: #fff;
+            --diff-dim: #555;
         }
         
         html.light-mode body {
@@ -31,6 +32,8 @@
             --text-main: #1a1a1a; 
             --text-muted: #555555; 
             background-color: #f4f4f9;
+            --diff-highlight: #000;
+            --diff-dim: #ccc;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -72,7 +75,6 @@
             width: 100%; 
         }
 
-        /* NAV */
         .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
         .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
         .logo span { font-weight: 700; }
@@ -87,7 +89,6 @@
         .nav-btn:hover, .nav-btn.active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
         html.light-mode .nav-btn:hover, html.light-mode .nav-btn.active { color: white !important; }
 
-        /* DROPDOWN */
         .dropdown-container { position: relative; }
         .dropdown-content { 
             display: none; position: absolute; right: 0; top: 50px; 
@@ -109,7 +110,6 @@
         @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
             
-            /* FIXED MOBILE HEADER (No Gap) */
             .nav-container.menu-open {
                 border-radius: 12px 12px 0 0 !important;
                 border-bottom: 1px solid rgba(255,255,255,0.05) !important;
@@ -141,13 +141,11 @@
             .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
 
-        /* GRID */
         .search-box { width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         .card { cursor: pointer; transition: transform 0.2s; padding: 15px; }
         .card:hover { transform: translateY(-5px); border-color: var(--accent); }
         
-        /* Chip Image Style (Square, Contain) */
         .card img { 
             width: 100%; height: 200px; 
             object-fit: contain; 
@@ -159,11 +157,9 @@
         .card h3 { margin: 10px 0 5px 0; color: var(--accent); }
         .card .type-tag { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 2px; text-transform: uppercase; color: var(--text-muted); }
         
-        /* DETAILS VIEW */
         .hidden { display: none !important; }
         .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
         
-        /* Fixed Hero Image Overlap */
         .hero-img { flex: 1; min-width: 300px; max-width: 100%; }
         .hero-img img { width: 100%; height: auto; border-radius: 10px; object-fit: contain; background: rgba(0,0,0,0.2); padding: 20px; }
         
@@ -183,11 +179,9 @@
         .tab-container { display: flex; gap: 10px; justify-content: flex-start; margin-bottom: 20px; margin-top: 20px; flex-wrap: wrap; }
         .tab-container .nav-btn { flex: 1; text-align: center; min-width: 100px; }
 
-        /* TABLE */
         table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 5px; table-layout: fixed; }
         th, td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: left; vertical-align: top; }
         
-        /* Prevent text overflow */
         td { word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
         
         html.light-mode th, html.light-mode td { border-bottom: 1px solid rgba(0,0,0,0.05); }
@@ -207,6 +201,90 @@
             border-bottom: 2px solid var(--accent) !important;
             font-weight: 800;
         }
+        
+        .upload-section { margin-bottom: 20px; }
+        #imageInput { display: none; }
+
+        .compare-wrapper { 
+            overflow-x: auto; 
+            -webkit-overflow-scrolling: touch; 
+            position: relative; 
+            padding-bottom: 10px; 
+            max-height: 75vh;
+            overflow-y: auto; 
+        }
+        
+        .compare-table { 
+            width: max-content; 
+            min-width: 100%; 
+            border-collapse: separate; 
+            border-spacing: 0; 
+            table-layout: fixed; 
+        }
+        
+        .compare-table thead th, .compare-table thead td {
+            position: sticky; 
+            top: 0; 
+            z-index: 100;
+            background: #121212; 
+            border-bottom: 1px solid var(--glass-border);
+        }
+        html.light-mode .compare-table thead th, html.light-mode .compare-table thead td { background: #f4f4f9; }
+
+        .compare-table tbody th { 
+            width: 150px; 
+            position: sticky; 
+            left: 0; 
+            background: var(--glass-bg);
+            z-index: 50; 
+            border-right: 1px solid var(--glass-border); 
+            font-size: 0.85rem; 
+            padding: 10px;
+        }
+        
+        .compare-table td { 
+            width: 220px; 
+            text-align: center; 
+            border-right: 1px solid var(--glass-border); 
+            padding: 15px 10px; 
+            font-size: 0.9rem; 
+            vertical-align: middle;
+        }
+
+        @media (max-width: 768px) {
+            .compare-table tbody th { 
+                position: static; 
+                width: 60px !important; 
+                min-width: 60px;
+                font-size: 0.65rem; 
+                padding: 5px;
+                background: transparent;
+            }
+            .compare-table thead th { width: 60px !important; min-width: 60px; }
+            
+            .compare-table td { 
+                width: calc((100% - 60px) / 2); 
+                min-width: calc((100% - 60px) / 2);
+                max-width: calc((100% - 60px) / 2);
+                font-size: 0.8rem;
+            } 
+        }
+        
+        .slot-header { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 15px 0; }
+        .slot-img { width: 100px; height: 160px; object-fit: contain; background: rgba(0,0,0,0.1); border-radius: 6px; }
+        
+        .slot-search { width: 90%; padding: 8px; font-size: 0.8rem; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: 4px; }
+        .slot-dropdown { position: absolute; top: 100%; left: 0; width: 100%; background: #1a1a1a; border: 1px solid var(--glass-border); z-index: 200; max-height: 200px; overflow-y: auto; display: none; text-align: left; }
+        html.light-mode .slot-dropdown { background: #fff; }
+        .slot-item { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        html.light-mode .slot-item { border-bottom: 1px solid rgba(0,0,0,0.1); color: #333; }
+        .slot-item:hover { background: var(--accent); color: black !important; }
+        .slot-item img { width: 30px; height: 30px; object-fit: contain; }
+
+        .diff-mode-active .row-same { display: none !important; }
+        .diff-word-common { color: var(--diff-dim); }
+        .diff-word-unique { color: var(--diff-highlight); font-weight: 700; }
+        .diff-btn { margin-left: auto; border-color: var(--accent); font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -254,7 +332,13 @@
         <div id="detailView" class="hidden">
             <button onclick="location.reload()" class="nav-btn" style="margin-bottom:20px;">← Back</button>
             <div class="glass-panel top-section">
-                <div class="hero-img"><img id="d_img" src=""></div>
+                <div class="hero-img">
+                    <img id="d_img" src="">
+                    <div class="upload-section">
+                        <input type="file" id="imageInput" accept="image/*" onchange="loadFile(event)">
+                        <button class="nav-btn" onclick="document.getElementById('imageInput').click()" style="margin-top:10px; width:100%;">Change Image</button>
+                    </div>
+                </div>
                 <div class="specs-summary">
                     <span id="d_type" class="nav-btn" style="padding: 2px 8px; font-size: 0.7rem; pointer-events:none; border:none; background:rgba(255,255,255,0.1); width:fit-content; height:auto;">SOC</span>
                     <h1 id="d_model" style="font-size:2.5rem; margin:10px 0;">Model</h1>
@@ -267,6 +351,7 @@
             <div class="tab-container">
                 <button id="btn-specs" class="nav-btn active" onclick="setTab('specs')">Specifications</button>
                 <button id="btn-pics" class="nav-btn" onclick="setTab('pics')">Gallery</button>
+                <button id="btn-compare" class="nav-btn" onclick="setTab('compare')">Compare</button>
             </div>
 
             <div id="tab-specs" class="glass-panel">
@@ -275,6 +360,16 @@
             
             <div id="tab-pics" class="glass-panel hidden">
                 <div id="galleryGrid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:10px;"></div>
+            </div>
+
+            <div id="tab-compare" class="glass-panel hidden">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                    <h3 style="margin:0;">Compare Chipsets</h3>
+                    <button class="nav-btn diff-btn" onclick="toggleDiffMode()">Show Differences</button>
+                </div>
+                <div class="compare-wrapper">
+                    <table class="compare-table" id="compareTable"></table>
+                </div>
             </div>
         </div>
     </div>
@@ -287,14 +382,11 @@
         
         function toggleMenu() { 
             document.getElementById('navLinks').classList.toggle('active'); 
-            // CRITICAL: This line flattens the header corners
             document.querySelector('.nav-container').classList.toggle('menu-open');
         }
 
         function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
-        window.onclick = function(e) { 
-            if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); 
-        }
+        window.onclick = function(e) { if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); }
 
         const staticSpecs = [
             { key: "announced", label: "Announced", cat: "Launch" },
@@ -313,6 +405,10 @@
         ];
 
         let allChips = [];
+        let currentChipIndex = 0;
+        let compareSlots = [null, null, null];
+        let diffMode = false;
+
         async function init() {
             try {
                 const res = await fetch('chips.json');
@@ -336,6 +432,9 @@
         };
 
         window.showDetails = (i) => {
+            currentChipIndex = i;
+            compareSlots = [i, null, null];
+            
             const d = allChips[i];
             document.getElementById('galleryView').classList.add('hidden');
             document.getElementById('detailView').classList.remove('hidden');
@@ -348,7 +447,6 @@
             const gpu = d.gpu_model || '-';
             const antutu = d.antutu || '-';
 
-            // Custom SVG Icons for Chipsets
             document.getElementById('d_quick_specs').innerHTML = `
                 <div class="spec-item">
                     <svg class="spec-icon" viewBox="0 0 24 24"><path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 2v16h12V4H6zm4 4h4v4h-4V8z"/></svg>
@@ -372,10 +470,7 @@
             let currentCat = "";
             staticSpecs.forEach(f => {
                 if(d[f.key]) {
-                    if(f.cat !== currentCat) { 
-                        currentCat = f.cat; 
-                        html += `<tr><td colspan="2" class="cat-header">${currentCat}</td></tr>`; 
-                    }
+                    if(f.cat !== currentCat) { currentCat = f.cat; html += `<tr><td colspan="2" class="cat-header">${currentCat}</td></tr>`; }
                     
                     let displayValue = d[f.key];
                     if (f.key === "geek_s" || f.key === "geek_m") displayValue += " (v6)";
@@ -399,15 +494,157 @@
         };
 
         window.setTab = (t) => {
-            document.getElementById('tab-specs').classList.add('hidden');
-            document.getElementById('tab-pics').classList.add('hidden');
+            ['specs', 'pics', 'compare'].forEach(x => {
+                document.getElementById('tab-'+x).classList.add('hidden');
+                document.getElementById('btn-'+x).classList.remove('active');
+            });
             document.getElementById('tab-'+t).classList.remove('hidden');
-            
-            // Toggle active button class
-            document.getElementById('btn-specs').classList.remove('active');
-            document.getElementById('btn-pics').classList.remove('active');
             document.getElementById('btn-'+t).classList.add('active');
+            if(t === 'compare') renderCompareTable();
         };
+
+        function loadFile(event) {
+            const image = document.getElementById('d_img');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        }
+
+        function renderCompareTable() {
+            const table = document.getElementById('compareTable');
+            let html = `<thead><tr><th></th>`;
+            compareSlots.forEach((idx, slotId) => {
+                const chip = idx !== null ? allChips[idx] : null;
+                html += `<td><div class="slot-header"><img class="slot-img" src="${chip ? chip.image : ''}" style="${chip?'':'opacity:0'}"><div>${chip ? chip.model : 'Empty Slot'}</div><input type="text" class="slot-search" placeholder="Search..." onkeyup="searchForSlot(this, ${slotId})"><div class="slot-dropdown" id="dropdown-${slotId}"></div></div></td>`;
+            });
+            html += `</tr></thead><tbody>`;
+
+            const specKeys = [
+                {cat: "Launch", keys: [{k:'announced', l:'Announced'}, {k:'process', l:'Process Node'}]},
+                {cat: "CPU", keys: [{k:'cpu_cores', l:'Config'}, {k:'cpu_clock', l:'Clock'}]},
+                {cat: "GPU", keys: [{k:'gpu_model', l:'Model'}, {k:'gpu_clock', l:'Clock'}]},
+                {cat: "AI & Media", keys: [{k:'npu', l:'NPU'}, {k:'isp', l:'ISP'}]},
+                {cat: "Connectivity", keys: [{k:'modem', l:'Modem'}]},
+                {cat: "Tests", keys: [{k:'geek_s', l:'Geekbench Single'}, {k:'geek_m', l:'Geekbench Multi'}, {k:'antutu', l:'AnTuTu'}]}
+            ];
+
+            specKeys.forEach(section => {
+                html += `<tr><td colspan="4" class="cat-header" style="text-align:center;">${section.cat}</td></tr>`;
+                section.keys.forEach(s => {
+                    const v1 = getChipVal(0, s.k);
+                    const v2 = getChipVal(1, s.k);
+                    const v3 = getChipVal(2, s.k);
+                    
+                    const raw1 = getRawVal(0, s.k);
+                    const raw2 = getRawVal(1, s.k);
+                    const raw3 = getRawVal(2, s.k);
+
+                    let isRowSame = false;
+                    let html1 = v1, html2 = v2, html3 = v3;
+
+                    if (diffMode) {
+                        const rowTokens = getRowTokens([raw1, raw2, raw3]);
+                        if (rowTokens.isAllSame) {
+                            isRowSame = true; 
+                        } else {
+                            html1 = highlightDiff(raw1, rowTokens.common);
+                            html2 = highlightDiff(raw2, rowTokens.common);
+                            html3 = highlightDiff(raw3, rowTokens.common);
+                        }
+                    }
+
+                    let rowClass = (diffMode && isRowSame) ? 'row-same' : 'row-diff';
+                    if (!diffMode) rowClass = '';
+
+                    html += `<tr class="${rowClass}">
+                        <th>${s.l}</th>
+                        <td>${html1}</td>
+                        <td>${html2}</td>
+                        <td>${html3}</td>
+                    </tr>`;
+                });
+            });
+
+            html += `</tbody>`;
+            table.innerHTML = html;
+        }
+
+        function getRawVal(slotIdx, key) {
+            const d = getChip(slotIdx);
+            if(!d) return '';
+            
+            if (key === 'geek_s') return d.geek_s ? d.geek_s + " (v6)" : '-';
+            if (key === 'geek_m') return d.geek_m ? d.geek_m + " (v6)" : '-';
+            if (key === 'antutu') return d.antutu ? d.antutu + " (v11)" : '-';
+            
+            return d[key] || '';
+        }
+
+        function getChipVal(slotIdx, key) {
+            const d = getChip(slotIdx);
+            if(!d) return '-';
+            
+            if (key === 'geek_s') return d.geek_s ? d.geek_s + " (v6)" : '-';
+            if (key === 'geek_m') return d.geek_m ? d.geek_m + " (v6)" : '-';
+            if (key === 'antutu') return d.antutu ? d.antutu + " (v11)" : '-';
+            
+            return d[key] || '-';
+        }
+
+        function getChip(slotIdx) { return compareSlots[slotIdx] !== null ? allChips[compareSlots[slotIdx]] : null; }
+
+        function getRowTokens(values) {
+            const validValues = values.filter(v => v !== '' && v !== '-');
+            if (validValues.length < 2) return { isAllSame: false, common: new Set() };
+
+            const tokenize = (str) => {
+                return str.toString().toLowerCase()
+                    .replace(/,/g, ' ') 
+                    .split(/\s+/)
+                    .filter(w => w.length > 0); 
+            };
+
+            const sets = validValues.map(v => new Set(tokenize(v)));
+            const common = new Set([...sets[0]].filter(x => sets.every(s => s.has(x))));
+            const isAllSame = sets.every(s => s.size === common.size);
+
+            return { isAllSame, common };
+        }
+
+        function highlightDiff(text, commonSet) {
+            if (!text || text === '-') return '-';
+            const parts = text.toString().split(/(\s+|,\s*)/); 
+            return parts.map(part => {
+                const clean = part.toLowerCase().trim();
+                if (!clean || clean.match(/^\s*$/)) return part; 
+                const isWord = clean.match(/[a-z0-9]/);
+                if (!isWord) return part;
+                if (commonSet.has(clean)) {
+                    return `<span class="diff-word-common">${part}</span>`;
+                } else {
+                    return `<span class="diff-word-unique">${part}</span>`;
+                }
+            }).join('');
+        }
+
+        function searchForSlot(input, slotId) {
+            const term = input.value.toLowerCase();
+            const drop = document.getElementById(`dropdown-${slotId}`);
+            drop.innerHTML = "";
+            if(term.length < 1) { drop.style.display = 'none'; return; }
+            const matches = allChips.map((d, i) => ({...d, idx: i})).filter(d => d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term));
+            if(matches.length > 0) {
+                drop.style.display = 'block';
+                matches.forEach(m => {
+                    drop.innerHTML += `<div class="slot-item" onclick="setSlot(${slotId}, ${m.idx})"><img src="${m.image}"><span>${m.model}</span></div>`;
+                });
+            } else { drop.style.display = 'none'; }
+        }
+
+        function setSlot(slotId, devIdx) { compareSlots[slotId] = devIdx; renderCompareTable(); }
+        function toggleDiffMode() { 
+            diffMode = !diffMode;
+            document.getElementById('tab-compare').classList.toggle('diff-mode-active'); 
+            renderCompareTable();
+        }
 
         document.getElementById('searchInput').addEventListener('keyup', (e) => {
             const term = e.target.value.toLowerCase();
