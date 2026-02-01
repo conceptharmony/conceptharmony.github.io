@@ -24,11 +24,17 @@
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { overflow-x: hidden; }
-        body { background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; min-height: 100vh; transition: none !important; }
+        
+        body { 
+            background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', sans-serif; 
+            margin: 0; padding: 20px; min-height: 100vh; transition: none !important; 
+        }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: url('background.jpg') center/cover; filter: blur(20px); }
         html.light-mode body::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
+
         .container { max-width: 1100px; margin: auto; width: 100%; }
         .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
+
         .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
         .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
         .logo span { font-weight: 700; }
@@ -36,7 +42,7 @@
         .nav-btn { text-decoration: none; color: var(--text-main); padding: 0 20px; height: 40px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; }
         .nav-btn:hover, .nav-btn.active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
         html.light-mode .nav-btn:hover, html.light-mode .nav-btn.active { color: white !important; }
-        
+
         .dropdown-container { position: relative; }
         .dropdown-content { display: none; position: absolute; right: 0; top: 50px; background: rgba(30, 30, 30, 0.98); min-width: 200px; border-radius: var(--radius-btn); box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 200; overflow: hidden; border: 1px solid var(--glass-border); }
         .dropdown-content.show { display: block; }
@@ -45,9 +51,9 @@
         html.light-mode .dropdown-item { color: #333; border-color: rgba(0,0,0,0.05); }
         .dropdown-item:hover { background: var(--accent); color: black !important; }
         .social-icon { width: 18px; height: 18px; fill: currentColor; }
-
         .theme-btn { width: 40px; padding: 0; border-radius: 50%; }
         .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
         @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
@@ -60,28 +66,93 @@
             .dropdown-content { position: static; width: 100%; box-shadow: none; border: none; background: transparent; padding-left: 20px; margin-top:5px; }
             .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
+
         .controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .search-box { flex: 2; min-width: 200px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
         .filter-box { flex: 1; min-width: 140px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); cursor: pointer; }
         html.light-mode .search-box, html.light-mode .filter-box { background: rgba(255,255,255,0.6); color: black; border-color: rgba(0,0,0,0.1); }
+
         .news-grid { display: grid; grid-template-columns: 1fr; gap: 25px; }
-        .news-card { display: flex; gap: 20px; cursor: pointer; transition: transform 0.2s; padding: 20px; }
+        
+        .news-card { 
+            display: flex; 
+            gap: 20px; 
+            cursor: pointer; 
+            transition: transform 0.2s; 
+            padding: 20px; 
+            align-items: flex-start;
+        }
         .news-card:hover { transform: translateY(-3px); border-color: var(--accent); }
-        .news-img { width: 280px; height: 180px; object-fit: cover; border-radius: 8px; flex-shrink: 0; background: rgba(255,255,255,0.05); }
-        .news-content { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-        .news-cat { font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-weight: 800; letter-spacing: 1px; margin-bottom: 8px; }
-        .news-title { font-size: 1.6rem; margin: 0 0 10px 0; line-height: 1.2; font-weight: 700; }
+        
+        .news-img { 
+            width: 280px; 
+            height: 180px; 
+            object-fit: cover; 
+            border-radius: 8px; 
+            flex-shrink: 0; 
+            background: rgba(255,255,255,0.05); 
+        }
+        
+        .news-content { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            min-width: 0; 
+        }
+        
+        .news-cat { 
+            font-size: 0.7rem; 
+            text-transform: uppercase; 
+            color: var(--accent); 
+            font-weight: 800; 
+            letter-spacing: 1px; 
+            margin-bottom: 8px; 
+        }
+        
+        .news-title { 
+            font-size: 1.6rem; 
+            margin: 0 0 10px 0; 
+            line-height: 1.2; 
+            font-weight: 700; 
+            overflow-wrap: break-word; 
+            word-wrap: break-word;
+        }
+        
         .news-meta { font-size: 0.8rem; color: var(--text-muted); }
+        
+        /* MOBILE FIX FOR OVERLAPPING TITLE */
         @media (max-width: 768px) {
-            .news-card { flex-direction: column; }
-            .news-img { width: 100%; height: 200px; }
+            .news-card { 
+                flex-direction: column; 
+                align-items: flex-start;
+                height: auto; /* Let card grow */
+            }
+            .news-img { 
+                width: 100%; 
+                height: 200px; 
+                margin-bottom: 15px; /* Spacing between img and text */
+            }
+            .news-content {
+                width: 100%;
+                display: block; /* Reset flex */
+            }
+            .news-title { 
+                font-size: 1.4rem; 
+                white-space: normal; /* Force text wrapping */
+            }
             .controls { flex-direction: column; }
         }
+        
         .hidden { display: none !important; }
-        .full-article h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .full-article h1 { font-size: 2.5rem; margin-bottom: 10px; overflow-wrap: break-word; }
         .full-article img { width: 100%; height: auto; border-radius: 12px; margin: 20px 0; }
-        .article-body { line-height: 1.8; font-size: 1.1rem; color: #ddd; }
+        .article-body { line-height: 1.8; font-size: 1.1rem; color: #ddd; overflow-wrap: break-word; }
         html.light-mode .article-body { color: #333; }
+        @media (max-width: 768px) {
+            .full-article h1 { font-size: 1.8rem; }
+            .article-body { font-size: 1rem; }
+        }
     </style>
 </head>
 <body>
@@ -106,7 +177,17 @@
                     </div>
                 </div>
                 <button id="themeToggle" class="nav-btn theme-btn">
-                    <svg class="theme-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <svg class="theme-icon" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
                 </button>
             </div>
         </div>
