@@ -1,5 +1,24 @@
 [
   {
+    "brand": "Spinach",
+    "model": "B62",
+    "announced": "September 17, 2025",
+    "type": "SoC",
+    "process": "TSMC 3nm",
+    "cpu_cores": "4 x 3.78GHz Oxygen 2 + 4 x 2.66GHz Neon 2 Pro",
+    "gpu_model": "Iodine 502",
+    "gpu_clock": "2.1GHz",
+    "npu": "Synapse X620",
+    "isp": "Omnistream G311",
+    "modem": "NextGate N12 5G",
+    "geek_s": "3291",
+    "geek_m": "9834",
+    "antutu": "3189293",
+    "price": "$2349",
+    "price_eur": "€1899",
+    "image": "images/1000008478.png"
+},
+  {
     "brand": "Tianyu",
     "model": "Delta 9100",
     "announced": "31 January 2026",
