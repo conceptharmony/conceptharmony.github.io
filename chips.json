@@ -1,6 +1,27 @@
 [
   {
     "brand": "Spinach",
+    "model": "B60",
+    "colors": "",
+    "announced": "February 25, 2025",
+    "type": "SoC",
+    "process": "TSMC 3nm",
+    "open_use": "No (Proprietary)",
+    "cpu_cores": "2 x 3.36GHz Oxygen 1 + 4 x 2.18GHz Neon 1",
+    "gpu_model": "Iodine 500",
+    "npu": "Synapse X600",
+    "gpu_clock": "1.6GHz",
+    "isp": "Omnistream G31",
+    "modem": "NextGate N11 5G",
+    "geek_s": "2839",
+    "geek_m": "8219",
+    "antutu": "2342975",
+    "price": "$190",
+    "price_eur": "€160",
+    "image": "images/102APPLE_IMG_2821.png"
+},
+  {
+    "brand": "Spinach",
     "model": "B61",
     "colors": "",
     "announced": "June 21, 2025",
