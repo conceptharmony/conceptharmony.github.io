@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ConceptHarmony</title>
+    <title>Devices - ConceptHarmony</title>
     <script>
         (function() {
             const savedTheme = localStorage.getItem('theme');
@@ -28,17 +28,11 @@
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { overflow-x: hidden; }
-        
-        body { 
-            background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', sans-serif; 
-            margin: 0; padding: 20px; min-height: 100vh; transition: none !important;
-        }
+        body { background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; min-height: 100vh; transition: none !important; }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: url('background.jpg') center/cover; filter: blur(20px); }
         html.light-mode body::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
-
         .container { max-width: 1100px; margin: auto; width: 100%; }
         .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
-
         .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
         .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
         .logo span { font-weight: 700; }
@@ -46,7 +40,6 @@
         .nav-btn { text-decoration: none; color: var(--text-main); padding: 0 20px; height: 40px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; }
         .nav-btn:hover, .nav-btn.active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
         html.light-mode .nav-btn:hover, html.light-mode .nav-btn.active { color: white !important; }
-
         .dropdown-container { position: relative; }
         .dropdown-content { display: none; position: absolute; right: 0; top: 50px; background: rgba(30, 30, 30, 0.98); min-width: 200px; border-radius: var(--radius-btn); box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 200; overflow: hidden; border: 1px solid var(--glass-border); }
         .dropdown-content.show { display: block; }
@@ -57,7 +50,6 @@
         .social-icon { width: 18px; height: 18px; fill: currentColor; }
         .theme-btn { width: 40px; padding: 0; border-radius: 50%; }
         .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
-
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
         @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
@@ -70,41 +62,29 @@
             .dropdown-content { position: static; width: 100%; box-shadow: none; border: none; background: transparent; padding-left: 20px; margin-top:5px; }
             .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
-
         .controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .search-box { flex: 2; min-width: 200px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
         .filter-box { flex: 1; min-width: 140px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); cursor: pointer; }
         html.light-mode .search-box, html.light-mode .filter-box { background: rgba(255,255,255,0.6); color: black; border-color: rgba(0,0,0,0.1); }
-
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         .card { cursor: pointer; transition: transform 0.2s; padding: 15px; }
         .card:hover { transform: translateY(-5px); border-color: var(--accent); }
         .card img { width: 100%; height: 200px; object-fit: contain; background: transparent; padding: 5px; border-radius: 6px; }
         .card h3 { margin: 10px 0 5px 0; color: var(--accent); }
         .card .type-tag { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 2px; text-transform: uppercase; color: var(--text-muted); }
-        
         .hidden { display: none !important; }
         .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
         .hero-img { flex: 1; min-width: 300px; max-width: 100%; }
         .hero-img img { width: 100%; height: auto; border-radius: 10px; object-fit: contain; background: transparent; }
         .specs-summary { flex: 1.5; text-align: left; }
-        
-        @media (max-width: 768px) { 
-            .top-section { flex-direction: column; align-items: flex-start; } 
-            .hero-img { width: 100%; min-width: unset; max-width: 100%; margin: 0 auto; display: block; }
-            .specs-summary { width: 100%; margin-top: 15px; }
-            .controls { flex-direction: column; }
-        }
-        
+        @media (max-width: 768px) { .top-section { flex-direction: column; align-items: flex-start; } .hero-img { width: 100%; min-width: unset; max-width: 100%; margin: 0 auto; display: block; } .specs-summary { width: 100%; margin-top: 15px; } .controls { flex-direction: column; } }
         .quick-data { margin-top: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .spec-item { display: flex; align-items: center; gap: 12px; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
         .spec-icon { width: 24px; height: 24px; fill: var(--text-muted); flex-shrink: 0; }
         .spec-text small { display: block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
         .spec-text span { font-size: 0.95rem; font-weight: 600; color: var(--text-main); display: block; line-height: 1.2; }
-
         .tab-container { display: flex; gap: 10px; justify-content: flex-start; margin-bottom: 20px; margin-top: 20px; flex-wrap: wrap; }
         .tab-container .nav-btn { flex: 1; text-align: center; min-width: 100px; }
-
         table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 5px; table-layout: fixed; }
         th, td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: left; vertical-align: top; }
         td { word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
@@ -113,80 +93,16 @@
         html.light-mode tr:nth-child(odd) { background: rgba(0,0,0,0.03); }
         th { color: var(--accent); width: 40%; font-weight: 600; opacity: 0.9; }
         td { color: var(--text-main); line-height: 1.6; }
-        .cat-header { 
-            background: transparent !important; color: var(--text-muted); font-size: 0.9rem; 
-            letter-spacing: 2px; text-transform: uppercase; padding-top: 35px; padding-bottom: 10px;
-            border-bottom: 2px solid var(--accent) !important; font-weight: 800;
-        }
-
-        .compare-wrapper { 
-            overflow-x: auto; 
-            -webkit-overflow-scrolling: touch; 
-            position: relative; 
-            padding-bottom: 10px; 
-            max-height: 75vh;
-            overflow-y: auto; 
-        }
-        
-        .compare-table { 
-            width: max-content; 
-            min-width: 100%; 
-            border-collapse: separate; 
-            border-spacing: 0; 
-            table-layout: fixed; 
-        }
-        
-        .compare-table thead th, .compare-table thead td {
-            position: sticky; 
-            top: 0; 
-            z-index: 100;
-            background: #121212; 
-            border-bottom: 1px solid var(--glass-border);
-        }
+        .cat-header { background: transparent !important; color: var(--text-muted); font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; padding-top: 35px; padding-bottom: 10px; border-bottom: 2px solid var(--accent) !important; font-weight: 800; }
+        .compare-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; position: relative; padding-bottom: 10px; max-height: 75vh; overflow-y: auto; }
+        .compare-table { width: max-content; min-width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
+        .compare-table thead th, .compare-table thead td { position: sticky; top: 0; z-index: 100; background: #121212; border-bottom: 1px solid var(--glass-border); }
         html.light-mode .compare-table thead th, html.light-mode .compare-table thead td { background: #f4f4f9; }
-
-        .compare-table tbody th { 
-            width: 150px; 
-            position: sticky; 
-            left: 0; 
-            background: var(--glass-bg);
-            z-index: 50; 
-            border-right: 1px solid var(--glass-border); 
-            font-size: 0.85rem; 
-            padding: 10px;
-        }
-        
-        .compare-table td { 
-            width: 220px; 
-            text-align: center; 
-            border-right: 1px solid var(--glass-border); 
-            padding: 15px 10px; 
-            font-size: 0.9rem; 
-            vertical-align: middle;
-        }
-
-        @media (max-width: 768px) {
-            .compare-table tbody th { 
-                position: static; 
-                width: 60px !important; 
-                min-width: 60px;
-                font-size: 0.65rem; 
-                padding: 5px;
-                background: transparent;
-            }
-            .compare-table thead th { width: 60px !important; min-width: 60px; }
-            
-            .compare-table td { 
-                width: calc((100vw - 100px) / 2); 
-                min-width: calc((100vw - 100px) / 2);
-                max-width: calc((100vw - 100px) / 2);
-                font-size: 0.8rem;
-            } 
-        }
-        
+        .compare-table tbody th { width: 150px; position: sticky; left: 0; background: var(--glass-bg); z-index: 50; border-right: 1px solid var(--glass-border); font-size: 0.85rem; padding: 10px; }
+        .compare-table td { width: 220px; text-align: center; border-right: 1px solid var(--glass-border); padding: 15px 10px; font-size: 0.9rem; vertical-align: middle; }
+        @media (max-width: 768px) { .compare-table tbody th { position: static; width: 60px !important; min-width: 60px; font-size: 0.65rem; padding: 5px; background: transparent; } .compare-table thead th { width: 60px !important; min-width: 60px; } .compare-table td { width: calc((100vw - 100px) / 2); min-width: calc((100vw - 100px) / 2); max-width: calc((100vw - 100px) / 2); font-size: 0.8rem; } }
         .slot-header { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 15px 0; }
         .slot-img { width: 100px; height: 160px; object-fit: contain; background: transparent; border-radius: 6px; }
-        
         .slot-search { width: 90%; padding: 8px; font-size: 0.8rem; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: 4px; }
         .slot-dropdown { position: absolute; top: 100%; left: 0; width: 100%; background: #1a1a1a; border: 1px solid var(--glass-border); z-index: 200; max-height: 200px; overflow-y: auto; display: none; text-align: left; }
         html.light-mode .slot-dropdown { background: #fff; }
@@ -194,13 +110,10 @@
         html.light-mode .slot-item { border-bottom: 1px solid rgba(0,0,0,0.1); color: #333; }
         .slot-item:hover { background: var(--accent); color: black !important; }
         .slot-item img { width: 30px; height: 30px; object-fit: contain; }
-
         .diff-mode-active .row-same { display: none !important; }
         .diff-word-common { color: var(--diff-dim); }
         .diff-word-unique { color: var(--diff-highlight); font-weight: 700; }
-        
         .diff-btn { margin-left: auto; border-color: var(--accent); font-size: 0.8rem; }
-
         .similar-section { margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--glass-border); }
         .similar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; margin-top: 15px; }
         .mini-card { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; cursor: pointer; text-align: center; border: 1px solid transparent; transition: 0.2s; }
@@ -216,30 +129,13 @@
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <div class="nav-links" id="navLinks">
                 <a href="index.html" class="nav-btn" style="border-color:var(--accent);">Devices</a>
+                <a href="laptops.html" class="nav-btn">Laptops</a>
                 <a href="soc.html" class="nav-btn">SoCs</a>
+                <a href="sensors.html" class="nav-btn">Sensors</a>
                 <a href="news.html" class="nav-btn">News</a>
                 <a href="submit.html" class="nav-btn">Submit</a>
-      
-                <div class="dropdown-container">
-                    <button class="nav-btn" onclick="toggleSocials(event)">Socials ▾</button>
-                    <div class="dropdown-content" id="socialDropdown">
-                        <a href="#" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg> Discord</a>
-                        <a href="#" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> TikTok Main</a>
-                        <a href="#" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> TikTok Concept</a>
-                    </div>
-                </div>
                 <button id="themeToggle" class="nav-btn theme-btn">
-                    <svg class="theme-icon" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
+                    <svg class="theme-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
                 </button>
             </div>
         </div>
@@ -268,17 +164,14 @@
                     <span id="d_type" class="nav-btn" style="padding: 2px 8px; font-size: 0.7rem; pointer-events:none; border:none; background:rgba(255,255,255,0.1); width:fit-content; height:auto;">TYPE</span>
                     <h1 id="d_model" style="font-size:2.5rem; margin:10px 0;">Model</h1>
                     <h3 id="d_brand" style="color:var(--text-muted); margin:0;">Brand</h3>
-                    
                     <div id="d_quick_specs" class="quick-data"></div>
                 </div>
             </div>
-            
             <div class="tab-container">
                 <button id="btn-specs" class="nav-btn active" onclick="setTab('specs')">Specifications</button>
                 <button id="btn-pics" class="nav-btn" onclick="setTab('pics')">Images</button>
                 <button id="btn-compare" class="nav-btn" onclick="setTab('compare')">Compare</button>
             </div>
-
             <div id="tab-specs" class="glass-panel">
                 <table id="specTable"></table>
                 <div class="similar-section">
@@ -286,477 +179,80 @@
                     <div id="similarGrid" class="similar-grid"></div>
                 </div>
             </div>
-            
-            <div id="tab-pics" class="glass-panel hidden">
-                <div id="galleryGrid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:10px;"></div>
-            </div>
-
+            <div id="tab-pics" class="glass-panel hidden"><div id="galleryGrid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:10px;"></div></div>
             <div id="tab-compare" class="glass-panel hidden">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                    <h3 style="margin:0;">Compare Devices</h3>
-                    <button class="nav-btn diff-btn" onclick="toggleDiffMode()">Show Differences</button>
-                </div>
-                <div class="compare-wrapper">
-                    <table class="compare-table" id="compareTable"></table>
-                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;"><h3 style="margin:0;">Compare Devices</h3><button class="nav-btn diff-btn" onclick="toggleDiffMode()">Show Differences</button></div>
+                <div class="compare-wrapper"><table class="compare-table" id="compareTable"></table></div>
             </div>
         </div>
     </div>
-
     <script>
-        document.getElementById('themeToggle').onclick = () => {
-            const isLight = document.documentElement.classList.toggle('light-mode');
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
-        };
-        
-        function toggleMenu() { 
-            document.getElementById('navLinks').classList.toggle('active'); 
-            document.querySelector('.nav-container').classList.toggle('menu-open');
-        }
-        
-        function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
-        window.onclick = function(e) { 
-            if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); 
-            if (!e.target.matches('.slot-search')) document.querySelectorAll('.slot-dropdown').forEach(d => d.style.display='none');
-        }
-
+        document.getElementById('themeToggle').onclick = () => { const isLight = document.documentElement.classList.toggle('light-mode'); localStorage.setItem('theme', isLight ? 'light' : 'dark'); };
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); document.querySelector('.nav-container').classList.toggle('menu-open'); }
+        window.onclick = function(e) { if (!e.target.matches('.nav-btn')) { document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show')); } if (!e.target.matches('.slot-search')) document.querySelectorAll('.slot-dropdown').forEach(d => d.style.display='none'); }
         let allDevices = [];
         let currentDeviceIndex = 0;
         let compareSlots = [null, null, null];
         let diffMode = false;
-
-        async function init() {
-            try {
-                const res = await fetch('phones.json');
-                allDevices = await res.json();
-                populateBrands(allDevices);
-                filterAndSort();
-            } catch(e) { document.getElementById('phoneGrid').innerHTML = "No devices found."; }
-        }
-
-        function populateBrands(list) {
-            const brands = new Set(list.map(d => d.brand));
-            const select = document.getElementById('brandFilter');
-            brands.forEach(b => {
-                const opt = document.createElement('option');
-                opt.value = b;
-                opt.innerText = b;
-                select.appendChild(opt);
-            });
-        }
-
+        async function init() { try { const res = await fetch('phones.json'); allDevices = await res.json(); populateBrands(allDevices); filterAndSort(); } catch(e) { document.getElementById('phoneGrid').innerHTML = "No devices found."; } }
+        function populateBrands(list) { const brands = new Set(list.map(d => d.brand)); const select = document.getElementById('brandFilter'); brands.forEach(b => { const opt = document.createElement('option'); opt.value = b; opt.innerText = b; select.appendChild(opt); }); }
         function filterAndSort() {
             const term = document.getElementById('searchInput').value.toLowerCase();
             const brand = document.getElementById('brandFilter').value;
             const sort = document.getElementById('sortOrder').value;
-
-            let filtered = allDevices.filter(d => {
-                const matchSearch = d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term);
-                const matchBrand = brand === 'all' || d.brand === brand;
-                return matchSearch && matchBrand;
-            });
-
-            filtered.sort((a, b) => {
-                if (sort === 'az') return a.model.localeCompare(b.model);
-                if (sort === 'za') return b.model.localeCompare(a.model);
-                
-                const dateA = new Date(a.released || a.announced).getTime() || 0;
-                const dateB = new Date(b.released || b.announced).getTime() || 0;
-                
-                if (sort === 'newest') return dateB - dateA;
-                if (sort === 'oldest') return dateA - dateB;
-            });
-
+            let filtered = allDevices.filter(d => { const matchSearch = d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term); const matchBrand = brand === 'all' || d.brand === brand; return matchSearch && matchBrand; });
+            filtered.sort((a, b) => { if (sort === 'az') return a.model.localeCompare(b.model); if (sort === 'za') return b.model.localeCompare(a.model); const dateA = new Date(a.released || a.announced).getTime() || 0; const dateB = new Date(b.released || b.announced).getTime() || 0; if (sort === 'newest') return dateB - dateA; if (sort === 'oldest') return dateA - dateB; });
             renderGrid(filtered);
         }
-
         document.getElementById('searchInput').addEventListener('keyup', filterAndSort);
         document.getElementById('brandFilter').addEventListener('change', filterAndSort);
         document.getElementById('sortOrder').addEventListener('change', filterAndSort);
-
-        const renderGrid = (list) => {
-            const grid = document.getElementById('phoneGrid');
-            grid.innerHTML = "";
-            list.forEach((d) => {
-                const i = allDevices.indexOf(d);
-                grid.innerHTML += `
-                    <div class="glass-panel card" onclick="showDetails(${i})">
-                        <img src="${d.image}" onerror="this.src='https://placehold.co/400x600?text=No+Img'">
-                        <span class="type-tag">${d.type || 'Device'}</span>
-                        <h3>${d.model}</h3>
-                        <p>${d.brand}</p>
-                    </div>`;
-            });
-        };
-
+        const renderGrid = (list) => { const grid = document.getElementById('phoneGrid'); grid.innerHTML = ""; list.forEach((d) => { const i = allDevices.indexOf(d); grid.innerHTML += `<div class="glass-panel card" onclick="showDetails(${i})"><img src="${d.image}" onerror="this.src='https://placehold.co/400x600?text=No+Img'"><span class="type-tag">${d.type || 'Device'}</span><h3>${d.model}</h3><p>${d.brand}</p></div>`; }); };
         window.showDetails = (i) => {
-            currentDeviceIndex = i;
-            compareSlots = [i, null, null];
-            window.scrollTo(0,0);
-            
-            const d = allDevices[i];
-            document.getElementById('galleryView').classList.add('hidden');
-            document.getElementById('detailView').classList.remove('hidden');
-            document.getElementById('d_img').src = d.image;
-            document.getElementById('d_model').innerText = d.model;
-            document.getElementById('d_brand').innerText = d.brand;
-            document.getElementById('d_type').innerText = d.type || "DEVICE";
-            
-            const chip = d.chipset || '-';
-            const ram = (d.ram || '-').split(' / ')[0];
-            const screenStr = d.screen ? d.screen.split(',').pop() : '-';
-            const batt = d.battery || '-';
-
-            document.getElementById('d_quick_specs').innerHTML = `
-                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 2v16h12V4H6zm4 4h4v4h-4V8z"/></svg><div class="spec-text"><small>CHIPSET</small><span>${chip}</span></div></div>
-                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M2 5h20v14H2V5zm2 2v10h16V7H4zm2 2h2v6H6V9zm4 0h2v6h-2V9zm4 0h2v6h-2V9z"/></svg><div class="spec-text"><small>MEMORY</small><span>${ram}</span></div></div>
-                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg><div class="spec-text"><small>DISPLAY</small><span>${screenStr}</span></div></div>
-                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M16.667 4H15V2H9v2H7.333C6.59 4 6 4.6 6 5.333v15.334C6 21.4 6.59 22 7.333 22h9.334C17.41 22 18 21.4 18 20.667V5.333C18 4.6 17.41 4 16.667 4z"/></svg><div class="spec-text"><small>BATTERY</small><span>${batt}</span></div></div>
-            `;
-
-            let html = "";
-            const row = (lbl, val) => `<tr><th>${lbl}</th><td>${val || '-'}</td></tr>`;
-            const header = (title) => `<tr><td colspan="2" class="cat-header">${title}</td></tr>`;
-
-            html += header("Launch");
-            if(d.status) html += row("Status", d.status);
-            if(d.announced) html += row("Announced", d.announced);
-            if(d.released) html += row("Release Date", d.released);
-
-            html += header("Body");
-            if(d.dimensions) html += row("Dimensions", d.dimensions);
-            if(d.weight) html += row("Weight", d.weight + (d.weight.includes('g')?'':'g'));
-            if(d.build) html += row("Build", d.build);
-            if(d.colors) html += row("Colors", d.colors);
-            if(d.ip_rating) html += row("IP Rating", d.ip_rating);
-
-            html += header("Display");
-            if(d.screen) {
-                const parts = d.screen.split(', ');
-                if(parts[0]) html += row("Type", parts[0]);
-                if(parts[1]) html += row("Refresh Rate", parts[1]);
-                if(parts[2]) html += row("Size", parts[2]);
-                if(parts[3]) html += row("Brightness", parts[3]);
-            }
-            if(d.second_screen) {
-                html += `<tr><th colspan="2" style="color:var(--accent); text-align:center; padding-top:10px;">Secondary Display</th></tr>`;
-                const sec = d.second_screen.split(', ');
-                if(sec[0]) html += row("Type", sec[0]);
-                if(sec[1]) html += row("Refresh Rate", sec[1]);
-                if(sec[2]) html += row("Size", sec[2]);
-                if(sec[3]) html += row("Brightness", sec[3]);
-                if(sec[4]) html += row("Resolution", sec[4]);
-            }
+            currentDeviceIndex = i; compareSlots = [i, null, null]; window.scrollTo(0,0); const d = allDevices[i];
+            document.getElementById('galleryView').classList.add('hidden'); document.getElementById('detailView').classList.remove('hidden');
+            document.getElementById('d_img').src = d.image; document.getElementById('d_model').innerText = d.model; document.getElementById('d_brand').innerText = d.brand; document.getElementById('d_type').innerText = d.type || "DEVICE";
+            const chip = d.chipset || '-'; const ram = (d.ram || '-').split(' / ')[0]; const screenStr = d.screen ? d.screen.split(',').pop() : '-'; const batt = d.battery || '-';
+            document.getElementById('d_quick_specs').innerHTML = `<div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 2v16h12V4H6zm4 4h4v4h-4V8z"/></svg><div class="spec-text"><small>CHIPSET</small><span>${chip}</span></div></div><div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M2 5h20v14H2V5zm2 2v10h16V7H4zm2 2h2v6H6V9zm4 0h2v6h-2V9zm4 0h2v6h-2V9z"/></svg><div class="spec-text"><small>MEMORY</small><span>${ram}</span></div></div><div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg><div class="spec-text"><small>DISPLAY</small><span>${screenStr}</span></div></div><div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M16.667 4H15V2H9v2H7.333C6.59 4 6 4.6 6 5.333v15.334C6 21.4 6.59 22 7.333 22h9.334C17.41 22 18 21.4 18 20.667V5.333C18 4.6 17.41 4 16.667 4z"/></svg><div class="spec-text"><small>BATTERY</small><span>${batt}</span></div></div>`;
+            let html = ""; const row = (lbl, val) => `<tr><th>${lbl}</th><td>${val || '-'}</td></tr>`; const header = (title) => `<tr><td colspan="2" class="cat-header">${title}</td></tr>`;
+            html += header("Launch"); if(d.status) html += row("Status", d.status); if(d.announced) html += row("Announced", d.announced); if(d.released) html += row("Release Date", d.released);
+            html += header("Body"); if(d.dimensions) html += row("Dimensions", d.dimensions); if(d.weight) html += row("Weight", d.weight + (d.weight.toString().includes('g')?'':'g')); if(d.build) html += row("Build", d.build); if(d.colors) html += row("Colors", d.colors); if(d.ip_rating) html += row("IP Rating", d.ip_rating);
+            html += header("Display"); if(d.screen) { const parts = d.screen.split(', '); if(parts[0]) html += row("Type", parts[0]); if(parts[1]) html += row("Refresh Rate", parts[1]); if(parts[2]) html += row("Size", parts[2]); if(parts[3]) html += row("Brightness", parts[3]); }
+            if(d.second_screen) { html += `<tr><th colspan="2" style="color:var(--accent); text-align:center; padding-top:10px;">Secondary Display</th></tr>`; const sec = d.second_screen.split(', '); if(sec[0]) html += row("Type", sec[0]); if(sec[1]) html += row("Refresh Rate", sec[1]); if(sec[2]) html += row("Size", sec[2]); if(sec[3]) html += row("Brightness", sec[3]); if(sec[4]) html += row("Resolution", sec[4]); }
             if(d.resolution) html += row("Resolution", d.resolution);
-
-            html += header("Platform");
-            if(d.os) html += row("OS", d.os);
-            if(d.chipset) html += row("Chipset", d.chipset);
-
-            html += header("Memory");
-            if(d.storage) html += row("Storage", d.storage);
-            if(d.ram) html += row("RAM", d.ram);
-
-            html += header("Camera");
-            if(d.camera_modules) d.camera_modules.forEach(m => html += row(m.label, m.specs));
-            if(d.camera_features) html += row("Features", Array.isArray(d.camera_features) ? d.camera_features.join(', ') : d.camera_features);
-            if(d.cam_video) html += row("Video", d.cam_video);
-            if(d.cam_selfie) html += row("Selfie", d.cam_selfie);
-
-            html += header("Features");
-            if(d.sensors) {
-                if(Array.isArray(d.sensors)) {
-                    html += row("Sensors", d.sensors.join(', '));
-                } else { d.sensors.forEach(s => html += row(s.label, s.specs)); }
-            }
-            
-            html += header("Power");
-            if(d.battery) html += row("Battery", d.battery);
-            if(d.charging) html += row("Charging", d.charging);
-
-            let hasTests = d.geek_s || d.geek_m || d.antutu;
-            let priceStr = "";
-            if(d.price && d.price_eur) priceStr = `${d.price} / ${d.price_eur}`;
-            else if(d.price) priceStr = d.price;
-            else if(d.price_eur) priceStr = d.price_eur;
-
-            if(hasTests || priceStr) {
-                html += header("Tests & Price");
-                if(d.geek_s) html += row("Geekbench Single", d.geek_s + " (v6)");
-                if(d.geek_m) html += row("Geekbench Multi", d.geek_m + " (v6)");
-                if(d.antutu) html += row("AnTuTu", d.antutu + " (v11)");
-                if(priceStr) html += row("Price", priceStr);
-            }
-
-            document.getElementById('specTable').innerHTML = html;
-            renderSimilarDevices(d);
-            
-            const galleryDiv = document.getElementById('galleryGrid');
-            galleryDiv.innerHTML = "";
-            if(d.gallery && d.gallery.length > 0) {
-                d.gallery.forEach(src => {
-                    galleryDiv.innerHTML += `<img src="${src}" style="width:100%; border-radius:6px; cursor:pointer;" onclick="window.open('${src}')">`;
-                });
-            } else {
-                galleryDiv.innerHTML = "<p style='color:var(--text-muted);'>No extra images.</p>";
-            }
+            html += header("Platform"); if(d.os) html += row("OS", d.os); if(d.chipset) html += row("Chipset", d.chipset);
+            html += header("Memory"); if(d.storage) html += row("Storage", d.storage); if(d.ram) html += row("RAM", d.ram);
+            html += header("Camera"); if(d.camera_modules) d.camera_modules.forEach(m => html += row(m.label, m.specs)); if(d.camera_features) html += row("Features", Array.isArray(d.camera_features) ? d.camera_features.join(', ') : d.camera_features); if(d.cam_video) html += row("Video", d.cam_video); if(d.cam_selfie) html += row("Selfie", d.cam_selfie);
+            html += header("Features"); if(d.sensors) { if(Array.isArray(d.sensors)) { html += row("Sensors", d.sensors.join(', ')); } else { d.sensors.forEach(s => html += row(s.label, s.specs)); } }
+            html += header("Power"); if(d.battery) html += row("Battery", d.battery); if(d.charging) html += row("Charging", d.charging);
+            let hasTests = d.geek_s || d.geek_m || d.antutu; let priceStr = ""; if(d.price && d.price_eur) priceStr = `${d.price} / ${d.price_eur}`; else if(d.price) priceStr = d.price; else if(d.price_eur) priceStr = d.price_eur;
+            if(hasTests || priceStr) { html += header("Tests & Price"); if(d.geek_s) html += row("Geekbench Single", d.geek_s + " (v6)"); if(d.geek_m) html += row("Geekbench Multi", d.geek_m + " (v6)"); if(d.antutu) html += row("AnTuTu", d.antutu + " (v11)"); if(priceStr) html += row("Price", priceStr); }
+            document.getElementById('specTable').innerHTML = html; renderSimilarDevices(d);
+            const galleryDiv = document.getElementById('galleryGrid'); galleryDiv.innerHTML = ""; if(d.gallery && d.gallery.length > 0) { d.gallery.forEach(src => { galleryDiv.innerHTML += `<img src="${src}" style="width:100%; border-radius:6px; cursor:pointer;" onclick="window.open('${src}')">`; }); } else { galleryDiv.innerHTML = "<p style='color:var(--text-muted);'>No extra images.</p>"; }
             setTab('specs');
         };
-
-        function renderSimilarDevices(current) {
-            const grid = document.getElementById('similarGrid');
-            grid.innerHTML = "";
-            let matches = allDevices.filter(d => d.brand === current.brand && d.model !== current.model);
-            if(matches.length < 4) {
-                const others = allDevices.filter(d => d.brand !== current.brand);
-                others.sort(() => .5 - Math.random());
-                matches = matches.concat(others.slice(0, 4 - matches.length));
-            }
-            matches = matches.slice(0, 4);
-
-            if(matches.length > 0) {
-                matches.forEach(m => {
-                    const originalIndex = allDevices.findIndex(x => x.model === m.model);
-                    grid.innerHTML += `<div class="mini-card" onclick="showDetails(${originalIndex}); window.scrollTo(0,0);"><img src="${m.image}"><h4>${m.model}</h4></div>`;
-                });
-            } else { grid.innerHTML = "<p style='font-size:0.8rem; color:grey;'>No similar devices found.</p>"; }
-        }
-
-        window.setTab = (t) => {
-            ['specs', 'pics', 'compare'].forEach(x => {
-                document.getElementById('tab-'+x).classList.add('hidden');
-                document.getElementById('btn-'+x).classList.remove('active');
-            });
-            document.getElementById('tab-'+t).classList.remove('hidden');
-            document.getElementById('btn-'+t).classList.add('active');
-            if(t === 'compare') renderCompareTable();
-        };
-
+        function renderSimilarDevices(current) { const grid = document.getElementById('similarGrid'); grid.innerHTML = ""; let matches = allDevices.filter(d => d.brand === current.brand && d.model !== current.model); if(matches.length < 4) { const others = allDevices.filter(d => d.brand !== current.brand); others.sort(() => .5 - Math.random()); matches = matches.concat(others.slice(0, 4 - matches.length)); } matches = matches.slice(0, 4); if(matches.length > 0) { matches.forEach(m => { const originalIndex = allDevices.indexOf(m); grid.innerHTML += `<div class="mini-card" onclick="showDetails(${originalIndex}); window.scrollTo(0,0);"><img src="${m.image}"><h4>${m.model}</h4></div>`; }); } else { grid.innerHTML = "<p style='font-size:0.8rem; color:grey;'>No similar devices found.</p>"; } }
+        window.setTab = (t) => { ['specs', 'pics', 'compare'].forEach(x => { document.getElementById('tab-'+x).classList.add('hidden'); document.getElementById('btn-'+x).classList.remove('active'); }); document.getElementById('tab-'+t).classList.remove('hidden'); document.getElementById('btn-'+t).classList.add('active'); if(t === 'compare') renderCompareTable(); };
         function renderCompareTable() {
-            const table = document.getElementById('compareTable');
-            let html = `<thead><tr><th></th>`;
-            compareSlots.forEach((devIdx, slotId) => {
-                const dev = devIdx !== null ? allDevices[devIdx] : null;
-                html += `<td><div class="slot-header"><img class="slot-img" src="${dev ? dev.image : ''}" style="${dev?'':'opacity:0'}"><div>${dev ? dev.model : 'Empty Slot'}</div><input type="text" class="slot-search" placeholder="Search..." onkeyup="searchForSlot(this, ${slotId})"><div class="slot-dropdown" id="dropdown-${slotId}"></div></div></td>`;
-            });
-            html += `</tr></thead><tbody>`;
-
-            const specKeys = [
-                {cat: "Launch", keys: [{k:'status', l:'Status'}, {k:'released', l:'Released'}]},
-                {cat: "Body", keys: [{k:'dimensions', l:'Dimensions'}, {k:'weight', l:'Weight'}, {k:'build', l:'Build'}, {k:'ip_rating', l:'IP Rating'}, {k:'colors', l:'Colors'}]},
-                {cat: "Display", keys: [{k:'screen_type', l:'Type'}, {k:'screen_refresh', l:'Refresh'}, {k:'screen_size', l:'Size'}, {k:'screen_bri', l:'Brightness'}, {k:'resolution', l:'Resolution'}]},
-                {cat: "Secondary/Cover Display", keys: [{k:'sec_type', l:'Cover Type'}, {k:'sec_refresh', l:'Cover Refresh'}, {k:'sec_size', l:'Cover Size'}, {k:'sec_bri', l:'Cover Bri'}, {k:'sec_res', l:'Cover Res'}]},
-                {cat: "Platform", keys: [{k:'os', l:'OS'}, {k:'chipset', l:'Chipset'}]},
-                {cat: "Memory", keys: [{k:'storage', l:'Storage'}, {k:'ram', l:'RAM'}]},
-                {cat: "Camera", keys: [{k:'cam_0', l:'Main Camera'}, {k:'cam_1', l:'Second Camera'}, {k:'cam_2', l:'Third Camera'}, {k:'cam_3', l:'Fourth Camera'}, {k:'camera_features', l:'Features'}, {k:'cam_video', l:'Video'}, {k:'cam_selfie', l:'Selfie'}]},
-                {cat: "Features", keys: [{k:'sensors', l:'Sensors'}]},
-                {cat: "Power", keys: [{k:'battery', l:'Battery'}, {k:'charging', l:'Charging'}]},
-                {cat: "Tests & Price", keys: [{k:'geek_s', l:'Geekbench Single'}, {k:'geek_m', l:'Geekbench Multi'}, {k:'antutu', l:'AnTuTu'}, {k:'price', l:'Price'}]}
-            ];
-
-            specKeys.forEach(section => {
-                html += `<tr><td colspan="4" class="cat-header" style="text-align:center;">${section.cat}</td></tr>`;
-                section.keys.forEach(s => {
-                    const v1 = getCompareVal(0, s.k);
-                    const v2 = getCompareVal(1, s.k);
-                    const v3 = getCompareVal(2, s.k);
-                    
-                    const raw1 = getRawVal(0, s.k);
-                    const raw2 = getRawVal(1, s.k);
-                    const raw3 = getRawVal(2, s.k);
-
-                    let isRowSame = false;
-                    let html1 = v1, html2 = v2, html3 = v3;
-
-                    if (diffMode) {
-                        const rowTokens = getRowTokens([raw1, raw2, raw3]);
-                        if (rowTokens.isAllSame) {
-                            isRowSame = true; 
-                        } else {
-                            html1 = highlightDiff(raw1, rowTokens.common);
-                            html2 = highlightDiff(raw2, rowTokens.common);
-                            html3 = highlightDiff(raw3, rowTokens.common);
-                        }
-                    }
-
-                    let rowClass = (diffMode && isRowSame) ? 'row-same' : 'row-diff';
-                    if (!diffMode) rowClass = '';
-
-                    html += `<tr class="${rowClass}">
-                        <th>${s.l}</th>
-                        <td>${html1}</td>
-                        <td>${html2}</td>
-                        <td>${html3}</td>
-                    </tr>`;
-                });
-            });
-
-            html += `</tbody>`;
-            table.innerHTML = html;
+            const table = document.getElementById('compareTable'); let html = `<thead><tr><th></th>`; compareSlots.forEach((devIdx, slotId) => { const dev = devIdx !== null ? allDevices[devIdx] : null; html += `<td><div class="slot-header"><img class="slot-img" src="${dev ? dev.image : ''}" style="${dev?'':'opacity:0'}"><div>${dev ? dev.model : 'Empty Slot'}</div><input type="text" class="slot-search" placeholder="Search..." onkeyup="searchForSlot(this, ${slotId})"><div class="slot-dropdown" id="dropdown-${slotId}"></div></div></td>`; }); html += `</tr></thead><tbody>`;
+            const specKeys = [{cat: "Launch", keys: [{k:'status', l:'Status'}, {k:'released', l:'Released'}]},{cat: "Body", keys: [{k:'dimensions', l:'Dimensions'}, {k:'weight', l:'Weight'}, {k:'build', l:'Build'}, {k:'ip_rating', l:'IP Rating'}, {k:'colors', l:'Colors'}]},{cat: "Display", keys: [{k:'screen_type', l:'Type'}, {k:'screen_refresh', l:'Refresh'}, {k:'screen_size', l:'Size'}, {k:'screen_bri', l:'Brightness'}, {k:'resolution', l:'Resolution'}]},{cat: "Secondary Display", keys: [{k:'sec_type', l:'Sec Type'}, {k:'sec_refresh', l:'Sec Refresh'}, {k:'sec_size', l:'Sec Size'}, {k:'sec_bri', l:'Sec Bri'}, {k:'sec_res', l:'Sec Res'}]},{cat: "Platform", keys: [{k:'os', l:'OS'}, {k:'chipset', l:'Chipset'}]},{cat: "Memory", keys: [{k:'storage', l:'Storage'}, {k:'ram', l:'RAM'}]},{cat: "Camera", keys: [{k:'cam_0', l:'Main Cam'}, {k:'cam_1', l:'Second Cam'}, {k:'cam_2', l:'Third Cam'}, {k:'cam_3', l:'Fourth Cam'}, {k:'camera_features', l:'Features'}, {k:'cam_video', l:'Video'}, {k:'cam_selfie', l:'Selfie'}]},{cat: "Features", keys: [{k:'sensors', l:'Sensors'}]},{cat: "Power", keys: [{k:'battery', l:'Battery'}, {k:'charging', l:'Charging'}]},{cat: "Tests & Price", keys: [{k:'geek_s', l:'GB Single'}, {k:'geek_m', l:'GB Multi'}, {k:'antutu', l:'AnTuTu'}, {k:'price', l:'Price'}]}];
+            specKeys.forEach(section => { html += `<tr><td colspan="4" class="cat-header" style="text-align:center;">${section.cat}</td></tr>`; section.keys.forEach(s => { const raw1 = getRawVal(0, s.k); const raw2 = getRawVal(1, s.k); const raw3 = getRawVal(2, s.k); let isRowSame = false; let h1 = raw1, h2 = raw2, h3 = raw3; if (diffMode) { const tokens = getRowTokens([raw1, raw2, raw3]); if (tokens.isAllSame) { isRowSame = true; } else { h1 = highlightDiff(raw1, tokens.common); h2 = highlightDiff(raw2, tokens.common); h3 = highlightDiff(raw3, tokens.common); } } let rowClass = (diffMode && isRowSame) ? 'row-same' : ''; html += `<tr class="${rowClass}"><th>${s.l}</th><td>${h1 || '-'}</td><td>${h2 || '-'}</td><td>${h3 || '-'}</td></tr>`; }); }); html += `</tbody>`; table.innerHTML = html;
         }
-
         function getRawVal(slotIdx, key) {
-            const d = getDev(slotIdx);
-            if(!d) return '';
-            
-            if (key.startsWith('screen_') && d.screen) {
-                const parts = d.screen.split(', ');
-                if (key === 'screen_type') return parts[0] || '-';
-                if (key === 'screen_refresh') return parts[1] || '-';
-                if (key === 'screen_size') return parts[2] || '-';
-                if (key === 'screen_bri') return parts[3] || '-';
-            }
-
-            if (key.startsWith('sec_') && d.second_screen) {
-                const parts = d.second_screen.split(', ');
-                if (key === 'sec_type') return parts[0] || '-';
-                if (key === 'sec_refresh') return parts[1] || '-';
-                if (key === 'sec_size') return parts[2] || '-';
-                if (key === 'sec_bri') return parts[3] || '-';
-                if (key === 'sec_res') return parts[4] || '-';
-            }
-
-            if (key.startsWith('cam_') && !key.includes('video') && !key.includes('selfie')) {
-                const idx = parseInt(key.split('_')[1]);
-                if (d.camera_modules && d.camera_modules[idx]) {
-                    return `${d.camera_modules[idx].specs} ${d.camera_modules[idx].label}`;
-                }
-                return '-';
-            }
-
-            if (key === 'geek_s') return d.geek_s ? d.geek_s + " (v6)" : '-';
-            if (key === 'geek_m') return d.geek_m ? d.geek_m + " (v6)" : '-';
-            if (key === 'antutu') return d.antutu ? d.antutu + " (v11)" : '-';
-
-            if (['sensors', 'camera_features'].includes(key) && Array.isArray(d[key])) {
-                return d[key].join(', ');
-            }
-            if(key === 'price') {
-                let p = "";
-                if(d.price && d.price_eur) p = `${d.price} / ${d.price_eur}`;
-                else if(d.price) p = d.price;
-                else if(d.price_eur) p = d.price_eur;
-                return p;
-            }
-            let val = d[key];
-            if(key === 'weight' && val && !val.toString().toLowerCase().endsWith('g')) val += 'g';
-            return val || '';
+            const d = compareSlots[slotIdx] !== null ? allDevices[compareSlots[slotIdx]] : null; if(!d) return '';
+            if (key.startsWith('screen_') && d.screen) { const p = d.screen.split(', '); if (key === 'screen_type') return p[0] || '-'; if (key === 'screen_refresh') return p[1] || '-'; if (key === 'screen_size') return p[2] || '-'; if (key === 'screen_bri') return p[3] || '-'; }
+            if (key.startsWith('sec_') && d.second_screen) { const p = d.second_screen.split(', '); if (key === 'sec_type') return p[0] || '-'; if (key === 'sec_refresh') return p[1] || '-'; if (key === 'sec_size') return p[2] || '-'; if (key === 'sec_bri') return p[3] || '-'; if (key === 'sec_res') return p[4] || '-'; }
+            if (key.startsWith('cam_') && !key.includes('video') && !key.includes('selfie')) { const idx = parseInt(key.split('_')[1]); return (d.camera_modules && d.camera_modules[idx]) ? `${d.camera_modules[idx].label}: ${d.camera_modules[idx].specs}` : '-'; }
+            if (key === 'geek_s') return d.geek_s ? d.geek_s + " (v6)" : '-'; if (key === 'geek_m') return d.geek_m ? d.geek_m + " (v6)" : '-'; if (key === 'antutu') return d.antutu ? d.antutu + " (v11)" : '-';
+            if (['sensors', 'camera_features'].includes(key) && Array.isArray(d[key])) return d[key].join(', ');
+            if (key === 'price') return d.price_eur ? `${d.price} / ${d.price_eur}` : (d.price || '-');
+            let val = d[key]; if(key === 'weight' && val && !val.toString().toLowerCase().endsWith('g')) val += 'g'; return val || '';
         }
-
-        function getRowTokens(values) {
-            const validValues = values.filter(v => v !== '' && v !== '-');
-            if (validValues.length < 2) return { isAllSame: false, common: new Set() };
-
-            const tokenize = (str) => {
-                return str.toString().toLowerCase()
-                    .replace(/,/g, ' ') 
-                    .split(/\s+/)
-                    .filter(w => w.length > 0); 
-            };
-
-            const sets = validValues.map(v => new Set(tokenize(v)));
-            
-            const common = new Set([...sets[0]].filter(x => sets.every(s => s.has(x))));
-            const isAllSame = sets.every(s => s.size === common.size);
-
-            return { isAllSame, common };
-        }
-
-        function highlightDiff(text, commonSet) {
-            if (!text || text === '-') return '-';
-            
-            const parts = text.toString().split(/(\s+|,\s*)/); 
-            
-            return parts.map(part => {
-                const clean = part.toLowerCase().trim();
-                if (!clean || clean.match(/^\s*$/)) return part; 
-                
-                const isWord = clean.match(/[a-z0-9]/);
-                if (!isWord) return part;
-
-                if (commonSet.has(clean)) {
-                    return `<span class="diff-word-common">${part}</span>`;
-                } else {
-                    return `<span class="diff-word-unique">${part}</span>`;
-                }
-            }).join('');
-        }
-
-        function getDev(slotIdx) { return compareSlots[slotIdx] !== null ? allDevices[compareSlots[slotIdx]] : null; }
-
-        function getCompareVal(slotIdx, key) {
-            const d = getDev(slotIdx);
-            if(!d) return '-';
-            
-            if (key.startsWith('screen_') && d.screen) {
-                const parts = d.screen.split(', ');
-                if (key === 'screen_type') return parts[0] || '-';
-                if (key === 'screen_refresh') return parts[1] || '-';
-                if (key === 'screen_size') return parts[2] || '-';
-                if (key === 'screen_bri') return parts[3] || '-';
-            }
-
-            if (key.startsWith('sec_') && d.second_screen) {
-                const parts = d.second_screen.split(', ');
-                if (key === 'sec_type') return parts[0] || '-';
-                if (key === 'sec_refresh') return parts[1] || '-';
-                if (key === 'sec_size') return parts[2] || '-';
-                if (key === 'sec_bri') return parts[3] || '-';
-                if (key === 'sec_res') return parts[4] || '-';
-            }
-
-            if (key.startsWith('cam_') && !key.includes('video') && !key.includes('selfie')) {
-                const idx = parseInt(key.split('_')[1]);
-                if (d.camera_modules && d.camera_modules[idx]) {
-                    return `<b>${d.camera_modules[idx].label}</b><br>${d.camera_modules[idx].specs}`;
-                }
-                return '-';
-            }
-
-            if (key === 'geek_s') return d.geek_s ? d.geek_s + " (v6)" : '-';
-            if (key === 'geek_m') return d.geek_m ? d.geek_m + " (v6)" : '-';
-            if (key === 'antutu') return d.antutu ? d.antutu + " (v11)" : '-';
-
-            if (['sensors', 'camera_features'].includes(key) && Array.isArray(d[key])) {
-                return d[key].join(', ');
-            }
-            if(key === 'price') {
-                let p = "";
-                if(d.price && d.price_eur) p = `${d.price} / ${d.price_eur}`;
-                else if(d.price) p = d.price;
-                else if(d.price_eur) p = d.price_eur;
-                return p || '-';
-            }
-            let val = d[key];
-            if(key === 'weight' && val && !val.toString().toLowerCase().endsWith('g')) val += 'g';
-            return val || '-';
-        }
-
-        function searchForSlot(input, slotId) {
-            const term = input.value.toLowerCase();
-            const drop = document.getElementById(`dropdown-${slotId}`);
-            drop.innerHTML = "";
-            if(term.length < 1) { drop.style.display = 'none'; return; }
-            const matches = allDevices.map((d, i) => ({...d, idx: i})).filter(d => d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term));
-            if(matches.length > 0) {
-                drop.style.display = 'block';
-                matches.forEach(m => {
-                    drop.innerHTML += `<div class="slot-item" onclick="setSlot(${slotId}, ${m.idx})"><img src="${m.image}"><span>${m.model}</span></div>`;
-                });
-            } else { drop.style.display = 'none'; }
-        }
-
+        function getRowTokens(values) { const valid = values.filter(v => v !== '' && v !== '-'); if (valid.length < 2) return { isAllSame: false, common: new Set() }; const tokenize = (str) => str.toString().toLowerCase().replace(/,/g, ' ').split(/\s+/).filter(w => w.length > 0); const sets = valid.map(v => new Set(tokenize(v))); const common = new Set([...sets[0]].filter(x => sets.every(s => s.has(x)))); const isAllSame = sets.every(s => s.size === common.size); return { isAllSame, common }; }
+        function highlightDiff(text, commonSet) { if (!text || text === '-') return '-'; const parts = text.toString().split(/(\s+|,\s*)/); return parts.map(part => { const clean = part.toLowerCase().trim(); if (!clean || clean.match(/^\s*$/)) return part; if (commonSet.has(clean)) return `<span class="diff-word-common">${part}</span>`; return `<span class="diff-word-unique">${part}</span>`; }).join(''); }
+        function searchForSlot(input, slotId) { const term = input.value.toLowerCase(); const drop = document.getElementById(`dropdown-${slotId}`); drop.innerHTML = ""; if(term.length < 1) { drop.style.display = 'none'; return; } const matches = allDevices.filter(d => d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term)); if(matches.length > 0) { drop.style.display = 'block'; matches.forEach(m => { const idx = allDevices.indexOf(m); drop.innerHTML += `<div class="slot-item" onclick="setSlot(${slotId}, ${idx})"><img src="${m.image}"><span>${m.model}</span></div>`; }); } else { drop.style.display = 'none'; } }
         function setSlot(slotId, devIdx) { compareSlots[slotId] = devIdx; renderCompareTable(); }
-        function toggleDiffMode() { 
-            diffMode = !diffMode;
-            document.getElementById('tab-compare').classList.toggle('diff-mode-active'); 
-            renderCompareTable();
-        }
-
-        document.getElementById('searchInput').addEventListener('keyup', filterAndSort);
-        document.getElementById('brandFilter').addEventListener('change', filterAndSort);
-        document.getElementById('sortOrder').addEventListener('change', filterAndSort);
-
+        function toggleDiffMode() { diffMode = !diffMode; document.getElementById('tab-compare').classList.toggle('diff-mode-active'); renderCompareTable(); }
         init();
     </script>
 </body>
