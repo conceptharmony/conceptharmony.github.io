@@ -1,5 +1,26 @@
 [
   {
+    "brand": "Crescent",
+    "model": "Spectre P6 Pro",
+    "colors": "",
+    "announced": "February 1, 2026",
+    "type": "SoC",
+    "process": "TSMC 3nm",
+    "open_use": "No (Proprietary)",
+    "cpu_cores": "2 x 4.5GHz Ascent 2, 6 x 3.8GHz Verdant 4 Plus",
+    "gpu_model": "Mist C60",
+    "npu": "Neutra M802",
+    "gpu_clock": "1.4GHz",
+    "isp": "Crescent Iris AI Engine",
+    "modem": "Link 5G Adv",
+    "geek_s": "3729",
+    "geek_m": "12386",
+    "antutu": "4078345",
+    "price": "$317",
+    "price_eur": "€268",
+    "image": "images/Group1_8.png"
+},
+  {
     "brand": "Phoyo",
     "model": "Blacksilk 1000",
     "announced": "December 9, 2025",
