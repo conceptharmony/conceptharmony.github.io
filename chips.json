@@ -1,5 +1,26 @@
 [
   {
+    "brand": "Spinach",
+    "model": "B61",
+    "colors": "",
+    "announced": "June 21, 2025",
+    "type": "SoC",
+    "process": "TSMC 3nm",
+    "open_use": "No (Proprietary)",
+    "cpu_cores": "4 x 3.36GHz Oxygen 1 + 4 x 2.38GHz Neon 2",
+    "gpu_model": "Iodine 501",
+    "npu": "Synapse X610",
+    "gpu_clock": "1.9GHz",
+    "isp": "Omnistream G310 Pro",
+    "modem": "NextGate N12 5G",
+    "geek_s": "2921",
+    "geek_m": "9038",
+    "antutu": "2832595",
+    "price": "$210",
+    "price_eur": "€177",
+    "image": "images/103APPLE_IMG_3608.PNG.png"
+},
+  {
     "brand": "Crescent",
     "model": "Spectre P6 Pro",
     "colors": "",
