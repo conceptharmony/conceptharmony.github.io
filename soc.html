@@ -89,11 +89,7 @@
             .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
 
-        .controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .search-box { flex: 2; min-width: 200px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
-        .filter-box { flex: 1; min-width: 140px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); cursor: pointer; }
-        html.light-mode .search-box, html.light-mode .filter-box { background: rgba(255,255,255,0.6); color: black; border-color: rgba(0,0,0,0.1); }
-
+        .search-box { width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         .card { cursor: pointer; transition: transform 0.2s; padding: 15px; }
         .card:hover { transform: translateY(-5px); border-color: var(--accent); }
@@ -110,7 +106,6 @@
             .top-section { flex-direction: column; align-items: flex-start; } 
             .hero-img { width: 100%; min-width: unset; margin: 0 auto; display: block; }
             .specs-summary { width: 100%; margin-top: 15px; }
-            .controls { flex-direction: column; }
         }
         
         .quick-data { margin-top: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
@@ -130,7 +125,6 @@
         html.light-mode tr:nth-child(odd) { background: rgba(0,0,0,0.03); }
         th { color: var(--accent); width: 35%; font-weight: 600; opacity: 0.9; }
         td { color: var(--text-main); line-height: 1.6; }
-        
         .cat-header { 
             background: transparent !important; color: var(--text-muted); font-size: 0.9rem; 
             letter-spacing: 2px; text-transform: uppercase; padding-top: 35px; padding-bottom: 10px;
@@ -226,7 +220,9 @@
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <div class="nav-links" id="navLinks">
                 <a href="index.html" class="nav-btn">Devices</a>
+                <a href="laptops.html" class="nav-btn">Laptops</a>
                 <a href="soc.html" class="nav-btn" style="border-color:var(--accent);">SoCs</a>
+                <a href="sensors.html" class="nav-btn">Sensors</a>
                 <a href="news.html" class="nav-btn">News</a>
                 <a href="submit.html" class="nav-btn">Submit</a>
                 
@@ -256,16 +252,7 @@
 
         <div id="galleryView">
             <div class="glass-panel" style="padding:15px;">
-                <div class="controls">
-                    <input type="text" id="searchInput" class="search-box" placeholder="Search chipsets...">
-                    <select id="brandFilter" class="filter-box"><option value="all">All Brands</option></select>
-                    <select id="sortOrder" class="filter-box">
-                        <option value="newest">Newest First</option>
-                        <option value="oldest">Oldest First</option>
-                        <option value="az">Name (A-Z)</option>
-                        <option value="za">Name (Z-A)</option>
-                    </select>
-                </div>
+                <input type="text" id="searchInput" class="search-box" placeholder="Search chipsets..." style="margin:0;">
             </div>
             <div id="chipGrid" class="grid">Loading...</div>
         </div>
@@ -328,6 +315,7 @@
         const staticSpecs = [
             { key: "announced", label: "Announced", cat: "Launch" },
             { key: "process", label: "Process Node", cat: "Launch" },
+            { key: "open_use", label: "Open Use", cat: "Launch" },
             { key: "cpu_cores", label: "CPU Config", cat: "CPU" },
             { key: "cpu_clock", label: "Max Clock", cat: "CPU" },
             { key: "gpu_model", label: "GPU Model", cat: "GPU" },
@@ -350,56 +338,14 @@
             try {
                 const res = await fetch('chips.json');
                 allChips = await res.json();
-                populateBrands(allChips);
-                filterAndSort();
+                renderGrid(allChips);
             } catch(e) { document.getElementById('chipGrid').innerHTML = "No chipsets found. (Create chips.json)"; }
         }
-
-        function populateBrands(list) {
-            const brands = new Set(list.map(d => d.brand));
-            const select = document.getElementById('brandFilter');
-            brands.forEach(b => {
-                const opt = document.createElement('option');
-                opt.value = b;
-                opt.innerText = b;
-                select.appendChild(opt);
-            });
-        }
-
-        function filterAndSort() {
-            const term = document.getElementById('searchInput').value.toLowerCase();
-            const brand = document.getElementById('brandFilter').value;
-            const sort = document.getElementById('sortOrder').value;
-
-            let filtered = allChips.filter(d => {
-                const matchSearch = d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term);
-                const matchBrand = brand === 'all' || d.brand === brand;
-                return matchSearch && matchBrand;
-            });
-
-            filtered.sort((a, b) => {
-                if (sort === 'az') return a.model.localeCompare(b.model);
-                if (sort === 'za') return b.model.localeCompare(a.model);
-                
-                const dateA = new Date(a.released || a.announced).getTime() || 0;
-                const dateB = new Date(b.released || b.announced).getTime() || 0;
-                
-                if (sort === 'newest') return dateB - dateA;
-                if (sort === 'oldest') return dateA - dateB;
-            });
-
-            renderGrid(filtered);
-        }
-
-        document.getElementById('searchInput').addEventListener('keyup', filterAndSort);
-        document.getElementById('brandFilter').addEventListener('change', filterAndSort);
-        document.getElementById('sortOrder').addEventListener('change', filterAndSort);
 
         const renderGrid = (list) => {
             const grid = document.getElementById('chipGrid');
             grid.innerHTML = "";
-            list.forEach((d) => {
-                const i = allChips.indexOf(d);
+            list.forEach((d, i) => {
                 grid.innerHTML += `
                     <div class="glass-panel card" onclick="showDetails(${i})">
                         <img src="${d.image}" onerror="this.src='https://placehold.co/400x400?text=SoC'">
@@ -493,7 +439,7 @@
             html += `</tr></thead><tbody>`;
 
             const specKeys = [
-                {cat: "Launch", keys: [{k:'announced', l:'Announced'}, {k:'process', l:'Process Node'}]},
+                {cat: "Launch", keys: [{k:'announced', l:'Announced'}, {k:'process', l:'Process Node'}, {k:'open_use', l:'Open Use'}]},
                 {cat: "CPU", keys: [{k:'cpu_cores', l:'Config'}, {k:'cpu_clock', l:'Clock'}]},
                 {cat: "GPU", keys: [{k:'gpu_model', l:'Model'}, {k:'gpu_clock', l:'Clock'}]},
                 {cat: "AI & Media", keys: [{k:'npu', l:'NPU'}, {k:'isp', l:'ISP'}]},
@@ -621,9 +567,10 @@
             renderCompareTable();
         }
 
-        document.getElementById('searchInput').addEventListener('keyup', filterAndSort);
-        document.getElementById('brandFilter').addEventListener('change', filterAndSort);
-        document.getElementById('sortOrder').addEventListener('change', filterAndSort);
+        document.getElementById('searchInput').addEventListener('keyup', (e) => {
+            const term = e.target.value.toLowerCase();
+            renderGrid(allChips.filter(d => d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term)));
+        });
 
         init();
     </script>
