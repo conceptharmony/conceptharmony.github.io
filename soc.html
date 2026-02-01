@@ -400,9 +400,11 @@
         const renderGrid = (list) => {
             const grid = document.getElementById('chipGrid');
             grid.innerHTML = "";
-            list.forEach((d, i) => {
+            list.forEach((d) => {
+                // FIXED: Finding the true index in the master array 'allChips'
+                const originalIndex = allChips.indexOf(d); 
                 grid.innerHTML += `
-                    <div class="glass-panel card" onclick="showDetails(${i})">
+                    <div class="glass-panel card" onclick="showDetails(${originalIndex})">
                         <img src="${d.image}" onerror="this.src='https://placehold.co/400x400?text=SoC'">
                         <span class="type-tag">Chipset</span>
                         <h3>${d.model}</h3>
