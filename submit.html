@@ -39,7 +39,7 @@
         .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
-                @media (max-width: 768px) {
+        @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
             
             .nav-container.menu-open {
@@ -98,6 +98,7 @@
         .dynamic-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
         .double-input input:first-child { width: 35%; }
         .single-input input { width: 100%; }
+        .triple-input input { flex: 1; }
 
         .remove-btn { background: rgba(255,50,50,0.2); color: #ff5555; padding: 12px; border:1px solid rgba(255,50,50,0.2); border-radius: var(--radius-btn); cursor: pointer; font-weight:bold;}
         .add-btn { width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px dashed var(--glass-border); color: var(--text-muted); cursor: pointer; border-radius: var(--radius-btn); margin-bottom:10px; }
@@ -135,6 +136,8 @@
         body[data-mode="soc"] .soc-only { display: block; }
         body[data-mode="soc"] .device-only { display: none; }
         body[data-mode="soc"] .full-width-soc { grid-column: span 2; }
+        
+        .hidden { display: none; }
     </style>
 </head>
 <body data-mode="device">
@@ -219,7 +222,14 @@
                     <div class="input-grid">
                         <div><label>IP Rating</label><input type="text" id="ip_rating" placeholder="e.g. IP68, immersible up to 3m for 30 min"></div>
                         <div><label>Weight (g)</label><input type="number" id="weight" placeholder="200"></div>
-                        <div><label>Dimensions</label><input type="text" id="dimensions" placeholder="160 x 75 x 8 mm"></div>
+                        <div class="full-width">
+                            <label>Dimensions (mm)</label>
+                            <div class="dynamic-row triple-input">
+                                <input type="number" step="0.1" id="dim_h" placeholder="Height (163.4)">
+                                <input type="number" step="0.1" id="dim_w" placeholder="Width (78.1)">
+                                <input type="number" step="0.1" id="dim_d" placeholder="Depth (8.9)">
+                            </div>
+                        </div>
                         <div><label>Colors</label><input type="text" id="colors" placeholder="Titanium, Black..."></div>
                         <div class="full-width"><label>Build Materials</label><input type="text" id="build" placeholder="e.g. Glass front, aluminum frame, eco leather back"></div>
                     </div>
@@ -231,6 +241,18 @@
                         <div><label>Size (inch)</label><input type="number" step="0.01" id="screen" placeholder="6.8"></div>
                         <div><label>Brightness (nit)</label><input type="number" id="brightness" placeholder="e.g. 3000"></div>
                         <div class="full-width"><label>Resolution</label><input type="text" id="resolution" placeholder="e.g. 1440 x 3200"></div>
+                    </div>
+
+                    <div class="full-width" style="margin-top:20px;">
+                        <button type="button" class="add-btn" onclick="toggleSecondScreen()">+ Add Secondary Screen (Foldable/Flip)</button>
+                        <div id="secScreenContainer" class="hidden input-grid" style="margin-top:15px; border:1px dashed var(--glass-border); padding:15px; border-radius:var(--radius-btn);">
+                            <div class="full-width" style="text-align:center; color:var(--accent);">SECONDARY DISPLAY</div>
+                            <div><label>Panel Type</label><input type="text" id="sec_type" placeholder="e.g. OLED"></div>
+                            <div><label>Refresh Rate (Hz)</label><input type="number" id="sec_refresh" placeholder="60"></div>
+                            <div><label>Size (inch)</label><input type="number" step="0.01" id="sec_size" placeholder="3.4"></div>
+                            <div><label>Brightness (nit)</label><input type="number" id="sec_bri" placeholder="1200"></div>
+                            <div class="full-width"><label>Resolution</label><input type="text" id="sec_res" placeholder="720 x 748"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -356,6 +378,11 @@
         function updateGalleryName() {
             const input = document.getElementById('galleryFiles');
             if(input.files.length > 0) document.getElementById('galleryText').innerText = `Selected ${input.files.length} images`;
+        }
+
+        function toggleSecondScreen() {
+            const container = document.getElementById('secScreenContainer');
+            container.classList.toggle('hidden');
         }
 
         let currentMode = 'device';
@@ -493,7 +520,14 @@
                 addIf('status', getVal('status'));
                 addIf('released', formatDate('released'));
                 
-                const fields = ['ip_rating','weight','dimensions','colors','build','chipset','ram','storage','os','battery','charging','cam_video','cam_selfie'];
+                const dimH = getVal('dim_h');
+                const dimW = getVal('dim_w');
+                const dimD = getVal('dim_d');
+                if(dimH && dimW && dimD) {
+                    data.dimensions = `${dimH} x ${dimW} x ${dimD} mm`;
+                }
+
+                const fields = ['ip_rating','weight','build','chipset','ram','storage','os','battery','charging','cam_video','cam_selfie'];
                 fields.forEach(k => {
                     addIf(k, smartFormat(k, getVal(k)));
                 });
@@ -512,6 +546,23 @@
                 
                 if(sArr.length > 0) data.screen = sArr.join(', ');
                 addIf('resolution', getVal('resolution'));
+
+                const secType = smartFormat('displayType', getVal('sec_type'));
+                const secRefVal = getVal('sec_refresh');
+                const secRef = secRefVal ? secRefVal + 'Hz' : null;
+                const secSize = getVal('sec_size');
+                const secBri = getVal('sec_bri');
+                const secRes = getVal('sec_res');
+
+                if (secType || secSize) {
+                    let secArr = [];
+                    if(secType) secArr.push(secType);
+                    if(secRef) secArr.push(secRef);
+                    if(secSize) secArr.push(secSize + '"');
+                    if(secBri) secArr.push(secBri + ' nits');
+                    if(secRes) secArr.push(secRes);
+                    data.second_screen = secArr.join(', ');
+                }
 
                 const camRows = document.querySelectorAll('#cameraContainer .dynamic-row');
                 const camModules = [];
