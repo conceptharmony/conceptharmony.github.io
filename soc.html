@@ -44,99 +44,45 @@
             background-color: #121212; 
             color: var(--text-main); 
             font-family: 'Segoe UI', sans-serif; 
-            margin: 0; 
-            padding: 20px; 
+            margin: 0; padding: 20px; 
             min-height: 100vh; 
             transition: none !important;
         }
 
         body::before { 
-            content: ""; 
-            position: fixed; 
-            top: 0; left: 0; 
-            width: 100%; height: 100%; 
-            z-index: -1; 
-            background: url('background.jpg') center/cover; 
-            filter: blur(20px); 
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+            background: url('background.jpg') center/cover; filter: blur(20px); 
         }
-        html.light-mode body::before { 
-            filter: blur(20px) opacity(0.3) brightness(1.5); 
-        }
+        html.light-mode body::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
 
         .container { max-width: 1100px; margin: auto; width: 100%; }
-        
-        .glass-panel { 
-            background: var(--glass-bg); 
-            backdrop-filter: blur(20px); 
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border); 
-            border-radius: var(--radius-main); 
-            padding: 25px; 
-            margin-bottom: 25px; 
-            width: 100%; 
-        }
+        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
 
         /* NAV */
         .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
         .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
         .logo span { font-weight: 700; }
         .nav-links { display: flex; gap: 10px; align-items: center; height: 100%; }
-        
-        .nav-btn { 
-            text-decoration: none; color: var(--text-main); padding: 0 20px; height: 40px; 
-            background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); 
-            border-radius: var(--radius-btn); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
-            font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease;
-        }
+        .nav-btn { text-decoration: none; color: var(--text-main); padding: 0 20px; height: 40px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; }
         .nav-btn:hover, .nav-btn.active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
         html.light-mode .nav-btn:hover, html.light-mode .nav-btn.active { color: white !important; }
 
-        /* DROPDOWN */
         .dropdown-container { position: relative; }
-        .dropdown-content { 
-            display: none; position: absolute; right: 0; top: 50px; 
-            background: rgba(30, 30, 30, 0.98); min-width: 200px; border-radius: var(--radius-btn); 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 200; overflow: hidden; border: 1px solid var(--glass-border);
-        }
+        .dropdown-content { display: none; position: absolute; right: 0; top: 50px; background: rgba(30, 30, 30, 0.98); min-width: 200px; border-radius: var(--radius-btn); box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 200; overflow: hidden; border: 1px solid var(--glass-border); }
         .dropdown-content.show { display: block; }
         html.light-mode .dropdown-content { background: rgba(255,255,255,0.98); }
         .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; text-decoration: none; color: #ddd; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
         html.light-mode .dropdown-item { color: #333; border-color: rgba(0,0,0,0.05); }
         .dropdown-item:hover { background: var(--accent); color: black !important; }
         .social-icon { width: 18px; height: 18px; fill: currentColor; }
-
         .theme-btn { width: 40px; padding: 0; border-radius: 50%; }
         .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
-        
         @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
-            
-            /* FIXED MOBILE HEADER (No Gap) */
-            .nav-container.menu-open {
-                border-radius: 12px 12px 0 0 !important;
-                border-bottom: 1px solid rgba(255,255,255,0.05) !important;
-            }
-
-            .nav-links { 
-                display: none; 
-                position: absolute; 
-                top: 70px; 
-                left: 0; 
-                width: 100%; 
-                flex-direction: column; 
-                background: rgba(20, 20, 20, 0.98); 
-                backdrop-filter: blur(20px); 
-                -webkit-backdrop-filter: blur(20px);
-                padding: 15px; 
-                border-radius: 0 0 12px 12px; 
-                border-bottom: 1px solid var(--glass-border); 
-                box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-                gap: 10px; 
-                height: auto; 
-                z-index: 900;
-            }
+            .nav-container.menu-open { border-radius: 12px 12px 0 0 !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
+            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; flex-direction: column; background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 15px; border-radius: 0 0 12px 12px; border-bottom: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); gap: 10px; height: auto; z-index: 900; }
             html.light-mode .nav-links { background: rgba(255,255,255,0.98); }
             .nav-links.active { display: flex; }
             .nav-btn { width: 100%; }
@@ -150,27 +96,15 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         .card { cursor: pointer; transition: transform 0.2s; padding: 15px; }
         .card:hover { transform: translateY(-5px); border-color: var(--accent); }
-        
-        /* Chip Image Style (Square, Contain) */
-        .card img { 
-            width: 100%; height: 200px; 
-            object-fit: contain; 
-            background: rgba(0,0,0,0.2); 
-            padding: 20px; 
-            border-radius: 6px; 
-        }
-        
+        .card img { width: 100%; height: 200px; object-fit: contain; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 6px; }
         .card h3 { margin: 10px 0 5px 0; color: var(--accent); }
         .card .type-tag { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 2px; text-transform: uppercase; color: var(--text-muted); }
         
         /* DETAILS VIEW */
         .hidden { display: none !important; }
         .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
-        
-        /* Fixed Hero Image Overlap */
         .hero-img { flex: 1; min-width: 300px; max-width: 100%; }
         .hero-img img { width: 100%; height: auto; border-radius: 10px; object-fit: contain; background: rgba(0,0,0,0.2); padding: 20px; }
-        
         .specs-summary { flex: 1.5; text-align: left; }
         @media (max-width: 768px) { 
             .top-section { flex-direction: column; align-items: flex-start; } 
@@ -190,10 +124,7 @@
         /* TABLE */
         table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 5px; table-layout: fixed; }
         th, td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: left; vertical-align: top; }
-        
-        /* Prevent text overflow */
         td { word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
-        
         html.light-mode th, html.light-mode td { border-bottom: 1px solid rgba(0,0,0,0.05); }
         tr:nth-child(odd) { background: rgba(255,255,255,0.03); }
         html.light-mode tr:nth-child(odd) { background: rgba(0,0,0,0.03); }
@@ -201,21 +132,12 @@
         td { color: var(--text-main); line-height: 1.6; }
         
         .cat-header { 
-            background: transparent !important; 
-            color: var(--text-muted); 
-            font-size: 0.9rem; 
-            letter-spacing: 2px; 
-            text-transform: uppercase; 
-            padding-top: 35px; 
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--accent) !important;
-            font-weight: 800;
+            background: transparent !important; color: var(--text-muted); font-size: 0.9rem; 
+            letter-spacing: 2px; text-transform: uppercase; padding-top: 35px; padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent) !important; font-weight: 800;
         }
-        
-        .upload-section { margin-bottom: 20px; }
-        #imageInput { display: none; }
 
-        /* --- COMPARE VIEW (Identical to Index) --- */
+        /* COMPARE */
         .compare-wrapper { 
             overflow-x: auto; 
             -webkit-overflow-scrolling: touch; 
@@ -273,10 +195,11 @@
             }
             .compare-table thead th { width: 60px !important; min-width: 60px; }
             
+            /* MOBILE FIX: EXACTLY 2 COLUMNS */
             .compare-table td { 
-                width: calc((100% - 60px) / 2); 
-                min-width: calc((100% - 60px) / 2);
-                max-width: calc((100% - 60px) / 2);
+                width: calc((100vw - 100px) / 2); 
+                min-width: calc((100vw - 100px) / 2);
+                max-width: calc((100vw - 100px) / 2);
                 font-size: 0.8rem;
             } 
         }
@@ -292,7 +215,6 @@
         .slot-item:hover { background: var(--accent); color: black !important; }
         .slot-item img { width: 30px; height: 30px; object-fit: contain; }
 
-        /* DIFF MODE */
         .diff-mode-active .row-same { display: none !important; }
         .diff-word-common { color: var(--diff-dim); }
         .diff-word-unique { color: var(--diff-highlight); font-weight: 700; }
@@ -346,10 +268,6 @@
             <div class="glass-panel top-section">
                 <div class="hero-img">
                     <img id="d_img" src="">
-                    <div class="upload-section">
-                        <input type="file" id="imageInput" accept="image/*" onchange="loadFile(event)">
-                        <button class="nav-btn" onclick="document.getElementById('imageInput').click()" style="margin-top:10px; width:100%;">Change Image</button>
-                    </div>
                 </div>
                 <div class="specs-summary">
                     <span id="d_type" class="nav-btn" style="padding: 2px 8px; font-size: 0.7rem; pointer-events:none; border:none; background:rgba(255,255,255,0.1); width:fit-content; height:auto;">SOC</span>
@@ -446,6 +364,7 @@
         window.showDetails = (i) => {
             currentChipIndex = i;
             compareSlots = [i, null, null];
+            window.scrollTo(0,0);
             
             const d = allChips[i];
             document.getElementById('galleryView').classList.add('hidden');
@@ -515,12 +434,6 @@
             if(t === 'compare') renderCompareTable();
         };
 
-        function loadFile(event) {
-            const image = document.getElementById('d_img');
-            image.src = URL.createObjectURL(event.target.files[0]);
-        }
-
-        // --- COMPARISON LOGIC FOR CHIPS ---
         function renderCompareTable() {
             const table = document.getElementById('compareTable');
             let html = `<thead><tr><th></th>`;
@@ -595,7 +508,6 @@
             const d = getChip(slotIdx);
             if(!d) return '-';
             
-            // Re-apply formatting for display
             if (key === 'geek_s') return d.geek_s ? d.geek_s + " (v6)" : '-';
             if (key === 'geek_m') return d.geek_m ? d.geek_m + " (v6)" : '-';
             if (key === 'antutu') return d.antutu ? d.antutu + " (v11)" : '-';
