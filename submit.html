@@ -23,7 +23,7 @@
         .nav-links { display: flex; gap: 10px; align-items: center; height: 100%; }
         
         .nav-btn { text-decoration: none; color: var(--text-main); padding: 0 20px; height: 40px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; }
-        .nav-btn:hover, .nav-btn:active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
+        .nav-btn:hover, .nav-btn.active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
         .nav-btn:focus { outline: none; }
         body.light-mode .nav-btn:hover { color: white !important; }
 
@@ -44,10 +44,9 @@
                 @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
             
-            /* ADD THIS NEW RULE */
             .nav-container.menu-open {
-                border-radius: 12px 12px 0 0 !important; /* Flattens bottom corners */
-                border-bottom: 1px solid rgba(255,255,255,0.05) !important; /* Optional: lighter separator */
+                border-radius: 12px 12px 0 0 !important; 
+                border-bottom: 1px solid rgba(255,255,255,0.05) !important;
             }
 
             .nav-links { 
@@ -63,7 +62,7 @@
                 padding: 15px; 
                 border-radius: 0 0 12px 12px; 
                 border-bottom: 1px solid var(--glass-border); 
-                border-left: 1px solid var(--glass-border); /* Add side borders if missing */
+                border-left: 1px solid var(--glass-border);
                 border-right: 1px solid var(--glass-border);
                 box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
                 gap: 10px; 
@@ -71,7 +70,6 @@
                 z-index: 900;
             }
             
-            /* ... rest of your mobile styles ... */
             .light-mode .nav-links { background: rgba(255,255,255,0.98); }
             .nav-links.active { display: flex; }
             .nav-btn { width: 100%; }
@@ -102,9 +100,7 @@
         body.light-mode .file-upload-text { color: #555; }
 
         .dynamic-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
-        /* Style for the double input rows (Camera Modules) */
         .double-input input:first-child { width: 35%; }
-        /* Style for single input rows (Sensors) */
         .single-input input { width: 100%; }
 
         .remove-btn { background: rgba(255,50,50,0.2); color: #ff5555; padding: 12px; border:1px solid rgba(255,50,50,0.2); border-radius: var(--radius-btn); cursor: pointer; font-weight:bold;}
@@ -119,7 +115,6 @@
         .copy-btn { width:100%; margin-top:10px; padding:10px; cursor:pointer; border-radius:var(--radius-btn); border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--text-main); font-weight:bold; }
         .copy-btn:hover { background:var(--accent); color:black; }
 
-        /* Socials Icons in Footer */
         .social-inline { 
             width: 16px;
             height: 16px; 
@@ -134,13 +129,11 @@
             margin: 0 4px;
         }
 
-        /* Mode Switcher Styles */
         .mode-switcher { display: flex; gap: 10px; margin-bottom: 20px; }
         .mode-btn { flex: 1; padding: 12px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text-muted); cursor: pointer; border-radius: var(--radius-btn); font-weight: bold; }
         .mode-btn.active { background: var(--accent); color: black; border-color: var(--accent); }
         body.light-mode .mode-btn.active { color: white; }
 
-        /* Toggle Logic */
         .soc-only { display: none; }
         .device-only { display: block; }
         body[data-mode="soc"] .soc-only { display: block; }
@@ -337,8 +330,7 @@
         </div>
     </div>
 
-                 <script>
-        // --- THEME & MENU LOGIC ---
+    <script>
         if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
         
         document.getElementById('themeToggle').onclick = () => {
@@ -347,11 +339,10 @@
         };
 
         function toggleMenu() { 
-    document.getElementById('navLinks').classList.toggle('active'); 
-    document.querySelector('.nav-container').classList.toggle('menu-open');
-}
+            document.getElementById('navLinks').classList.toggle('active'); 
+            document.querySelector('.nav-container').classList.toggle('menu-open');
+        }
 
-        
         function toggleSocials(e) { 
             e.stopPropagation(); 
             document.getElementById('socialDropdown').classList.toggle('show'); 
@@ -361,7 +352,6 @@
             if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); 
         }
         
-        // --- HELPER FUNCTIONS ---
         const capitalize = (s) => s.replace(/\b\w/g, c => c.toUpperCase());
 
         function updateFileName(id, textId) {
@@ -374,7 +364,6 @@
             if(input.files.length > 0) document.getElementById('galleryText').innerText = `Selected ${input.files.length} images`;
         }
 
-        // --- MODE SWITCHING ---
         let currentMode = 'device';
         function setMode(mode) {
             currentMode = mode;
@@ -391,7 +380,6 @@
             }
         }
 
-        // --- DYNAMIC ROWS ---
         window.addEventListener('load', () => {
             addDynamicRow('cameraContainer', 'cam-type', 'cam-specs', 'Wide', '');
         });
@@ -417,9 +405,6 @@
             document.getElementById(containerId).appendChild(div);
         }
 
-        // ---------------------------------------------------------
-        //  SMART FORMATTER (Fixed for Numbers+Units)
-        // ---------------------------------------------------------
         function smartFormat(key, text) {
             if (!text) return null;
             let val = text.trim();
@@ -427,46 +412,34 @@
 
             const isCam = (key.includes('cam') || key.includes('camera') || key === 'camera_modules');
 
-            // 1. UNIT CORRECTIONS (Handles "128gb" and "128 gb")
-            
-            // Frequency (Hz)
             val = val.replace(/(\d+)\s*hz\b/gi, "$1Hz").replace(/\bhz\b/gi, "Hz");
             val = val.replace(/(\d+)\s*ghz\b/gi, "$1GHz").replace(/\bghz\b/gi, "GHz");
             val = val.replace(/(\d+)\s*mhz\b/gi, "$1MHz").replace(/\bmhz\b/gi, "MHz");
 
-            // Memory (GB, TB)
             val = val.replace(/(\d+)\s*gb\b/gi, "$1GB").replace(/\bgb\b/gi, "GB");
             val = val.replace(/(\d+)\s*tb\b/gi, "$1TB").replace(/\btb\b/gi, "TB");
 
-            // Battery (mAh, W)
             val = val.replace(/(\d+)\s*mah\b/gi, "$1mAh").replace(/\bmah\b/gi, "mAh");
-            val = val.replace(/(\d+)\s*w\b/gi, "$1W").replace(/\bw\b/gi, "W"); // be careful with single W
+            val = val.replace(/(\d+)\s*w\b/gi, "$1W").replace(/\bw\b/gi, "W");
 
-            // Camera (MP, f/)
             val = val.replace(/(\d+)\s*mp\b/gi, "$1MP").replace(/\bmp\b/gi, "MP");
-            val = val.replace(/f\s*\//gi, "f/"); // Fix spaces in f / 1.8
+            val = val.replace(/f\s*\//gi, "f/");
 
-            // Process (nm)
             val = val.replace(/(\d+)\s*nm\b/gi, "$1nm").replace(/\bnm\b/gi, "nm");
 
-            // IP Rating
-            val = val.replace(/\bip\s*(?=\d)/gi, "IP"); // Fix ip 68 -> IP68
+            val = val.replace(/\bip\s*(?=\d)/gi, "IP");
 
-            // Performance
             val = val.replace(/\bperf\b/gi, "Performance");
 
-            // FPS
             if (key === 'cam_video' || key === 'all') {
                 val = val.replace(/\bfps\b/gi, "fps");
             }
 
-            // Battery Chemistry
             if (key === 'battery') {
                 val = val.replace(/li[\s-]ion/gi, "Li-Ion");
                 val = val.replace(/si[\s-\/]+c|silicon\s+carbon/gi, "Si/C");
             }
 
-            // 2. DISPLAY TERMS
             if (['displayType', 'screen'].includes(key) || key === 'all') {
                 const displayTerms = ['ltpo', 'ltps', 'oled', 'amoled', 'p-oled', 'ips', 'tft', 'lcd'];
                 displayTerms.forEach(term => {
@@ -475,21 +448,17 @@
                 });
             }
 
-            // 3. COMMA LOGIC
             val = val.replace(/,(?=[^\s])/g, ", ");
 
-            // 4. SLASH EXPANSION (Skip Camera)
             if (!isCam) {
                 val = val.replace(/\//g, " / ");
-                val = val.replace(/Si\s+\/\s+C/gi, "Si/C"); // Fix Si/C break
+                val = val.replace(/Si\s+\/\s+C/gi, "Si/C");
             }
 
-            // 5. 'x' SPACING (Skip Camera)
             if (!isCam) {
                 val = val.replace(/(\d)\s*x\s*(\d)/gi, "$1 x $2");
             }
 
-            // 6. CAPITALIZATION (Colors)
             if (key === 'colors') {
                 val = val.replace(/\b\w/g, c => c.toUpperCase());
             }
@@ -497,9 +466,6 @@
             return val;
         }
 
-        // ---------------------------------------------------------
-        //  OPTIMIZED GENERATOR
-        // ---------------------------------------------------------
         document.getElementById('makerForm').addEventListener('submit', (e) => {
             e.preventDefault();
             let data = {};
@@ -520,12 +486,11 @@
             addIf('charging', capitalize(getVal('charging')));
             
             const formatDate = (id) => {
-                const val = getVal(id);
+                const val = document.getElementById(id).value;
                 if(!val) return null;
-                const dateObj = new Date(val);
-                const userTimezoneOffset = dateObj.getTimezoneOffset() * 60000;
-                const adjustedDate = new Date(dateObj.getTime() + userTimezoneOffset);
-                return adjustedDate.toLocaleString('default', { day: 'numeric', month: 'long', year: 'numeric' });
+                const [y, m, d] = val.split('-');
+                const date = new Date(y, m - 1, d);
+                return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
             };
             addIf('announced', formatDate('announced'));
 
@@ -539,7 +504,6 @@
                     addIf(k, smartFormat(k, getVal(k)));
                 });
 
-                // Screen
                 const sType = smartFormat('displayType', getVal('displayType'));
                 const sRef = smartFormat('all', getVal('refresh')); 
                 const sSize = getVal('screen');
@@ -554,7 +518,6 @@
                 if(sArr.length > 0) data.screen = sArr.join(', ');
                 addIf('resolution', getVal('resolution'));
 
-                // Camera Modules
                 const camRows = document.querySelectorAll('#cameraContainer .dynamic-row');
                 const camModules = [];
                 camRows.forEach(r => {
@@ -570,7 +533,6 @@
                 });
                 if(camModules.length > 0) data.camera_modules = camModules;
                 
-                // Camera Features
                 const camFeatRows = document.querySelectorAll('#camSensorContainer .dynamic-row input');
                 const camFeats = [];
                 camFeatRows.forEach(input => {
@@ -583,7 +545,6 @@
                 });
                 if(camFeats.length > 0) data.camera_features = camFeats;
 
-                // Sensors
                 const sensRows = document.querySelectorAll('#sensorContainer .dynamic-row input');
                 const sensors = [];
                 sensRows.forEach(input => {
@@ -597,14 +558,12 @@
                 if(sensors.length > 0) data.sensors = sensors;
             } 
             else { 
-                // SoC Mode
                 data.type = 'SoC';
                 ['process','cpu_cores','gpu_model','gpu_clock','npu','isp','modem'].forEach(k => {
                     addIf(k, smartFormat('all', getVal(k)));
                 });
             }
 
-            // Extras
             ['geek_s','geek_m','antutu'].forEach(k => addIf(k, getVal(k)));
             
             const pUSD = getVal('price_usd');
