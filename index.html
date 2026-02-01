@@ -81,7 +81,7 @@
         
         .hidden { display: none !important; }
         .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
-        .hero-img { flex: 1; min-width: 300px; }
+        .hero-img { flex: 1; min-width: 300px; max-width: 100%; }
         .hero-img img { width: 100%; height: auto; border-radius: 10px; object-fit: contain; }
         .specs-summary { flex: 1.5; text-align: left; }
         
@@ -172,7 +172,7 @@
             .compare-table thead th { width: 60px !important; min-width: 60px; }
             
             .compare-table td { 
-                width: calc((100vw - 100px) / 2); /* 100vw - 40px Padding - 60px Sidebar / 2 */
+                width: calc((100vw - 100px) / 2); 
                 min-width: calc((100vw - 100px) / 2);
                 max-width: calc((100vw - 100px) / 2);
                 font-size: 0.8rem;
@@ -482,9 +482,7 @@
                 {k:'screen', l:'Display'}, {k:'resolution', l:'Resolution'},
                 {k:'os', l:'OS'}, {k:'chipset', l:'Chipset'}, 
                 {k:'storage', l:'Storage'}, {k:'ram', l:'RAM'}, 
-                {k:'cam_0', l:'Main Camera'}, {k:'cam_1', l:'2nd Camera'}, 
-                {k:'cam_2', l:'3rd Camera'}, {k:'cam_3', l:'4th Camera'},
-                {k:'camera_features', l:'Cam Features'}, 
+                {k:'camera_modules', l:'Camera Setup'}, {k:'camera_features', l:'Cam Features'}, 
                 {k:'cam_video', l:'Video'}, {k:'cam_selfie', l:'Selfie'},
                 {k:'sensors', l:'Sensors'},
                 {k:'battery', l:'Battery'}, {k:'charging', l:'Charging'},
@@ -492,6 +490,8 @@
                 {k:'price', l:'Price'}
             ];
 
+            const activeDevs = compareSlots.filter(s => s !== null).map(s => allDevices[s]);
+            
             specKeys.forEach(s => {
                 const v1 = getCompareVal(0, s.k);
                 const v2 = getCompareVal(1, s.k);
@@ -534,14 +534,9 @@
             const d = getDev(slotIdx);
             if(!d) return '';
             
-            if (key.startsWith('cam_')) {
-                const idx = parseInt(key.split('_')[1]);
-                if (d.camera_modules && d.camera_modules[idx]) {
-                    return `${d.camera_modules[idx].specs} ${d.camera_modules[idx].label}`;
-                }
-                return '-';
+            if (key === 'camera_modules' && d.camera_modules) {
+                return d.camera_modules.map(m => `${m.label}: ${m.specs}`).join(', ');
             }
-
             if (['sensors', 'camera_features'].includes(key) && Array.isArray(d[key])) {
                 return d[key].join(', ');
             }
@@ -558,7 +553,7 @@
         }
 
         function getRowTokens(values) {
-            const validValues = values.filter(v => v !== '' && v !== '-');
+            const validValues = values.filter(v => v !== '');
             if (validValues.length < 2) return { isAllSame: false, common: new Set() };
 
             const tokenize = (str) => {
@@ -602,14 +597,9 @@
             const d = getDev(slotIdx);
             if(!d) return '-';
             
-            if (key.startsWith('cam_')) {
-                const idx = parseInt(key.split('_')[1]);
-                if (d.camera_modules && d.camera_modules[idx]) {
-                    return `<b>${d.camera_modules[idx].label}</b><br>${d.camera_modules[idx].specs}`;
-                }
-                return '-';
+            if (key === 'camera_modules' && d.camera_modules) {
+                return d.camera_modules.map(m => `<b>${m.label}:</b> ${m.specs}`).join('<br>');
             }
-
             if (['sensors', 'camera_features'].includes(key) && Array.isArray(d[key])) {
                 return d[key].join(', ');
             }
