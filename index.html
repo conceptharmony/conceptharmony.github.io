@@ -11,19 +11,20 @@
         })();
     </script>
     <style>
-        /* --- DESIGN SYSTEM --- */
         :root {
             --glass-bg: rgba(20, 20, 20, 0.95);
             --glass-border: rgba(255, 255, 255, 0.1);
             --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); --accent: #ffffff;
             --text-main: #ffffff; --text-muted: #bbbbbb; --radius-main: 12px; --radius-btn: 6px;
-            --diff-color: #ff9d9d;
+            --diff-highlight: #fff;
+            --diff-dim: #555;
         }
         html.light-mode body {
             --glass-bg: rgba(255, 255, 255, 0.98); --glass-border: rgba(0, 0, 0, 0.1);
             --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); --accent: #000000;
             --text-main: #1a1a1a; --text-muted: #555555; background-color: #f4f4f9;
-            --diff-color: #d32f2f;
+            --diff-highlight: #000;
+            --diff-dim: #ccc;
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { overflow-x: hidden; }
@@ -38,7 +39,6 @@
         .container { max-width: 1100px; margin: auto; width: 100%; }
         .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
 
-        /* NAV */
         .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
         .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
         .logo span { font-weight: 700; }
@@ -47,7 +47,6 @@
         .nav-btn:hover, .nav-btn.active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
         html.light-mode .nav-btn:hover, html.light-mode .nav-btn.active { color: white !important; }
 
-        /* DROPDOWN */
         .dropdown-container { position: relative; }
         .dropdown-content { display: none; position: absolute; right: 0; top: 50px; background: rgba(30, 30, 30, 0.98); min-width: 200px; border-radius: var(--radius-btn); box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 200; overflow: hidden; border: 1px solid var(--glass-border); }
         .dropdown-content.show { display: block; }
@@ -59,40 +58,12 @@
         .theme-btn { width: 40px; padding: 0; border-radius: 50%; }
         .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
-        /* MOBILE MENU FIXES */
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
-                        @media (max-width: 768px) {
+        @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
-            
-            /* ADD THIS NEW RULE */
-            .nav-container.menu-open {
-                border-radius: 12px 12px 0 0 !important; /* Flattens bottom corners */
-                border-bottom: 1px solid rgba(255,255,255,0.05) !important; /* Optional: lighter separator */
-            }
-
-            .nav-links { 
-                display: none; 
-                position: absolute; 
-                top: 70px; 
-                left: 0; 
-                width: 100%; 
-                flex-direction: column; 
-                background: rgba(20, 20, 20, 0.98); 
-                backdrop-filter: blur(20px); 
-                -webkit-backdrop-filter: blur(20px);
-                padding: 15px; 
-                border-radius: 0 0 12px 12px; 
-                border-bottom: 1px solid var(--glass-border); 
-                border-left: 1px solid var(--glass-border); /* Add side borders if missing */
-                border-right: 1px solid var(--glass-border);
-                box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-                gap: 10px; 
-                height: auto;
-                z-index: 900;
-            }
-            
-            /* ... rest of your mobile styles ... */
-            .light-mode .nav-links { background: rgba(255,255,255,0.98); }
+            .nav-container.menu-open { border-radius: 12px 12px 0 0 !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
+            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; flex-direction: column; background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 15px; border-radius: 0 0 12px 12px; border-bottom: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); gap: 10px; height: auto; z-index: 900; }
+            html.light-mode .nav-links { background: rgba(255,255,255,0.98); }
             .nav-links.active { display: flex; }
             .nav-btn { width: 100%; }
             .dropdown-container { width: 100%; }
@@ -100,8 +71,6 @@
             .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
 
-
-        /* GRID */
         .search-box { width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         .card { cursor: pointer; transition: transform 0.2s; padding: 15px; }
@@ -110,16 +79,14 @@
         .card h3 { margin: 10px 0 5px 0; color: var(--accent); }
         .card .type-tag { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 2px; text-transform: uppercase; color: var(--text-muted); }
         
-        /* DETAILS VIEW */
         .hidden { display: none !important; }
         .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
-        /* Prevent Profile Image Overlap */
         .hero-img { flex: 1; min-width: 300px; max-width: 100%; }
         .hero-img img { width: 100%; height: auto; border-radius: 10px; }
         .specs-summary { flex: 1.5; text-align: left; }
         @media (max-width: 768px) { 
             .top-section { flex-direction: column; align-items: flex-start; } 
-            .hero-img { width: 100%; min-width: unset; margin: 0 auto; display: block; }
+            .hero-img { width: 100%; margin: 0 auto; display: block; }
             .specs-summary { width: 100%; margin-top: 15px; }
         }
         
@@ -132,10 +99,8 @@
         .tab-container { display: flex; gap: 10px; justify-content: flex-start; margin-bottom: 20px; margin-top: 20px; flex-wrap: wrap; }
         .tab-container .nav-btn { flex: 1; text-align: center; min-width: 100px; }
 
-        /* --- SPEC TABLE --- */
         table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 5px; table-layout: fixed; }
         th, td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: left; vertical-align: top; }
-        /* Prevent text overlap/overflow */
         td { word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
         
         html.light-mode th, html.light-mode td { border-bottom: 1px solid rgba(0,0,0,0.05); }
@@ -149,12 +114,14 @@
             border-bottom: 2px solid var(--accent) !important; font-weight: 800;
         }
 
-        /* --- COMPARE VIEW --- */
         .compare-wrapper { 
             overflow-x: auto; 
             -webkit-overflow-scrolling: touch; 
             position: relative; 
-            padding-bottom: 10px; 
+            padding-bottom: 10px;
+            /* CRITICAL: Enforce vertical scroll area so sticky headers work */
+            max-height: 75vh;
+            overflow-y: auto; 
         }
         
         .compare-table { 
@@ -162,18 +129,20 @@
             min-width: 100%; 
             border-collapse: separate; 
             border-spacing: 0; 
-            table-layout: fixed; /* Strict column sizing */
+            table-layout: fixed; 
         }
         
+        /* Sticky Header */
         .compare-table thead th, .compare-table thead td {
             position: sticky; 
             top: 0; 
             z-index: 100;
-            background: #121212; 
+            background: #1a1a1a; 
             border-bottom: 1px solid var(--glass-border);
         }
         html.light-mode .compare-table thead th, html.light-mode .compare-table thead td { background: #f4f4f9; }
 
+        /* Sticky Sidebar */
         .compare-table tbody th { 
             width: 150px; 
             position: sticky; 
@@ -190,13 +159,13 @@
             text-align: center; 
             border-right: 1px solid var(--glass-border); 
             padding: 15px 10px; 
-            font-size: 0.9rem;
+            font-size: 0.9rem; 
             vertical-align: middle;
         }
 
         @media (max-width: 768px) {
             .compare-table tbody th { 
-                position: static; /* No stickiness on mobile sidebar */
+                position: static; 
                 width: 60px !important; 
                 min-width: 60px;
                 font-size: 0.65rem; 
@@ -205,11 +174,11 @@
             }
             .compare-table thead th { width: 60px !important; min-width: 60px; }
             
-            /* Two Phones Calculation: (Screen - Sidebar) / 2 */
+            /* EXACT 2-COLUMN FIT: (100% container - 60px sidebar) / 2 */
             .compare-table td { 
-                width: calc((100vw - 60px) / 2); 
-                min-width: calc((100vw - 60px) / 2);
-                max-width: calc((100vw - 60px) / 2);
+                width: calc((100% - 60px) / 2); 
+                min-width: calc((100% - 60px) / 2);
+                max-width: calc((100% - 60px) / 2);
                 font-size: 0.8rem;
             } 
         }
@@ -225,23 +194,11 @@
         .slot-item:hover { background: var(--accent); color: black !important; }
         .slot-item img { width: 30px; height: 30px; object-fit: contain; }
 
-        /* DIFF MODE */
+        /* DIFF HIGHLIGHTING */
         .diff-mode-active .row-same { display: none !important; }
         
-        /* Grey out common cells */
-        .diff-mode-active td { 
-            color: var(--text-muted) !important; 
-            opacity: 0.4; 
-        }
-        
-        /* Highlight unique cells (White/Bold) */
-        .diff-mode-active .cell-unique { 
-            color: var(--text-main) !important; 
-            opacity: 1; 
-            font-weight: 800; 
-            text-shadow: 0 0 10px rgba(255,255,255,0.1);
-        }
-        html.light-mode .diff-mode-active .cell-unique { color: #000 !important; }
+        .diff-word-common { color: var(--diff-dim); }
+        .diff-word-unique { color: var(--diff-highlight); font-weight: 700; }
         
         .diff-btn { margin-left: auto; border-color: var(--accent); font-size: 0.8rem; }
 
@@ -345,10 +302,10 @@
         };
         
         function toggleMenu() { 
-    document.getElementById('navLinks').classList.toggle('active'); 
-    document.querySelector('.nav-container').classList.toggle('menu-open');
-}
-
+            document.getElementById('navLinks').classList.toggle('active'); 
+            document.querySelector('.nav-container').classList.toggle('menu-open');
+        }
+        
         function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
         window.onclick = function(e) { 
             if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); 
@@ -358,6 +315,7 @@
         let allDevices = [];
         let currentDeviceIndex = 0;
         let compareSlots = [null, null, null];
+        let diffMode = false;
 
         async function init() {
             try {
@@ -538,18 +496,39 @@
                 {k:'price', l:'Price'}
             ];
 
+            const activeDevs = compareSlots.filter(s => s !== null).map(s => allDevices[s]);
+            
             specKeys.forEach(s => {
                 const v1 = getCompareVal(0, s.k);
                 const v2 = getCompareVal(1, s.k);
                 const v3 = getCompareVal(2, s.k);
-                const result = getDiffStatus(v1, v2, v3);
                 
-                let rowClass = result.isDiff ? 'row-diff' : 'row-same';
+                const raw1 = getRawVal(0, s.k);
+                const raw2 = getRawVal(1, s.k);
+                const raw3 = getRawVal(2, s.k);
+
+                let isRowSame = false;
+                let html1 = v1, html2 = v2, html3 = v3;
+
+                if (diffMode) {
+                    const rowTokens = getRowTokens([raw1, raw2, raw3]);
+                    if (rowTokens.isAllSame) {
+                        isRowSame = true; 
+                    } else {
+                        html1 = highlightDiff(raw1, rowTokens.common);
+                        html2 = highlightDiff(raw2, rowTokens.common);
+                        html3 = highlightDiff(raw3, rowTokens.common);
+                    }
+                }
+
+                let rowClass = (diffMode && isRowSame) ? 'row-same' : 'row-diff';
+                if (!diffMode) rowClass = '';
+
                 html += `<tr class="${rowClass}">
                     <th>${s.l}</th>
-                    <td class="${result.diff1?'cell-unique':''}">${v1}</td>
-                    <td class="${result.diff2?'cell-unique':''}">${v2}</td>
-                    <td class="${result.diff3?'cell-unique':''}">${v3}</td>
+                    <td>${html1}</td>
+                    <td>${html2}</td>
+                    <td>${html3}</td>
                 </tr>`;
             });
 
@@ -557,33 +536,70 @@
             table.innerHTML = html;
         }
 
-        function getDiffStatus(v1, v2, v3) {
-            const vals = [v1, v2, v3].filter(v => v !== '-' && v !== '');
-            if (vals.length < 2) return { isDiff: false, diff1: false, diff2: false, diff3: false };
-
-            const normalize = (str) => {
-                return str.toString().toLowerCase()
-                    .replace(/[^a-z0-9,]/g, '')
-                    .split(',')
-                    .sort()
-                    .join(',');
-            };
-
-            const n1 = v1 !== '-' ? normalize(v1) : null;
-            const n2 = v2 !== '-' ? normalize(v2) : null;
-            const n3 = v3 !== '-' ? normalize(v3) : null;
-
-            const counts = {};
-            [n1, n2, n3].forEach(n => { if(n) counts[n] = (counts[n] || 0) + 1; });
+        function getRawVal(slotIdx, key) {
+            const d = getDev(slotIdx);
+            if(!d) return '';
             
-            if (Object.keys(counts).length === 1) return { isDiff: false, diff1: false, diff2: false, diff3: false };
+            if (key === 'camera_modules' && d.camera_modules) {
+                return d.camera_modules.map(m => `${m.label}: ${m.specs}`).join(', ');
+            }
+            if (['sensors', 'camera_features'].includes(key) && Array.isArray(d[key])) {
+                return d[key].join(', ');
+            }
+            if(key === 'price') {
+                let p = "";
+                if(d.price && d.price_eur) p = `${d.price} / ${d.price_eur}`;
+                else if(d.price) p = d.price;
+                else if(d.price_eur) p = d.price_eur;
+                return p;
+            }
+            let val = d[key];
+            if(key === 'weight' && val && !val.toString().toLowerCase().endsWith('g')) val += 'g';
+            return val || '';
+        }
 
-            return {
-                isDiff: true,
-                diff1: n1 && counts[n1] !== 2,
-                diff2: n2 && counts[n2] !== 2,
-                diff3: n3 && counts[n3] !== 2
+        function getRowTokens(values) {
+            const validValues = values.filter(v => v !== '');
+            if (validValues.length < 2) return { isAllSame: false, common: new Set() };
+
+            const tokenize = (str) => {
+                return str.toString().toLowerCase()
+                    .replace(/,/g, ' ') 
+                    .split(/\s+/)
+                    .filter(w => w.length > 0); 
             };
+
+            const sets = validValues.map(v => new Set(tokenize(v)));
+            
+            // Intersection of all sets
+            const common = new Set([...sets[0]].filter(x => sets.every(s => s.has(x))));
+            
+            // Check if all sets are identical to common (meaning full match)
+            const isAllSame = sets.every(s => s.size === common.size);
+
+            return { isAllSame, common };
+        }
+
+        function highlightDiff(text, commonSet) {
+            if (!text || text === '-') return '-';
+            
+            // Split by space/comma but keep delimiters to rebuild string
+            const parts = text.toString().split(/(\s+|,\s*)/); 
+            
+            return parts.map(part => {
+                const clean = part.toLowerCase().trim();
+                if (!clean || clean.match(/^\s*$/)) return part; // return delimiters as is
+                
+                // Punctuation check
+                const isWord = clean.match(/[a-z0-9]/);
+                if (!isWord) return part;
+
+                if (commonSet.has(clean)) {
+                    return `<span class="diff-word-common">${part}</span>`;
+                } else {
+                    return `<span class="diff-word-unique">${part}</span>`;
+                }
+            }).join('');
         }
 
         function getDev(slotIdx) { return compareSlots[slotIdx] !== null ? allDevices[compareSlots[slotIdx]] : null; }
@@ -625,7 +641,11 @@
         }
 
         function setSlot(slotId, devIdx) { compareSlots[slotId] = devIdx; renderCompareTable(); }
-        function toggleDiffMode() { document.getElementById('tab-compare').classList.toggle('diff-mode-active'); }
+        function toggleDiffMode() { 
+            diffMode = !diffMode;
+            document.getElementById('tab-compare').classList.toggle('diff-mode-active'); 
+            renderCompareTable();
+        }
 
         document.getElementById('searchInput').addEventListener('keyup', (e) => {
             const term = e.target.value.toLowerCase();
