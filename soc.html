@@ -11,6 +11,7 @@
         })();
     </script>
     <style>
+        /* --- DESIGN SYSTEM --- */
         :root {
             --glass-bg: rgba(20, 20, 20, 0.95);
             --glass-border: rgba(255, 255, 255, 0.1);
@@ -75,6 +76,7 @@
             width: 100%; 
         }
 
+        /* NAV */
         .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
         .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
         .logo span { font-weight: 700; }
@@ -89,6 +91,7 @@
         .nav-btn:hover, .nav-btn.active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
         html.light-mode .nav-btn:hover, html.light-mode .nav-btn.active { color: white !important; }
 
+        /* DROPDOWN */
         .dropdown-container { position: relative; }
         .dropdown-content { 
             display: none; position: absolute; right: 0; top: 50px; 
@@ -110,6 +113,7 @@
         @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
             
+            /* FIXED MOBILE HEADER (No Gap) */
             .nav-container.menu-open {
                 border-radius: 12px 12px 0 0 !important;
                 border-bottom: 1px solid rgba(255,255,255,0.05) !important;
@@ -141,11 +145,13 @@
             .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
 
+        /* GRID */
         .search-box { width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         .card { cursor: pointer; transition: transform 0.2s; padding: 15px; }
         .card:hover { transform: translateY(-5px); border-color: var(--accent); }
         
+        /* Chip Image Style (Square, Contain) */
         .card img { 
             width: 100%; height: 200px; 
             object-fit: contain; 
@@ -157,9 +163,11 @@
         .card h3 { margin: 10px 0 5px 0; color: var(--accent); }
         .card .type-tag { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 2px; text-transform: uppercase; color: var(--text-muted); }
         
+        /* DETAILS VIEW */
         .hidden { display: none !important; }
         .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
         
+        /* Fixed Hero Image Overlap */
         .hero-img { flex: 1; min-width: 300px; max-width: 100%; }
         .hero-img img { width: 100%; height: auto; border-radius: 10px; object-fit: contain; background: rgba(0,0,0,0.2); padding: 20px; }
         
@@ -179,9 +187,11 @@
         .tab-container { display: flex; gap: 10px; justify-content: flex-start; margin-bottom: 20px; margin-top: 20px; flex-wrap: wrap; }
         .tab-container .nav-btn { flex: 1; text-align: center; min-width: 100px; }
 
+        /* TABLE */
         table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 5px; table-layout: fixed; }
         th, td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: left; vertical-align: top; }
         
+        /* Prevent text overflow */
         td { word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
         
         html.light-mode th, html.light-mode td { border-bottom: 1px solid rgba(0,0,0,0.05); }
@@ -205,6 +215,7 @@
         .upload-section { margin-bottom: 20px; }
         #imageInput { display: none; }
 
+        /* --- COMPARE VIEW (Identical to Index) --- */
         .compare-wrapper { 
             overflow-x: auto; 
             -webkit-overflow-scrolling: touch; 
@@ -281,6 +292,7 @@
         .slot-item:hover { background: var(--accent); color: black !important; }
         .slot-item img { width: 30px; height: 30px; object-fit: contain; }
 
+        /* DIFF MODE */
         .diff-mode-active .row-same { display: none !important; }
         .diff-word-common { color: var(--diff-dim); }
         .diff-word-unique { color: var(--diff-highlight); font-weight: 700; }
@@ -508,6 +520,7 @@
             image.src = URL.createObjectURL(event.target.files[0]);
         }
 
+        // --- COMPARISON LOGIC FOR CHIPS ---
         function renderCompareTable() {
             const table = document.getElementById('compareTable');
             let html = `<thead><tr><th></th>`;
@@ -582,6 +595,7 @@
             const d = getChip(slotIdx);
             if(!d) return '-';
             
+            // Re-apply formatting for display
             if (key === 'geek_s') return d.geek_s ? d.geek_s + " (v6)" : '-';
             if (key === 'geek_m') return d.geek_m ? d.geek_m + " (v6)" : '-';
             if (key === 'antutu') return d.antutu ? d.antutu + " (v11)" : '-';
