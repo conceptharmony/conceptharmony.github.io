@@ -1,3 +1,21 @@
 [
-
+  {
+    "brand": "Tianyu",
+    "model": "Delta 9100",
+    "announced": "31 January 2026",
+    "type": "SoC",
+    "process": "TSMC 3nm",
+    "cpu_cores": "6 x 3.3GHz Orbit + 2 x 1.8GHz Aero",
+    "gpu_model": "M90",
+    "gpu_clock": "910MHz",
+    "npu": "1st Gen Neural Engine",
+    "isp": "Tianyu Multivision AI Engine",
+    "modem": "Unidentified",
+    "geek_s": "2296",
+    "geek_m": "6943",
+    "antutu": "2498340",
+    "price": "$177",
+    "price_eur": "€150",
+    "image": "images/1000009465.png"
+},
 ]
