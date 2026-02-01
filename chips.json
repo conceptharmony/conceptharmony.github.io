@@ -17,5 +17,24 @@
     "price": "$177",
     "price_eur": "€150",
     "image": "images/lolisoc.png"
+  },
+  {
+    "brand": "Tianyu",
+    "model": "Delta 7100",
+    "announced": "February 1, 2026",
+    "type": "SoC",
+    "process": "TSMC 3nm",
+    "cpu_cores": "5 x 2.5GHz Saturn + 3 x 1.8GHz Aero",
+    "gpu_model": "M70",
+    "gpu_clock": "819MHz",
+    "npu": "1st Gen Neural Engine",
+    "isp": "Tianyu Multivision 7-1",
+    "modem": "Unidentified",
+    "geek_s": "1219",
+    "geek_m": "4291",
+    "antutu": "1232218",
+    "price": "$94",
+    "price_eur": "€79",
+    "image": "images/d7100.png"
   }
 ]
