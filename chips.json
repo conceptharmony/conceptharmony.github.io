@@ -1,5 +1,26 @@
 [
   {
+    "brand": "Tianyu",
+    "model": "Axis X10",
+    "colors": "",
+    "announced": "February 2, 2026",
+    "type": "SoC",
+    "process": "TSMC 3nm",
+    "open_use": "No (Proprietary)",
+    "cpu_cores": "6x4.62GHz Neptune + 4x3.0GHz Calcite",
+    "gpu_model": "M90",
+    "npu": "1st Gen. Neural Engine",
+    "gpu_clock": "912GHz",
+    "isp": "Tianyu Multivision AI Engine",
+    "modem": "Unidentified",
+    "geek_s": "4192",
+    "geek_m": "16889",
+    "antutu": "5203881",
+    "price": "$544",
+    "price_eur": "€459",
+    "image": "images/ax10.png"
+},
+  {
     "brand": "Spinach",
     "model": "B40",
     "colors": "",
