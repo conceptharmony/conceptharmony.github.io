@@ -18,8 +18,11 @@
         body { background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; min-height: 100vh; transition: none !important; }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: url('background.jpg') center/cover; filter: blur(20px); }
         html.light-mode body::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
+        
         .container { max-width: 1100px; margin: auto; width: 100%; }
         .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
+        
+        /* NAV STYLES */
         .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
         .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
         .logo span { font-weight: 700; }
@@ -27,6 +30,7 @@
         .nav-btn { text-decoration: none; color: var(--text-main); padding: 0 20px; height: 40px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; }
         .nav-btn:hover, .nav-btn.active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
         html.light-mode .nav-btn:hover, html.light-mode .nav-btn.active { color: white !important; }
+        
         .dropdown-container { position: relative; }
         .dropdown-content { display: none; position: absolute; right: 0; top: 50px; background: rgba(30, 30, 30, 0.98); min-width: 200px; border-radius: var(--radius-btn); box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 200; overflow: hidden; border: 1px solid var(--glass-border); }
         .dropdown-content.show { display: block; }
@@ -34,36 +38,70 @@
         .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; text-decoration: none; color: #ddd; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
         html.light-mode .dropdown-item { color: #333; border-color: rgba(0,0,0,0.05); }
         .dropdown-item:hover { background: var(--accent); color: black !important; }
+        
         .social-icon { width: 18px; height: 18px; fill: currentColor; }
         .theme-btn { width: 40px; padding: 0; border-radius: 50%; }
         .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+        
+        /* MOBILE MENU FIXES */
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
         @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
             .nav-container.menu-open { border-radius: 12px 12px 0 0 !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
-            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; flex-direction: column; background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(20px); padding: 15px; border-radius: 0 0 12px 12px; border-bottom: 1px solid var(--glass-border); z-index: 900; gap: 10px; }
+            .nav-links { 
+                display: none; 
+                position: absolute; 
+                top: 70px; 
+                left: 0; 
+                width: 100%; 
+                flex-direction: column; 
+                background: var(--glass-bg); 
+                backdrop-filter: blur(20px); 
+                -webkit-backdrop-filter: blur(20px); 
+                padding: 15px; 
+                border-radius: 0 0 12px 12px; 
+                border-bottom: 1px solid var(--glass-border); 
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+                gap: 10px; 
+                height: auto; 
+                z-index: 2000; 
+            }
             .nav-links.active { display: flex; }
             .nav-btn { width: 100%; }
             .dropdown-container { width: 100%; }
-            .dropdown-content { position: static; width: 100%; box-shadow: none; border: none; background: transparent; padding-left: 20px; }
+            .dropdown-content { 
+                position: static; 
+                width: 100%; 
+                box-shadow: none; 
+                border: none; 
+                background: transparent; 
+                padding-left: 20px; 
+                margin-top: 5px; 
+            }
+            .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
+
         .form-section { margin-top: 40px; margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 8px; display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 10px; color: var(--accent); font-weight: 700; letter-spacing: 1px; font-size: 0.9rem; }
+        
         .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         @media (max-width: 768px) { 
             .input-grid { grid-template-columns: 1fr; } 
             .full-width { grid-column: span 1 !important; }
         }
         .full-width { grid-column: span 2; }
+        
         label { font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 6px; font-weight: 500; }
         input, select { width: 100%; padding: 12px; border-radius: var(--radius-btn); border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: white; font-family: inherit; font-size: 0.95rem; }
         body.light-mode input, body.light-mode select { background-color: rgba(255,255,255,0.6); color: black; border-color: rgba(0,0,0,0.1); }
         .guidelines { background: rgba(255, 255, 255, 0.05); border-left: 3px solid var(--accent); padding: 15px; margin-bottom: 30px; font-size: 0.9rem; color: #ccc; border-radius: 0 var(--radius-btn) var(--radius-btn) 0; line-height: 1.6; }
         body.light-mode .guidelines { background: rgba(0,0,0,0.03); color: #333; }
         .guidelines strong { color: var(--text-main); display: block; margin-bottom: 5px; font-size: 1rem;}
+        
         .file-upload-wrapper { position: relative; width: 100%; height: 50px; border: 1px dashed rgba(255,255,255,0.3); border-radius: var(--radius-btn); background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; }
         input[type="file"] { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
         .file-upload-text { pointer-events: none; color: #aaa; font-size: 0.9rem; }
         body.light-mode .file-upload-text { color: #555; }
+        
         .dynamic-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
         @media (max-width: 768px) { .dynamic-row { flex-direction: column; align-items: stretch; } }
         .double-input input:first-child { width: 35%; }
@@ -101,6 +139,8 @@
         body[data-mode="soc"] .show-soc { display: block; }
         body[data-mode="sensor"] .show-sensor { display: block; }
         body[data-mode="watch"] .show-watch { display: block; }
+        
+        body[data-mode="sensor"] .hide-on-sensor { display: none !important; }
         
         .full-width-soc { grid-column: span 2; }
         .hidden { display: none !important; }
@@ -159,7 +199,8 @@
                     </div>
                     <div><label>Brand</label><input type="text" id="brand" list="brands" placeholder="e.g. Spinach" required></div>
                     <div class="full-width"><label>Model Name</label><input type="text" id="model" placeholder="e.g. Experix 2" required></div>
-                    <div class="full-width">
+                    
+                    <div class="full-width hide-on-sensor">
                         <label>Profile Image (Main)</label>
                         <div class="file-upload-wrapper">
                             <span class="file-upload-text" id="fileText">Click to Upload Main Image (Front- and Backside, Transparent PNG)...</span>
@@ -213,7 +254,7 @@
                         </div>
                     </div>
                     <div class="show-device full-width" style="margin-top:20px;">
-                        <button type="button" class="add-btn" onclick="toggleSec()">+ Add Secondary Screen (Foldable/Flip)</button>
+                        <button type="button" class="add-btn" onclick="toggleSec()">+ Add Secondary / Cover Screen</button>
                         <div id="secBox" class="hidden input-grid" style="margin-top:15px; border:1px dashed var(--glass-border); padding:15px;">
                             <div class="full-width" style="text-align:center; color:var(--accent);">SECONDARY DISPLAY</div>
                             <div><label>Panel</label><input type="text" id="sec_type"></div>
@@ -302,8 +343,8 @@
                     </div>
                 </div>
 
-                <div class="form-section"><h3>PICTURES (OPTIONAL)</h3></div>
-                <div class="full-width">
+                <div class="form-section hide-on-sensor"><h3>PICTURES (OPTIONAL)</h3></div>
+                <div class="full-width hide-on-sensor">
                     <div class="file-upload-wrapper">
                         <span class="file-upload-text" id="galleryText">Click to select multiple Gallery images...</span>
                         <input type="file" id="galleryFiles" multiple accept="image/*" onchange="updateGalleryName()">
@@ -343,17 +384,6 @@
             const isLight = document.documentElement.classList.toggle('light-mode');
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
         };
-        function handleTypeChange() {
-            const t = document.getElementById('type').value;
-            let m = 'device';
-            if (t === 'Laptop') m = 'laptop';
-            else if (t === 'Chipset (SoC)') m = 'soc';
-            else if (t === 'Camera Sensor') m = 'sensor';
-            else if (t === 'Tablet') m = 'tablet';
-            else if (t === 'Smartwatch') m = 'watch';
-            document.body.setAttribute('data-mode', m);
-            renderMem(m); renderVid(m);
-        }
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); document.querySelector('.nav-container').classList.toggle('menu-open'); }
         function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
         window.onclick = function(e) { if (!e.target.matches('.nav-btn')) { document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show')); } }
@@ -367,6 +397,22 @@
 
         const fpsOpts = { '8K': ['24','25','30'], '4K': ['24','25','30','60','100','120'], '1080p': ['24','25','30','60','100','120','240','480','960+'] };
         
+        function handleTypeChange() {
+            const t = document.getElementById('type').value;
+            let m = 'device';
+            if (t === 'Laptop') m = 'laptop';
+            else if (t === 'Chipset (SoC)') m = 'soc';
+            else if (t === 'Camera Sensor') m = 'sensor';
+            else if (t === 'Tablet') m = 'tablet';
+            else if (t === 'Smartwatch') m = 'watch';
+            
+            document.body.setAttribute('data-mode', m);
+            
+            document.getElementById('imageFile').required = (m !== 'sensor');
+            
+            renderMem(m); renderVid(m);
+        }
+
         function renderMem(m) {
             let r = [], s = [];
             if(m==='watch') { r=['128MB','256MB','512MB','1GB','2GB','3GB','4GB']; s=['2GB','4GB','8GB','16GB','32GB','64GB','128GB','256GB']; }
@@ -400,7 +446,7 @@
             d.innerHTML = `
                 <div class="dynamic-row triple-input">
                     <select onchange="checkCamType(this)"><option>Wide</option><option>Ultrawide</option><option>Telephoto</option><option>Periscope Telephoto</option><option>Macro</option><option>Depth</option><option>Other</option></select>
-                    <input type="text" class="custom-cam-type" placeholder="Type" style="display:none;">
+                    <input type="text" class="custom-cam-type" placeholder="Type Name" style="display:none;">
                     <input type="number" placeholder="MP">
                     <input type="number" placeholder="f/ Aperture">
                 </div>
@@ -453,34 +499,40 @@
                 if(mode !== 'laptop') d.ip_rating = get('ip_rating');
                 if(get('dim_h')) d.dimensions = `${get('dim_h')} x ${get('dim_w')} x ${get('dim_d')} mm`;
                 if(get('weight')) d.weight = get('weight') + "g";
-
+                
+                // Battery
                 const batSic = document.getElementById('bat_sic').value === 'Yes' ? 'Si/C ' : '';
                 let batType = document.getElementById('bat_type').value;
                 if (batType === 'Other') batType = cap(document.getElementById('bat_type_custom').value);
                 const batCap = get('bat_cap');
                 if(batCap) d.battery = `${batSic}${batType} ${batCap} mAh`;
 
+                // Charging
                 let chg = [];
                 if(get('chg_w_yn') === 'Yes') chg.push(`${get('chg_w')} wired`);
                 if(get('chg_wl_yn') === 'Yes') chg.push(`${get('chg_wl')} wireless`);
                 if(get('chg_rw_yn') === 'Yes') chg.push(`${get('chg_rw')} reverse wireless`);
                 if(chg.length) d.charging = chg.join(', ');
 
+                // Display
                 let sArr = []; if(get('displayType')) sArr.push(get('displayType')); if(get('refresh')) sArr.push(get('refresh')+'Hz'); if(get('screen')) sArr.push(get('screen')+'"'); if(get('brightness')) sArr.push(get('brightness')+' nits'); if(sArr.length > 0) d.screen = sArr.join(', ');
                 if(get('res_w')) d.resolution = `${get('res_w')} x ${get('res_h')} pixels`;
 
+                // RAM/Storage
                 const getOpts = (id) => Array.from(document.querySelectorAll(`#${id} .selected`)).map(b => b.innerText).join(' / ');
                 const r = getOpts('ramContainer'); if(r) d.ram = r;
                 const s = getOpts('storageContainer'); if(s) d.storage = s;
 
                 if (mode === 'device' || mode === 'tablet') {
-
+                    // Secondary Screen
                     let sec = []; if(get('sec_type')) sec.push(get('sec_type')); if(get('sec_refresh')) sec.push(get('sec_refresh')+'Hz'); if(get('sec_size')) sec.push(get('sec_size')+'"'); if(get('sec_bri')) sec.push(get('sec_bri')+' nits'); if(get('sec_res_w')) sec.push(`${get('sec_res_w')} x ${get('sec_res_h')} pixels`); if(sec.length > 0) d.second_screen = sec.join(', ');
-
+                    
+                    // Camera Modules
                     const camDivs = document.querySelectorAll('.cam-module-box');
                     if(camDivs.length > 0) {
                         d.camera_modules = Array.from(camDivs).map(box => {
                             const inputs = box.querySelectorAll('input');
+                            // inputs: 0=customType, 1=MP, 2=Aperture, 3=Focal, 4=SensorSize, 5=Features
                             let type = box.querySelector('select').value;
                             if (type === 'Other') type = cap(inputs[0].value);
                             
@@ -491,7 +543,8 @@
                             const feat = inputs[5].value;
                             
                             let specs = [mp, f, mm, sens, feat].filter(Boolean).join(', ');
-
+                            
+                            // Extra fields - SAFE ACCESS
                             const extraInput = box.querySelector('.extra-cam-fields input');
                             if(extraInput && extraInput.value) {
                                 if(type === 'Telephoto' || type === 'Periscope Telephoto') specs += `, ${extraInput.value}x optical zoom`;
@@ -500,7 +553,7 @@
                             return { label: type, specs: specs };
                         });
                     }
-
+                    // Selfie
                     const smp = get('selfie_mp') ? get('selfie_mp')+'MP' : '';
                     const sf = get('selfie_f') ? 'f/'+get('selfie_f') : '';
                     const smm = get('selfie_mm') ? get('selfie_mm')+'mm' : '';
@@ -508,6 +561,7 @@
                     const sft = get('selfie_feat');
                     if(smp) d.cam_selfie = [smp, sf, smm, ssens, sft].filter(Boolean).join(', ');
 
+                    // Video
                     let vids = [];
                     document.querySelectorAll('.vid-section').forEach(sec => {
                         const res = sec.querySelector('.vid-header').innerText;
