@@ -10,7 +10,7 @@
     "cpu_cores": "6x4.62GHz Neptune + 4x3.0GHz Calcite",
     "gpu_model": "M90",
     "npu": "1st Gen. Neural Engine",
-    "gpu_clock": "912GHz",
+    "gpu_clock": "912MHz",
     "isp": "Tianyu Multivision AI Engine",
     "modem": "Unidentified",
     "geek_s": "4192",
