@@ -95,16 +95,17 @@
         html.light-mode .search-box, html.light-mode .filter-box { background: rgba(255,255,255,0.6); color: black; border-color: rgba(0,0,0,0.1); }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .card { cursor: pointer; transition: transform 0.2s; padding: 15px; }
+        .card { cursor: pointer; transition: transform 0.2s; padding: 15px; display: flex; flex-direction: column; align-items: center; }
         .card:hover { transform: translateY(-5px); border-color: var(--accent); }
-        .card img { width: 100%; height: 200px; object-fit: contain; background: transparent; padding: 20px; border-radius: 6px; }
-        .card h3 { margin: 10px 0 5px 0; color: var(--accent); }
+        .card img { display: block; margin: 0 auto; height: auto; object-fit: contain; background: transparent; padding: 20px; border-radius: 6px; }
+        .card h3 { margin: 10px 0 5px 0; color: var(--accent); text-align: center; width: 100%; }
+        .card p { width: 100%; text-align: center; }
         .card .type-tag { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 2px; text-transform: uppercase; color: var(--text-muted); }
         
         .hidden { display: none !important; }
         .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
-        .hero-img { flex: 1; min-width: 300px; max-width: 100%; }
-        .hero-img img { width: 100%; height: auto; border-radius: 10px; object-fit: contain; background: transparent; padding: 20px; }
+        .hero-img { flex: 1; min-width: 300px; max-width: 100%; display: flex; justify-content: center; align-items: center; }
+        .hero-img img { display: block; margin: 0 auto; height: auto; border-radius: 10px; object-fit: contain; background: transparent; padding: 20px; }
         .specs-summary { flex: 1.5; text-align: left; }
         @media (max-width: 768px) { 
             .top-section { flex-direction: column; align-items: flex-start; } 
@@ -265,7 +266,7 @@
             <button onclick="location.reload()" class="nav-btn" style="margin-bottom:20px;">← Back</button>
             <div class="glass-panel top-section">
                 <div class="hero-img">
-                    <img id="d_img" src="">
+                    <img id="d_img" src="sensor.png">
                 </div>
                 <div class="specs-summary">
                     <span id="d_type" class="nav-btn" style="padding: 2px 8px; font-size: 0.7rem; pointer-events:none; border:none; background:rgba(255,255,255,0.1); width:fit-content; height:auto;">SENSOR</span>
@@ -305,7 +306,7 @@
     <script>
         document.getElementById('themeToggle').onclick = () => {
             const isLight = document.documentElement.classList.toggle('light-mode');
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+         localStorage.setItem('theme', isLight ? 'light' : 'dark');
         };
         
         function toggleMenu() { 
@@ -322,7 +323,7 @@
             { key: "format", label: "Optical Format", cat: "Specs" },
             { key: "pixel_size", label: "Pixel Size", cat: "Specs" },
             { key: "bit_depth", label: "Bit Depth", cat: "Specs" },
-            { key: "video", label: "Video Capabilities", cat: "Specs" }, // NEW
+            { key: "video", label: "Video Capabilities", cat: "Specs" }, 
             { key: "features", label: "Features", cat: "Features" },
             { key: "price", label: "Est. Cost", cat: "Misc" }
         ];
@@ -379,14 +380,28 @@
         document.getElementById('brandFilter').addEventListener('change', filterAndSort);
         document.getElementById('sortOrder').addEventListener('change', filterAndSort);
 
+        function getSensorScale(fmt, baseSize) {
+            let s = 1;
+            if (fmt) {
+                let c = fmt.toLowerCase().replace(/"|-type/g, '').trim();
+                if (c === '1' || c === '1/1') s = 1;
+                else if (c.startsWith('1/')) {
+                    let d = parseFloat(c.split('/')[1]);
+                    if (!isNaN(d) && d > 0) s = 1 / d;
+                }
+            }
+            return s * baseSize;
+        }
+
         const renderGrid = (list) => {
             const grid = document.getElementById('sensorGrid');
             grid.innerHTML = "";
             list.forEach((d) => {
                 const originalIndex = allSensors.indexOf(d); 
+                const w = getSensorScale(d.format, 160);
                 grid.innerHTML += `
                     <div class="glass-panel card" onclick="showDetails(${originalIndex})">
-                        <img src="${d.image}" onerror="this.src='https://placehold.co/400x400?text=Sensor'">
+                        <img src="sensor.png" style="width:${w}px; aspect-ratio:4/3;">
                         <span class="type-tag">Sensor</span>
                         <h3>${d.model}</h3>
                         <p>${d.brand}</p>
@@ -402,7 +417,13 @@
             const d = allSensors[i];
             document.getElementById('galleryView').classList.add('hidden');
             document.getElementById('detailView').classList.remove('hidden');
-            document.getElementById('d_img').src = d.image;
+            
+            const w = getSensorScale(d.format, 300);
+            const img = document.getElementById('d_img');
+            img.src = "sensor.png";
+            img.style.width = w + "px";
+            img.style.aspectRatio = "4/3";
+
             document.getElementById('d_model').innerText = d.model;
             document.getElementById('d_brand').innerText = d.brand;
             
@@ -467,7 +488,9 @@
             let html = `<thead><tr><th></th>`;
             compareSlots.forEach((idx, slotId) => {
                 const s = idx !== null ? allSensors[idx] : null;
-                html += `<td><div class="slot-header"><img class="slot-img" src="${s ? s.image : ''}" style="${s?'':'opacity:0'}"><div>${s ? s.model : 'Empty Slot'}</div><input type="text" class="slot-search" placeholder="Search..." onkeyup="searchForSlot(this, ${slotId})"><div class="slot-dropdown" id="dropdown-${slotId}"></div></div></td>`;
+                const w = s ? getSensorScale(s.format, 100) : 0;
+                const img = s ? `<img src="sensor.png" style="width:${w}px; aspect-ratio:4/3; display:block; margin:0 auto;">` : '';
+                html += `<td><div class="slot-header">${img}<div>${s ? s.model : 'Empty Slot'}</div><input type="text" class="slot-search" placeholder="Search..." onkeyup="searchForSlot(this, ${slotId})"><div class="slot-dropdown" id="dropdown-${slotId}"></div></div></td>`;
             });
             html += `</tr></thead><tbody>`;
 
@@ -566,7 +589,8 @@
             if(matches.length > 0) {
                 drop.style.display = 'block';
                 matches.forEach(m => {
-                    drop.innerHTML += `<div class="slot-item" onclick="setSlot(${slotId}, ${m.idx})"><img src="${m.image}"><span>${m.model}</span></div>`;
+                    const w = getSensorScale(m.format, 30);
+                    drop.innerHTML += `<div class="slot-item" onclick="setSlot(${slotId}, ${m.idx})"><img src="sensor.png" style="width:${w}px; aspect-ratio:4/3;"><span>${m.model}</span></div>`;
                 });
             } else { drop.style.display = 'none'; }
         }
