@@ -453,40 +453,34 @@
                 if(mode !== 'laptop') d.ip_rating = get('ip_rating');
                 if(get('dim_h')) d.dimensions = `${get('dim_h')} x ${get('dim_w')} x ${get('dim_d')} mm`;
                 if(get('weight')) d.weight = get('weight') + "g";
-                
-                // Battery
+
                 const batSic = document.getElementById('bat_sic').value === 'Yes' ? 'Si/C ' : '';
                 let batType = document.getElementById('bat_type').value;
                 if (batType === 'Other') batType = cap(document.getElementById('bat_type_custom').value);
                 const batCap = get('bat_cap');
                 if(batCap) d.battery = `${batSic}${batType} ${batCap} mAh`;
 
-                // Charging
                 let chg = [];
                 if(get('chg_w_yn') === 'Yes') chg.push(`${get('chg_w')} wired`);
                 if(get('chg_wl_yn') === 'Yes') chg.push(`${get('chg_wl')} wireless`);
                 if(get('chg_rw_yn') === 'Yes') chg.push(`${get('chg_rw')} reverse wireless`);
                 if(chg.length) d.charging = chg.join(', ');
 
-                // Display
                 let sArr = []; if(get('displayType')) sArr.push(get('displayType')); if(get('refresh')) sArr.push(get('refresh')+'Hz'); if(get('screen')) sArr.push(get('screen')+'"'); if(get('brightness')) sArr.push(get('brightness')+' nits'); if(sArr.length > 0) d.screen = sArr.join(', ');
                 if(get('res_w')) d.resolution = `${get('res_w')} x ${get('res_h')} pixels`;
 
-                // RAM/Storage
                 const getOpts = (id) => Array.from(document.querySelectorAll(`#${id} .selected`)).map(b => b.innerText).join(' / ');
                 const r = getOpts('ramContainer'); if(r) d.ram = r;
                 const s = getOpts('storageContainer'); if(s) d.storage = s;
 
                 if (mode === 'device' || mode === 'tablet') {
-                    // Secondary Screen
+
                     let sec = []; if(get('sec_type')) sec.push(get('sec_type')); if(get('sec_refresh')) sec.push(get('sec_refresh')+'Hz'); if(get('sec_size')) sec.push(get('sec_size')+'"'); if(get('sec_bri')) sec.push(get('sec_bri')+' nits'); if(get('sec_res_w')) sec.push(`${get('sec_res_w')} x ${get('sec_res_h')} pixels`); if(sec.length > 0) d.second_screen = sec.join(', ');
-                    
-                    // Camera Modules
+
                     const camDivs = document.querySelectorAll('.cam-module-box');
                     if(camDivs.length > 0) {
                         d.camera_modules = Array.from(camDivs).map(box => {
                             const inputs = box.querySelectorAll('input');
-                            // inputs: 0=customType, 1=MP, 2=Aperture, 3=Focal, 4=SensorSize, 5=Features
                             let type = box.querySelector('select').value;
                             if (type === 'Other') type = cap(inputs[0].value);
                             
@@ -497,17 +491,16 @@
                             const feat = inputs[5].value;
                             
                             let specs = [mp, f, mm, sens, feat].filter(Boolean).join(', ');
-                            
-                            // Extra fields - SAFE ACCESS
+
                             const extraInput = box.querySelector('.extra-cam-fields input');
                             if(extraInput && extraInput.value) {
-                                if(type === 'Telephoto' || type === 'Periscope') specs += `, ${extraInput.value}x optical zoom`;
+                                if(type === 'Telephoto' || type === 'Periscope Telephoto') specs += `, ${extraInput.value}x optical zoom`;
                                 else if (type === 'Ultrawide') specs += `, ${extraInput.value}°`;
                             }
                             return { label: type, specs: specs };
                         });
                     }
-                    // Selfie
+
                     const smp = get('selfie_mp') ? get('selfie_mp')+'MP' : '';
                     const sf = get('selfie_f') ? 'f/'+get('selfie_f') : '';
                     const smm = get('selfie_mm') ? get('selfie_mm')+'mm' : '';
@@ -515,7 +508,6 @@
                     const sft = get('selfie_feat');
                     if(smp) d.cam_selfie = [smp, sf, smm, ssens, sft].filter(Boolean).join(', ');
 
-                    // Video
                     let vids = [];
                     document.querySelectorAll('.vid-section').forEach(sec => {
                         const res = sec.querySelector('.vid-header').innerText;
