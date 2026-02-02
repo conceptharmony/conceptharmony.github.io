@@ -421,7 +421,7 @@
             
             const row = sel.parentElement.nextElementSibling.nextElementSibling;
             row.innerHTML = ''; row.style.display = 'none';
-            if(sel.value === 'Telephoto' || sel.value === 'Periscope') {
+            if(sel.value === 'Telephoto' || sel.value === 'Periscope Telephoto') {
                 row.style.display = 'flex';
                 row.innerHTML = `<input type="number" placeholder="Optical Zoom (x)">`;
             } else if (sel.value === 'Ultrawide') {
