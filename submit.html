@@ -83,17 +83,11 @@
         .opt-btn { padding: 8px; font-size: 0.85rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-muted); border-radius: var(--radius-btn); cursor: pointer; text-align: center; transition:0.2s; }
         .opt-btn.selected { background: var(--accent); color: black; font-weight: bold; border-color: var(--accent); }
         body.light-mode .opt-btn.selected { color: white; }
-        
-        /* POWER SECTION FIXES */
         .charge-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
         .charge-row label { width: 140px; margin: 0; flex-shrink: 0; }
         .charge-row select { width: 80px; flex-shrink: 0; }
         .charge-row input { flex: 1; min-width: 100px; }
-        @media (max-width: 768px) {
-            .charge-row label { width: 100%; }
-            .charge-row select { width: 100%; }
-            .charge-row input { width: 100%; }
-        }
+        @media (max-width: 768px) { .charge-row label { width: 100%; } .charge-row select { width: 100%; } .charge-row input { width: 100%; } }
         
         .vid-section { margin-bottom: 15px; border: 1px solid var(--glass-border); padding: 10px; border-radius: var(--radius-btn); }
         .vid-header { font-size: 0.8rem; color: var(--accent); margin-bottom: 5px; font-weight: bold; }
@@ -267,7 +261,8 @@
                             <label>Battery Configuration</label>
                             <div class="dynamic-row triple-input">
                                 <select id="bat_sic"><option value="No">Standard</option><option value="Yes">Si/C</option></select>
-                                <select id="bat_type"><option>Li-Ion</option><option>Li-Po</option><option>Other</option></select>
+                                <select id="bat_type" onchange="toggleCustomBat(this)"><option>Li-Ion</option><option>Li-Po</option><option>Other</option></select>
+                                <input type="text" id="bat_type_custom" placeholder="Custom Type" style="display:none;">
                                 <input type="number" id="bat_cap" placeholder="mAh">
                             </div>
                         </div>
@@ -348,18 +343,6 @@
             const isLight = document.documentElement.classList.toggle('light-mode');
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
         };
-        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); document.querySelector('.nav-container').classList.toggle('menu-open'); }
-        function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
-        window.onclick = function(e) { if (!e.target.matches('.nav-btn')) { document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show')); } }
-        function updateFileName(id, tid) { const f = document.getElementById(id).files; document.getElementById(tid).innerText = f.length > 1 ? f.length + " files" : f[0].name; }
-        function updateGalleryName() { const input = document.getElementById('galleryFiles'); if(input.files.length > 0) document.getElementById('galleryText').innerText = `Selected ${input.files.length} images`; }
-        function toggleSec() { document.getElementById('secBox').classList.toggle('hidden'); }
-        function toggleChg(id) { const sel = document.getElementById(id+'_yn'); document.getElementById(id).style.display = sel.value === 'Yes' ? 'block' : 'none'; }
-        function cap(s) { return s.replace(/\b\w/g, c => c.toUpperCase()); }
-        function smart(k, t) { if(!t) return null; let v = t.trim(); v=v.replace(/(\d)\s*x\s*(\d)/gi, "$1 x $2"); if (k==='colors') v=v.replace(/\b\w/g, c => c.toUpperCase()); return v; }
-
-        const fpsOpts = { '8K': ['24','25','30'], '4K': ['24','25','30','60','100','120'], '1080p': ['24','25','30','60','100','120','240','480','960+'] };
-        
         function handleTypeChange() {
             const t = document.getElementById('type').value;
             let m = 'device';
@@ -371,7 +354,19 @@
             document.body.setAttribute('data-mode', m);
             renderMem(m); renderVid(m);
         }
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); document.querySelector('.nav-container').classList.toggle('menu-open'); }
+        function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
+        window.onclick = function(e) { if (!e.target.matches('.nav-btn')) { document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show')); } }
+        function updateFileName(id, tid) { const f = document.getElementById(id).files; document.getElementById(tid).innerText = f.length > 1 ? f.length + " files" : f[0].name; }
+        function updateGalleryName() { const input = document.getElementById('galleryFiles'); if(input.files.length > 0) document.getElementById('galleryText').innerText = `Selected ${input.files.length} images`; }
+        function toggleSec() { document.getElementById('secBox').classList.toggle('hidden'); }
+        function toggleChg(id) { const sel = document.getElementById(id+'_yn'); document.getElementById(id).style.display = sel.value === 'Yes' ? 'block' : 'none'; }
+        function toggleCustomBat(sel) { document.getElementById('bat_type_custom').style.display = sel.value === 'Other' ? 'block' : 'none'; }
+        function cap(s) { return s.replace(/\b\w/g, c => c.toUpperCase()); }
+        function smart(k, t) { if(!t) return null; let v = t.trim(); v=v.replace(/(\d)\s*x\s*(\d)/gi, "$1 x $2"); if (k==='colors') v=v.replace(/\b\w/g, c => c.toUpperCase()); return v; }
 
+        const fpsOpts = { '8K': ['24','25','30'], '4K': ['24','25','30','60','100','120'], '1080p': ['24','25','30','60','100','120','240','480','960+'] };
+        
         function renderMem(m) {
             let r = [], s = [];
             if(m==='watch') { r=['128MB','256MB','512MB','1GB','2GB','3GB','4GB']; s=['2GB','4GB','8GB','16GB','32GB','64GB','128GB','256GB']; }
@@ -404,7 +399,8 @@
             const d = document.createElement('div'); d.className = 'cam-module-box';
             d.innerHTML = `
                 <div class="dynamic-row triple-input">
-                    <select onchange="checkCamType(this)"><option>Wide</option><option>Ultrawide</option><option>Telephoto</option><option>Periscope</option><option>Macro</option><option>Depth</option></select>
+                    <select onchange="checkCamType(this)"><option>Wide</option><option>Ultrawide</option><option>Telephoto</option><option>Periscope Telephoto</option><option>Macro</option><option>Depth</option><option>Other</option></select>
+                    <input type="text" class="custom-cam-type" placeholder="Type" style="display:none;">
                     <input type="number" placeholder="MP">
                     <input type="number" placeholder="f/ Aperture">
                 </div>
@@ -420,6 +416,9 @@
         }
 
         function checkCamType(sel) {
+            const customInput = sel.nextElementSibling;
+            customInput.style.display = sel.value === 'Other' ? 'block' : 'none';
+            
             const row = sel.parentElement.nextElementSibling.nextElementSibling;
             row.innerHTML = ''; row.style.display = 'none';
             if(sel.value === 'Telephoto' || sel.value === 'Periscope') {
@@ -457,7 +456,8 @@
                 
                 // Battery
                 const batSic = document.getElementById('bat_sic').value === 'Yes' ? 'Si/C ' : '';
-                const batType = document.getElementById('bat_type').value;
+                let batType = document.getElementById('bat_type').value;
+                if (batType === 'Other') batType = cap(document.getElementById('bat_type_custom').value);
                 const batCap = get('bat_cap');
                 if(batCap) d.battery = `${batSic}${batType} ${batCap} mAh`;
 
@@ -486,12 +486,15 @@
                     if(camDivs.length > 0) {
                         d.camera_modules = Array.from(camDivs).map(box => {
                             const inputs = box.querySelectorAll('input');
-                            const type = box.querySelector('select').value;
-                            const mp = inputs[0].value ? inputs[0].value + 'MP' : '';
-                            const f = inputs[1].value ? 'f/' + inputs[1].value : '';
-                            const mm = inputs[2].value ? inputs[2].value + 'mm' : '';
-                            let sens = inputs[3].value; if(sens === '1"') sens = '1"-type';
-                            const feat = inputs[4].value;
+                            // inputs: 0=customType, 1=MP, 2=Aperture, 3=Focal, 4=SensorSize, 5=Features
+                            let type = box.querySelector('select').value;
+                            if (type === 'Other') type = cap(inputs[0].value);
+                            
+                            const mp = inputs[1].value ? inputs[1].value + 'MP' : '';
+                            const f = inputs[2].value ? 'f/' + inputs[2].value : '';
+                            const mm = inputs[3].value ? inputs[3].value + 'mm' : '';
+                            let sens = inputs[4].value; if(sens === '1"') sens = '1"-type';
+                            const feat = inputs[5].value;
                             
                             let specs = [mp, f, mm, sens, feat].filter(Boolean).join(', ');
                             
