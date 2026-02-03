@@ -18,19 +18,26 @@
         body { background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; min-height: 100vh; transition: none !important; }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: url('background.jpg') center/cover; filter: blur(20px); }
         html.light-mode body::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
-        
         .container { max-width: 1100px; margin: auto; width: 100%; }
         .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
         
-        /* NAV STYLES */
-        .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
-        .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
+        /* NAV STYLES - OPTIMIZED */
+        .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; padding: 0 15px; }
+        .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; white-space: nowrap; }
         .logo span { font-weight: 700; }
+        
         .nav-links { display: flex; gap: 10px; align-items: center; height: 100%; }
-        .nav-btn { text-decoration: none; color: var(--text-main); padding: 0 20px; height: 40px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; }
+        .nav-btn { text-decoration: none; color: var(--text-main); padding: 0 20px; height: 40px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; white-space: nowrap; }
         .nav-btn:hover, .nav-btn.active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
         html.light-mode .nav-btn:hover, html.light-mode .nav-btn.active { color: white !important; }
         
+        /* INTERMEDIATE SCREENS (Tablets/Square Ratios) */
+        @media (min-width: 769px) and (max-width: 1200px) {
+            .nav-links { gap: 5px; }
+            .nav-btn { padding: 0 8px; font-size: 0.8rem; }
+            .logo { font-size: 1.2rem; }
+        }
+
         .dropdown-container { position: relative; }
         .dropdown-content { display: none; position: absolute; right: 0; top: 50px; background: rgba(30, 30, 30, 0.98); min-width: 200px; border-radius: var(--radius-btn); box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 200; overflow: hidden; border: 1px solid var(--glass-border); }
         .dropdown-content.show { display: block; }
@@ -55,7 +62,7 @@
                 left: 0; 
                 width: 100%; 
                 flex-direction: column; 
-                background: rgba(20, 20, 20, 0.98); 
+                background: var(--glass-bg); 
                 backdrop-filter: blur(20px); 
                 -webkit-backdrop-filter: blur(20px); 
                 padding: 15px; 
@@ -67,7 +74,7 @@
                 z-index: 2000; 
             }
             .nav-links.active { display: flex; }
-            .nav-btn { width: 100%; }
+            .nav-btn { width: 100%; padding: 0 20px; font-size: 0.9rem; }
             .dropdown-container { width: 100%; }
             .dropdown-content { 
                 position: static; 
@@ -86,7 +93,7 @@
         .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         @media (max-width: 768px) { 
             .input-grid { grid-template-columns: 1fr; } 
-            .full-width { grid-column: span 1 !important; }
+            .full-width { grid-column: span 1 !important; } 
         }
         .full-width { grid-column: span 2; }
         
@@ -103,6 +110,7 @@
         body.light-mode .file-upload-text { color: #555; }
         
         .dynamic-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+        .single-input { margin-bottom: 10px; }
         @media (max-width: 768px) { .dynamic-row { flex-direction: column; align-items: stretch; } }
         .double-input input:first-child { width: 35%; }
         @media (max-width: 768px) { .double-input input:first-child { width: 100%; } }
@@ -135,11 +143,10 @@
         .show-device, .show-laptop, .show-soc, .show-sensor, .show-tablet, .show-watch { display: none; }
         body[data-mode="device"] .show-device, body[data-mode="device"] .show-device-tablet { display: block; }
         body[data-mode="tablet"] .show-tablet, body[data-mode="tablet"] .show-device-tablet { display: block; }
-        body[data-mode="laptop"] .show-laptop { display: block; }
+        body[data-mode="laptop"] .show-laptop, body[data-mode="laptop"] .show-device-tablet { display: block; } 
         body[data-mode="soc"] .show-soc { display: block; }
         body[data-mode="sensor"] .show-sensor { display: block; }
         body[data-mode="watch"] .show-watch { display: block; }
-        
         body[data-mode="sensor"] .hide-on-sensor { display: none !important; }
         
         .full-width-soc { grid-column: span 2; }
@@ -152,7 +159,7 @@
             <a href="index.html" class="logo">Concept<span>Harmony</span></a>
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <div class="nav-links" id="navLinks">
-                <a href="index.html" class="nav-btn">Devices</a>
+                <a href="index.html" class="nav-btn">Mobile Devices</a>
                 <a href="laptops.html" class="nav-btn">Laptops</a>
                 <a href="soc.html" class="nav-btn">SoCs</a>
                 <a href="sensors.html" class="nav-btn">Sensors</a>
@@ -253,7 +260,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="show-device full-width" style="margin-top:20px;">
+                    <div class="show-device show-laptop full-width" style="margin-top:20px;">
                         <button type="button" class="add-btn" onclick="toggleSec()">+ Add Secondary / Cover Screen</button>
                         <div id="secBox" class="hidden input-grid" style="margin-top:15px; border:1px dashed var(--glass-border); padding:15px;">
                             <div class="full-width" style="text-align:center; color:var(--accent);">SECONDARY DISPLAY</div>
@@ -326,7 +333,7 @@
                             <label style="color:var(--accent); font-weight:bold; margin-bottom:10px;">Selfie Camera</label>
                             <div class="dynamic-row triple-input">
                                 <input type="number" id="selfie_mp" placeholder="MP">
-                                <input type="number" id="selfie_f" placeholder="f/">
+                                <input type="number" step="0.1" id="selfie_f" placeholder="f/">
                                 <input type="number" id="selfie_mm" placeholder="Focal (mm)">
                             </div>
                             <div class="dynamic-row double-input">
@@ -343,6 +350,13 @@
                     </div>
                 </div>
 
+                <div class="form-section show-device show-device-tablet show-laptop show-watch"><h3>FEATURES</h3></div>
+                <div class="full-width show-device show-device-tablet show-laptop show-watch">
+                    <label>Sensors & Extra Features</label>
+                    <div id="sensorContainer"></div>
+                    <button type="button" class="add-btn" onclick="addSingleInputRow('sensorContainer', 'Feature Name (e.g. Fingerprint under-display)')">+ Add Feature</button>
+                </div>
+
                 <div class="form-section hide-on-sensor"><h3>PICTURES (OPTIONAL)</h3></div>
                 <div class="full-width hide-on-sensor">
                     <div class="file-upload-wrapper">
@@ -356,8 +370,8 @@
                     <div class="hide-on-sensor"><label>Geekbench Single (v6)</label><input type="number" id="geek_s" placeholder="1234"></div>
                     <div class="hide-on-sensor"><label>Geekbench Multi (v6)</label><input type="number" id="geek_m" placeholder="12345"></div>
                     <div class="hide-on-sensor"><label>AnTuTu (v11)</label><input type="number" id="antutu" placeholder="1234567"></div>
-                    <div><label>Price (USD)</label><input type="number" id="price_usd" placeholder="1099"></div>
-                    <div><label>Price (EUR)</label><input type="number" id="price_eur" placeholder="999"></div>
+                    <div class="hide-on-sensor"><label>Price (USD)</label><input type="number" id="price_usd" placeholder="1099"></div>
+                    <div class="hide-on-sensor"><label>Price (EUR)</label><input type="number" id="price_eur" placeholder="999"></div>
                 </div>
 
                 <button type="submit" class="submit-btn">Generate JSON</button>
@@ -384,19 +398,6 @@
             const isLight = document.documentElement.classList.toggle('light-mode');
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
         };
-        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); document.querySelector('.nav-container').classList.toggle('menu-open'); }
-        function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
-        window.onclick = function(e) { if (!e.target.matches('.nav-btn')) { document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show')); } }
-        function updateFileName(id, tid) { const f = document.getElementById(id).files; document.getElementById(tid).innerText = f.length > 1 ? f.length + " files" : f[0].name; }
-        function updateGalleryName() { const input = document.getElementById('galleryFiles'); if(input.files.length > 0) document.getElementById('galleryText').innerText = `Selected ${input.files.length} images`; }
-        function toggleSec() { document.getElementById('secBox').classList.toggle('hidden'); }
-        function toggleChg(id) { const sel = document.getElementById(id+'_yn'); document.getElementById(id).style.display = sel.value === 'Yes' ? 'block' : 'none'; }
-        function toggleCustomBat(sel) { document.getElementById('bat_type_custom').style.display = sel.value === 'Other' ? 'block' : 'none'; }
-        function cap(s) { return s.replace(/\b\w/g, c => c.toUpperCase()); }
-        function smart(k, t) { if(!t) return null; let v = t.trim(); v=v.replace(/(\d)\s*x\s*(\d)/gi, "$1 x $2"); if (k==='colors') v=v.replace(/\b\w/g, c => c.toUpperCase()); return v; }
-
-        const fpsOpts = { '8K': ['24','25','30'], '4K': ['24','25','30','60','100','120'], '1080p': ['24','25','30','60','100','120','240','480','960+'] };
-        
         function handleTypeChange() {
             const t = document.getElementById('type').value;
             let m = 'device';
@@ -412,7 +413,19 @@
             
             renderMem(m); renderVid(m);
         }
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); document.querySelector('.nav-container').classList.toggle('menu-open'); }
+        function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
+        window.onclick = function(e) { if (!e.target.matches('.nav-btn')) { document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show')); } }
+        function updateFileName(id, tid) { const f = document.getElementById(id).files; document.getElementById(tid).innerText = f.length > 1 ? f.length + " files" : f[0].name; }
+        function updateGalleryName() { const input = document.getElementById('galleryFiles'); if(input.files.length > 0) document.getElementById('galleryText').innerText = `Selected ${input.files.length} images`; }
+        function toggleSec() { document.getElementById('secBox').classList.toggle('hidden'); }
+        function toggleChg(id) { const sel = document.getElementById(id+'_yn'); document.getElementById(id).style.display = sel.value === 'Yes' ? 'block' : 'none'; }
+        function toggleCustomBat(sel) { document.getElementById('bat_type_custom').style.display = sel.value === 'Other' ? 'block' : 'none'; }
+        function cap(s) { return s.replace(/\b\w/g, c => c.toUpperCase()); }
+        function smart(k, t) { if(!t) return null; let v = t.trim(); v=v.replace(/(\d)\s*x\s*(\d)/gi, "$1 x $2"); if (k==='colors') v=v.replace(/\b\w/g, c => c.toUpperCase()); return v; }
 
+        const fpsOpts = { '8K': ['24','25','30'], '4K': ['24','25','30','60','100','120'], '1080p': ['24','25','30','60','100','120','240','480','960+'] };
+        
         function renderMem(m) {
             let r = [], s = [];
             if(m==='watch') { r=['128MB','256MB','512MB','1GB','2GB','3GB','4GB']; s=['2GB','4GB','8GB','16GB','32GB','64GB','128GB','256GB']; }
@@ -448,7 +461,7 @@
                     <select onchange="checkCamType(this)"><option>Wide</option><option>Ultrawide</option><option>Telephoto</option><option>Periscope Telephoto</option><option>Macro</option><option>Depth</option><option>Other</option></select>
                     <input type="text" class="custom-cam-type" placeholder="Type Name" style="display:none;">
                     <input type="number" placeholder="MP">
-                    <input type="number" placeholder="f/ Aperture">
+                    <input type="number" step="0.1" placeholder="f/ Aperture">
                 </div>
                 <div class="dynamic-row triple-input">
                     <input type="number" placeholder="Focal (mm)">
@@ -482,6 +495,13 @@
             document.getElementById('cpuContainer').appendChild(d);
         }
 
+        function addSingleInputRow(cid, ph) {
+            const div = document.createElement('div'); 
+            div.className = 'dynamic-row single-input'; 
+            div.innerHTML = `<input type="text" placeholder="${ph}"><button type="button" class="remove-btn" onclick="this.parentElement.remove()">X</button>`; 
+            document.getElementById(cid).appendChild(div); 
+        }
+
         document.getElementById('makerForm').addEventListener('submit', (e) => {
             e.preventDefault();
             let d = {}; const get = (id) => document.getElementById(id).value;
@@ -500,51 +520,40 @@
                 if(get('dim_h')) d.dimensions = `${get('dim_h')} x ${get('dim_w')} x ${get('dim_d')} mm`;
                 if(get('weight')) d.weight = get('weight') + "g";
                 
-                // Battery
                 const batSic = document.getElementById('bat_sic').value === 'Yes' ? 'Si/C ' : '';
                 let batType = document.getElementById('bat_type').value;
                 if (batType === 'Other') batType = cap(document.getElementById('bat_type_custom').value);
                 const batCap = get('bat_cap');
                 if(batCap) d.battery = `${batSic}${batType} ${batCap} mAh`;
 
-                // Charging
                 let chg = [];
                 if(get('chg_w_yn') === 'Yes') chg.push(`${get('chg_w')} wired`);
                 if(get('chg_wl_yn') === 'Yes') chg.push(`${get('chg_wl')} wireless`);
                 if(get('chg_rw_yn') === 'Yes') chg.push(`${get('chg_rw')} reverse wireless`);
                 if(chg.length) d.charging = chg.join(', ');
 
-                // Display
                 let sArr = []; if(get('displayType')) sArr.push(get('displayType')); if(get('refresh')) sArr.push(get('refresh')+'Hz'); if(get('screen')) sArr.push(get('screen')+'"'); if(get('brightness')) sArr.push(get('brightness')+' nits'); if(sArr.length > 0) d.screen = sArr.join(', ');
                 if(get('res_w')) d.resolution = `${get('res_w')} x ${get('res_h')} pixels`;
 
-                // RAM/Storage
                 const getOpts = (id) => Array.from(document.querySelectorAll(`#${id} .selected`)).map(b => b.innerText).join(' / ');
                 const r = getOpts('ramContainer'); if(r) d.ram = r;
                 const s = getOpts('storageContainer'); if(s) d.storage = s;
 
                 if (mode === 'device' || mode === 'tablet') {
-                    // Secondary Screen
                     let sec = []; if(get('sec_type')) sec.push(get('sec_type')); if(get('sec_refresh')) sec.push(get('sec_refresh')+'Hz'); if(get('sec_size')) sec.push(get('sec_size')+'"'); if(get('sec_bri')) sec.push(get('sec_bri')+' nits'); if(get('sec_res_w')) sec.push(`${get('sec_res_w')} x ${get('sec_res_h')} pixels`); if(sec.length > 0) d.second_screen = sec.join(', ');
                     
-                    // Camera Modules
                     const camDivs = document.querySelectorAll('.cam-module-box');
                     if(camDivs.length > 0) {
                         d.camera_modules = Array.from(camDivs).map(box => {
                             const inputs = box.querySelectorAll('input');
-                            // inputs: 0=customType, 1=MP, 2=Aperture, 3=Focal, 4=SensorSize, 5=Features
                             let type = box.querySelector('select').value;
                             if (type === 'Other') type = cap(inputs[0].value);
-                            
                             const mp = inputs[1].value ? inputs[1].value + 'MP' : '';
                             const f = inputs[2].value ? 'f/' + inputs[2].value : '';
                             const mm = inputs[3].value ? inputs[3].value + 'mm' : '';
                             let sens = inputs[4].value; if(sens === '1"') sens = '1"-type';
                             const feat = inputs[5].value;
-                            
                             let specs = [mp, f, mm, sens, feat].filter(Boolean).join(', ');
-                            
-                            // Extra fields - SAFE ACCESS
                             const extraInput = box.querySelector('.extra-cam-fields input');
                             if(extraInput && extraInput.value) {
                                 if(type === 'Telephoto' || type === 'Periscope Telephoto') specs += `, ${extraInput.value}x optical zoom`;
@@ -553,7 +562,6 @@
                             return { label: type, specs: specs };
                         });
                     }
-                    // Selfie
                     const smp = get('selfie_mp') ? get('selfie_mp')+'MP' : '';
                     const sf = get('selfie_f') ? 'f/'+get('selfie_f') : '';
                     const smm = get('selfie_mm') ? get('selfie_mm')+'mm' : '';
@@ -561,7 +569,6 @@
                     const sft = get('selfie_feat');
                     if(smp) d.cam_selfie = [smp, sf, smm, ssens, sft].filter(Boolean).join(', ');
 
-                    // Video
                     let vids = [];
                     document.querySelectorAll('.vid-section').forEach(sec => {
                         const res = sec.querySelector('.vid-header').innerText;
@@ -572,7 +579,17 @@
                     if(vids.length) d.cam_video = vids.join(', ');
                 }
                 
-                if(mode==='laptop') { d.ports = get('ports'); d.gpu = get('d_gpu'); }
+                if (mode === 'device' || mode === 'tablet' || mode === 'laptop' || mode === 'watch') {
+                    const sensRows = document.querySelectorAll('#sensorContainer .dynamic-row input');
+                    const sens = [];
+                    sensRows.forEach(i => { if(i.value) sens.push(cap(i.value)); });
+                    if(sens.length > 0) d.sensors = sens;
+                }
+                
+                if(mode==='laptop') { 
+                    d.ports = get('ports'); d.gpu = get('d_gpu'); 
+                    let sec = []; if(get('sec_type')) sec.push(get('sec_type')); if(get('sec_refresh')) sec.push(get('sec_refresh')+'Hz'); if(get('sec_size')) sec.push(get('sec_size')+'"'); if(get('sec_bri')) sec.push(get('sec_bri')+' nits'); if(get('sec_res_w')) sec.push(`${get('sec_res_w')} x ${get('sec_res_h')} pixels`); if(sec.length > 0) d.second_screen = sec.join(', ');
+                }
                 d.chipset = get('chipset'); d.os = get('os');
             } else if (mode === 'soc') {
                 d.type = 'SoC'; d.process = get('process'); d.open_use = get('open_use');
