@@ -260,6 +260,11 @@
                 <div class="controls">
                     <input type="text" id="searchInput" class="search-box" placeholder="Search chipsets...">
                     <select id="brandFilter" class="filter-box"><option value="all">All Brands</option></select>
+                    <select id="openUseFilter" class="filter-box">
+                        <option value="all">All Access</option>
+                        <option value="Yes">Open Use</option>
+                        <option value="No">Proprietary</option>
+                    </select>
                     <select id="sortOrder" class="filter-box">
                         <option value="newest">Newest First</option>
                         <option value="oldest">Oldest First</option>
@@ -371,12 +376,14 @@
         function filterAndSort() {
             const term = document.getElementById('searchInput').value.toLowerCase();
             const brand = document.getElementById('brandFilter').value;
+            const use = document.getElementById('openUseFilter').value;
             const sort = document.getElementById('sortOrder').value;
 
             let filtered = allChips.filter(d => {
                 const matchSearch = d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term);
                 const matchBrand = brand === 'all' || d.brand === brand;
-                return matchSearch && matchBrand;
+                const matchUse = use === 'all' || (use === 'Yes' ? d.open_use === 'Yes' : d.open_use !== 'Yes');
+                return matchSearch && matchBrand && matchUse;
             });
 
             filtered.sort((a, b) => {
@@ -395,13 +402,13 @@
 
         document.getElementById('searchInput').addEventListener('keyup', filterAndSort);
         document.getElementById('brandFilter').addEventListener('change', filterAndSort);
+        document.getElementById('openUseFilter').addEventListener('change', filterAndSort);
         document.getElementById('sortOrder').addEventListener('change', filterAndSort);
 
         const renderGrid = (list) => {
             const grid = document.getElementById('chipGrid');
             grid.innerHTML = "";
             list.forEach((d) => {
-                // FIXED: Finding the true index in the master array 'allChips'
                 const originalIndex = allChips.indexOf(d); 
                 grid.innerHTML += `
                     <div class="glass-panel card" onclick="showDetails(${originalIndex})">
@@ -636,6 +643,7 @@
 
         document.getElementById('searchInput').addEventListener('keyup', filterAndSort);
         document.getElementById('brandFilter').addEventListener('change', filterAndSort);
+        document.getElementById('openUseFilter').addEventListener('change', filterAndSort);
         document.getElementById('sortOrder').addEventListener('change', filterAndSort);
 
         init();
