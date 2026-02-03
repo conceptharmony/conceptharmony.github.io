@@ -44,24 +44,20 @@
             transition: none !important;
         }
 
-        /* BACKGROUND FIX: Scaled to 110% to prevent dark blur edges */
         body::before { 
             content: ""; 
             position: fixed; 
-            top: -5%; left: -5%; 
-            width: 110vw; height: 110vh; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
             z-index: -1; 
-            background: url('background.jpg') no-repeat center center; 
-            background-size: cover; 
+            background: url('background.jpg') center/cover; 
             filter: blur(20px); 
-            transform: translateZ(0);
         }
         html.light-mode body::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
 
         .container { max-width: 1100px; margin: auto; width: 100%; }
         .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
 
-        /* NAV */
         .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
         .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
         .logo span { font-weight: 700; }
@@ -110,7 +106,6 @@
             .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
 
-        /* NEWS SPECIFIC STYLES */
         .controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .search-box { flex: 2; min-width: 200px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
         .filter-box { flex: 1; min-width: 140px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); cursor: pointer; }
@@ -122,7 +117,6 @@
         
         html.light-mode .search-box, html.light-mode .filter-box { background: rgba(255,255,255,0.6); color: black; border-color: rgba(0,0,0,0.1); }
 
-        /* GRID & CARDS */
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .news-card { cursor: pointer; transition: transform 0.2s; overflow: hidden; padding: 0; display: flex; flex-direction: column; }
         .news-card:hover { transform: translateY(-5px); border-color: var(--accent); }
@@ -133,7 +127,6 @@
         .news-summary { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; flex: 1; margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
         .read-more { font-size: 0.85rem; color: var(--accent); font-weight: bold; margin-top: auto; }
 
-        /* HERO CARD */
         .hero-card { grid-column: 1 / -1; display: flex; flex-direction: row; height: 380px; }
         .hero-card .news-img { width: 50%; height: 100%; }
         .hero-card .news-body { width: 50%; justify-content: center; padding: 40px; }
@@ -147,7 +140,6 @@
             .hero-card .news-title { font-size: 1.5rem; }
         }
 
-        /* ARTICLE READING VIEW */
         .hidden { display: none !important; }
         .article-header { margin-bottom: 30px; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px; }
         .article-meta-row { display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
@@ -157,8 +149,7 @@
         .article-content { font-size: 1.1rem; line-height: 1.8; color: var(--text-main); max-width: 800px; margin: 0 auto; }
         .article-content p { margin-bottom: 20px; }
         .article-content img { width: 100%; height: auto; border-radius: 8px; margin: 20px 0; border: 1px solid var(--glass-border); }
-        
-        /* PROGRESS BAR */
+
         #progressBar { position: fixed; top: 0; left: 0; height: 4px; background: var(--accent); width: 0%; z-index: 2500; transition: width 0.1s; }
         .share-btn { margin-left: auto; display: flex; align-items: center; gap: 6px; cursor: pointer; }
     </style>
@@ -245,7 +236,6 @@
 
         let allNews = [];
 
-        // FETCH NEWS
         async function init() {
             try {
                 const res = await fetch('news.json');
@@ -260,11 +250,9 @@
             const term = document.getElementById('searchInput').value.toLowerCase();
             const sort = document.getElementById('sortOrder').value;
             const grid = document.getElementById('newsGrid');
-            
-            // FILTER
+
             let filtered = allNews.filter(n => n.title.toLowerCase().includes(term) || n.summary.toLowerCase().includes(term));
             
-            // SORT
             filtered.sort((a,b) => {
                 const dA = new Date(a.date).getTime();
                 const dB = new Date(b.date).getTime();
@@ -274,8 +262,6 @@
             grid.innerHTML = "";
             
             if(filtered.length === 0) { grid.innerHTML = "<p>No matches found.</p>"; return; }
-
-            // RENDER GRID
             filtered.forEach((n, idx) => {
                 const isHero = idx === 0 && term === ""; // First item is hero only if not searching
                 const classes = isHero ? "glass-panel news-card hero-card" : "glass-panel news-card";
@@ -308,7 +294,6 @@
             document.getElementById('a_img').src = article.image;
             document.getElementById('a_content').innerHTML = article.content; 
 
-            // Calculate Reading Time
             const words = article.content.replace(/<[^>]*>/g, '').split(/\s+/).length;
             const mins = Math.ceil(words / 200);
             document.getElementById('a_time').innerText = `⏱ ${mins} min read`;
