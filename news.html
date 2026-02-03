@@ -14,29 +14,46 @@
         :root {
             --glass-bg: rgba(20, 20, 20, 0.95);
             --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); --accent: #ffffff;
-            --text-main: #ffffff; --text-muted: #bbbbbb; --radius-main: 12px; --radius-btn: 6px;
-            --diff-highlight: #fff;
-            --diff-dim: #555;
+            --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); 
+            --accent: #ffffff;
+            --text-main: #ffffff; 
+            --text-muted: #bbbbbb; 
+            --radius-main: 12px; 
+            --radius-btn: 6px;
         }
+        
         html.light-mode body {
-            --glass-bg: rgba(255, 255, 255, 0.98); --glass-border: rgba(0, 0, 0, 0.1);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); --accent: #000000;
-            --text-main: #1a1a1a; --text-muted: #555555; background-color: #f4f4f9;
+            --glass-bg: rgba(255, 255, 255, 0.98); 
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); 
+            --accent: #000000;
+            --text-main: #1a1a1a; 
+            --text-muted: #555555; 
+            background-color: #f4f4f9;
         }
+
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { overflow-x: hidden; }
         
         body { 
-            background-color: #121212; color: var(--text-main); font-family: 'Segoe UI', sans-serif; 
-            margin: 0; padding: 20px; min-height: 100vh; transition: none !important; 
+            background-color: #121212; 
+            color: var(--text-main); 
+            font-family: 'Segoe UI', sans-serif; 
+            margin: 0; padding: 20px; 
+            min-height: 100vh; 
+            transition: none !important;
         }
-        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: url('background.jpg') center/cover; filter: blur(20px); }
+
+        body::before { 
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+            background: url('background.jpg') center/cover; filter: blur(20px); 
+        }
         html.light-mode body::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
 
         .container { max-width: 1100px; margin: auto; width: 100%; }
         .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
 
+        /* NAV */
         .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
         .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
         .logo span { font-weight: 700; }
@@ -60,8 +77,7 @@
         @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
             .nav-container.menu-open { border-radius: 12px 12px 0 0 !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
-            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; flex-direction: column; background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 15px; border-radius: 0 0 12px 12px; border-bottom: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); gap: 10px; height: auto; z-index: 900; }
-            html.light-mode .nav-links { background: rgba(255,255,255,0.98); }
+            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; flex-direction: column; background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 15px; border-radius: 0 0 12px 12px; border-bottom: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); gap: 10px; height: auto; z-index: 2000; }
             .nav-links.active { display: flex; }
             .nav-btn { width: 100%; }
             .dropdown-container { width: 100%; }
@@ -69,95 +85,63 @@
             .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
 
-        .controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .search-box { flex: 2; min-width: 200px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
-        .filter-box { flex: 1; min-width: 140px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); cursor: pointer; }
+        /* NEWS SPECIFIC STYLES */
+        .controls { display: flex; gap: 10px; margin-bottom: 20px; }
+        .search-box { flex: 2; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
+        .filter-box { flex: 1; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); cursor: pointer; }
         html.light-mode .search-box, html.light-mode .filter-box { background: rgba(255,255,255,0.6); color: black; border-color: rgba(0,0,0,0.1); }
 
-        .news-grid { display: grid; grid-template-columns: 1fr; gap: 25px; }
+        /* GRID & CARDS */
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .news-card { cursor: pointer; transition: transform 0.2s; overflow: hidden; padding: 0; display: flex; flex-direction: column; }
+        .news-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .news-img { width: 100%; height: 180px; object-fit: cover; }
+        .news-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+        .news-meta { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px; display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: 1px; }
+        .news-title { font-size: 1.2rem; margin: 0 0 10px 0; color: var(--text-main); line-height: 1.3; }
+        .news-summary { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; flex: 1; margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .read-more { font-size: 0.85rem; color: var(--accent); font-weight: bold; margin-top: auto; }
+
+        /* HERO CARD (First Item) */
+        .hero-card { grid-column: 1 / -1; display: flex; flex-direction: row; height: 350px; }
+        .hero-card .news-img { width: 50%; height: 100%; }
+        .hero-card .news-body { width: 50%; justify-content: center; padding: 40px; }
+        .hero-card .news-title { font-size: 2rem; margin-bottom: 15px; }
+        .hero-card .news-summary { -webkit-line-clamp: 4; font-size: 1rem; }
         
-        .news-card { 
-            display: flex; 
-            gap: 20px; 
-            cursor: pointer; 
-            transition: transform 0.2s; 
-            padding: 20px; 
-            align-items: flex-start;
-        }
-        .news-card:hover { transform: translateY(-3px); border-color: var(--accent); }
-        
-        .news-img { 
-            width: 280px; 
-            height: 180px; 
-            object-fit: cover; 
-            border-radius: 8px; 
-            flex-shrink: 0; 
-            background: rgba(255,255,255,0.05); 
-        }
-        
-        .news-content { 
-            flex: 1; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            min-width: 0; 
-        }
-        
-        .news-cat { 
-            font-size: 0.7rem; 
-            text-transform: uppercase; 
-            color: var(--accent); 
-            font-weight: 800; 
-            letter-spacing: 1px; 
-            margin-bottom: 8px; 
-        }
-        
-        .news-title { 
-            font-size: 1.6rem; 
-            margin: 0 0 10px 0; 
-            line-height: 1.2; 
-            font-weight: 700; 
-            overflow-wrap: break-word; 
-            word-wrap: break-word;
-        }
-        
-        .news-meta { font-size: 0.8rem; color: var(--text-muted); }
-        
-        /* MOBILE FIX FOR OVERLAPPING TITLE */
         @media (max-width: 768px) {
-            .news-card { 
-                flex-direction: column; 
-                align-items: flex-start;
-                height: auto; /* Let card grow */
-            }
-            .news-img { 
-                width: 100%; 
-                height: 200px; 
-                margin-bottom: 15px; /* Spacing between img and text */
-            }
-            .news-content {
-                width: 100%;
-                display: block; /* Reset flex */
-            }
-            .news-title { 
-                font-size: 1.4rem; 
-                white-space: normal; /* Force text wrapping */
-            }
-            .controls { flex-direction: column; }
+            .hero-card { flex-direction: column; height: auto; }
+            .hero-card .news-img { width: 100%; height: 200px; }
+            .hero-card .news-body { width: 100%; padding: 20px; }
+            .hero-card .news-title { font-size: 1.5rem; }
         }
-        
+
+        /* ARTICLE READING VIEW */
         .hidden { display: none !important; }
-        .full-article h1 { font-size: 2.5rem; margin-bottom: 10px; overflow-wrap: break-word; }
-        .full-article img { width: 100%; height: auto; border-radius: 12px; margin: 20px 0; }
-        .article-body { line-height: 1.8; font-size: 1.1rem; color: #ddd; overflow-wrap: break-word; }
-        html.light-mode .article-body { color: #333; }
-        @media (max-width: 768px) {
-            .full-article h1 { font-size: 1.8rem; }
-            .article-body { font-size: 1rem; }
-        }
+        .article-header { margin-bottom: 30px; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px; }
+        .article-meta-row { display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+        .reading-time-badge { background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; }
+        .article-hero { width: 100%; height: auto; max-height: 500px; object-fit: cover; border-radius: var(--radius-main); margin-bottom: 30px; }
+        
+        .article-content { font-size: 1.1rem; line-height: 1.8; color: var(--text-main); max-width: 800px; margin: 0 auto; }
+        .article-content p { margin-bottom: 20px; }
+        
+        /* IMAGES IN TEXT */
+        .article-content img { width: 100%; height: auto; border-radius: 8px; margin: 20px 0; border: 1px solid var(--glass-border); }
+        
+        /* TEXT CONTROLS */
+        .text-controls { display: flex; gap: 5px; background: rgba(255,255,255,0.1); padding: 4px; border-radius: 20px; }
+        .text-btn { background: none; border: none; color: var(--text-main); cursor: pointer; padding: 2px 8px; font-weight: bold; border-radius: 50%; }
+        .text-btn:hover { background: var(--accent); color: black; }
+
+        /* PROGRESS BAR */
+        #progressBar { position: fixed; top: 0; left: 0; height: 4px; background: var(--accent); width: 0%; z-index: 2000; transition: width 0.1s; }
+        
+        .share-btn { margin-left: auto; display: flex; align-items: center; gap: 6px; cursor: pointer; }
     </style>
 </head>
 <body>
+    <div id="progressBar"></div>
     <div class="container">
         <div class="glass-panel nav-container">
             <a href="index.html" class="logo">Concept<span>Harmony</span></a>
@@ -167,9 +151,9 @@
                 <a href="laptops.html" class="nav-btn">Laptops</a>
                 <a href="soc.html" class="nav-btn">SoCs</a>
                 <a href="sensors.html" class="nav-btn">Sensors</a>
-                <a href="news.html" class="nav-btn" style="border-color:var(--accent);">News</a>
+                <a href="news.html" class="nav-btn active" style="border-color:var(--accent);">News</a>
                 <a href="submit.html" class="nav-btn">Submit</a>
-                
+      
                 <div class="dropdown-container">
                     <button class="nav-btn" onclick="toggleSocials(event)">Socials ▾</button>
                     <div class="dropdown-content" id="socialDropdown">
@@ -179,17 +163,7 @@
                     </div>
                 </div>
                 <button id="themeToggle" class="nav-btn theme-btn">
-                    <svg class="theme-icon" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
+                    <svg class="theme-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
                 </button>
             </div>
         </div>
@@ -198,93 +172,160 @@
             <div class="glass-panel" style="padding:15px;">
                 <div class="controls">
                     <input type="text" id="searchInput" class="search-box" placeholder="Search news...">
-                    <select id="categoryFilter" class="filter-box"><option value="all">All Categories</option></select>
                     <select id="sortOrder" class="filter-box">
                         <option value="newest">Newest First</option>
                         <option value="oldest">Oldest First</option>
-                        <option value="az">Title (A-Z)</option>
                     </select>
                 </div>
             </div>
-            <div id="newsFeed" class="news-grid">Loading...</div>
+            <div id="newsGrid" class="news-grid">Loading...</div>
         </div>
 
         <div id="articleView" class="hidden">
-            <button onclick="location.reload()" class="nav-btn" style="margin-bottom:20px;">← Back to News</button>
-            <div class="glass-panel full-article">
-                <span id="a_cat" class="news-cat"></span>
-                <h1 id="a_title"></h1>
-                <div id="a_meta" class="news-meta"></div>
-                <img id="a_img" src="">
-                <div id="a_content" class="article-body"></div>
+            <div class="glass-panel">
+                <div class="article-header">
+                    <button onclick="closeArticle()" class="nav-btn" style="width:auto; margin-bottom:15px;">← Back to News</button>
+                    <h1 id="a_title" style="font-size:2.5rem; line-height:1.2; margin:10px 0;">Article Title</h1>
+                    
+                    <div class="article-meta-row">
+                        <div style="display:flex; gap:15px; align-items:center;">
+                            <span id="a_author">Author</span> • <span id="a_date">Date</span>
+                        </div>
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <span id="a_time" class="reading-time-badge">⏱ 5 min read</span>
+                            <div class="text-controls">
+                                <button class="text-btn" onclick="resizeText(-1)">A-</button>
+                                <button class="text-btn" onclick="resizeText(1)">A+</button>
+                            </div>
+                            <div class="share-btn" onclick="shareArticle()">
+                                <svg style="width:18px;height:18px;fill:currentColor" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.66 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <img id="a_img" src="" class="article-hero">
+                <div id="a_content" class="article-content"></div>
             </div>
         </div>
     </div>
 
     <script>
-        document.getElementById('themeToggle').onclick = () => { const isLight = document.documentElement.classList.toggle('light-mode'); localStorage.setItem('theme', isLight ? 'light' : 'dark'); };
-        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); document.querySelector('.nav-container').classList.toggle('menu-open'); }
+        document.getElementById('themeToggle').onclick = () => {
+            const isLight = document.documentElement.classList.toggle('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        };
+        
+        function toggleMenu() { 
+            document.getElementById('navLinks').classList.toggle('active'); 
+            document.querySelector('.nav-container').classList.toggle('menu-open');
+        }
+        
         function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
         window.onclick = function(e) { if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); }
-        
+
         let allNews = [];
+        let currentSize = 1.1;
+
+        // FETCH NEWS
         async function init() {
             try {
                 const res = await fetch('news.json');
                 allNews = await res.json();
-                populateCategories(allNews);
-                filterAndSort();
-            } catch(e) { document.getElementById('newsFeed').innerHTML = "No news articles found."; }
+                renderNews();
+            } catch(e) { 
+                document.getElementById('newsGrid').innerHTML = "<p style='color:grey; text-align:center;'>No news articles found.</p>"; 
+            }
         }
 
-        function populateCategories(list) {
-            const cats = new Set(list.map(n => n.category));
-            const select = document.getElementById('categoryFilter');
-            cats.forEach(c => { if(c) { const opt = document.createElement('option'); opt.value = c; opt.innerText = c; select.appendChild(opt); } });
-        }
-
-        function filterAndSort() {
+        function renderNews() {
             const term = document.getElementById('searchInput').value.toLowerCase();
-            const cat = document.getElementById('categoryFilter').value;
             const sort = document.getElementById('sortOrder').value;
-            let filtered = allNews.filter(n => {
-                const matchSearch = n.title.toLowerCase().includes(term) || n.content.toLowerCase().includes(term);
-                const matchCat = cat === 'all' || n.category === cat;
-                return matchSearch && matchCat;
+            const grid = document.getElementById('newsGrid');
+            
+            // FILTER
+            let filtered = allNews.filter(n => n.title.toLowerCase().includes(term) || n.summary.toLowerCase().includes(term));
+            
+            // SORT
+            filtered.sort((a,b) => {
+                const dA = new Date(a.date).getTime();
+                const dB = new Date(b.date).getTime();
+                return sort === 'newest' ? dB - dA : dA - dB;
             });
-            filtered.sort((a, b) => {
-                if (sort === 'az') return a.title.localeCompare(b.title);
-                const dateA = new Date(a.date).getTime() || 0;
-                const dateB = new Date(b.date).getTime() || 0;
-                return sort === 'newest' ? dateB - dateA : dateA - dateB;
+
+            grid.innerHTML = "";
+            
+            if(filtered.length === 0) { grid.innerHTML = "<p>No matches found.</p>"; return; }
+
+            // RENDER GRID
+            filtered.forEach((n, idx) => {
+                const isHero = idx === 0 && term === ""; // First item is hero only if not searching
+                const classes = isHero ? "glass-panel news-card hero-card" : "glass-panel news-card";
+                
+                grid.innerHTML += `
+                    <div class="${classes}" onclick="openArticle('${n.title}')">
+                        <img src="${n.image}" class="news-img" onerror="this.src='https://placehold.co/600x400?text=News'">
+                        <div class="news-body">
+                            <div class="news-meta"><span>${n.date}</span><span>${n.author}</span></div>
+                            <h2 class="news-title">${n.title}</h2>
+                            <div class="news-summary">${n.summary}</div>
+                            <div class="read-more">Read Article →</div>
+                        </div>
+                    </div>
+                `;
             });
-            renderList(filtered);
         }
 
-        const renderList = (list) => {
-            const grid = document.getElementById('newsFeed');
-            grid.innerHTML = "";
-            list.forEach(n => {
-                const i = allNews.indexOf(n);
-                grid.innerHTML += `<div class="glass-panel news-card" onclick="showArticle(${i})"><img src="${n.image}" class="news-img" onerror="this.src='https://placehold.co/400x250?text=News'"><div class="news-content"><span class="news-cat">${n.category || 'Update'}</span><h2 class="news-title">${n.title}</h2><div class="news-meta">${n.date} • By ${n.author}</div></div></div>`;
-            });
-        };
+        window.openArticle = (title) => {
+            const article = allNews.find(n => n.title === title);
+            if(!article) return;
 
-        window.showArticle = (i) => {
-            const n = allNews[i];
-            window.scrollTo(0,0);
             document.getElementById('listView').classList.add('hidden');
             document.getElementById('articleView').classList.remove('hidden');
-            document.getElementById('a_cat').innerText = n.category || 'Update';
-            document.getElementById('a_title').innerText = n.title;
-            document.getElementById('a_meta').innerText = `${n.date} • By ${n.author}`;
-            document.getElementById('a_img').src = n.image;
-            document.getElementById('a_content').innerHTML = n.content.replace(/\n/g, '<br>');
+            window.scrollTo(0,0);
+
+            document.getElementById('a_title').innerText = article.title;
+            document.getElementById('a_date').innerText = article.date;
+            document.getElementById('a_author').innerText = "By " + article.author;
+            document.getElementById('a_img').src = article.image;
+            document.getElementById('a_content').innerHTML = article.content; // Allows HTML tags for images in text
+
+            // Calculate Reading Time
+            const words = article.content.replace(/<[^>]*>/g, '').split(/\s+/).length;
+            const mins = Math.ceil(words / 200);
+            document.getElementById('a_time').innerText = `⏱ ${mins} min read`;
         };
 
-        document.getElementById('searchInput').addEventListener('keyup', filterAndSort);
-        document.getElementById('categoryFilter').addEventListener('change', filterAndSort);
-        document.getElementById('sortOrder').addEventListener('change', filterAndSort);
+        window.closeArticle = () => {
+            document.getElementById('articleView').classList.add('hidden');
+            document.getElementById('listView').classList.remove('hidden');
+            window.scrollTo(0,0);
+        };
+
+        window.resizeText = (dir) => {
+            currentSize += (dir * 0.1);
+            if(currentSize < 0.8) currentSize = 0.8;
+            if(currentSize > 2.0) currentSize = 2.0;
+            document.getElementById('a_content').style.fontSize = currentSize + 'rem';
+        };
+
+        window.shareArticle = () => {
+            const title = document.getElementById('a_title').innerText;
+            navigator.clipboard.writeText(window.location.href);
+            alert(`Link copied for: ${title}`);
+        };
+
+        // SCROLL PROGRESS
+        window.onscroll = () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        };
+
+        document.getElementById('searchInput').addEventListener('keyup', renderNews);
+        document.getElementById('sortOrder').addEventListener('change', renderNews);
+
         init();
     </script>
 </body>
