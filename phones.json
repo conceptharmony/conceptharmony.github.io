@@ -1,5 +1,44 @@
 [
   {
+    "brand": "Tianyu",
+    "model": "R10s",
+    "announced": "February 3, 2026",
+    "type": "Phone",
+    "status": "Coming Soon",
+    "released": null,
+    "colors": "Space Gray, Snow",
+    "build": "Aluminium Frame, Titanium Back",
+    "ip_rating": "IP68",
+    "dimensions": "171 x 76 x 8 mm",
+    "weight": "209g",
+    "battery": "Si/C Li-Ion 6490 mAh",
+    "charging": "60W wired, 50W wireless",
+    "screen": "LTPO AMOLED, 120Hz, 6.78\", 2850 nits",
+    "resolution": "1279 x 2778 pixels",
+    "ram": "12GB",
+    "storage": "256GB / 512GB",
+    "camera_modules": [
+        {
+            "label": "Wide",
+            "specs": "50MP, 24mm, 1/1.56”, Sensor-Shift OIS, PDAF"
+        },
+        {
+            "label": "Ultrawide",
+            "specs": "50MP, 13mm, 1/2.55”, PDAF, 114°"
+        }
+    ],
+    "cam_selfie": "24MP, 15mm, 1/2.55”, AF, OIS, Auto Face-Following",
+    "cam_video": "4K@24/30/60fps, 1080p@24/30/60/120/240fps, LOG, HDR, 10-bit Color video, Ultra-wide lens macro mode (2cm - ∞)",
+    "chipset": "Tianyu Delta 9100",
+    "os": "NitrogenOS 1",
+    "geek_s": "2282",
+    "geek_m": "7210",
+    "antutu": "2452920",
+    "price": "$388",
+    "price_eur": "€329",
+    "image": "images/Untitled753_20260202172159.png"
+},
+  {
     "brand": "Spinach",
     "model": "Experix Flip",
     "colors": "Light Wood, Super Grey, Amethyst",
