@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SoC Hub - ConceptHarmony</title>
+    <title>SoCs - ConceptHarmony</title>
     <script>
         (function() {
             const savedTheme = localStorage.getItem('theme');
@@ -23,7 +23,6 @@
             --diff-highlight: #fff;
             --diff-dim: #555;
         }
-        
         html.light-mode body {
             --glass-bg: rgba(255, 255, 255, 0.98); 
             --glass-border: rgba(0, 0, 0, 0.1);
@@ -35,7 +34,6 @@
             --diff-highlight: #000;
             --diff-dim: #ccc;
         }
-
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { overflow-x: hidden; }
         
@@ -47,7 +45,6 @@
             min-height: 100vh; 
             transition: none !important;
         }
-
         body::before { 
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
             background: url('background.jpg') center/cover; filter: blur(20px); 
@@ -57,36 +54,44 @@
         .container { max-width: 1100px; margin: auto; width: 100%; }
         .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
 
-        .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; }
-        .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; }
+        /* NAV - UNIFORM WIDTHS & ALIGNMENT */
+        .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; padding: 0 15px; }
+        .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; white-space: nowrap; margin-right: 20px; }
         .logo span { font-weight: 700; }
-        .nav-links { display: flex; gap: 10px; align-items: center; height: 100%; }
-        .nav-btn { text-decoration: none; color: var(--text-main); padding: 0 20px; height: 40px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; }
+        
+        .nav-links { display: flex; gap: 5px; align-items: center; height: 100%; flex: 1; justify-content: flex-end; margin-right: 10px; }
+        
+        .nav-btn { flex: 1; text-align: center; text-decoration: none; color: var(--text-main); padding: 0 5px; height: 40px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.85rem; font-weight: 500; transition: all 0.2s ease; white-space: nowrap; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
         .nav-btn:hover, .nav-btn.active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
         html.light-mode .nav-btn:hover, html.light-mode .nav-btn.active { color: white !important; }
 
-        .dropdown-container { position: relative; }
+        .dropdown-container { position: relative; flex: 1; } 
+        .dropdown-container .nav-btn { width: 100%; }
         .dropdown-content { display: none; position: absolute; right: 0; top: 50px; background: rgba(30, 30, 30, 0.98); min-width: 200px; border-radius: var(--radius-btn); box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 200; overflow: hidden; border: 1px solid var(--glass-border); }
         .dropdown-content.show { display: block; }
         html.light-mode .dropdown-content { background: rgba(255,255,255,0.98); }
         .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; text-decoration: none; color: #ddd; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
         html.light-mode .dropdown-item { color: #333; border-color: rgba(0,0,0,0.05); }
         .dropdown-item:hover { background: var(--accent); color: black !important; }
+        
         .social-icon { width: 18px; height: 18px; fill: currentColor; }
-        .theme-btn { width: 40px; padding: 0; border-radius: 50%; }
+        
+        /* THEME BTN OUTSIDE NAV LINKS */
+        .theme-btn { width: 40px; padding: 0; border-radius: 50%; flex: 0 0 40px; margin-left: 0; }
+        @media (max-width: 768px) { .theme-btn { margin-left: auto; margin-right: 10px; } }
+        
         .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
         @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
             .nav-container.menu-open { border-radius: 12px 12px 0 0 !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
-            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; flex-direction: column; background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 15px; border-radius: 0 0 12px 12px; border-bottom: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); gap: 10px; height: auto; z-index: 900; }
+            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; flex-direction: column; background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 15px; border-radius: 0 0 12px 12px; border-bottom: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); gap: 10px; height: auto; z-index: 2000; }
             html.light-mode .nav-links { background: rgba(255,255,255,0.98); }
             .nav-links.active { display: flex; }
-            .nav-btn { width: 100%; }
-            .dropdown-container { width: 100%; }
+            .nav-btn { width: 100%; padding: 0 20px; font-size: 0.9rem; flex: none; }
+            .dropdown-container { width: 100%; flex: none; }
             .dropdown-content { position: static; width: 100%; box-shadow: none; border: none; background: transparent; padding-left: 20px; margin-top:5px; }
-            .nav-links .theme-btn { width: 40px !important; flex-grow: 0; align-self: center; margin-top: 10px; }
         }
 
         .controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
@@ -94,21 +99,22 @@
         .filter-box { flex: 1; min-width: 140px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); cursor: pointer; }
         html.light-mode .search-box, html.light-mode .filter-box { background: rgba(255,255,255,0.6); color: black; border-color: rgba(0,0,0,0.1); }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
         .card { cursor: pointer; transition: transform 0.2s; padding: 15px; }
         .card:hover { transform: translateY(-5px); border-color: var(--accent); }
-        .card img { width: 100%; height: 200px; object-fit: contain; background: transparent; padding: 20px; border-radius: 6px; }
-        .card h3 { margin: 10px 0 5px 0; color: var(--accent); }
+        .card img { width: 100%; height: 160px; object-fit: contain; background: transparent; padding: 10px; border-radius: 6px; }
+        .card h3 { margin: 10px 0 5px 0; color: var(--accent); font-size: 1rem; }
         .card .type-tag { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 2px; text-transform: uppercase; color: var(--text-muted); }
         
         .hidden { display: none !important; }
         .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
         .hero-img { flex: 1; min-width: 300px; max-width: 100%; }
-        .hero-img img { width: 100%; height: auto; border-radius: 10px; object-fit: contain; background: transparent; padding: 20px; }
+        .hero-img img { width: 100%; height: auto; border-radius: 10px; object-fit: contain; background: transparent; }
         .specs-summary { flex: 1.5; text-align: left; }
+        
         @media (max-width: 768px) { 
             .top-section { flex-direction: column; align-items: flex-start; } 
-            .hero-img { width: 100%; min-width: unset; margin: 0 auto; display: block; }
+            .hero-img { width: 100%; min-width: unset; max-width: 100%; margin: 0 auto; display: block; }
             .specs-summary { width: 100%; margin-top: 15px; }
             .controls { flex-direction: column; }
         }
@@ -128,7 +134,7 @@
         html.light-mode th, html.light-mode td { border-bottom: 1px solid rgba(0,0,0,0.05); }
         tr:nth-child(odd) { background: rgba(255,255,255,0.03); }
         html.light-mode tr:nth-child(odd) { background: rgba(0,0,0,0.03); }
-        th { color: var(--accent); width: 35%; font-weight: 600; opacity: 0.9; }
+        th { color: var(--accent); width: 40%; font-weight: 600; opacity: 0.9; }
         td { color: var(--text-main); line-height: 1.6; }
         .cat-header { 
             background: transparent !important; color: var(--text-muted); font-size: 0.9rem; 
@@ -202,7 +208,7 @@
         }
         
         .slot-header { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 15px 0; }
-        .slot-img { width: 100px; height: 160px; object-fit: contain; background: transparent; border-radius: 6px; }
+        .slot-img { width: 100px; height: 120px; object-fit: contain; background: transparent; border-radius: 6px; }
         
         .slot-search { width: 90%; padding: 8px; font-size: 0.8rem; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: 4px; }
         .slot-dropdown { position: absolute; top: 100%; left: 0; width: 100%; background: #1a1a1a; border: 1px solid var(--glass-border); z-index: 200; max-height: 200px; overflow-y: auto; display: none; text-align: left; }
@@ -216,21 +222,27 @@
         .diff-word-common { color: var(--diff-dim); }
         .diff-word-unique { color: var(--diff-highlight); font-weight: 700; }
         .diff-btn { margin-left: auto; border-color: var(--accent); font-size: 0.8rem; }
+
+        .similar-section { margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--glass-border); }
+        .similar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; margin-top: 15px; }
+        .mini-card { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; cursor: pointer; text-align: center; border: 1px solid transparent; transition: 0.2s; }
+        .mini-card:hover { border-color: var(--accent); background: rgba(255,255,255,0.1); }
+        .mini-card img { width: 100%; height: 80px; object-fit: contain; margin-bottom: 5px; }
+        .mini-card h4 { font-size: 0.8rem; margin: 0; color: var(--text-main); }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="glass-panel nav-container">
             <a href="index.html" class="logo">Concept<span>Harmony</span></a>
-            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <div class="nav-links" id="navLinks">
-                <a href="index.html" class="nav-btn">Devices</a>
+                <a href="index.html" class="nav-btn">Mobile Devices</a>
                 <a href="laptops.html" class="nav-btn">Laptops</a>
-                <a href="soc.html" class="nav-btn active">SoCs</a>
+                <a href="soc.html" class="nav-btn active" style="border-color:var(--accent);">SoCs</a>
                 <a href="sensors.html" class="nav-btn">Sensors</a>
                 <a href="news.html" class="nav-btn">News</a>
                 <a href="submit.html" class="nav-btn">Submit</a>
-                
+      
                 <div class="dropdown-container">
                     <button class="nav-btn" onclick="toggleSocials(event)">Socials ▾</button>
                     <div class="dropdown-content" id="socialDropdown">
@@ -239,32 +251,19 @@
                         <a href="https://www.tiktok.com/@spinach.technologies?_r=1&_t=ZG-93SccZzS6zp" target="_blank" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> TikTok Concept</a>
                     </div>
                 </div>
-                <button id="themeToggle" class="nav-btn theme-btn">
-                    <svg class="theme-icon" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
             </div>
+            
+            <button id="themeToggle" class="nav-btn theme-btn">
+                <svg class="theme-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </button>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
         </div>
 
         <div id="galleryView">
             <div class="glass-panel" style="padding:15px;">
                 <div class="controls">
-                    <input type="text" id="searchInput" class="search-box" placeholder="Search chipsets...">
+                    <input type="text" id="searchInput" class="search-box" placeholder="Search SoCs...">
                     <select id="brandFilter" class="filter-box"><option value="all">All Brands</option></select>
-                    <select id="openUseFilter" class="filter-box">
-                        <option value="all">Any Licensing</option>
-                        <option value="Yes">Open Use</option>
-                        <option value="No">Proprietary</option>
-                    </select>
                     <select id="sortOrder" class="filter-box">
                         <option value="newest">Newest First</option>
                         <option value="oldest">Oldest First</option>
@@ -273,17 +272,15 @@
                     </select>
                 </div>
             </div>
-            <div id="chipGrid" class="grid">Loading...</div>
+            <div id="socGrid" class="grid">Loading...</div>
         </div>
 
         <div id="detailView" class="hidden">
             <button onclick="location.reload()" class="nav-btn" style="margin-bottom:20px;">← Back</button>
             <div class="glass-panel top-section">
-                <div class="hero-img">
-                    <img id="d_img" src="">
-                </div>
+                <div class="hero-img"><img id="d_img" src=""></div>
                 <div class="specs-summary">
-                    <span id="d_type" class="nav-btn" style="padding: 2px 8px; font-size: 0.7rem; pointer-events:none; border:none; background:rgba(255,255,255,0.1); width:fit-content; height:auto;">SOC</span>
+                    <span id="d_type" class="nav-btn" style="padding: 2px 8px; font-size: 0.7rem; pointer-events:none; border:none; background:rgba(255,255,255,0.1); width:fit-content; height:auto;">SoC</span>
                     <h1 id="d_model" style="font-size:2.5rem; margin:10px 0;">Model</h1>
                     <h3 id="d_brand" style="color:var(--text-muted); margin:0;">Brand</h3>
                     
@@ -293,12 +290,16 @@
             
             <div class="tab-container">
                 <button id="btn-specs" class="nav-btn active" onclick="setTab('specs')">Specifications</button>
-                <button id="btn-pics" class="nav-btn" onclick="setTab('pics')">Gallery</button>
+                <button id="btn-pics" class="nav-btn" onclick="setTab('pics')">Images</button>
                 <button id="btn-compare" class="nav-btn" onclick="setTab('compare')">Compare</button>
             </div>
 
             <div id="tab-specs" class="glass-panel">
                 <table id="specTable"></table>
+                <div class="similar-section">
+                    <h3 style="color:var(--accent);">Similar SoCs</h3>
+                    <div id="similarGrid" class="similar-grid"></div>
+                </div>
             </div>
             
             <div id="tab-pics" class="glass-panel hidden">
@@ -307,7 +308,7 @@
 
             <div id="tab-compare" class="glass-panel hidden">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                    <h3 style="margin:0;">Compare Chipsets</h3>
+                    <h3 style="margin:0;">Compare SoCs</h3>
                     <button class="nav-btn diff-btn" onclick="toggleDiffMode()">Show Differences</button>
                 </div>
                 <div class="compare-wrapper">
@@ -327,39 +328,22 @@
             document.getElementById('navLinks').classList.toggle('active'); 
             document.querySelector('.nav-container').classList.toggle('menu-open');
         }
-
+        
         function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
         window.onclick = function(e) { if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); }
 
-        const staticSpecs = [
-            { key: "announced", label: "Announced", cat: "Launch" },
-            { key: "process", label: "Process Node", cat: "Launch" },
-            { key: "open_use", label: "Open Use", cat: "Launch" },
-            { key: "cpu_cores", label: "CPU Config", cat: "CPU" },
-            { key: "cpu_clock", label: "Max Clock", cat: "CPU" },
-            { key: "gpu_model", label: "GPU Model", cat: "GPU" },
-            { key: "gpu_clock", label: "GPU Clock", cat: "GPU" },
-            { key: "npu", label: "AI Engine", cat: "AI" },
-            { key: "isp", label: "ISP (Camera)", cat: "Multimedia" },
-            { key: "modem", label: "5G Modem", cat: "Connectivity" },
-            { key: "geek_s", label: "Geekbench Single", cat: "Tests" },
-            { key: "geek_m", label: "Geekbench Multi", cat: "Tests" },
-            { key: "antutu", label: "AnTuTu", cat: "Tests" },
-            { key: "price", label: "Est. Cost", cat: "Misc" }
-        ];
-
-        let allChips = [];
-        let currentChipIndex = 0;
+        let allSoCs = [];
+        let currentSoCIndex = 0;
         let compareSlots = [null, null, null];
         let diffMode = false;
 
         async function init() {
             try {
-                const res = await fetch('chips.json');
-                allChips = await res.json();
-                populateBrands(allChips);
+                const res = await fetch('soc.json');
+                allSoCs = await res.json();
+                populateBrands(allSoCs);
                 filterAndSort();
-            } catch(e) { document.getElementById('chipGrid').innerHTML = "No chipsets found. (Create chips.json)"; }
+            } catch(e) { document.getElementById('socGrid').innerHTML = "No SoCs found. (Create soc.json)"; }
         }
 
         function populateBrands(list) {
@@ -376,23 +360,19 @@
         function filterAndSort() {
             const term = document.getElementById('searchInput').value.toLowerCase();
             const brand = document.getElementById('brandFilter').value;
-            const use = document.getElementById('openUseFilter').value;
             const sort = document.getElementById('sortOrder').value;
 
-            let filtered = allChips.filter(d => {
+            let filtered = allSoCs.filter(d => {
                 const matchSearch = d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term);
                 const matchBrand = brand === 'all' || d.brand === brand;
-                const matchUse = use === 'all' || (use === 'Yes' ? d.open_use === 'Yes' : d.open_use !== 'Yes');
-                return matchSearch && matchBrand && matchUse;
+                return matchSearch && matchBrand;
             });
 
             filtered.sort((a, b) => {
                 if (sort === 'az') return a.model.localeCompare(b.model);
                 if (sort === 'za') return b.model.localeCompare(a.model);
-                
-                const dateA = new Date(a.released || a.announced).getTime() || 0;
-                const dateB = new Date(b.released || b.announced).getTime() || 0;
-                
+                const dateA = new Date(a.announced).getTime() || 0;
+                const dateB = new Date(b.announced).getTime() || 0;
                 if (sort === 'newest') return dateB - dateA;
                 if (sort === 'oldest') return dateA - dateB;
             });
@@ -402,18 +382,17 @@
 
         document.getElementById('searchInput').addEventListener('keyup', filterAndSort);
         document.getElementById('brandFilter').addEventListener('change', filterAndSort);
-        document.getElementById('openUseFilter').addEventListener('change', filterAndSort);
         document.getElementById('sortOrder').addEventListener('change', filterAndSort);
 
         const renderGrid = (list) => {
-            const grid = document.getElementById('chipGrid');
+            const grid = document.getElementById('socGrid');
             grid.innerHTML = "";
             list.forEach((d) => {
-                const originalIndex = allChips.indexOf(d); 
+                const i = allSoCs.indexOf(d);
                 grid.innerHTML += `
-                    <div class="glass-panel card" onclick="showDetails(${originalIndex})">
+                    <div class="glass-panel card" onclick="showDetails(${i})">
                         <img src="${d.image}" onerror="this.src='https://placehold.co/400x400?text=SoC'">
-                        <span class="type-tag">Chipset</span>
+                        <span class="type-tag">SoC</span>
                         <h3>${d.model}</h3>
                         <p>${d.brand}</p>
                     </div>`;
@@ -421,61 +400,65 @@
         };
 
         window.showDetails = (i) => {
-            currentChipIndex = i;
+            currentSoCIndex = i;
             compareSlots = [i, null, null];
             window.scrollTo(0,0);
             
-            const d = allChips[i];
+            const d = allSoCs[i];
             document.getElementById('galleryView').classList.add('hidden');
             document.getElementById('detailView').classList.remove('hidden');
             document.getElementById('d_img').src = d.image;
             document.getElementById('d_model').innerText = d.model;
             document.getElementById('d_brand').innerText = d.brand;
             
-            const node = d.process || '-';
-            const cores = d.cpu_cores || '-';
-            const gpu = d.gpu_model || '-';
+            const proc = d.process || '-';
+            const geek = d.geek_m || '-';
             const antutu = d.antutu || '-';
+            const gpu = d.gpu_model || '-';
 
             document.getElementById('d_quick_specs').innerHTML = `
-                <div class="spec-item">
-                    <svg class="spec-icon" viewBox="0 0 24 24"><path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 2v16h12V4H6zm4 4h4v4h-4V8z"/></svg>
-                    <div class="spec-text"><small>NODE</small><span>${node}</span></div>
-                </div>
-                <div class="spec-item">
-                    <svg class="spec-icon" viewBox="0 0 24 24"><path d="M4 6h16v12H4z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                    <div class="spec-text"><small>CORES</small><span>${cores}</span></div>
-                </div>
-                <div class="spec-item">
-                    <svg class="spec-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                    <div class="spec-text"><small>GPU</small><span>${gpu}</span></div>
-                </div>
-                <div class="spec-item">
-                    <svg class="spec-icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor"/></svg>
-                    <div class="spec-text"><small>ANTUTU</small><span>${antutu}</span></div>
-                </div>
+                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 2v16h12V4H6zm4 4h4v4h-4V8z"/></svg><div class="spec-text"><small>PROCESS</small><span>${proc}</span></div></div>
+                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/></svg><div class="spec-text"><small>GPU</small><span>${gpu}</span></div></div>
+                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M22 2H2v20h20V2zM4 4h16v16H4V4z"/></svg><div class="spec-text"><small>GEEKBENCH</small><span>${geek}</span></div></div>
+                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg><div class="spec-text"><small>ANTUTU</small><span>${antutu}</span></div></div>
             `;
 
             let html = "";
-            let currentCat = "";
-            staticSpecs.forEach(f => {
-                if(d[f.key]) {
-                    if(f.cat !== currentCat) { currentCat = f.cat; html += `<tr><td colspan="2" class="cat-header">${currentCat}</td></tr>`; }
-                    
-                    let displayValue = d[f.key];
-                    if (f.key === "geek_s" || f.key === "geek_m") displayValue += " (v6)";
-                    if (f.key === "antutu") displayValue += " (v11)";
-                    if (f.key === "price") {
-                        if (d.price && d.price_eur) displayValue = `${d.price} / ${d.price_eur}`;
-                        else if (d.price) displayValue = d.price;
-                        else if (d.price_eur) displayValue = d.price_eur;
-                    }
-                    
-                    html += `<tr><th>${f.label}</th><td>${displayValue}</td></tr>`;
-                }
-            });
-            document.getElementById('specTable').innerHTML = html;
+            const row = (lbl, val) => `<tr><th>${lbl}</th><td>${val || '-'}</td></tr>`;
+            
+            let iden = "";
+            if(d.announced) iden += row("Announced", d.announced);
+            if(d.open_use) iden += row("Open Use", d.open_use);
+            if(iden) html += `<tr><td colspan="2" class="cat-header">Identity</td></tr>` + iden;
 
+            let cpu = "";
+            if(d.process) cpu += row("Process Node", d.process);
+            if(d.cpu_cores) cpu += row("CPU Configuration", d.cpu_cores);
+            if(cpu) html += `<tr><td colspan="2" class="cat-header">Processing</td></tr>` + cpu;
+
+            let gfx = "";
+            if(d.gpu_model) gfx += row("GPU Model", d.gpu_model);
+            if(d.gpu_clock) gfx += row("GPU Clock", d.gpu_clock);
+            if(gfx) html += `<tr><td colspan="2" class="cat-header">Graphics</td></tr>` + gfx;
+
+            let ai = "";
+            if(d.npu) ai += row("NPU / AI Engine", d.npu);
+            if(d.isp) ai += row("ISP (Camera)", d.isp);
+            if(ai) html += `<tr><td colspan="2" class="cat-header">AI & Media</td></tr>` + ai;
+
+            let conn = "";
+            if(d.modem) conn += row("Modem / Connectivity", d.modem);
+            if(conn) html += `<tr><td colspan="2" class="cat-header">Connectivity</td></tr>` + conn;
+
+            let scores = "";
+            if(d.geek_s) scores += row("Geekbench Single", d.geek_s + " (v6)");
+            if(d.geek_m) scores += row("Geekbench Multi", d.geek_m + " (v6)");
+            if(d.antutu) scores += row("AnTuTu", d.antutu + " (v11)");
+            if(scores) html += `<tr><td colspan="2" class="cat-header">Benchmarks</td></tr>` + scores;
+
+            document.getElementById('specTable').innerHTML = html;
+            renderSimilarDevices(d);
+            
             const galleryDiv = document.getElementById('galleryGrid');
             galleryDiv.innerHTML = "";
             if(d.gallery && d.gallery.length > 0) {
@@ -487,6 +470,25 @@
             }
             setTab('specs');
         };
+
+        function renderSimilarDevices(current) {
+            const grid = document.getElementById('similarGrid');
+            grid.innerHTML = "";
+            let matches = allSoCs.filter(d => d.brand === current.brand && d.model !== current.model);
+            if(matches.length < 4) {
+                const others = allSoCs.filter(d => d.brand !== current.brand);
+                others.sort(() => .5 - Math.random());
+                matches = matches.concat(others.slice(0, 4 - matches.length));
+            }
+            matches = matches.slice(0, 4);
+
+            if(matches.length > 0) {
+                matches.forEach(m => {
+                    const originalIndex = allSoCs.findIndex(x => x.model === m.model);
+                    grid.innerHTML += `<div class="mini-card" onclick="showDetails(${originalIndex}); window.scrollTo(0,0);"><img src="${m.image}"><h4>${m.model}</h4></div>`;
+                });
+            } else { grid.innerHTML = "<p style='font-size:0.8rem; color:grey;'>No similar SoCs found.</p>"; }
+        }
 
         window.setTab = (t) => {
             ['specs', 'pics', 'compare'].forEach(x => {
@@ -501,34 +503,30 @@
         function renderCompareTable() {
             const table = document.getElementById('compareTable');
             let html = `<thead><tr><th></th>`;
-            compareSlots.forEach((idx, slotId) => {
-                const chip = idx !== null ? allChips[idx] : null;
-                html += `<td><div class="slot-header"><img class="slot-img" src="${chip ? chip.image : ''}" style="${chip?'':'opacity:0'}"><div>${chip ? chip.model : 'Empty Slot'}</div><input type="text" class="slot-search" placeholder="Search..." onkeyup="searchForSlot(this, ${slotId})"><div class="slot-dropdown" id="dropdown-${slotId}"></div></div></td>`;
+            compareSlots.forEach((devIdx, slotId) => {
+                const dev = devIdx !== null ? allSoCs[devIdx] : null;
+                html += `<td><div class="slot-header"><img class="slot-img" src="${dev ? dev.image : ''}" style="${dev?'':'opacity:0'}"><div>${dev ? dev.model : 'Empty Slot'}</div><input type="text" class="slot-search" placeholder="Search..." onkeyup="searchForSlot(this, ${slotId})"><div class="slot-dropdown" id="dropdown-${slotId}"></div></div></td>`;
             });
             html += `</tr></thead><tbody>`;
 
             const specKeys = [
-                {cat: "Launch", keys: [{k:'announced', l:'Announced'}, {k:'process', l:'Process Node'}, {k:'open_use', l:'Open Use'}]},
-                {cat: "CPU", keys: [{k:'cpu_cores', l:'Config'}, {k:'cpu_clock', l:'Clock'}]},
-                {cat: "GPU", keys: [{k:'gpu_model', l:'Model'}, {k:'gpu_clock', l:'Clock'}]},
+                {cat: "Identity", keys: [{k:'announced', l:'Announced'}, {k:'open_use', l:'Open Use'}]},
+                {cat: "Processing", keys: [{k:'process', l:'Node'}, {k:'cpu_cores', l:'CPU Cores'}]},
+                {cat: "Graphics", keys: [{k:'gpu_model', l:'GPU Model'}, {k:'gpu_clock', l:'GPU Clock'}]},
                 {cat: "AI & Media", keys: [{k:'npu', l:'NPU'}, {k:'isp', l:'ISP'}]},
                 {cat: "Connectivity", keys: [{k:'modem', l:'Modem'}]},
-                {cat: "Tests", keys: [{k:'geek_s', l:'Geekbench Single'}, {k:'geek_m', l:'Geekbench Multi'}, {k:'antutu', l:'AnTuTu'}, {k:'price', l:'Price'}]}
+                {cat: "Benchmarks", keys: [{k:'geek_s', l:'Geekbench Single'}, {k:'geek_m', l:'Geekbench Multi'}, {k:'antutu', l:'AnTuTu'}]}
             ];
 
             specKeys.forEach(section => {
                 html += `<tr><td colspan="4" class="cat-header" style="text-align:center;">${section.cat}</td></tr>`;
                 section.keys.forEach(s => {
-                    const v1 = getChipVal(0, s.k);
-                    const v2 = getChipVal(1, s.k);
-                    const v3 = getChipVal(2, s.k);
-                    
                     const raw1 = getRawVal(0, s.k);
                     const raw2 = getRawVal(1, s.k);
                     const raw3 = getRawVal(2, s.k);
 
                     let isRowSame = false;
-                    let html1 = v1, html2 = v2, html3 = v3;
+                    let html1 = raw1, html2 = raw2, html3 = raw3;
 
                     if (diffMode) {
                         const rowTokens = getRowTokens([raw1, raw2, raw3]);
@@ -558,33 +556,17 @@
         }
 
         function getRawVal(slotIdx, key) {
-            const d = getChip(slotIdx);
-            if(!d) return '';
-            
-            if (key === 'geek_s') return d.geek_s ? d.geek_s + " (v6)" : '-';
-            if (key === 'geek_m') return d.geek_m ? d.geek_m + " (v6)" : '-';
-            if (key === 'antutu') return d.antutu ? d.antutu + " (v11)" : '-';
-            
-            return d[key] || '';
-        }
-
-        function getChipVal(slotIdx, key) {
-            const d = getChip(slotIdx);
+            const d = getDev(slotIdx);
             if(!d) return '-';
             
             if (key === 'geek_s') return d.geek_s ? d.geek_s + " (v6)" : '-';
             if (key === 'geek_m') return d.geek_m ? d.geek_m + " (v6)" : '-';
             if (key === 'antutu') return d.antutu ? d.antutu + " (v11)" : '-';
-            if (key === 'price') {
-                if (d.price && d.price_eur) return `${d.price} / ${d.price_eur}`;
-                else if (d.price) return d.price;
-                else if (d.price_eur) return d.price_eur;
-            }
-            
+
             return d[key] || '-';
         }
 
-        function getChip(slotIdx) { return compareSlots[slotIdx] !== null ? allChips[compareSlots[slotIdx]] : null; }
+        function getDev(slotIdx) { return compareSlots[slotIdx] !== null ? allSoCs[compareSlots[slotIdx]] : null; }
 
         function getRowTokens(values) {
             const validValues = values.filter(v => v !== '' && v !== '-');
@@ -625,7 +607,7 @@
             const drop = document.getElementById(`dropdown-${slotId}`);
             drop.innerHTML = "";
             if(term.length < 1) { drop.style.display = 'none'; return; }
-            const matches = allChips.map((d, i) => ({...d, idx: i})).filter(d => d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term));
+            const matches = allSoCs.map((d, i) => ({...d, idx: i})).filter(d => d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term));
             if(matches.length > 0) {
                 drop.style.display = 'block';
                 matches.forEach(m => {
@@ -643,7 +625,6 @@
 
         document.getElementById('searchInput').addEventListener('keyup', filterAndSort);
         document.getElementById('brandFilter').addEventListener('change', filterAndSort);
-        document.getElementById('openUseFilter').addEventListener('change', filterAndSort);
         document.getElementById('sortOrder').addEventListener('change', filterAndSort);
 
         init();
