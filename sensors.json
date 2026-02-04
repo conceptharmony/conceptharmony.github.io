@@ -1,3 +1,14 @@
 [
-  
+  {
+    "brand": "Ovate",
+    "model": "LightMatrix A100",
+    "announced": "February 4, 2026",
+    "type": "Sensor",
+    "resolution": "48 MP",
+    "format": "1\"-type",
+    "pixel_size": "1.60µm",
+    "bit_depth": "14-bit",
+    "features": "Pixel-binning",
+    "video": "8K@24/30fps, 4K@24/30/60/120fps, 1080p@24/30/60/120/240/480/960+fps"
+},
 ]
