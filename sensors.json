@@ -1,5 +1,17 @@
 [
   {
+    "brand": "Lumos",
+    "model": "α-20",
+    "announced": "February 2, 2026",
+    "type": "Sensor",
+    "resolution": "50 MP",
+    "format": "1/1.13”",
+    "pixel_size": "1.39µm",
+    "bit_depth": "12-bit",
+    "features": "Pixel Binning to 12MP & 24MP",
+    "video": "8K@24fps, 4K@24/30/60/120fps, 1080p@24/30/60/120/240/480fps"
+},
+  {
     "brand": "Ovate",
     "model": "LightMatrix A100",
     "announced": "February 4, 2026",
