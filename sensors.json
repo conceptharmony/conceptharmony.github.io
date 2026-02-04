@@ -1,6 +1,18 @@
 [
   {
     "brand": "Tianyu Holtz",
+    "model": "Lumos β-20",
+    "announced": "February 2, 2026",
+    "type": "Sensor",
+    "resolution": "50 MP",
+    "format": "1/2.7”",
+    "pixel_size": "0.58µm",
+    "bit_depth": "12-bit",
+    "features": "Pixel Binning to 12MP & 24MP",
+    "video": "4K@24/30/60fps, 1080p@24/30/60/120/240/480fps"
+},
+  {
+    "brand": "Tianyu Holtz",
     "model": "Lumos α-20",
     "announced": "February 2, 2026",
     "type": "Sensor",
