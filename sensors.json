@@ -1,6 +1,17 @@
 [
   {
     "brand": "Tianyu Holtz",
+    "model": "Photon L1-1",
+    "announced": "February 5, 2026",
+    "type": "Sensor",
+    "resolution": "8 MP",
+    "format": "1/4”",
+    "pixel_size": "0.98µm",
+    "bit_depth": "10-bit",
+    "video": "1080p@24/30/60fps"
+},
+  {
+    "brand": "Tianyu Holtz",
     "model": "Photon L9-1",
     "announced": "February 5, 2026",
     "type": "Sensor",
