@@ -1,5 +1,48 @@
 [
   {
+    "brand": "Wyx",
+    "model": "X1",
+    "announced": "February 5, 2026",
+    "type": "Phone",
+    "status": "Released",
+    "released": "February 5, 2026",
+    "colors": "Black",
+    "build": "Glass front, aluminum frame, matte glass back",
+    "ip_rating": "IP68",
+    "dimensions": "148.9 x 71.8 x 7.9 mm",
+    "weight": "187g",
+    "battery": "Li-Ion 4200 mAh",
+    "charging": "45W wired, 15W wireless",
+    "screen": "LTPO OLED, 120Hz, 6.2\", 2000 nits",
+    "resolution": "1440 x 2560 pixels",
+    "ram": "8GB",
+    "storage": "256GB / 512GB",
+    "camera_modules": [
+        {
+            "label": "Wide",
+            "specs": "64MP, f/1.7, 24mm, 1/1.56\", Dual-pixel PDAF, Sensor-shift OIS"
+        },
+        {
+            "label": "Ultrawide",
+            "specs": "12MP, f/2.2, 13mm, 1/3.4\", Macro support, 120°"
+        }
+    ],
+    "camera_features": "LED Flash, HDR, panorama, lens distortion correction",
+    "cam_selfie": "12MP, f/2.2, 26mm, 1/4.0\", Auto-follow Subject, Automatic Ratio Shifting",
+    "cam_video": "8K@24/30fps, 4K@24/30/60fps, 1080p@30/60/120fps, HDR10, OIS + gyro-EIS, 8-bit video",
+    "sensors": [
+        "Ultrasonic Under-Display Fingerprint Scanner"
+    ],
+    "chipset": "Wyx W10 Gen 1",
+    "os": "WyxOS 1.0",
+    "geek_s": "2432",
+    "geek_m": "5896",
+    "antutu": "1421562",
+    "price": "$599",
+    "price_eur": "€549",
+    "image": "images/Untitled138_20260202111701.png"
+},
+  {
     "brand": "Crescent",
     "model": "Nima 4",
     "announced": "February 3, 2026",
