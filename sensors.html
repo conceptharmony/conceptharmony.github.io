@@ -55,7 +55,7 @@
         .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
 
         .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; padding: 0 15px; }
-        .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; white-space: nowrap; margin-right: 20px; }
+        .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; white-space: nowrap; margin-right: 15px; }
         .logo span { font-weight: 700; }
         
         .nav-links { display: flex; gap: 5px; align-items: center; height: 100%; flex: 1; justify-content: flex-end; margin-right: 10px; }
@@ -75,17 +75,22 @@
         
         .social-icon { width: 18px; height: 18px; fill: currentColor; }
         
-        .theme-btn { width: 40px; padding: 0; border-radius: 50%; flex: 0 0 40px; margin-left: 0; }
-        @media (max-width: 768px) { .theme-btn { margin-left: auto; margin-right: 10px; } }
-        
+        .mobile-controls { display: flex; align-items: center; gap: 10px; }
+        .theme-btn { width: 40px; padding: 0; border-radius: 50%; flex: 0 0 40px; margin: 0; }
         .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
-        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 10px; }
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 5px; }
+
         @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
             .nav-container.menu-open { border-radius: 12px 12px 0 0 !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
-            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; flex-direction: column; background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 15px; border-radius: 0 0 12px 12px; border-bottom: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); gap: 10px; height: auto; z-index: 2000; }
-            html.light-mode .nav-links { background: rgba(255,255,255,0.98); }
+            .nav-links { 
+                display: none; position: absolute; top: 70px; left: 0; width: 100%; 
+                flex-direction: column; background: var(--glass-bg); backdrop-filter: blur(20px); 
+                -webkit-backdrop-filter: blur(20px); padding: 15px; border-radius: 0 0 12px 12px; 
+                border-bottom: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+                gap: 10px; height: auto; z-index: 2000; margin: 0;
+            }
             .nav-links.active { display: flex; }
             .nav-btn { width: 100%; padding: 0 20px; font-size: 0.9rem; flex: none; }
             .dropdown-container { width: 100%; flex: none; }
@@ -97,36 +102,37 @@
         .filter-box { flex: 1; min-width: 140px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); cursor: pointer; }
         html.light-mode .search-box, html.light-mode .filter-box { background: rgba(255,255,255,0.6); color: black; border-color: rgba(0,0,0,0.1); }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
-        .card { cursor: pointer; transition: transform 0.2s; padding: 15px; display: flex; flex-direction: column; align-items: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+        .card { cursor: pointer; transition: transform 0.2s; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .card:hover { transform: translateY(-5px); border-color: var(--accent); }
-        .sensor-img-container { width: 100%; height: 200px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
-        .card img { display: block; object-fit: contain; }
-        .card h3 { margin: 0 0 5px 0; color: var(--accent); text-align: center; width: 100%; }
-        .card p { width: 100%; text-align: center; margin: 0; }
+        .sensor-preview { width: 100%; height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; }
+        .card h3 { margin: 0 0 5px 0; color: var(--accent); text-align: center; width: 100%; font-size: 1.1rem; }
+        .card p { width: 100%; text-align: center; margin: 0; color: var(--text-muted); font-size: 0.9rem; }
         .card .type-tag { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
         
         .hidden { display: none !important; }
         .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
         
-        .hero-visuals { flex: 2; display: flex; gap: 20px; min-width: 300px; }
-        .visual-card { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0; height: 320px; overflow: hidden; position: relative; }
+        .hero-visuals { flex: 1.5; display: flex; gap: 20px; min-width: 300px; }
+        .visual-card { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; height: 350px; overflow: hidden; position: relative; }
+        .visual-card h4 { display: none; } 
         
-        .specs-summary { flex: 1.5; text-align: left; display: flex; flex-direction: column; justify-content: center; }
+        .specs-summary { flex: 1; text-align: left; display: flex; flex-direction: column; justify-content: center; min-width: 250px; }
         
-        @media (max-width: 900px) { 
-            .top-section { flex-direction: column; align-items: flex-start; } 
-            .hero-visuals { width: 100%; flex-direction: row; height: auto; flex-wrap: wrap; }
-            .visual-card { height: 250px; min-width: 45%; }
-            .specs-summary { width: 100%; margin-top: 15px; }
+        @media (max-width: 768px) { 
+            .top-section { flex-direction: column; align-items: stretch; } 
+            .hero-visuals { width: 100%; flex-direction: column; height: auto; min-width: 0; }
+            .visual-card { width: 100%; height: 250px; }
+            .specs-summary { width: 100%; margin-top: 15px; min-width: 0; }
             .controls { flex-direction: column; }
+            .search-box, .filter-box { width: 100%; }
         }
         
         .quick-data { margin-top: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .spec-item { display: flex; align-items: center; gap: 12px; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
         .spec-icon { width: 24px; height: 24px; fill: var(--text-muted); flex-shrink: 0; }
         .spec-text small { display: block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-        .spec-text span { font-size: 0.95rem; font-weight: 600; color: var(--text-main); display: block; line-height: 1.2; }
+        .spec-text span { font-size: 0.95rem; font-weight: 600; color: var(--text-main); display: block; line-height: 1.2; word-break: break-word; }
 
         .tab-container { display: flex; gap: 10px; justify-content: flex-start; margin-bottom: 20px; margin-top: 20px; flex-wrap: wrap; }
         .tab-container .nav-btn { flex: 1; text-align: center; min-width: 100px; }
@@ -231,6 +237,7 @@
     <div class="container">
         <div class="glass-panel nav-container">
             <a href="index.html" class="logo">Concept<span>Harmony</span></a>
+            
             <div class="nav-links" id="navLinks">
                 <a href="index.html" class="nav-btn">Mobile Devices</a>
                 <a href="laptops.html" class="nav-btn">Laptops</a>
@@ -238,7 +245,7 @@
                 <a href="sensors.html" class="nav-btn active" style="border-color:var(--accent);">Sensors</a>
                 <a href="news.html" class="nav-btn">News</a>
                 <a href="submit.html" class="nav-btn">Submit</a>
-                
+      
                 <div class="dropdown-container">
                     <button class="nav-btn" onclick="toggleSocials(event)">Socials ▾</button>
                     <div class="dropdown-content" id="socialDropdown">
@@ -249,10 +256,12 @@
                 </div>
             </div>
             
-            <button id="themeToggle" class="nav-btn theme-btn">
-                <svg class="theme-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            </button>
-            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <div class="mobile-controls">
+                <button id="themeToggle" class="nav-btn theme-btn">
+                    <svg class="theme-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                </button>
+                <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            </div>
         </div>
 
         <div id="galleryView">
@@ -404,25 +413,30 @@
         }
 
         function createMpGrid(mpRaw) {
-            const mp = parseInt(mpRaw);
-            if(!mp || isNaN(mp)) return '';
+            const mp = parseFloat(mpRaw) || 0;
+            if(mp === 0) return '';
 
             let rows = Math.round(Math.sqrt(mp / (4/3)));
             let cols = Math.round(rows * (4/3));
 
+            if(rows * cols > 400) {
+                const scale = Math.sqrt(400 / (rows*cols));
+                rows = Math.round(rows * scale);
+                cols = Math.round(cols * scale);
+            }
+
             let html = `<div style="
                 display: grid;
                 grid-template-columns: repeat(${cols}, 1fr);
-                gap: 2px;
-                width: 90%;
+                grid-template-rows: repeat(${rows}, 1fr);
+                gap: 1px;
+                width: 100%;
+                height: 100%;
                 aspect-ratio: 4/3;
-                background: rgba(255,255,255,0.05);
-                padding: 10px;
-                border-radius: 8px;
             ">`;
 
             for(let i=0; i<(rows*cols); i++) {
-                html += `<div style="background: var(--accent); opacity: 0.6; border-radius:1px;"></div>`;
+                html += `<div style="background: var(--accent); opacity: 0.3; border-radius:1px;"></div>`;
             }
             html += `</div>`;
             return html;
@@ -433,11 +447,10 @@
             grid.innerHTML = "";
             list.forEach((d) => {
                 const originalIndex = allSensors.indexOf(d); 
-                const w = getSensorScale(d.format, 160);
                 grid.innerHTML += `
                     <div class="glass-panel card" onclick="showDetails(${originalIndex})">
-                        <div class="sensor-img-container">
-                            <img src="images/sensor.png" style="width:${w}px; aspect-ratio:4/3;">
+                        <div class="sensor-preview">
+                            ${createMpGrid(d.resolution)}
                         </div>
                         <span class="type-tag">Sensor</span>
                         <h3>${d.model}</h3>
@@ -455,8 +468,7 @@
             document.getElementById('galleryView').classList.add('hidden');
             document.getElementById('detailView').classList.remove('hidden');
             
-            // Reduced Scale to fit container nicely (250px base instead of 300px)
-            const w = getSensorScale(d.format, 250); 
+            const w = getSensorScale(d.format, 200); 
             const img = document.getElementById('d_img');
             img.src = "images/sensor.png";
             img.style.width = w + "px";
@@ -470,13 +482,13 @@
             const res = d.resolution || '-';
             const fmt = d.format || '-';
             const pix = d.pixel_size || '-';
-            const vid = d.video ? "Yes" : "-";
+            const bit = d.bit_depth || '-';
 
             document.getElementById('d_quick_specs').innerHTML = `
                 <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M4 6h16v12H4z" fill="none" stroke="currentColor" stroke-width="2"/></svg><div class="spec-text"><small>RES</small><span>${res}</span></div></div>
                 <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/></svg><div class="spec-text"><small>FORMAT</small><span>${fmt}</span></div></div>
                 <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="currentColor"/></svg><div class="spec-text"><small>PIXEL</small><span>${pix}</span></div></div>
-                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z" fill="currentColor"/></svg><div class="spec-text"><small>VIDEO</small><span>${vid}</span></div></div>
+                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path d="M7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z" fill="currentColor"/></svg><div class="spec-text"><small>BIT DEPTH</small><span>${bit}</span></div></div>
             `;
 
             let html = "";
