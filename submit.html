@@ -1,830 +1,772 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Concept</title>
-    <script>
-        (function() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') document.documentElement.classList.add('light-mode');
-        })();
-    </script>
-    <style>
-        :root { 
-            --glass-bg: rgba(20, 20, 20, 0.95); 
-            --glass-border: rgba(255, 255, 255, 0.1); 
-            --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); 
-            --accent: #ffffff; 
-            --text-main: #ffffff; 
-            --text-muted: #bbbbbb; 
-            --radius-main: 12px; 
-            --radius-btn: 6px; 
-            --nav-height: 70px;
-        }
-        
-        html.light-mode body { 
-            --glass-bg: rgba(255, 255, 255, 0.98); 
-            --glass-border: rgba(0, 0, 0, 0.1); 
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); 
-            --accent: #000000; 
-            --text-main: #1a1a1a; 
-            --text-muted: #555555; 
-            background-color: #f4f4f9; 
-        }
-        
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        html, body { overflow-x: hidden; }
-        
-        body { 
-            background-color: #121212; 
-            color: var(--text-main); 
-            font-family: 'Segoe UI', sans-serif; 
-            margin: 0; padding: 20px; 
-            min-height: 100vh; 
-            transition: none !important; 
-        }
-        
-        body::before { 
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
-            background: url('background.jpg') center/cover; filter: blur(20px); 
-        }
-        html.light-mode body::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
-        
-        .container { max-width: 1100px; margin: auto; width: 100%; }
-        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
-        
-        /* ==============================
-           NAVIGATION (MATCHING SOC.HTML)
-           ============================== */
-        .nav-container {
-            height: var(--nav-height);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1000;
-        }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Submit Concept - ConceptHarmony</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script>
+(function(){
+  const t=localStorage.getItem('ch-theme');
+  if(t) document.documentElement.dataset.theme=t;
+})();
+function fselToggle(el,e){e.stopPropagation();const open=el.classList.contains('open');document.querySelectorAll('.fsel.open').forEach(f=>f.classList.remove('open'));if(!open)el.classList.add('open');}
+function fselPick(opt,id,val,cbStr){
+  const sel=document.getElementById(id);if(sel)sel.value=val;
+  const lbl=document.getElementById(id+'_lbl');if(lbl)lbl.textContent=opt.textContent.trim();
+  opt.closest('.fsel-menu').querySelectorAll('.fsel-opt').forEach(o=>o.classList.remove('picked'));
+  opt.classList.add('picked');
+  opt.closest('.fsel').classList.remove('open');
+  if(cbStr){try{eval(cbStr);}catch(err){}}
+}
+</script>
+<style>
+:root {
+  --bg:#f0eeea;
+  --glass:rgba(255,255,255,0.55);
+  --glass-hov:rgba(255,255,255,0.80);
+  --glass-border:rgba(255,255,255,0.85);
+  --glass-shadow:rgba(0,0,0,0.08);
+  --glass-inset:rgba(255,255,255,0.92);
+  --nav-bg:rgba(242,240,236,0.75);
+  --text:#1c1c1e;
+  --text-soft:#6b6b6e;
+  --divider:rgba(0,0,0,0.07);
+  --input-bg:rgba(255,255,255,0.5);
+  --input-border:rgba(200,198,194,0.7);
+  --dropdown-bg:rgba(248,246,242,0.98);
+  --badge:rgba(0,0,0,0.07);
+  --sun:#f59e0b;
+  --remove-bg:rgba(220,50,50,0.1);
+  --remove-text:#c0392b;
+  --remove-border:rgba(220,50,50,0.25);
+  --section-border:rgba(0,0,0,0.12);
+  --opt-bg:rgba(255,255,255,0.4);
+  --opt-sel-bg:#1c1c1e;
+  --opt-sel-text:#f2f2f7;
+  --guide-bg:rgba(0,0,0,0.04);
+  --guide-border:rgba(0,0,0,0.2);
+}
+[data-theme="dark"] {
+  --bg:#111113;
+  --glass:rgba(26,26,30,0.75);
+  --glass-hov:rgba(34,34,40,0.90);
+  --glass-border:rgba(255,255,255,0.09);
+  --glass-shadow:rgba(0,0,0,0.4);
+  --glass-inset:rgba(255,255,255,0.04);
+  --nav-bg:rgba(16,16,20,0.85);
+  --text:#f2f2f7;
+  --text-soft:#aeaeb2;
+  --divider:rgba(255,255,255,0.07);
+  --input-bg:rgba(255,255,255,0.07);
+  --input-border:rgba(255,255,255,0.12);
+  --dropdown-bg:rgba(22,22,28,0.98);
+  --badge:rgba(255,255,255,0.1);
+  --remove-bg:rgba(255,50,50,0.12);
+  --remove-text:#ff6b6b;
+  --remove-border:rgba(255,50,50,0.2);
+  --section-border:rgba(255,255,255,0.18);
+  --opt-bg:rgba(255,255,255,0.06);
+  --opt-sel-bg:#f2f2f7;
+  --opt-sel-text:#1c1c1e;
+  --guide-bg:rgba(255,255,255,0.04);
+  --guide-border:rgba(255,255,255,0.25);
+}
 
-        .nav-logo {
-            font-size: 1.5rem;
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 300;
-            letter-spacing: 2px;
-            white-space: nowrap;
-            margin-right: 20px;
-        }
-        .nav-logo span { font-weight: 700; }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{overflow-x:hidden;}
 
-        .nav-right-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+body {
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  padding:0 0 80px;
+  transition:background 0.4s, color 0.4s;
+}
+body::before {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 65% 50% at 10% 0%, rgba(210,205,195,0.6) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 90% 100%, rgba(200,198,192,0.4) 0%, transparent 60%);
+  transition:opacity 0.4s;
+}
+[data-theme="dark"] body::before {
+  background:
+    radial-gradient(ellipse 65% 50% at 10% 0%, rgba(25,25,32,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 90% 100%, rgba(22,22,30,0.12) 0%, transparent 60%);
+}
+.blob{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
+.blob-1{width:500px;height:500px;background:rgba(200,195,185,0.3);top:-100px;left:-100px;animation:b1 14s ease-in-out infinite;}
+.blob-2{width:380px;height:380px;background:rgba(195,192,183,0.22);bottom:-80px;right:-80px;animation:b2 17s ease-in-out infinite;}
+[data-theme="dark"] .blob-1{background:rgba(30,30,40,0.08);}
+[data-theme="dark"] .blob-2{background:rgba(26,26,36,0.06);}
+@keyframes b1{0%,100%{transform:translate(0,0)}50%{transform:translate(45px,35px)}}
+@keyframes b2{0%,100%{transform:translate(0,0)}50%{transform:translate(-35px,-30px)}}
 
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(128,128,128,0.2);border-radius:3px;}
 
-        .nav-btn {
-            text-decoration: none;
-            color: var(--text-main);
-            padding: 0 20px;
-            height: 40px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-btn);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
+nav {
+  position:sticky;top:0;z-index:200;
+  height:60px;display:flex;align-items:center;
+  padding:0 clamp(14px,3vw,36px);gap:4px;
+  background:var(--nav-bg);
+  backdrop-filter:blur(32px) saturate(1.5);
+  -webkit-backdrop-filter:blur(32px) saturate(1.5);
+  border-bottom:1px solid var(--divider);
+  box-shadow:0 1px 16px var(--glass-shadow);
+  transition:background 0.4s;
+}
+.logo{font-size:clamp(15px,2vw,19px);font-weight:300;letter-spacing:-0.3px;color:var(--text);margin-right:14px;white-space:nowrap;flex-shrink:0;text-decoration:none;transition:color 0.4s;}
+.logo b{font-weight:700;}
+.nav-links{display:flex;gap:3px;align-items:center;flex:1;overflow:hidden;}
+.nav-btn{padding:6px 13px;border-radius:9px;border:1px solid transparent;background:transparent;font-family:'Outfit',sans-serif;font-size:13.5px;font-weight:500;color:var(--text-soft);cursor:pointer;white-space:nowrap;text-decoration:none;display:flex;align-items:center;gap:6px;transition:all 0.2s;flex-shrink:0;}
+.nav-btn:hover,.nav-btn.active{background:var(--glass-hov);border-color:var(--glass-border);color:var(--text);box-shadow:0 2px 10px var(--glass-shadow);}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:6px;flex-shrink:0;}
 
-        .nav-btn:hover, .nav-btn.active {
-            background: var(--accent);
-            color: #000 !important;
-            border-color: var(--accent);
-        }
-        html.light-mode .nav-btn:hover, html.light-mode .nav-btn.active { color: white !important; }
+.dropdown-wrap{position:relative;}
+.dropdown{display:none;position:absolute;right:0;top:calc(100% + 6px);background:var(--dropdown-bg);border:1px solid var(--glass-border);border-radius:12px;overflow:hidden;min-width:190px;box-shadow:0 12px 40px rgba(0,0,0,0.18);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);z-index:300;}
+.dropdown.open{display:block;animation:dropIn 0.18s ease;}
+@keyframes dropIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.dropdown a{display:flex;align-items:center;gap:10px;padding:12px 16px;text-decoration:none;color:var(--text-soft);font-size:13.5px;border-bottom:1px solid var(--divider);transition:all 0.15s;}
+.dropdown a:last-child{border-bottom:none;}
+.dropdown a:hover{background:var(--glass);color:var(--text);}
+.dropdown svg{width:17px;height:17px;fill:currentColor;flex-shrink:0;}
 
-        /* Dropdown */
-        .dropdown-wrapper { position: relative; }
-        .dropdown-wrapper .nav-btn { width: 100%; }
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 50px;
-            right: 0;
-            background: #1a1a1a;
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-btn);
-            min-width: 180px;
-            overflow: hidden;
-            z-index: 2000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        html.light-mode .dropdown-menu { background: #fff; }
-        .dropdown-menu.show { display: block; }
-        .dropdown-link {
-            display: flex; align-items: center; gap: 10px;
-            padding: 12px 16px;
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 0.9rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            transition: 0.2s;
-        }
-        html.light-mode .dropdown-link { color: #333; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .dropdown-link:hover { background: var(--accent); color: black !important; }
+.hamburger{display:none;width:36px;height:36px;border-radius:10px;border:1px solid var(--glass-border);background:var(--glass);cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);flex-shrink:0;}
+.hamburger span{display:block;width:15px;height:1.5px;background:var(--text);border-radius:2px;transition:all 0.3s;}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.mobile-nav{display:none;position:fixed;top:60px;left:0;right:0;z-index:190;flex-direction:column;gap:4px;padding:12px;background:var(--nav-bg);border-bottom:1px solid var(--divider);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);}
+.mobile-nav.open{display:flex;}
+.mobile-nav .nav-btn{width:100%;justify-content:flex-start;padding:10px 14px;font-size:14.5px;}
+.mobile-nav .dropdown{position:static;box-shadow:none;border:none;background:transparent;padding-left:16px;margin-top:2px;border-radius:0;}
+.mobile-nav .dropdown.open{display:block;}
+.mobile-nav .dropdown a{border-radius:8px;}
 
-        /* Theme Button (Inside Nav Links) */
-        .theme-btn {
-            width: 40px !important;
-            height: 40px !important;
-            min-width: 40px;
-            padding: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--glass-border);
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-left: 5px;
-            flex-shrink: 0;
-        }
-        .theme-btn:hover { background: var(--accent); color: black; border-color: var(--accent); }
-        .theme-icon { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.theme-toggle{width:38px;height:38px;border-radius:12px;border:1px solid var(--glass-border);background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 10px var(--glass-shadow);transition:background 0.3s;overflow:hidden;position:relative;}
+.theme-toggle:hover{background:var(--glass-hov);}
+.theme-toggle::after{content:'';position:absolute;width:0;height:0;border-radius:50%;background:rgba(245,158,11,0.2);top:50%;left:50%;transform:translate(-50%,-50%);}
+.theme-toggle.rippling::after{animation:ripple 0.5s ease-out forwards;}
+@keyframes ripple{to{width:90px;height:90px;opacity:0}}
+.icon-wrap{position:relative;width:20px;height:20px;}
+.icon-wrap.spin{animation:iconSpin 0.55s cubic-bezier(.34,1.4,.64,1) forwards;}
+@keyframes iconSpin{0%{transform:rotate(0) scale(1)}45%{transform:rotate(195deg) scale(0.5)}100%{transform:rotate(360deg) scale(1)}}
+.icon-sun,.icon-moon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:opacity 0.3s,transform 0.45s cubic-bezier(.34,1.4,.64,1);}
+.sun-core{width:9px;height:9px;border-radius:50%;background:var(--sun);box-shadow:0 0 6px 2px rgba(245,158,11,0.45);position:relative;z-index:2;}
+.sun-rays{position:absolute;inset:0;}
+.sun-rays::before{content:'';position:absolute;top:50%;left:50%;width:2px;height:2px;margin:-1px;border-radius:50%;background:var(--sun);box-shadow:0 -9px 0 1px var(--sun),0 9px 0 1px var(--sun),-9px 0 0 1px var(--sun),9px 0 0 1px var(--sun),-6px -6px 0 1px var(--sun),6px -6px 0 1px var(--sun),-6px 6px 0 1px var(--sun),6px 6px 0 1px var(--sun);}
+.moon-shape{width:12px;height:12px;border-radius:50%;background:transparent;box-shadow:3px -2px 0 0 #c8c8ce;}
+[data-theme="light"] .icon-sun{opacity:1;transform:scale(1) rotate(0);}
+[data-theme="light"] .icon-moon{opacity:0;transform:scale(0.4) rotate(-80deg);}
+[data-theme="dark"] .icon-sun{opacity:0;transform:scale(0.4) rotate(80deg);}
+[data-theme="dark"] .icon-moon{opacity:1;transform:scale(1) rotate(0);}
 
-        /* Hamburger */
-        .hamburger { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 0; width: 40px; height: 40px; align-items: center; justify-content: center; margin-left: auto; }
-        
-        .social-icon { width: 18px; height: 18px; fill: currentColor; }
+main{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:clamp(24px,3vw,40px) clamp(14px,3vw,28px);}
 
-        /* --- MOBILE RESPONSIVE --- */
-        @media (max-width: 1000px) {
-            .nav-logo { font-size: 1.2rem; }
-            .hamburger { display: flex; }
-            
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 70px;
-                left: 0;
-                width: 100%;
-                flex-direction: column;
-                background: var(--glass-bg);
-                backdrop-filter: blur(20px);
-                -webkit-backdrop-filter: blur(20px);
-                padding: 15px;
-                border-radius: 0 0 12px 12px;
-                border-bottom: 1px solid var(--glass-border);
-                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-                gap: 10px;
-                z-index: 2000;
-            }
-            .nav-links.active { display: flex; }
-            .nav-container.menu-open { border-radius: 12px 12px 0 0; }
-            
-            .nav-btn { width: 100%; justify-content: flex-start; }
-            .dropdown-wrapper { width: 100%; }
-            .dropdown-menu { position: static; width: 100%; box-shadow: none; border: none; background: transparent; padding-left: 20px; margin-top: 5px; }
+.glass-panel{background:var(--glass);backdrop-filter:blur(24px) saturate(1.5);-webkit-backdrop-filter:blur(24px) saturate(1.5);border:1px solid var(--glass-border);box-shadow:0 8px 32px var(--glass-shadow),inset 0 1px 0 var(--glass-inset);border-radius:20px;padding:clamp(20px,3vw,32px);transition:background 0.4s,border-color 0.4s;}
 
-            /* Mobile Theme Button: Centered at bottom of list */
-            .theme-btn {
-                margin: 10px auto 0 auto;
-                width: 50px !important;
-                height: 50px !important;
-                border-radius: 50%;
-                background: rgba(255,255,255,0.1);
-            }
-            
-            .nav-right-group { margin-left: auto; }
-        }
+.guidelines{border-left:3px solid var(--section-border);background:var(--guide-bg);padding:16px 18px;border-radius:0 12px 12px 0;font-size:13.5px;color:var(--text-soft);line-height:1.7;margin-bottom:28px;}
+.guidelines strong{color:var(--text);font-size:15px;display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.guidelines svg{flex-shrink:0;}
 
-        /* --- FORM STYLES --- */
-        .form-section { margin-top: 40px; margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 8px; display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 10px; color: var(--accent); font-weight: 700; letter-spacing: 1px; font-size: 0.9rem; }
-        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        @media (max-width: 768px) { .input-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1 !important; } }
-        .full-width { grid-column: span 2; }
-        label { font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 6px; font-weight: 500; }
-        input, select { width: 100%; padding: 12px; border-radius: var(--radius-btn); border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: white; font-family: inherit; font-size: 0.95rem; }
-        body.light-mode input, body.light-mode select { background-color: rgba(255,255,255,0.6); color: black; border-color: rgba(0,0,0,0.1); }
-        .guidelines { background: rgba(255, 255, 255, 0.05); border-left: 3px solid var(--accent); padding: 15px; margin-bottom: 30px; font-size: 0.9rem; color: #ccc; border-radius: 0 var(--radius-btn) var(--radius-btn) 0; line-height: 1.6; }
-        body.light-mode .guidelines { background: rgba(0,0,0,0.03); color: #333; }
-        .guidelines strong { color: var(--text-main); display: block; margin-bottom: 5px; font-size: 1rem;}
-        .file-upload-wrapper { position: relative; width: 100%; height: 50px; border: 1px dashed rgba(255,255,255,0.3); border-radius: var(--radius-btn); background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; }
-        input[type="file"] { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
-        .file-upload-text { pointer-events: none; color: #aaa; font-size: 0.9rem; }
-        body.light-mode .file-upload-text { color: #555; }
-        .dynamic-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
-        .single-input { margin-bottom: 10px; }
-        @media (max-width: 768px) { .dynamic-row { flex-direction: column; align-items: stretch; } }
-        .double-input input:first-child { width: 35%; }
-        @media (max-width: 768px) { .double-input input:first-child { width: 100%; } }
-        .triple-input input, .triple-input select { flex: 1; min-width: 0; }
-        .remove-btn { background: rgba(255,50,50,0.2); color: #ff5555; padding: 12px; border:1px solid rgba(255,50,50,0.2); border-radius: var(--radius-btn); cursor: pointer; font-weight:bold;}
-        .add-btn { width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px dashed var(--glass-border); color: var(--text-muted); cursor: pointer; border-radius: var(--radius-btn); margin-bottom:10px; }
-        button.submit-btn { width: 100%; padding: 15px; background: var(--glass-border); color: var(--text-main); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); font-weight: bold; margin-top: 30px; cursor: pointer; }
-        button.submit-btn:hover { background: var(--accent); color: black; }
-        #outputArea { display: none; margin-top: 25px; }
-        textarea { width: 100%; height: 250px; background: rgba(0,0,0,0.5); color: #ccc; border: 1px solid #333; border-radius: var(--radius-btn); padding: 10px; font-family: monospace;}
-        body.light-mode textarea { background: rgba(0,0,0,0.05); color: black; }
-        .social-inline { width: 16px; height: 16px; fill: var(--accent); vertical-align: text-bottom; margin-right: 2px; transform: translateY(-1px); }
-        .contact-link { white-space: nowrap; margin: 0 4px; }
-        .opt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 8px; margin-bottom: 15px; }
-        .opt-btn { padding: 8px; font-size: 0.85rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-muted); border-radius: var(--radius-btn); cursor: pointer; text-align: center; transition:0.2s; }
-        .opt-btn.selected { background: var(--accent); color: black; font-weight: bold; border-color: var(--accent); }
-        body.light-mode .opt-btn.selected { color: white; }
-        .charge-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-        .charge-row label { width: 140px; margin: 0; flex-shrink: 0; }
-        .charge-row select { width: 80px; flex-shrink: 0; }
-        .charge-row input { flex: 1; min-width: 100px; }
-        @media (max-width: 768px) { .charge-row label { width: 100%; } .charge-row select { width: 100%; } .charge-row input { width: 100%; } }
-        .vid-section { margin-bottom: 15px; border: 1px solid var(--glass-border); padding: 10px; border-radius: var(--radius-btn); }
-        .vid-header { font-size: 0.8rem; color: var(--accent); margin-bottom: 5px; font-weight: bold; }
-        .cam-module-box { background: rgba(0,0,0,0.2); padding: 15px; border-radius: var(--radius-btn); margin-bottom: 10px; border: 1px solid var(--glass-border); }
-        body.light-mode .cam-module-box { background: rgba(255,255,255,0.4); }
-        .show-device, .show-laptop, .show-soc, .show-sensor, .show-tablet, .show-watch { display: none; }
-        body[data-mode="device"] .show-device, body[data-mode="device"] .show-device-tablet { display: block; }
-        body[data-mode="tablet"] .show-tablet, body[data-mode="tablet"] .show-device-tablet { display: block; }
-        body[data-mode="laptop"] .show-laptop, body[data-mode="laptop"] .show-device-tablet { display: block; } 
-        body[data-mode="soc"] .show-soc { display: block; }
-        body[data-mode="sensor"] .show-sensor { display: block; }
-        body[data-mode="watch"] .show-watch { display: block; }
-        body[data-mode="sensor"] .hide-on-sensor { display: none !important; }
-        .full-width-soc { grid-column: span 2; }
-        .hidden { display: none !important; }
-    </style>
+h2{text-align:center;font-size:clamp(20px,3vw,26px);font-weight:700;letter-spacing:-0.5px;margin-bottom:24px;}
+
+.form-section{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin:32px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--section-border);}
+.form-section h3{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-soft);}
+
+.input-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:600px){.input-grid{grid-template-columns:1fr;}.full-width{grid-column:span 1!important;}}
+.full-width{grid-column:span 2;}
+.full-width-soc{grid-column:span 2;}
+
+label{font-size:12px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--text-soft);display:block;margin-bottom:6px;}
+
+input{
+  width:100%;padding:10px 13px;
+  border-radius:10px;border:1px solid var(--input-border);
+  background:var(--input-bg);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;
+  outline:none;transition:all 0.2s;
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+}
+input:focus{border-color:rgba(100,100,110,0.4);background:var(--glass-hov);box-shadow:0 2px 12px var(--glass-shadow);}
+input::placeholder{color:var(--text-soft);}
+select.fsel-hidden{display:none!important;}
+
+.fsel{position:relative;width:100%;}
+.triple-input .fsel{flex:1;min-width:0;}
+.fsel-btn{
+  width:100%;padding:10px 12px;
+  border-radius:10px;border:1px solid var(--input-border);
+  background:var(--input-bg);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  font-family:'Outfit',sans-serif;font-size:14px;color:var(--text);
+  outline:none;cursor:pointer;text-align:left;
+  display:flex;align-items:center;justify-content:space-between;gap:6px;
+  transition:all 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.04);
+}
+.fsel-btn:hover,.fsel.open .fsel-btn{border-color:rgba(100,100,110,0.4);background:var(--glass-hov);}
+.fsel-chev{flex-shrink:0;color:var(--text-soft);transition:transform 0.2s;}
+.fsel.open .fsel-chev{transform:rotate(180deg);}
+.fsel-menu{
+  display:none;position:absolute;top:calc(100% + 5px);left:0;right:0;z-index:500;
+  background:var(--dropdown-bg);border:1px solid var(--glass-border);border-radius:11px;
+  overflow:hidden;box-shadow:0 10px 32px rgba(0,0,0,0.14);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+}
+.fsel.open .fsel-menu{display:block;animation:dropIn 0.15s ease;}
+.fsel-opt{padding:9px 13px;font-size:13.5px;color:var(--text-soft);cursor:pointer;border-bottom:1px solid var(--divider);transition:all 0.13s;font-family:'Outfit',sans-serif;}
+.fsel-opt:last-child{border-bottom:none;}
+.fsel-opt:hover{background:var(--glass);color:var(--text);}
+.fsel-opt.picked{color:var(--text);font-weight:600;}
+
+.fsel-sm .fsel-btn{width:80px;min-width:80px;font-size:13px;padding:10px 8px;}
+.charge-row .fsel{width:80px;flex-shrink:0;}
+
+.dynamic-row{display:flex;gap:10px;margin-bottom:10px;align-items:center;}
+@media(max-width:600px){.dynamic-row{flex-direction:column;align-items:stretch;}}
+.single-input{margin-bottom:10px;}
+.triple-input input,.triple-input select{flex:1;min-width:0;}
+.double-input input:first-child{width:35%;}
+@media(max-width:600px){.double-input input:first-child{width:100%;}}
+
+.opt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:7px;margin-bottom:14px;}
+.opt-btn{padding:8px 6px;font-size:12.5px;font-weight:500;background:var(--opt-bg);border:1px solid var(--glass-border);color:var(--text-soft);border-radius:9px;cursor:pointer;text-align:center;transition:all 0.18s;font-family:'Outfit',sans-serif;}
+.opt-btn:hover{background:var(--glass-hov);color:var(--text);}
+.opt-btn.selected{background:var(--opt-sel-bg);color:var(--opt-sel-text);font-weight:700;border-color:transparent;}
+
+.add-btn{width:100%;padding:10px;background:transparent;border:1px dashed var(--input-border);color:var(--text-soft);cursor:pointer;border-radius:10px;margin-bottom:10px;font-family:'Outfit',sans-serif;font-size:13.5px;transition:all 0.2s;}
+.add-btn:hover{background:var(--glass);border-color:var(--glass-border);color:var(--text);}
+
+.remove-btn{background:var(--remove-bg);color:var(--remove-text);padding:10px 14px;border:1px solid var(--remove-border);border-radius:9px;cursor:pointer;font-weight:600;font-family:'Outfit',sans-serif;font-size:13px;transition:all 0.2s;white-space:nowrap;}
+.remove-btn:hover{opacity:0.8;}
+
+.submit-btn{width:100%;padding:14px;background:var(--text);color:var(--bg);border:none;border-radius:12px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;margin-top:28px;cursor:pointer;transition:all 0.2s;letter-spacing:-0.2px;}
+.submit-btn:hover{opacity:0.85;transform:translateY(-1px);}
+
+.file-upload-wrapper{position:relative;width:100%;height:50px;border:1px dashed var(--input-border);border-radius:10px;background:var(--input-bg);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;}
+.file-upload-wrapper:hover{background:var(--glass-hov);border-color:var(--glass-border);}
+input[type="file"]{position:absolute;width:100%;height:100%;opacity:0;cursor:pointer;}
+.file-upload-text{pointer-events:none;color:var(--text-soft);font-size:13px;}
+
+.charge-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+.charge-row label{width:130px;margin:0;text-transform:none;letter-spacing:0;font-size:13px;font-weight:500;}
+.charge-row input{flex:1;min-width:100px;}
+@media(max-width:600px){.charge-row label{width:100%;}.charge-row .fsel,.charge-row input{width:100%;}}
+
+.vid-section{margin-bottom:14px;border:1px solid var(--glass-border);padding:12px 14px;border-radius:12px;background:var(--input-bg);}
+.vid-header{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-soft);margin-bottom:8px;}
+
+.cam-module-box{background:var(--input-bg);padding:16px;border-radius:12px;margin-bottom:10px;border:1px solid var(--glass-border);}
+
+.selfie-box{background:var(--input-bg);padding:16px;border-radius:12px;border:1px solid var(--glass-border);margin-top:14px;}
+.selfie-label{font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-soft);margin-bottom:12px;display:block;}
+
+.sec-box-inner{border:1px dashed var(--input-border);padding:16px;border-radius:12px;margin-top:12px;background:var(--input-bg);}
+.sec-title{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-soft);text-align:center;margin-bottom:14px;}
+
+#outputArea{display:none;margin-top:24px;}
+textarea{width:100%;height:240px;background:var(--input-bg);color:var(--text);border:1px solid var(--input-border);border-radius:12px;padding:14px;font-family:'Courier New',monospace;font-size:13px;outline:none;resize:vertical;transition:all 0.2s;}
+textarea:focus{border-color:rgba(100,100,110,0.4);background:var(--glass-hov);}
+
+.output-note{text-align:center;color:var(--text-soft);font-size:12.5px;margin-bottom:12px;line-height:1.7;}
+.social-inline{width:15px;height:15px;fill:currentColor;vertical-align:text-bottom;margin-right:2px;}
+.contact-link{white-space:nowrap;margin:0 3px;color:var(--text);font-weight:600;}
+
+.show-device,.show-laptop,.show-soc,.show-sensor,.show-tablet,.show-watch{display:none;}
+body[data-mode="device"] .show-device,body[data-mode="device"] .show-device-tablet{display:block;}
+body[data-mode="tablet"] .show-tablet,body[data-mode="tablet"] .show-device-tablet{display:block;}
+body[data-mode="laptop"] .show-laptop,body[data-mode="laptop"] .show-device-tablet{display:block;}
+body[data-mode="soc"] .show-soc{display:block;}
+body[data-mode="sensor"] .show-sensor{display:block;}
+body[data-mode="watch"] .show-watch{display:block;}
+body[data-mode="sensor"] .hide-on-sensor{display:none!important;}
+.hidden{display:none!important;}
+
+@media(max-width:900px){.nav-links{display:none;}.hamburger{display:flex;}}
+@media(max-width:600px){.controls{flex-direction:column;}}
+</style>
 </head>
 <body data-mode="device">
-    <div class="container">
-        <div class="glass-panel nav-container" id="navContainer">
-            <a href="index.html" class="nav-logo">Concept<span>Harmony</span></a>
-            
-            <div class="nav-right-group">
-                <div class="nav-links" id="navLinks">
-                    <a href="index.html" class="nav-btn">Mobile Devices</a>
-                    <a href="laptops.html" class="nav-btn">Laptops</a>
-                    <a href="soc.html" class="nav-btn">SoCs</a>
-                    <a href="sensors.html" class="nav-btn">Sensors</a>
-                    <a href="news.html" class="nav-btn">News</a>
-                    <a href="submit.html" class="nav-btn active" style="border-color:var(--accent);">Submit</a>
-                    
-                    <div class="dropdown-wrapper">
-                        <button class="nav-btn" onclick="toggleSocials(event)">Socials ▾</button>
-                        <div class="dropdown-menu" id="socialDropdown">
-                            <a href="https://discord.gg/hNPtTVHurH" target="_blank" class="dropdown-link"><svg class="social-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg> Discord</a>
-                            <a href="https://www.tiktok.com/@spinach.tech?_r=1&_t=ZG-93ScgcKEI9R" target="_blank" class="dropdown-link"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> TikTok Main</a>
-                            <a href="https://www.tiktok.com/@spinach.technologies?_r=1&_t=ZG-93SccZzS6zp" target="_blank" class="dropdown-link"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> TikTok Concept</a>
-                        </div>
-                    </div>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
 
-                    <button id="themeToggle" class="theme-btn">
-                        <svg class="theme-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                    </button>
-                </div>
-
-                <button class="mobile-menu-btn hamburger" onclick="toggleMenu()">☰</button>
-            </div>
-        </div>
-
-        <div class="glass-panel form-container">
-            <div class="guidelines">
-                <strong><svg fill="currentColor" style="transform: translateY(5px);" width="22px" height="22px" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><path d="M 9.5899 50.2070 L 46.4102 50.2070 C 49.9257 50.2070 52.1289 47.6758 52.1289 44.4883 C 52.1289 43.5273 51.8947 42.5664 51.3791 41.6758 L 32.9336 8.6758 C 31.8789 6.7773 29.9570 5.7930 28.0117 5.7930 C 26.0899 5.7930 24.1211 6.7773 23.0664 8.6758 L 4.6446 41.6992 C 4.1289 42.5898 3.8711 43.5273 3.8711 44.4883 C 3.8711 47.6758 6.0977 50.2070 9.5899 50.2070 Z M 28.0117 34.1523 C 26.7695 34.1523 26.0899 33.4492 26.0430 32.1836 L 25.7149 20.6055 C 25.6680 19.3399 26.6524 18.4024 27.9883 18.4024 C 29.3008 18.4024 30.3320 19.3633 30.2852 20.6289 L 29.9336 32.1836 C 29.8868 33.4726 29.2070 34.1523 28.0117 34.1523 Z M 28.0117 42.8008 C 26.6524 42.8008 25.3868 41.7227 25.3868 40.2695 C 25.3868 38.8164 26.6289 37.7383 28.0117 37.7383 C 29.3946 37.7383 30.6368 38.7930 30.6368 40.2695 C 30.6368 41.7461 29.3711 42.8008 28.0117 42.8008 Z"/></svg> Submission Guidelines</strong>
-                • <b>Capitalization:</b> Always use proper capitalization (e.g., "Spinach", not "spinach").<br>
-                • <b>Specificity:</b> Include details like MP, Aperture (f/1.8), Sensor Size, and OIS for cameras.<br>
-                • <b>Formatting:</b> Check for grammar errors before generating.<br>
-                • <b>Images:</b> Please use png files with transparent background for the Main Profile image. The front- and backside of the phone should be shown and be centered. This doesn't apply to picture gallery images.<br>
-                • <b>Optional Fields:</b> You can leave fields blank if you don't have the info or can't name it.
-            </div>
-
-            <h2 style="text-align:center; margin-top:0;">Create Submission</h2>
-
-            <form id="makerForm">
-                <div class="form-section"><h3>IDENTITY</h3></div>
-                <div class="input-grid">
-                    <div><label>Type</label>
-                        <select id="type" onchange="handleTypeChange()">
-                            <option value="Phone">Phone</option>
-                            <option value="Tablet">Tablet</option>
-                            <option value="Smartwatch">Smartwatch</option>
-                            <option value="Laptop">Laptop</option>
-                            <option value="Chipset (SoC)">Chipset (SoC)</option>
-                            <option value="Camera Sensor">Camera Sensor</option>
-                        </select>
-                    </div>
-                    <div><label>Brand</label><input type="text" id="brand" list="brands" placeholder="e.g. Spinach"></div>
-                    <div class="full-width"><label>Model Name</label><input type="text" id="model" placeholder="e.g. Experix 2"></div>
-                    
-                    <div class="full-width hide-on-sensor">
-                        <label>Profile Image (Main) - PNG Only</label>
-                        <div class="file-upload-wrapper">
-                            <span class="file-upload-text" id="fileText">Click to Upload Main Image (Front- and Backside, Transparent PNG)...</span>
-                            <input type="file" id="imageFile" onchange="updateFileName('imageFile', 'fileText')">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-section show-sensor"><h3>SENSOR SPECS</h3></div>
-                <div class="input-grid show-sensor">
-                    <div><label>Resolution (MP)</label><input type="number" id="sens_res" placeholder="50"></div>
-                    <div><label>Optical Format</label><input type="text" id="sens_fmt" placeholder="1/1.3&quot;"></div>
-                </div>
-
-                <div class="form-section"><h3>LAUNCH</h3></div>
-                <div class="input-grid">
-                    <div class="show-device show-device-tablet show-laptop show-watch"><label>Status</label><select id="status"><option>Released</option><option>Coming Soon</option><option>Rumored</option><option>Concept</option></select></div>
-                    <div class="show-soc"><label>Process Node</label><input type="text" id="process" placeholder="e.g. TSMC 3nm"></div>
-                    <div class="show-soc"><label>Open Use?</label><select id="open_use"><option>No (Proprietary)</option><option>Yes</option></select></div>
-                    <div><label>Announced (Exact Date)</label><input type="date" id="announced"></div>
-                    <div class="show-device show-device-tablet show-laptop show-watch"><label>Release (Exact Date)</label><input type="date" id="released"></div>
-                </div>
-
-                <div class="show-device show-device-tablet show-laptop show-watch">
-                    <div class="form-section"><h3>BODY</h3></div>
-                    <div class="input-grid">
-                        <div class="show-device show-device-tablet show-watch"><label>IP Rating</label><input type="text" id="ip_rating" placeholder="e.g. IP68"></div>
-                        <div class="show-device show-device-tablet show-watch hide-on-laptop"><label>Weight (g)</label><input type="number" id="weight" placeholder="200"></div>
-                        <div class="show-device show-device-tablet full-width hide-on-laptop">
-                            <label>Dimensions (mm)</label>
-                            <div class="dynamic-row triple-input">
-                                <input type="number" step="0.1" id="dim_h" placeholder="Height">
-                                <input type="number" step="0.1" id="dim_w" placeholder="Width">
-                                <input type="number" step="0.1" id="dim_d" placeholder="Depth">
-                            </div>
-                        </div>
-                        <div><label>Colors</label><input type="text" id="colors" placeholder="Titanium, Black..."></div>
-                        <div class="full-width"><label>Build Materials</label><input type="text" id="build" placeholder="e.g. Glass front, aluminum frame"></div>
-                        <div class="show-laptop full-width"><label>Ports</label><input type="text" id="ports" placeholder="e.g. 2x USB-C, 1x HDMI..."></div>
-                    </div>
-
-                    <div class="form-section"><h3>DISPLAY</h3></div>
-                    <div class="input-grid">
-                        <div><label>Panel Type</label><input type="text" id="displayType" list="displays" placeholder="e.g. LTPO AMOLED"></div>
-                        <div><label>Refresh Rate (Hz)</label><input type="number" id="refresh" placeholder="120"></div>
-                        <div><label>Size (inch)</label><input type="number" step="0.01" id="screen" placeholder="6.8"></div>
-                        <div><label>Brightness (nit)</label><input type="number" id="brightness" placeholder="3000"></div>
-                        <div class="full-width">
-                            <label>Resolution</label>
-                            <div class="dynamic-row double-input">
-                                <input type="number" id="res_w" placeholder="Width">
-                                <input type="number" id="res_h" placeholder="Height">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="show-device show-laptop full-width" style="margin-top:20px;">
-                        <button type="button" class="add-btn" onclick="toggleSec()">+ Add Secondary / Cover Screen</button>
-                        <div id="secBox" class="hidden input-grid" style="margin-top:15px; border:1px dashed var(--glass-border); padding:15px;">
-                            <div class="full-width" style="text-align:center; color:var(--accent);">SECONDARY DISPLAY</div>
-                            <div><label>Panel</label><input type="text" id="sec_type"></div>
-                            <div><label>Hz</label><input type="number" id="sec_refresh"></div>
-                            <div><label>Size</label><input type="number" step="0.01" id="sec_size"></div>
-                            <div><label>Nits</label><input type="number" id="sec_bri"></div>
-                            <div class="full-width"><label>Resolution</label><div class="dynamic-row double-input"><input type="number" id="sec_res_w"><input type="number" id="sec_res_h"></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-section"><h3>PERFORMANCE</h3></div>
-                <div class="input-grid">
-                    <div class="show-device show-device-tablet show-laptop show-watch"><label>Chipset</label><input type="text" id="chipset" placeholder="e.g. Spinach B61"></div>
-                    <div class="show-laptop"><label>Discrete GPU (Optional)</label><input type="text" id="d_gpu" placeholder="e.g. RTX 5090 Mobile"></div>
-                    <div class="show-device show-device-tablet show-laptop show-watch full-width">
-                        <label>RAM Options</label>
-                        <div id="ramContainer" class="opt-grid"></div>
-                    </div>
-                    <div class="show-device show-device-tablet show-laptop show-watch full-width">
-                        <label>Storage Options</label>
-                        <div id="storageContainer" class="opt-grid"></div>
-                    </div>
-                    <div class="show-device show-device-tablet show-laptop show-watch"><label>OS</label><input type="text" id="os" placeholder="e.g. Android 16"></div>
-
-                    <div class="show-soc full-width-soc">
-                        <label>CPU Configuration</label>
-                        <div id="cpuContainer"></div>
-                        <button type="button" class="add-btn" onclick="addCpuRow()">+ Add Core Cluster</button>
-                    </div>
-                    <div class="show-soc"><label>GPU Model</label><input type="text" id="gpu_model"></div>
-                    <div class="show-soc"><label>GPU Clock</label><input type="text" id="gpu_clock"></div>
-                    <div class="show-soc"><label>NPU</label><input type="text" id="npu"></div>
-                    <div class="show-soc"><label>ISP</label><input type="text" id="isp"></div>
-                    <div class="show-soc"><label>Modem</label><input type="text" id="modem"></div>
-                    
-                    <div class="show-sensor"><label>Bit Depth</label><input type="number" id="sens_bit" placeholder="14"></div>
-                    <div class="show-sensor full-width"><label>Key Features</label><input type="text" id="sens_feat"></div>
-                </div>
-
-                <div class="show-device show-device-tablet show-laptop show-watch">
-                    <div class="form-section"><h3>POWER</h3></div>
-                    <div class="input-grid">
-                        <div class="full-width">
-                            <label>Battery Configuration</label>
-                            <div class="dynamic-row triple-input">
-                                <select id="bat_sic"><option value="No">Standard</option><option value="Yes">Si/C</option></select>
-                                <select id="bat_type" onchange="toggleCustomBat(this)"><option>Li-Ion</option><option>Li-Po</option><option>Other</option></select>
-                                <input type="text" id="bat_type_custom" placeholder="Custom Type" style="display:none;">
-                                <input type="number" id="bat_cap" placeholder="mAh">
-                            </div>
-                        </div>
-                        <div class="full-width">
-                            <label>Charging</label>
-                            <div class="charge-row"><label>Wired?</label><select id="chg_w_yn" onchange="toggleChg('chg_w')"><option value="No">No</option><option value="Yes">Yes</option></select><input type="text" id="chg_w" placeholder="e.g. 100W" style="display:none;"></div>
-                            <div class="charge-row"><label>Wireless?</label><select id="chg_wl_yn" onchange="toggleChg('chg_wl')"><option value="No">No</option><option value="Yes">Yes</option></select><input type="text" id="chg_wl" placeholder="e.g. 50W" style="display:none;"></div>
-                            <div class="charge-row"><label>Rev. Wireless?</label><select id="chg_rw_yn" onchange="toggleChg('chg_rw')"><option value="No">No</option><option value="Yes">Yes</option></select><input type="text" id="chg_rw" placeholder="e.g. 10W" style="display:none;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="show-device show-device-tablet show-sensor">
-                    <div class="form-section"><h3>CAMERA SYSTEM</h3></div>
-                    <div class="show-device show-device-tablet">
-                        <div id="cameraContainer"></div>
-                        <button type="button" class="add-btn" onclick="addCamModule()">+ Add Camera Module</button>
-                        
-                        <div class="full-width" style="margin-top:10px;">
-                            <input type="text" id="cam_sys_features" placeholder="Camera System Features (e.g. LiDAR, Zeiss T* Coating, Hasselblad Color)">
-                        </div>
-
-                        <div class="full-width" style="margin-top:15px; background:rgba(0,0,0,0.2); padding:15px; border-radius:6px; border:1px solid var(--glass-border);">
-                            <label style="color:var(--accent); font-weight:bold; margin-bottom:10px;">Selfie Camera</label>
-                            <div class="dynamic-row triple-input">
-                                <input type="number" id="selfie_mp" placeholder="MP">
-                                <input type="number" step="0.1" id="selfie_f" placeholder="f/">
-                                <input type="number" id="selfie_mm" placeholder="Focal (mm)">
-                            </div>
-                            <div class="dynamic-row double-input">
-                                <input type="text" id="selfie_sens" placeholder="Sensor Size">
-                                <input type="text" id="selfie_feat" placeholder="Features (AF, OIS...)">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="full-width" style="margin-top:20px;">
-                        <label>Video Capabilities</label>
-                        <div id="videoContainer"></div>
-                        <input type="text" id="vid_feats" placeholder="Video Features (LOG, HDR...)" style="margin-top:10px;">
-                    </div>
-                </div>
-
-                <div class="form-section show-device show-device-tablet show-laptop show-watch"><h3>FEATURES</h3></div>
-                <div class="full-width show-device show-device-tablet show-laptop show-watch">
-                    <label>Sensors & Extra Features</label>
-                    <div id="sensorContainer"></div>
-                    <button type="button" class="add-btn" onclick="addSingleInputRow('sensorContainer', 'Feature Name (e.g. Fingerprint under-display)')">+ Add Feature</button>
-                </div>
-
-                <div class="form-section hide-on-sensor"><h3>PICTURES (OPTIONAL)</h3></div>
-                <div class="full-width hide-on-sensor">
-                    <div class="file-upload-wrapper">
-                        <span class="file-upload-text" id="galleryText">Click to select multiple Gallery images...</span>
-                        <input type="file" id="galleryFiles" multiple onchange="updateGalleryName()">
-                    </div>
-                </div>
-
-                <div class="form-section"><h3>EXTRAS</h3></div>
-                <div class="input-grid">
-                    <div class="hide-on-sensor"><label>Geekbench Single (v6)</label><input type="number" id="geek_s" placeholder="1234"></div>
-                    <div class="hide-on-sensor"><label>Geekbench Multi (v6)</label><input type="number" id="geek_m" placeholder="12345"></div>
-                    <div class="hide-on-sensor"><label>AnTuTu (v11)</label><input type="number" id="antutu" placeholder="1234567"></div>
-                    <div class="hide-on-sensor"><label>Price (USD)</label><input type="number" id="price_usd" placeholder="1099"></div>
-                    <div class="hide-on-sensor"><label>Price (EUR)</label><input type="number" id="price_eur" placeholder="999"></div>
-                </div>
-
-                <button type="submit" class="submit-btn">Generate JSON</button>
-            </form>
-
-            <div id="outputArea">
-                <p style="text-align:center; color:#aaa; font-size:0.85rem; margin-bottom:10px; line-height: 1.6;">
-                    Send this code + ALL images to: 
-                    <span class="contact-link"><svg class="social-inline" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg> <b>@spinoevrex</b></span> or 
-                    <span class="contact-link"><svg class="social-inline" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> <b>@spinach.tech</b></span> or
-                    <span class="contact-link"><svg class="social-inline" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" /></svg> <b>@photography._.y</b></span>
-                </p>
-                <textarea id="jsonOutput" readonly></textarea>
-                <button onclick="copyText()" class="nav-btn" style="width:100%; margin-top:10px;">Copy Code</button>
-            </div>
-        </div>
+<nav>
+  <a href="index.html" class="logo">Concept<b>Harmony</b></a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html" class="nav-btn">Devices</a>
+    <a href="laptops.html" class="nav-btn">Laptops</a>
+    <a href="soc.html" class="nav-btn">SoCs</a>
+    <a href="sensors.html" class="nav-btn">Sensors</a>
+    <a href="news.html" class="nav-btn">News</a>
+    <a href="submit.html" class="nav-btn active">Submit</a>
+    <div class="dropdown-wrap">
+      <button class="nav-btn" id="socialsBtn">Socials ▾</button>
+      <div class="dropdown" id="socialsDropdown">
+        <a href="https://discord.gg/hNPtTVHurH" target="_blank"><svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>Discord</a>
+        <a href="https://www.tiktok.com/@spinach.tech?_r=1&_t=ZG-93ScgcKEI9R" target="_blank"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>TikTok Main</a>
+        <a href="https://www.tiktok.com/@spinach.technologies?_r=1&_t=ZG-93SccZzS6zp" target="_blank"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>TikTok Concept</a>
+      </div>
     </div>
-    <script>
-        (function() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') document.documentElement.classList.add('light-mode');
-        })();
-        document.getElementById('themeToggle').onclick = () => {
-            const isLight = document.documentElement.classList.toggle('light-mode');
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
-        };
-        function handleTypeChange() {
-            const t = document.getElementById('type').value;
-            let m = 'device';
-            if (t === 'Laptop') m = 'laptop';
-            else if (t === 'Chipset (SoC)') m = 'soc';
-            else if (t === 'Camera Sensor') m = 'sensor';
-            else if (t === 'Tablet') m = 'tablet';
-            else if (t === 'Smartwatch') m = 'watch';
-            
-            document.body.setAttribute('data-mode', m);
-            
-            // Hide weight/dim for laptops
-            if(m === 'laptop') {
-                document.querySelectorAll('.hide-on-laptop').forEach(el => el.classList.add('hidden'));
-            } else {
-                document.querySelectorAll('.hide-on-laptop').forEach(el => el.classList.remove('hidden'));
-            }
+  </div>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeBtn">
+      <div class="icon-wrap" id="iconWrap">
+        <div class="icon-sun"><div class="sun-rays"></div><div class="sun-core"></div></div>
+        <div class="icon-moon"><div class="moon-shape"></div></div>
+      </div>
+    </button>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
 
-            renderMem(m); renderVid(m);
-        }
-        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); document.querySelector('.nav-container').classList.toggle('menu-open'); }
-        function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
-        window.onclick = function(e) { if (!e.target.matches('.nav-btn')) { document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show')); } }
-        
-        function updateFileName(id, tid) { 
-            const f = document.getElementById(id).files; 
-            if(f.length > 0) {
-                if(!f[0].name.toLowerCase().endsWith('.png')) {
-                    alert("Please select a PNG file for the Main Profile Image.");
-                    document.getElementById(id).value = "";
-                    document.getElementById(tid).innerText = "Click to Upload Main Image...";
-                    return;
-                }
-                document.getElementById(tid).innerText = f[0].name;
-            }
-        }
-        function updateGalleryName() { 
-            const input = document.getElementById('galleryFiles'); 
-            if(input.files.length > 0) document.getElementById('galleryText').innerText = `Selected ${input.files.length} images`; 
-        }
-        function toggleSec() { document.getElementById('secBox').classList.toggle('hidden'); }
-        function toggleChg(id) { const sel = document.getElementById(id+'_yn'); document.getElementById(id).style.display = sel.value === 'Yes' ? 'block' : 'none'; }
-        function toggleCustomBat(sel) { document.getElementById('bat_type_custom').style.display = sel.value === 'Other' ? 'block' : 'none'; }
-        function cap(s) { return s ? s.replace(/\b\w/g, c => c.toUpperCase()) : ''; }
-        function smart(k, t) { if(!t) return null; let v = t.trim(); v=v.replace(/(\d)\s*x\s*(\d)/gi, "$1 x $2"); if (k==='colors') v=v.replace(/\b\w/g, c => c.toUpperCase()); return v; }
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html" class="nav-btn">Devices</a>
+  <a href="laptops.html" class="nav-btn">Laptops</a>
+  <a href="soc.html" class="nav-btn">SoCs</a>
+  <a href="sensors.html" class="nav-btn">Sensors</a>
+  <a href="news.html" class="nav-btn">News</a>
+  <a href="submit.html" class="nav-btn active">Submit</a>
+  <div class="dropdown-wrap">
+    <button class="nav-btn" id="mobileSocialsBtn">Socials ▾</button>
+    <div class="dropdown" id="mobileSocialsDropdown">
+      <a href="https://discord.gg/hNPtTVHurH" target="_blank"><svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>Discord</a>
+      <a href="https://www.tiktok.com/@spinach.tech" target="_blank"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>TikTok Main</a>
+      <a href="https://www.tiktok.com/@spinach.technologies" target="_blank"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>TikTok Concept</a>
+    </div>
+  </div>
+</div>
 
-        const fpsOpts = { '8K': ['24','25','30'], '4K': ['24','25','30','60','100','120'], '1080p': ['24','25','30','60','100','120','240','480','960+'] };
-        
-        function renderMem(m) {
-            let r = [], s = [];
-            if(m==='watch') { r=['128MB','256MB','512MB','1GB','2GB','3GB','4GB']; s=['2GB','4GB','8GB','16GB','32GB','64GB','128GB','256GB']; }
-            else if(m==='laptop') { r=['4GB','8GB','16GB','32GB','64GB','128GB','256GB']; s=['128GB','256GB','512GB','1TB','2TB','4TB','8TB']; }
-            else { r=['2GB','3GB','4GB','6GB','8GB','12GB','16GB','20GB','24GB','32GB']; s=['32GB','64GB','128GB','256GB','512GB','1TB','2TB']; }
-            const mkBtn = (arr, id) => {
-                const c = document.getElementById(id); c.innerHTML = '';
-                arr.forEach(v => {
-                    const b = document.createElement('div'); b.className = 'opt-btn'; b.innerText = v;
-                    b.onclick = () => b.classList.toggle('selected');
-                    c.appendChild(b);
-                });
-            };
-            mkBtn(r, 'ramContainer'); mkBtn(s, 'storageContainer');
-        }
+<main>
+  <div class="glass-panel">
+    <div class="guidelines">
+      <strong><svg fill="currentColor" width="20" height="20" viewBox="0 0 56 56"><path d="M9.59 50.207h36.82c3.516 0 5.719-2.531 5.719-5.719 0-.96-.234-1.921-.75-2.812L32.934 8.676C31.879 6.777 29.957 5.793 28.012 5.793c-1.922 0-3.891.984-4.946 2.883L4.645 41.699a5.7 5.7 0 0 0-.774 2.789c0 3.187 2.227 5.719 5.719 5.719zM28.012 34.152c-1.242 0-1.922-.703-1.969-1.969l-.328-11.578c-.047-1.265.938-2.203 2.274-2.203 1.312 0 2.343.961 2.297 2.227l-.352 11.554c-.047 1.29-.726 1.969-1.922 1.969zm0 8.649c-1.36 0-2.625-1.079-2.625-2.532 0-1.453 1.242-2.531 2.625-2.531 1.383 0 2.625 1.055 2.625 2.531 0 1.477-1.266 2.532-2.625 2.532z"/></svg> Submission Guidelines</strong>
+      • <b>Capitalization:</b> Always use proper capitalization (e.g., "Spinach", not "spinach").<br>
+      • <b>Specificity:</b> Include details like MP, Aperture (f/1.8), Sensor Size, and OIS for cameras.<br>
+      • <b>Images:</b> Use PNG files with transparent background for the Main Profile image. Show front and backside, centered.<br>
+      • <b>Optional Fields:</b> Leave blank if you don't have the info.
+    </div>
 
-        function renderVid(m) {
-            const c = document.getElementById('videoContainer'); c.innerHTML = '';
-            if(m !== 'device' && m !== 'tablet' && m !== 'sensor') return;
-            for(let res in fpsOpts) {
-                const d = document.createElement('div'); d.className = 'vid-section';
-                let h = `<div class="vid-header">${res}</div><div class="opt-grid">`;
-                fpsOpts[res].forEach(f => h += `<div class="opt-btn" onclick="this.classList.toggle('selected')">${f}</div>`);
-                d.innerHTML = h + '</div>';
-                c.appendChild(d);
-            }
-        }
+    <h2>Create Submission</h2>
 
-        function addCamModule() {
-            const d = document.createElement('div'); d.className = 'cam-module-box';
-            d.innerHTML = `
-                <div class="dynamic-row triple-input">
-                    <select onchange="checkCamType(this)"><option>Wide</option><option>Ultrawide</option><option>Telephoto</option><option>Periscope Telephoto</option><option>Macro</option><option>Depth</option><option>Other</option></select>
-                    <input type="text" class="custom-cam-type" placeholder="Type Name" style="display:none;">
-                    <input type="number" placeholder="MP">
-                    <input type="number" step="0.1" placeholder="f/ Aperture">
-                </div>
-                <div class="dynamic-row triple-input">
-                    <input type="number" placeholder="Focal (mm)">
-                    <input type="text" placeholder="Sensor Size">
-                    <input type="text" placeholder="OIS, PDAF...">
-                </div>
-                <div class="dynamic-row double-input extra-cam-fields" style="display:none;"></div>
-                <button type="button" class="remove-btn" onclick="this.parentElement.remove()" style="width:100%; margin-top:5px;">Remove Module</button>
-            `;
-            document.getElementById('cameraContainer').appendChild(d);
-        }
+    <form id="makerForm">
+      <div class="form-section"><h3>Identity</h3></div>
+      <div class="input-grid">
+        <div><label>Type</label>
+          <select id="type" class="fsel-hidden" onchange="handleTypeChange()">
+            <option value="Phone">Phone</option><option value="Tablet">Tablet</option><option value="Smartwatch">Smartwatch</option><option value="Laptop">Laptop</option><option value="Chipset (SoC)">Chipset (SoC)</option><option value="Camera Sensor">Camera Sensor</option>
+          </select>
+          <div class="fsel" onclick="fselToggle(this,event)">
+            <button type="button" class="fsel-btn"><span id="type_lbl">Phone</span><svg class="fsel-chev" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="fsel-menu">
+              <div class="fsel-opt picked" onclick="fselPick(this,'type','Phone','handleTypeChange()')">Phone</div>
+              <div class="fsel-opt" onclick="fselPick(this,'type','Tablet','handleTypeChange()')">Tablet</div>
+              <div class="fsel-opt" onclick="fselPick(this,'type','Smartwatch','handleTypeChange()')">Smartwatch</div>
+              <div class="fsel-opt" onclick="fselPick(this,'type','Laptop','handleTypeChange()')">Laptop</div>
+              <div class="fsel-opt" onclick="fselPick(this,'type','Chipset (SoC)','handleTypeChange()')">Chipset (SoC)</div>
+              <div class="fsel-opt" onclick="fselPick(this,'type','Camera Sensor','handleTypeChange()')">Camera Sensor</div>
+            </div>
+          </div>
+        </div>
+        <div><label>Brand</label><input type="text" id="brand" list="brands" placeholder="e.g. Spinach"/></div>
+        <div class="full-width"><label>Model Name</label><input type="text" id="model" placeholder="e.g. Experix 2"/></div>
+        <div class="full-width hide-on-sensor">
+          <label>Profile Image (Main) — PNG Only</label>
+          <div class="file-upload-wrapper">
+            <span class="file-upload-text" id="fileText">Click to upload main image (front &amp; backside, transparent PNG)…</span>
+            <input type="file" id="imageFile" onchange="updateFileName('imageFile','fileText')"/>
+          </div>
+        </div>
+      </div>
 
-        function checkCamType(sel) {
-            const customInput = sel.nextElementSibling;
-            customInput.style.display = sel.value === 'Other' ? 'block' : 'none';
-            
-            const row = sel.parentElement.nextElementSibling.nextElementSibling;
-            row.innerHTML = ''; row.style.display = 'none';
-            if(sel.value === 'Telephoto' || sel.value === 'Periscope Telephoto') {
-                row.style.display = 'flex';
-                row.innerHTML = `<input type="number" placeholder="Optical Zoom (x)">`;
-            } else if (sel.value === 'Ultrawide') {
-                row.style.display = 'flex';
-                row.innerHTML = `<input type="number" placeholder="FOV (deg)">`;
-            }
-        }
+      <div class="form-section show-sensor"><h3>Sensor Specs</h3></div>
+      <div class="input-grid show-sensor">
+        <div><label>Resolution (MP)</label><input type="number" id="sens_res" placeholder="50"/></div>
+        <div><label>Optical Format</label><input type="text" id="sens_fmt" placeholder='1/1.3"'/></div>
+      </div>
 
-        function addCpuRow() {
-            const d = document.createElement('div'); d.className = 'dynamic-row triple-input';
-            d.innerHTML = `<input type="text" placeholder="Core Name"><input type="number" placeholder="Count"><input type="number" placeholder="GHz"><button type="button" class="remove-btn" onclick="this.parentElement.remove()">X</button>`;
-            document.getElementById('cpuContainer').appendChild(d);
-        }
+      <div class="form-section"><h3>Launch</h3></div>
+      <div class="input-grid">
+        <div class="show-device show-device-tablet show-laptop show-watch"><label>Status</label>
+          <select id="status" class="fsel-hidden"><option>Released</option><option>Coming Soon</option><option>Rumored</option><option>Concept</option></select>
+          <div class="fsel" onclick="fselToggle(this,event)"><button type="button" class="fsel-btn"><span id="status_lbl">Released</span><svg class="fsel-chev" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="fsel-menu"><div class="fsel-opt picked" onclick="fselPick(this,'status','Released','')">Released</div><div class="fsel-opt" onclick="fselPick(this,'status','Coming Soon','')">Coming Soon</div><div class="fsel-opt" onclick="fselPick(this,'status','Rumored','')">Rumored</div><div class="fsel-opt" onclick="fselPick(this,'status','Concept','')">Concept</div></div></div>
+        </div>
+        <div class="show-soc"><label>Process Node</label><input type="text" id="process" placeholder="e.g. TSMC 3nm"/></div>
+        <div class="show-soc"><label>Open Use?</label>
+          <select id="open_use" class="fsel-hidden"><option>No (Proprietary)</option><option>Yes</option></select>
+          <div class="fsel" onclick="fselToggle(this,event)"><button type="button" class="fsel-btn"><span id="open_use_lbl">No (Proprietary)</span><svg class="fsel-chev" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="fsel-menu"><div class="fsel-opt picked" onclick="fselPick(this,'open_use','No (Proprietary)','')">No (Proprietary)</div><div class="fsel-opt" onclick="fselPick(this,'open_use','Yes','')">Yes</div></div></div>
+        </div>
+        <div><label>Announced (Exact Date)</label><input type="date" id="announced"/></div>
+        <div class="show-device show-device-tablet show-laptop show-watch"><label>Release (Exact Date)</label><input type="date" id="released"/></div>
+      </div>
 
-        function addSingleInputRow(cid, ph) {
-            const div = document.createElement('div'); 
-            div.className = 'dynamic-row single-input'; 
-            div.innerHTML = `<input type="text" placeholder="${ph}"><button type="button" class="remove-btn" onclick="this.parentElement.remove()">X</button>`; 
-            document.getElementById(cid).appendChild(div); 
-        }
+      <div class="show-device show-device-tablet show-laptop show-watch">
+        <div class="form-section"><h3>Body</h3></div>
+        <div class="input-grid">
+          <div class="show-device show-device-tablet show-watch"><label>IP Rating</label><input type="text" id="ip_rating" placeholder="e.g. IP68"/></div>
+          <div class="show-device show-device-tablet show-watch hide-on-laptop"><label>Weight (g)</label><input type="number" id="weight" placeholder="200"/></div>
+          <div class="show-device show-device-tablet full-width hide-on-laptop">
+            <label>Dimensions (mm)</label>
+            <div class="dynamic-row triple-input">
+              <input type="number" step="0.1" id="dim_h" placeholder="Height"/>
+              <input type="number" step="0.1" id="dim_w" placeholder="Width"/>
+              <input type="number" step="0.1" id="dim_d" placeholder="Depth"/>
+            </div>
+          </div>
+          <div><label>Colors</label><input type="text" id="colors" placeholder="Titanium, Black…"/></div>
+          <div class="full-width"><label>Build Materials</label><input type="text" id="build" placeholder="e.g. Glass front, aluminum frame"/></div>
+          <div class="show-laptop full-width"><label>Ports</label><input type="text" id="ports" placeholder="e.g. 2x USB-C, 1x HDMI…"/></div>
+        </div>
 
-        function calcPixelSize(fmt, mp) {
-            if (!fmt || !mp) return null;
-            let d = 0;
-            let s = fmt.toLowerCase().replace(/"|-type/g, '').trim();
-            if (s === '1' || s === '1/1') d = 16;
-            else if (s.startsWith('1/')) {
-                let den = parseFloat(s.split('/')[1]);
-                if (den > 0) d = 16 / den;
-            }
-            if (d === 0) return null;
-            
-            const w_mm = 0.8 * d;
-            const p_count = mp * 1000000;
-            const p_w = Math.sqrt((4/3) * p_count);
-            const size_um = (w_mm / p_w) * 1000;
-            return size_um.toFixed(2).replace(/\.00$/, '');
-        }
+        <div class="form-section"><h3>Display</h3></div>
+        <div class="input-grid">
+          <div><label>Panel Type</label><input type="text" id="displayType" list="displays" placeholder="e.g. LTPO AMOLED"/></div>
+          <div><label>Refresh Rate (Hz)</label><input type="number" id="refresh" placeholder="120"/></div>
+          <div><label>Size (inch)</label><input type="number" step="0.01" id="screen" placeholder="6.8"/></div>
+          <div><label>Brightness (nit)</label><input type="number" id="brightness" placeholder="3000"/></div>
+          <div class="full-width">
+            <label>Resolution</label>
+            <div class="dynamic-row double-input">
+              <input type="number" id="res_w" placeholder="Width"/>
+              <input type="number" id="res_h" placeholder="Height"/>
+            </div>
+          </div>
+        </div>
+        <div class="show-device show-laptop full-width" style="margin-top:10px;">
+          <button type="button" class="add-btn" onclick="toggleSec()">+ Add Secondary / Cover Screen</button>
+          <div id="secBox" class="hidden sec-box-inner input-grid">
+            <div class="full-width sec-title">Secondary Display</div>
+            <div><label>Panel</label><input type="text" id="sec_type"/></div>
+            <div><label>Hz</label><input type="number" id="sec_refresh"/></div>
+            <div><label>Size</label><input type="number" step="0.01" id="sec_size"/></div>
+            <div><label>Nits</label><input type="number" id="sec_bri"/></div>
+            <div class="full-width"><label>Resolution</label><div class="dynamic-row double-input"><input type="number" id="sec_res_w"/><input type="number" id="sec_res_h"/></div></div>
+          </div>
+        </div>
+      </div>
 
-        document.getElementById('makerForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            let d = {}; const get = (id) => document.getElementById(id).value;
-            const type = document.getElementById('type').value;
-            let mode = 'device';
-            if (type === 'Laptop') mode = 'laptop'; else if (type === 'Chipset (SoC)') mode = 'soc'; else if (type === 'Camera Sensor') mode = 'sensor'; else if (type === 'Tablet') mode = 'tablet'; else if (type === 'Smartwatch') mode = 'watch';
+      <div class="form-section"><h3>Performance</h3></div>
+      <div class="input-grid">
+        <div class="show-device show-device-tablet show-laptop show-watch"><label>Chipset</label><input type="text" id="chipset" placeholder="e.g. Spinach B61"/></div>
+        <div class="show-laptop"><label>Discrete GPU (Optional)</label><input type="text" id="d_gpu" placeholder="e.g. RTX 5090 Mobile"/></div>
+        <div class="show-device show-device-tablet show-laptop show-watch full-width">
+          <label>RAM Options</label>
+          <div id="ramContainer" class="opt-grid"></div>
+        </div>
+        <div class="show-device show-device-tablet show-laptop show-watch full-width">
+          <label>Storage Options</label>
+          <div id="storageContainer" class="opt-grid"></div>
+        </div>
+        <div class="show-device show-device-tablet show-laptop show-watch"><label>OS</label><input type="text" id="os" placeholder="e.g. Android 16"/></div>
+        <div class="show-soc full-width-soc">
+          <label>CPU Configuration</label>
+          <div id="cpuContainer"></div>
+          <button type="button" class="add-btn" onclick="addCpuRow()">+ Add Core Cluster</button>
+        </div>
+        <div class="show-soc"><label>GPU Model</label><input type="text" id="gpu_model"/></div>
+        <div class="show-soc"><label>GPU Clock</label><input type="text" id="gpu_clock"/></div>
+        <div class="show-soc"><label>NPU</label><input type="text" id="npu"/></div>
+        <div class="show-soc"><label>ISP</label><input type="text" id="isp"/></div>
+        <div class="show-soc"><label>Modem</label><input type="text" id="modem"/></div>
+        <div class="show-sensor"><label>Bit Depth</label><input type="number" id="sens_bit" placeholder="14"/></div>
+        <div class="show-sensor full-width"><label>Key Features</label><input type="text" id="sens_feat"/></div>
+      </div>
 
-            if(get('brand')) d.brand = cap(get('brand')); 
-            if(get('model')) d.model = cap(get('model')); 
-            
-            const fmtDate = (id) => { const v = get(id); if(!v) return null; const [y, m, day] = v.split('-'); return new Date(y, m-1, day).toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'}); };
-            const ann = fmtDate('announced'); if(ann) d.announced = ann;
+      <div class="show-device show-device-tablet show-laptop show-watch">
+        <div class="form-section"><h3>Power</h3></div>
+        <div class="input-grid">
+          <div class="full-width">
+            <label>Battery Configuration</label>
+            <div class="dynamic-row triple-input">
+              <select id="bat_sic" class="fsel-hidden"><option value="No">Standard</option><option value="Yes">Si/C</option></select>
+              <div class="fsel" onclick="fselToggle(this,event)"><button type="button" class="fsel-btn"><span id="bat_sic_lbl">Standard</span><svg class="fsel-chev" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="fsel-menu"><div class="fsel-opt picked" onclick="fselPick(this,'bat_sic','No','')">Standard</div><div class="fsel-opt" onclick="fselPick(this,'bat_sic','Yes','')">Si/C</div></div></div>
+              <select id="bat_type" class="fsel-hidden"><option>Li-Ion</option><option>Li-Po</option><option>Other</option></select>
+              <div class="fsel" onclick="fselToggle(this,event)"><button type="button" class="fsel-btn"><span id="bat_type_lbl">Li-Ion</span><svg class="fsel-chev" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="fsel-menu"><div class="fsel-opt picked" onclick="fselPick(this,'bat_type','Li-Ion','toggleCustomBat()')">Li-Ion</div><div class="fsel-opt" onclick="fselPick(this,'bat_type','Li-Po','toggleCustomBat()')">Li-Po</div><div class="fsel-opt" onclick="fselPick(this,'bat_type','Other','toggleCustomBat()')">Other</div></div></div>
+              <input type="text" id="bat_type_custom" placeholder="Custom Type" style="display:none;"/>
+              <input type="number" id="bat_cap" placeholder="mAh"/>
+            </div>
+          </div>
+          <div class="full-width">
+            <label>Charging</label>
+            <div class="charge-row"><label>Wired?</label>
+              <select id="chg_w_yn" class="fsel-hidden"><option value="No">No</option><option value="Yes">Yes</option></select>
+              <div class="fsel fsel-sm" onclick="fselToggle(this,event)"><button type="button" class="fsel-btn"><span id="chg_w_yn_lbl">No</span><svg class="fsel-chev" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="fsel-menu"><div class="fsel-opt picked" onclick="fselPick(this,'chg_w_yn','No','toggleChg(&quot;chg_w&quot;)')">No</div><div class="fsel-opt" onclick="fselPick(this,'chg_w_yn','Yes','toggleChg(&quot;chg_w&quot;)')">Yes</div></div></div>
+              <input type="text" id="chg_w" placeholder="e.g. 100W" style="display:none;"/>
+            </div>
+            <div class="charge-row"><label>Wireless?</label>
+              <select id="chg_wl_yn" class="fsel-hidden"><option value="No">No</option><option value="Yes">Yes</option></select>
+              <div class="fsel fsel-sm" onclick="fselToggle(this,event)"><button type="button" class="fsel-btn"><span id="chg_wl_yn_lbl">No</span><svg class="fsel-chev" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="fsel-menu"><div class="fsel-opt picked" onclick="fselPick(this,'chg_wl_yn','No','toggleChg(&quot;chg_wl&quot;)')">No</div><div class="fsel-opt" onclick="fselPick(this,'chg_wl_yn','Yes','toggleChg(&quot;chg_wl&quot;)')">Yes</div></div></div>
+              <input type="text" id="chg_wl" placeholder="e.g. 50W" style="display:none;"/>
+            </div>
+            <div class="charge-row"><label>Rev. Wireless?</label>
+              <select id="chg_rw_yn" class="fsel-hidden"><option value="No">No</option><option value="Yes">Yes</option></select>
+              <div class="fsel fsel-sm" onclick="fselToggle(this,event)"><button type="button" class="fsel-btn"><span id="chg_rw_yn_lbl">No</span><svg class="fsel-chev" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="fsel-menu"><div class="fsel-opt picked" onclick="fselPick(this,'chg_rw_yn','No','toggleChg(&quot;chg_rw&quot;)')">No</div><div class="fsel-opt" onclick="fselPick(this,'chg_rw_yn','Yes','toggleChg(&quot;chg_rw&quot;)')">Yes</div></div></div>
+              <input type="text" id="chg_rw" placeholder="e.g. 10W" style="display:none;"/>
+            </div>
+          </div>
+        </div>
+      </div>
 
-            if (mode !== 'soc' && mode !== 'sensor') {
-                d.type = type; 
-                if(get('status')) d.status = get('status'); 
-                const rel = fmtDate('released'); if(rel) d.released = rel; 
-                if(get('colors')) d.colors = cap(get('colors')); 
-                if(get('build')) d.build = get('build');
-                if(mode !== 'laptop' && get('ip_rating')) d.ip_rating = get('ip_rating');
-                if(get('dim_h')) d.dimensions = `${get('dim_h')} x ${get('dim_w')} x ${get('dim_d')} mm`;
-                if(get('weight')) d.weight = get('weight') + "g";
-                
-                const batSic = document.getElementById('bat_sic').value === 'Yes' ? 'Si/C ' : '';
-                let batType = document.getElementById('bat_type').value;
-                if (batType === 'Other') batType = cap(document.getElementById('bat_type_custom').value);
-                if(get('bat_cap')) d.battery = `${batSic}${batType} ${get('bat_cap')} mAh`;
+      <div class="show-device show-device-tablet show-sensor">
+        <div class="form-section"><h3>Camera System</h3></div>
+        <div class="show-device show-device-tablet">
+          <div id="cameraContainer"></div>
+          <button type="button" class="add-btn" onclick="addCamModule()">+ Add Camera Module</button>
+          <div style="margin-top:10px;"><input type="text" id="cam_sys_features" placeholder="Camera System Features (e.g. LiDAR, Zeiss T* Coating)"/></div>
+          <div class="selfie-box">
+            <span class="selfie-label">Selfie Camera</span>
+            <div class="dynamic-row triple-input">
+              <input type="number" id="selfie_mp" placeholder="MP"/>
+              <input type="number" step="0.1" id="selfie_f" placeholder="f/"/>
+              <input type="number" id="selfie_mm" placeholder="Focal (mm)"/>
+            </div>
+            <div class="dynamic-row double-input">
+              <input type="text" id="selfie_sens" placeholder="Sensor Size"/>
+              <input type="text" id="selfie_feat" placeholder="Features (AF, OIS…)"/>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:20px;">
+          <label>Video Capabilities</label>
+          <div id="videoContainer"></div>
+          <input type="text" id="vid_feats" placeholder="Video Features (LOG, HDR…)" style="margin-top:10px;"/>
+        </div>
+      </div>
 
-                let chg = [];
-                if(get('chg_w_yn') === 'Yes' && get('chg_w')) chg.push(`${get('chg_w')} wired`);
-                if(get('chg_wl_yn') === 'Yes' && get('chg_wl')) chg.push(`${get('chg_wl')} wireless`);
-                if(get('chg_rw_yn') === 'Yes' && get('chg_rw')) chg.push(`${get('chg_rw')} reverse wireless`);
-                if(chg.length) d.charging = chg.join(', ');
+      <div class="form-section show-device show-device-tablet show-laptop show-watch"><h3>Features</h3></div>
+      <div class="full-width show-device show-device-tablet show-laptop show-watch">
+        <label>Sensors &amp; Extra Features</label>
+        <div id="sensorContainer"></div>
+        <button type="button" class="add-btn" onclick="addSingleInputRow('sensorContainer','Feature Name (e.g. Fingerprint under-display)')">+ Add Feature</button>
+      </div>
 
-                let sArr = []; 
-                if(get('displayType')) sArr.push(get('displayType')); 
-                if(get('refresh')) sArr.push(get('refresh')+'Hz'); 
-                if(get('screen')) sArr.push(get('screen')+'"'); 
-                if(get('brightness')) sArr.push(get('brightness')+' nits'); 
-                if(sArr.length > 0) d.screen = sArr.join(', ');
-                if(get('res_w')) d.resolution = `${get('res_w')} x ${get('res_h')} pixels`;
+      <div class="form-section hide-on-sensor"><h3>Pictures (Optional)</h3></div>
+      <div class="full-width hide-on-sensor">
+        <div class="file-upload-wrapper">
+          <span class="file-upload-text" id="galleryText">Click to select multiple gallery images…</span>
+          <input type="file" id="galleryFiles" multiple onchange="updateGalleryName()"/>
+        </div>
+      </div>
 
-                const getOpts = (id) => Array.from(document.querySelectorAll(`#${id} .selected`)).map(b => b.innerText).join(' / ');
-                const r = getOpts('ramContainer'); if(r) d.ram = r;
-                const s = getOpts('storageContainer'); if(s) d.storage = s;
+      <div class="form-section"><h3>Extras</h3></div>
+      <div class="input-grid">
+        <div class="hide-on-sensor"><label>Geekbench Single (v6)</label><input type="number" id="geek_s" placeholder="1234"/></div>
+        <div class="hide-on-sensor"><label>Geekbench Multi (v6)</label><input type="number" id="geek_m" placeholder="12345"/></div>
+        <div class="hide-on-sensor"><label>AnTuTu (v11)</label><input type="number" id="antutu" placeholder="1234567"/></div>
+        <div class="hide-on-sensor"><label>Price (USD)</label><input type="number" id="price_usd" placeholder="1099"/></div>
+        <div class="hide-on-sensor"><label>Price (EUR)</label><input type="number" id="price_eur" placeholder="999"/></div>
+      </div>
 
-                if (mode === 'device' || mode === 'tablet') {
-                    let sec = []; if(get('sec_type')) sec.push(get('sec_type')); if(get('sec_refresh')) sec.push(get('sec_refresh')+'Hz'); if(get('sec_size')) sec.push(get('sec_size')+'"'); if(get('sec_bri')) sec.push(get('sec_bri')+' nits'); if(get('sec_res_w')) sec.push(`${get('sec_res_w')} x ${get('sec_res_h')} pixels`); if(sec.length > 0) d.second_screen = sec.join(', ');
-                    
-                    const camDivs = document.querySelectorAll('.cam-module-box');
-                    if(camDivs.length > 0) {
-                        d.camera_modules = Array.from(camDivs).map(box => {
-                            const inputs = box.querySelectorAll('input');
-                            let type = box.querySelector('select').value;
-                            if (type === 'Other') type = cap(inputs[0].value);
-                            const mp = inputs[1].value ? inputs[1].value + 'MP' : '';
-                            const f = inputs[2].value ? 'f/' + inputs[2].value : '';
-                            const mm = inputs[3].value ? inputs[3].value + 'mm' : '';
-                            let sens = inputs[4].value; if(sens === '1"') sens = '1"-type';
-                            const feat = inputs[5].value;
-                            let specs = [mp, f, mm, sens, feat].filter(Boolean).join(', ');
-                            const extraInput = box.querySelector('.extra-cam-fields input');
-                            if(extraInput && extraInput.value) {
-                                if(type === 'Telephoto' || type === 'Periscope Telephoto') specs += `, ${extraInput.value}x optical zoom`;
-                                else if (type === 'Ultrawide') specs += `, ${extraInput.value}°`;
-                            }
-                            return { label: type, specs: specs };
-                        });
-                    }
-                    if(get('cam_sys_features')) d.camera_features = get('cam_sys_features');
+      <button type="submit" class="submit-btn">Generate JSON</button>
+    </form>
 
-                    const smp = get('selfie_mp') ? get('selfie_mp')+'MP' : '';
-                    const sf = get('selfie_f') ? 'f/'+get('selfie_f') : '';
-                    const smm = get('selfie_mm') ? get('selfie_mm')+'mm' : '';
-                    let ssens = get('selfie_sens'); if(ssens==='1"') ssens='1"-type';
-                    const sft = get('selfie_feat');
-                    const selfieFinal = [smp, sf, smm, ssens, sft].filter(Boolean).join(', ');
-                    if(selfieFinal) d.cam_selfie = selfieFinal;
+    <div id="outputArea">
+      <p class="output-note">
+        Send this code + ALL images to:
+        <span class="contact-link"><svg class="social-inline" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg><b>@spinoevrex</b></span> or
+        <span class="contact-link"><svg class="social-inline" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg><b>@spinach.tech</b></span> or
+        <span class="contact-link"><svg class="social-inline" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg><b>@photography._.y</b></span>
+      </p>
+      <textarea id="jsonOutput" readonly></textarea>
+      <button onclick="copyText()" class="submit-btn" style="margin-top:10px;">Copy Code</button>
+    </div>
+  </div>
+</main>
 
-                    let vids = [];
-                    document.querySelectorAll('.vid-section').forEach(sec => {
-                        const res = sec.querySelector('.vid-header').innerText;
-                        const fps = Array.from(sec.querySelectorAll('.selected')).map(b => b.innerText);
-                        if(fps.length) vids.push(`${res}@${fps.join('/')}fps`);
-                    });
-                    if(get('vid_feats')) vids.push(get('vid_feats'));
-                    if(vids.length) d.cam_video = vids.join(', ');
-                }
-                
-                if (mode === 'device' || mode === 'tablet' || mode === 'laptop' || mode === 'watch') {
-                    const sensRows = document.querySelectorAll('#sensorContainer .dynamic-row input');
-                    const sens = [];
-                    sensRows.forEach(i => { if(i.value) sens.push(cap(i.value)); });
-                    if(sens.length > 0) d.sensors = sens;
-                }
-                
-                if(mode==='laptop') { 
-                    if(get('ports')) d.ports = get('ports'); 
-                    if(get('d_gpu')) d.gpu = get('d_gpu'); 
-                    let sec = []; if(get('sec_type')) sec.push(get('sec_type')); if(get('sec_refresh')) sec.push(get('sec_refresh')+'Hz'); if(get('sec_size')) sec.push(get('sec_size')+'"'); if(get('sec_bri')) sec.push(get('sec_bri')+' nits'); if(get('sec_res_w')) sec.push(`${get('sec_res_w')} x ${get('sec_res_h')} pixels`); if(sec.length > 0) d.second_screen = sec.join(', ');
-                }
-                if(get('chipset')) d.chipset = get('chipset'); 
-                if(get('os')) d.os = get('os');
-            } else if (mode === 'soc') {
-                d.type = 'SoC'; 
-                if(get('process')) d.process = get('process'); 
-                if(get('open_use')) d.open_use = get('open_use');
-                const cpuRows = document.querySelectorAll('#cpuContainer .dynamic-row');
-                if(cpuRows.length) d.cpu_cores = Array.from(cpuRows).map(r => {
-                    const i = r.querySelectorAll('input');
-                    return `${i[1].value}x${i[2].value}GHz ${i[0].value}`;
-                }).join(' + ');
-                if(get('gpu_model')) d.gpu_model = get('gpu_model'); 
-                if(get('gpu_clock')) d.gpu_clock = get('gpu_clock'); 
-                if(get('npu')) d.npu = get('npu'); 
-                if(get('isp')) d.isp = get('isp'); 
-                if(get('modem')) d.modem = get('modem');
-            } else if (mode === 'sensor') {
-                d.type = 'Sensor'; 
-                if(get('sens_res')) d.resolution = get('sens_res') + ' MP';
-                if(get('sens_fmt')) d.format = get('sens_fmt') === '1"' ? '1"-type' : get('sens_fmt');
-                
-                const calcPix = calcPixelSize(get('sens_fmt'), get('sens_res'));
-                if(calcPix) d.pixel_size = calcPix + 'µm';
-                
-                if(get('sens_bit')) d.bit_depth = get('sens_bit') + '-bit';
-                if(get('sens_feat')) d.features = get('sens_feat');
-                
-                let vids = [];
-                document.querySelectorAll('.vid-section').forEach(sec => {
-                    const res = sec.querySelector('.vid-header').innerText;
-                    const fps = Array.from(sec.querySelectorAll('.selected')).map(b => b.innerText);
-                    if(fps.length) vids.push(`${res}@${fps.join('/')}fps`);
-                });
-                if(get('vid_feats')) vids.push(get('vid_feats'));
-                if(vids.length) d.video = vids.join(', ');
-            }
+<script>
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  const html=document.documentElement;
+  const isDark=html.dataset.theme==='dark';
+  const btn=document.getElementById('themeBtn');
+  const wrap=document.getElementById('iconWrap');
+  btn.classList.remove('rippling');void btn.offsetWidth;btn.classList.add('rippling');
+  wrap.classList.remove('spin');void wrap.offsetWidth;wrap.classList.add('spin');
+  setTimeout(()=>{html.dataset.theme=isDark?'light':'dark';localStorage.setItem('ch-theme',html.dataset.theme);},230);
+  setTimeout(()=>{wrap.classList.remove('spin');btn.classList.remove('rippling');},650);
+});
 
-            if(mode !== 'sensor') { ['geek_s','geek_m','antutu'].forEach(k => { if(get(k)) d[k] = get(k); }); }
-            const pUSD = get('price_usd'); if(pUSD) d.price = '$' + pUSD;
-            const pEUR = get('price_eur'); if(pEUR) d.price_eur = '€' + pEUR;
-            
-            const f = document.getElementById('imageFile').files[0]; 
-            if(f) d.image = "images/" + f.name;
-            
-            const gf = document.getElementById('galleryFiles').files; 
-            if(gf.length > 0) { 
-                const gal = []; 
-                for(let i=0; i<gf.length; i++) gal.push("images/" + gf[i].name); 
-                d.gallery = gal; 
-            }
-            
-            document.getElementById('outputArea').style.display = 'block'; document.getElementById('jsonOutput').value = JSON.stringify(d, null, 4) + ",";
-        });
-        function copyText() { document.getElementById("jsonOutput").select(); document.execCommand("copy"); alert("Copied Code!"); }
-        
-        handleTypeChange();
-    </script>
+document.getElementById('socialsBtn').addEventListener('click',e=>{e.stopPropagation();document.getElementById('socialsDropdown').classList.toggle('open');});
+document.getElementById('mobileSocialsBtn').addEventListener('click',e=>{e.stopPropagation();document.getElementById('mobileSocialsDropdown').classList.toggle('open');});
+document.getElementById('hamburger').addEventListener('click',()=>{document.getElementById('hamburger').classList.toggle('open');document.getElementById('mobileNav').classList.toggle('open');});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.dropdown-wrap')){document.getElementById('socialsDropdown').classList.remove('open');document.getElementById('mobileSocialsDropdown').classList.remove('open');}
+});
+
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.fsel'))document.querySelectorAll('.fsel.open').forEach(f=>f.classList.remove('open'));
+});
+
+function handleTypeChange() {
+  const t=document.getElementById('type').value;
+  let m='device';
+  if(t==='Laptop')m='laptop';
+  else if(t==='Chipset (SoC)')m='soc';
+  else if(t==='Camera Sensor')m='sensor';
+  else if(t==='Tablet')m='tablet';
+  else if(t==='Smartwatch')m='watch';
+  document.body.setAttribute('data-mode',m);
+  if(m==='laptop'){document.querySelectorAll('.hide-on-laptop').forEach(el=>el.classList.add('hidden'));}
+  else{document.querySelectorAll('.hide-on-laptop').forEach(el=>el.classList.remove('hidden'));}
+  renderMem(m);renderVid(m);
+}
+
+function updateFileName(id,tid){
+  const f=document.getElementById(id).files;
+  if(f.length>0){
+    if(!f[0].name.toLowerCase().endsWith('.png')){alert("Please select a PNG file for the Main Profile Image.");document.getElementById(id).value="";document.getElementById(tid).innerText="Click to Upload Main Image...";return;}
+    document.getElementById(tid).innerText=f[0].name;
+  }
+}
+function updateGalleryName(){const input=document.getElementById('galleryFiles');if(input.files.length>0)document.getElementById('galleryText').innerText=`Selected ${input.files.length} images`;}
+function toggleSec(){document.getElementById('secBox').classList.toggle('hidden');}
+function toggleChg(id){const sel=document.getElementById(id+'_yn');document.getElementById(id).style.display=sel.value==='Yes'?'block':'none';}
+function toggleCustomBat(){document.getElementById('bat_type_custom').style.display=document.getElementById('bat_type').value==='Other'?'block':'none';}
+function cap(s){return s?s.replace(/\b\w/g,c=>c.toUpperCase()):''}
+function smart(k,t){if(!t)return null;let v=t.trim();v=v.replace(/(\d)\s*x\s*(\d)/gi,"$1 x $2");if(k==='colors')v=v.replace(/\b\w/g,c=>c.toUpperCase());return v;}
+
+const fpsOpts={'8K':['24','25','30'],'4K':['24','25','30','60','100','120'],'1080p':['24','25','30','60','100','120','240','480','960+']};
+
+function renderMem(m){
+  let r=[],s=[];
+  if(m==='watch'){r=['128MB','256MB','512MB','1GB','2GB','3GB','4GB'];s=['2GB','4GB','8GB','16GB','32GB','64GB','128GB','256GB'];}
+  else if(m==='laptop'){r=['4GB','8GB','16GB','32GB','64GB','128GB','256GB'];s=['128GB','256GB','512GB','1TB','2TB','4TB','8TB'];}
+  else{r=['2GB','3GB','4GB','6GB','8GB','12GB','16GB','20GB','24GB','32GB'];s=['32GB','64GB','128GB','256GB','512GB','1TB','2TB'];}
+  const mkBtn=(arr,id)=>{const c=document.getElementById(id);c.innerHTML='';arr.forEach(v=>{const b=document.createElement('div');b.className='opt-btn';b.innerText=v;b.onclick=()=>b.classList.toggle('selected');c.appendChild(b);});};
+  mkBtn(r,'ramContainer');mkBtn(s,'storageContainer');
+}
+
+function renderVid(m){
+  const c=document.getElementById('videoContainer');c.innerHTML='';
+  if(m!=='device'&&m!=='tablet'&&m!=='sensor')return;
+  for(let res in fpsOpts){const d=document.createElement('div');d.className='vid-section';let h=`<div class="vid-header">${res}</div><div class="opt-grid">`;fpsOpts[res].forEach(f=>h+=`<div class="opt-btn" onclick="this.classList.toggle('selected')">${f}</div>`);d.innerHTML=h+'</div>';c.appendChild(d);}
+}
+
+let _camUid=0;
+function addCamModule(){
+  const uid=_camUid++;
+  const d=document.createElement('div');d.className='cam-module-box';d.dataset.uid=uid;
+  const chev=`<svg class="fsel-chev" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const camOpts=['Wide','Ultrawide','Telephoto','Periscope Telephoto','Macro','Depth','Other'];
+  const optsHtml=camOpts.map((o,i)=>`<div class="fsel-opt${i===0?' picked':''}" onclick="fselPick(this,'cam_sel_${uid}','${o}','checkCamType(${uid})')">${o}</div>`).join('');
+  d.innerHTML=`
+    <div class="dynamic-row triple-input">
+      <select id="cam_sel_${uid}" class="fsel-hidden">${camOpts.map(o=>`<option>${o}</option>`).join('')}</select>
+      <div class="fsel" onclick="fselToggle(this,event)"><button type="button" class="fsel-btn"><span id="cam_sel_${uid}_lbl">Wide</span>${chev}</button><div class="fsel-menu">${optsHtml}</div></div>
+      <input type="text" class="custom-cam-type" id="cam_custom_${uid}" placeholder="Type Name" style="display:none;">
+      <input type="number" placeholder="MP">
+      <input type="number" step="0.1" placeholder="f/ Aperture">
+    </div>
+    <div class="dynamic-row triple-input">
+      <input type="number" placeholder="Focal (mm)">
+      <input type="text" placeholder="Sensor Size">
+      <input type="text" placeholder="OIS, PDAF…">
+    </div>
+    <div class="dynamic-row double-input extra-cam-fields" style="display:none;"></div>
+    <button type="button" class="remove-btn" onclick="this.parentElement.remove()" style="width:100%;margin-top:8px;">Remove Module</button>`;
+  document.getElementById('cameraContainer').appendChild(d);
+}
+
+function checkCamType(uid){
+  const val=document.getElementById('cam_sel_'+uid).value;
+  const customInput=document.getElementById('cam_custom_'+uid);
+  customInput.style.display=val==='Other'?'block':'none';
+  const box=document.querySelector('[data-uid="'+uid+'"]');
+  const row=box.querySelector('.extra-cam-fields');
+  row.innerHTML='';row.style.display='none';
+  if(val==='Telephoto'||val==='Periscope Telephoto'){row.style.display='flex';row.innerHTML=`<input type="number" placeholder="Optical Zoom (x)">`;}
+  else if(val==='Ultrawide'){row.style.display='flex';row.innerHTML=`<input type="number" placeholder="FOV (deg)">`;}
+}
+
+function addCpuRow(){
+  const d=document.createElement('div');d.className='dynamic-row triple-input';
+  d.innerHTML=`<input type="text" placeholder="Core Name"><input type="number" placeholder="Count"><input type="number" placeholder="GHz"><button type="button" class="remove-btn" onclick="this.parentElement.remove()">✕</button>`;
+  document.getElementById('cpuContainer').appendChild(d);
+}
+
+function addSingleInputRow(cid,ph){
+  const div=document.createElement('div');div.className='dynamic-row single-input';
+  div.innerHTML=`<input type="text" placeholder="${ph}"><button type="button" class="remove-btn" onclick="this.parentElement.remove()">✕</button>`;
+  document.getElementById(cid).appendChild(div);
+}
+
+function calcPixelSize(fmt,mp){
+  if(!fmt||!mp)return null;
+  let d=0;let s=fmt.toLowerCase().replace(/"|−type/g,'').trim();
+  if(s==='1'||s==='1/1')d=16;
+  else if(s.startsWith('1/')){let den=parseFloat(s.split('/')[1]);if(den>0)d=16/den;}
+  if(d===0)return null;
+  const w_mm=0.8*d;const p_count=mp*1000000;const p_w=Math.sqrt((4/3)*p_count);
+  const size_um=(w_mm/p_w)*1000;return size_um.toFixed(2).replace(/\.00$/,'');
+}
+
+document.getElementById('makerForm').addEventListener('submit',(e)=>{
+  e.preventDefault();
+  let d={};const get=(id)=>document.getElementById(id).value;
+  const type=document.getElementById('type').value;
+  let mode='device';
+  if(type==='Laptop')mode='laptop';else if(type==='Chipset (SoC)')mode='soc';else if(type==='Camera Sensor')mode='sensor';else if(type==='Tablet')mode='tablet';else if(type==='Smartwatch')mode='watch';
+  if(get('brand'))d.brand=cap(get('brand'));
+  if(get('model'))d.model=cap(get('model'));
+  const fmtDate=(id)=>{const v=get(id);if(!v)return null;const[y,m,day]=v.split('-');return new Date(y,m-1,day).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});};
+  const ann=fmtDate('announced');if(ann)d.announced=ann;
+  if(mode!=='soc'&&mode!=='sensor'){
+    d.type=type;if(get('status'))d.status=get('status');const rel=fmtDate('released');if(rel)d.released=rel;if(get('colors'))d.colors=cap(get('colors'));if(get('build'))d.build=get('build');if(mode!=='laptop'&&get('ip_rating'))d.ip_rating=get('ip_rating');if(get('dim_h'))d.dimensions=`${get('dim_h')} x ${get('dim_w')} x ${get('dim_d')} mm`;if(get('weight'))d.weight=get('weight')+"g";
+    const batSic=document.getElementById('bat_sic').value==='Yes'?'Si/C ':'';let batType=document.getElementById('bat_type').value;if(batType==='Other')batType=cap(document.getElementById('bat_type_custom').value);if(get('bat_cap'))d.battery=`${batSic}${batType} ${get('bat_cap')} mAh`;
+    let chg=[];if(get('chg_w_yn')==='Yes'&&get('chg_w'))chg.push(`${get('chg_w')} wired`);if(get('chg_wl_yn')==='Yes'&&get('chg_wl'))chg.push(`${get('chg_wl')} wireless`);if(get('chg_rw_yn')==='Yes'&&get('chg_rw'))chg.push(`${get('chg_rw')} reverse wireless`);if(chg.length)d.charging=chg.join(', ');
+    let sArr=[];if(get('displayType'))sArr.push(get('displayType'));if(get('refresh'))sArr.push(get('refresh')+'Hz');if(get('screen'))sArr.push(get('screen')+'"');if(get('brightness'))sArr.push(get('brightness')+' nits');if(sArr.length>0)d.screen=sArr.join(', ');if(get('res_w'))d.resolution=`${get('res_w')} x ${get('res_h')} pixels`;
+    const getOpts=(id)=>Array.from(document.querySelectorAll(`#${id} .selected`)).map(b=>b.innerText).join(' / ');const r=getOpts('ramContainer');if(r)d.ram=r;const s=getOpts('storageContainer');if(s)d.storage=s;
+    if(mode==='device'||mode==='tablet'){
+      let sec=[];if(get('sec_type'))sec.push(get('sec_type'));if(get('sec_refresh'))sec.push(get('sec_refresh')+'Hz');if(get('sec_size'))sec.push(get('sec_size')+'"');if(get('sec_bri'))sec.push(get('sec_bri')+' nits');if(get('sec_res_w'))sec.push(`${get('sec_res_w')} x ${get('sec_res_h')} pixels`);if(sec.length>0)d.second_screen=sec.join(', ');
+      const camDivs=document.querySelectorAll('.cam-module-box');
+      if(camDivs.length>0){d.camera_modules=Array.from(camDivs).map(box=>{
+          const uid=box.dataset.uid;
+          const selEl=box.querySelector('select.fsel-hidden');
+          let type=selEl?selEl.value:'Wide';
+          const customInput=box.querySelector('.custom-cam-type');
+          if(type==='Other'&&customInput)type=cap(customInput.value);
+          const numInputs=Array.from(box.querySelectorAll('input[type="number"],input[type="text"]:not(.custom-cam-type)'));
+          const mp=numInputs[0]&&numInputs[0].value?numInputs[0].value+'MP':'';
+          const f=numInputs[1]&&numInputs[1].value?'f/'+numInputs[1].value:'';
+          const mm=numInputs[2]&&numInputs[2].value?numInputs[2].value+'mm':'';
+          let sens=numInputs[3]?numInputs[3].value:'';if(sens==='1"')sens='1"-type';
+          const feat=numInputs[4]?numInputs[4].value:'';
+          let specs=[mp,f,mm,sens,feat].filter(Boolean).join(', ');
+          const extraInput=box.querySelector('.extra-cam-fields input');
+          if(extraInput&&extraInput.value){if(type==='Telephoto'||type==='Periscope Telephoto')specs+=`, ${extraInput.value}x optical zoom`;else if(type==='Ultrawide')specs+=`, ${extraInput.value}°`;}
+          return{label:type,specs:specs};
+        });}
+      if(get('cam_sys_features'))d.camera_features=get('cam_sys_features');
+      const smp=get('selfie_mp')?get('selfie_mp')+'MP':'';const sf=get('selfie_f')?'f/'+get('selfie_f'):'';const smm=get('selfie_mm')?get('selfie_mm')+'mm':'';let ssens=get('selfie_sens');if(ssens==='1"')ssens='1"-type';const sft=get('selfie_feat');const selfieFinal=[smp,sf,smm,ssens,sft].filter(Boolean).join(', ');if(selfieFinal)d.cam_selfie=selfieFinal;
+      let vids=[];document.querySelectorAll('.vid-section').forEach(sec=>{const res=sec.querySelector('.vid-header').innerText;const fps=Array.from(sec.querySelectorAll('.selected')).map(b=>b.innerText);if(fps.length)vids.push(`${res}@${fps.join('/')}fps`);});if(get('vid_feats'))vids.push(get('vid_feats'));if(vids.length)d.cam_video=vids.join(', ');
+    }
+    if(mode==='device'||mode==='tablet'||mode==='laptop'||mode==='watch'){const sensRows=document.querySelectorAll('#sensorContainer .dynamic-row input');const sens=[];sensRows.forEach(i=>{if(i.value)sens.push(cap(i.value));});if(sens.length>0)d.sensors=sens;}
+    if(mode==='laptop'){if(get('ports'))d.ports=get('ports');if(get('d_gpu'))d.gpu=get('d_gpu');let sec=[];if(get('sec_type'))sec.push(get('sec_type'));if(get('sec_refresh'))sec.push(get('sec_refresh')+'Hz');if(get('sec_size'))sec.push(get('sec_size')+'"');if(get('sec_bri'))sec.push(get('sec_bri')+' nits');if(get('sec_res_w'))sec.push(`${get('sec_res_w')} x ${get('sec_res_h')} pixels`);if(sec.length>0)d.second_screen=sec.join(', ');}
+    if(get('chipset'))d.chipset=get('chipset');if(get('os'))d.os=get('os');
+  }else if(mode==='soc'){
+    d.type='SoC';if(get('process'))d.process=get('process');if(get('open_use'))d.open_use=get('open_use');
+    const cpuRows=document.querySelectorAll('#cpuContainer .dynamic-row');if(cpuRows.length)d.cpu_cores=Array.from(cpuRows).map(r=>{const i=r.querySelectorAll('input');return`${i[1].value}x${i[2].value}GHz ${i[0].value}`;}).join(' + ');
+    if(get('gpu_model'))d.gpu_model=get('gpu_model');if(get('gpu_clock'))d.gpu_clock=get('gpu_clock');if(get('npu'))d.npu=get('npu');if(get('isp'))d.isp=get('isp');if(get('modem'))d.modem=get('modem');
+  }else if(mode==='sensor'){
+    d.type='Sensor';if(get('sens_res'))d.resolution=get('sens_res')+' MP';if(get('sens_fmt'))d.format=get('sens_fmt')==='1"'?'1"-type':get('sens_fmt');
+    const calcPix=calcPixelSize(get('sens_fmt'),get('sens_res'));if(calcPix)d.pixel_size=calcPix+'µm';
+    if(get('sens_bit'))d.bit_depth=get('sens_bit')+'-bit';if(get('sens_feat'))d.features=get('sens_feat');
+    let vids=[];document.querySelectorAll('.vid-section').forEach(sec=>{const res=sec.querySelector('.vid-header').innerText;const fps=Array.from(sec.querySelectorAll('.selected')).map(b=>b.innerText);if(fps.length)vids.push(`${res}@${fps.join('/')}fps`);});if(get('vid_feats'))vids.push(get('vid_feats'));if(vids.length)d.video=vids.join(', ');
+  }
+  if(mode!=='sensor'){['geek_s','geek_m','antutu'].forEach(k=>{if(get(k))d[k]=get(k);});}
+  const pUSD=get('price_usd');if(pUSD)d.price='$'+pUSD;const pEUR=get('price_eur');if(pEUR)d.price_eur='€'+pEUR;
+  const f=document.getElementById('imageFile').files[0];if(f)d.image="images/"+f.name;
+  const gf=document.getElementById('galleryFiles').files;if(gf.length>0){const gal=[];for(let i=0;i<gf.length;i++)gal.push("images/"+gf[i].name);d.gallery=gal;}
+  document.getElementById('outputArea').style.display='block';document.getElementById('jsonOutput').value=JSON.stringify(d,null,4)+",";
+});
+
+function copyText(){document.getElementById("jsonOutput").select();document.execCommand("copy");alert("Copied!");}
+
+handleTypeChange();
+</script>
 </body>
 </html>
