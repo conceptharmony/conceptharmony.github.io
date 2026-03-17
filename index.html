@@ -400,6 +400,18 @@ main { position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:cl
   .compare-table td { width:calc((min(100vw,1200px) - 130px) / 3); min-width:180px; }
 }
 @media (max-width:360px) { .quick-specs { grid-template-columns:1fr; } }
+
+.nav-btn, .tab-btn, .opt-btn, .add-btn, .remove-btn,
+.diff-btn, .add-slot-btn, .slot-remove, .csel-btn,
+.hamburger, .slot-item, .mini-card { transition: all 0.18s cubic-bezier(.34,1.4,.64,1); }
+
+.nav-btn:hover, .tab-btn:hover, .opt-btn:hover, .add-btn:hover,
+.remove-btn:hover, .diff-btn:hover, .add-slot-btn:hover,
+.slot-remove:hover, .csel-btn:hover, .hamburger:hover,
+.slot-item:hover { transform: scale(1.04); }
+
+.submit-btn { transition: all 0.18s cubic-bezier(.34,1.4,.64,1); }
+.submit-btn:hover { transform: scale(1.02) translateY(-1px); }
 </style>
 </head>
 <body>
