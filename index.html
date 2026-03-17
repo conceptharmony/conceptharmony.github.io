@@ -407,14 +407,14 @@ main { position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:cl
 <div class="blob blob-2"></div>
 
 <nav>
-  <a href="#" class="logo" onclick="goHome()">Concept<b>Harmony</b></a>
+  <a href="index.html" class="logo">Concept<b>Harmony</b></a>
   <div class="nav-links" id="navLinks">
-    <a class="nav-btn active" onclick="goHome()">Devices</a>
-    <a class="nav-btn" href="#">Laptops</a>
-    <a class="nav-btn" href="#">SoCs</a>
-    <a class="nav-btn" href="#">Sensors</a>
-    <a class="nav-btn" href="#">News</a>
-    <a class="nav-btn" href="#">Submit</a>
+    <a class="nav-btn active" href="index.html" onclick="goHome();return false;">Devices</a>
+    <a class="nav-btn" href="laptops.html">Laptops</a>
+    <a class="nav-btn" href="soc.html">SoCs</a>
+    <a class="nav-btn" href="sensors.html">Sensors</a>
+    <a class="nav-btn" href="news.html">News</a>
+    <a class="nav-btn" href="submit.html">Submit</a>
     <div class="dropdown-wrap">
       <button class="nav-btn" id="socialsBtn">Socials ▾</button>
       <div class="dropdown" id="socialsDropdown">
@@ -445,12 +445,12 @@ main { position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:cl
 </nav>
 
 <div class="mobile-nav" id="mobileNav">
-  <a class="nav-btn" onclick="goHome();closeMobileNav()">Devices</a>
-  <a class="nav-btn" href="#">Laptops</a>
-  <a class="nav-btn" href="#">SoCs</a>
-  <a class="nav-btn" href="#">Sensors</a>
-  <a class="nav-btn" href="#">News</a>
-  <a class="nav-btn" href="#">Submit</a>
+  <a class="nav-btn" href="index.html" onclick="goHome();closeMobileNav();return false;">Devices</a>
+  <a class="nav-btn" href="laptops.html">Laptops</a>
+  <a class="nav-btn" href="soc.html">SoCs</a>
+  <a class="nav-btn" href="sensors.html">Sensors</a>
+  <a class="nav-btn" href="news.html">News</a>
+  <a class="nav-btn" href="submit.html">Submit</a>
   <div class="dropdown-wrap">
     <button class="nav-btn" id="mobileSocialsBtn">Socials ▾</button>
     <div class="dropdown" id="mobileSocialsDropdown">
