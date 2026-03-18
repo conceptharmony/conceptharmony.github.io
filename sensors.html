@@ -140,14 +140,14 @@ main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:clamp(20
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:clamp(12px,2vw,18px);}
 
-.card{border-radius:16px;overflow:hidden;cursor:pointer;background:var(--glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--glass-border);box-shadow:0 6px 22px var(--glass-shadow),inset 0 1px 0 var(--glass-inset);transition:transform 0.3s cubic-bezier(.34,1.4,.64,1),box-shadow 0.3s,background 0.4s;animation:cardIn 0.4s ease both;display:flex;flex-direction:column;align-items:center;padding:clamp(14px,2vw,20px);}
+.card{border-radius:16px;overflow:hidden;cursor:pointer;background:var(--glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--glass-border);box-shadow:0 6px 22px var(--glass-shadow),inset 0 1px 0 var(--glass-inset);transition:transform 0.3s cubic-bezier(.34,1.4,.64,1),box-shadow 0.3s,background 0.4s;animation:cardIn 0.4s ease both;display:flex;flex-direction:column;padding:clamp(14px,2vw,20px);}
 @keyframes cardIn{from{opacity:0;transform:translateY(16px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}
 .card:hover{transform:translateY(-5px) scale(1.015);box-shadow:0 16px 40px var(--glass-shadow);background:var(--glass-hov);}
 .card:active{transform:scale(0.98);}
 .sensor-preview{width:100%;height:160px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;border-radius:10px;background:linear-gradient(145deg,rgba(255,255,255,0.25),rgba(200,198,194,0.1));border:1px solid var(--divider);overflow:hidden;}
 [data-theme="dark"] .sensor-preview{background:linear-gradient(145deg,rgba(255,255,255,0.03),rgba(40,40,50,0.25));}
-.card-name{font-size:clamp(15px,2vw,18px);font-weight:700;letter-spacing:-0.3px;color:var(--text);margin-bottom:3px;text-align:center;}
-.card-brand{font-size:12px;color:var(--text-soft);text-align:center;}
+.card-name{font-size:clamp(15px,2vw,18px);font-weight:700;letter-spacing:-0.3px;color:var(--text);margin-bottom:3px;}
+.card-brand{font-size:12px;color:var(--text-soft);}
 .type-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:var(--badge);color:var(--text-soft);margin-bottom:8px;}
 
 .hidden{display:none!important;}
@@ -207,7 +207,7 @@ main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:clamp(20
 [data-theme="dark"] .compare-table thead th,[data-theme="dark"] .compare-table thead td{background:#111113;}
 .compare-table tbody th{width:130px;position:sticky;left:0;background:var(--glass);z-index:50;border-right:1px solid var(--divider);font-size:0.82rem;padding:10px;font-weight:500;color:var(--text-soft);}
 .compare-table td{text-align:center;border-right:1px solid var(--divider);padding:13px 10px;font-size:0.88rem;vertical-align:middle;}
-.cat-header{background:transparent!important;text-align:center;font-size:9.5px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-soft);padding:14px 10px 6px!important;border-top:1px solid var(--divider)!important;border-bottom:none!important;}
+.cat-header{background:transparent!important;text-align:left;font-size:9.5px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-soft);padding:14px 10px 6px!important;border-top:1px solid var(--divider)!important;border-bottom:none!important;}
 
 .slot-card{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 10px;margin:8px;border-radius:16px;background:var(--glass);border:1px solid var(--glass-border);box-shadow:0 4px 16px var(--glass-shadow),inset 0 1px 0 var(--glass-inset);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:background 0.3s;}
 .slot-card.empty{background:rgba(128,128,128,0.05);border-style:dashed;box-shadow:none;}
@@ -416,10 +416,11 @@ function createMpGrid(mpRaw) {
 
 async function init() {
   const placeholder = [{
-    model:'Demo Sensor X50', brand:'ConceptHarmony', type:'Sensor',
-    announced:'2025',
-    resolution:'50 MP', format:'1/1.3"', pixel_size:'1.2µm', bit_depth:'14-bit',
-    video:'4K@120fps, 8K@30fps', features:'Phase-detect AF, OIS, Dual Pixel',
+    model:'undefined', brand:'undefined', type:'Sensor',
+    announced:'undefined',
+    resolution:'undefined', format:'undefined',
+    pixel_size:'undefined', bit_depth:'undefined',
+    video:'undefined', features:'undefined',
     gallery:[]
   }];
   try {
@@ -593,7 +594,7 @@ function renderCompare() {
     {cat:'Features',keys:[{k:'features',l:'Key Features'}]}
   ];
   sections.forEach(s => {
-    html += `<tr><td colspan="${span}" class="cat-header">${s.cat}</td></tr>`;
+    html += `<tr><th class="cat-header">${s.cat}</th>${Array(compareSlots.length).fill("<td></td>").join("")}</tr>`;
     s.keys.forEach(k => html += genRow(k.k,k.l));
   });
   html += `</tbody>`;
