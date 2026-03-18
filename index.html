@@ -567,20 +567,20 @@ function setSortVal(val, label) {
 
 async function init() {
   const placeholder = [{
-    model:'Demo Phone X1', brand:'ConceptHarmony', type:'Phone',
-    image:'phone.png',
-    status:'Demo', announced:'2025', released:'2025',
-    dimensions:'158 × 74 × 7.8 mm', weight:'188', build:'Glass front, aluminium frame, glass back',
-    colors:'Midnight, Silver', ip_rating:'IP68',
-    screen:'LTPO AMOLED, 120 Hz, 6.4″, 2800 nits',
-    resolution:'2556 × 1179',
-    os:'ConceptOS 2.0', chipset:'Demo SoC X1',
-    storage:'256 GB / 512 GB', ram:'12 GB',
-    camera_modules:[{label:'Wide',specs:'50 MP f/1.8'},{label:'Ultrawide',specs:'12 MP f/2.2'},{label:'Telephoto',specs:'12 MP f/2.8 3×'}],
-    camera_features:['OIS','Night Mode','4K Video'],
-    cam_video:'4K@60fps', cam_selfie:'12 MP f/1.9',
-    sensors:['Face ID','Fingerprint','Gyroscope','Barometer'],
-    battery:'4800 mAh', charging:'65W wired · 30W wireless',
+    model:'undefined', brand:'undefined', type:'Phone',
+    image:'',
+    status:'undefined', announced:'undefined', released:'undefined',
+    dimensions:'undefined', weight:'undefined', build:'undefined',
+    colors:'undefined', ip_rating:'undefined',
+    screen:'undefined, undefined, undefined, undefined',
+    resolution:'undefined',
+    os:'undefined', chipset:'undefined',
+    storage:'undefined', ram:'undefined',
+    camera_modules:[{label:'Wide',specs:'undefined'}],
+    camera_features:['undefined'],
+    cam_video:'undefined', cam_selfie:'undefined',
+    sensors:['undefined'],
+    battery:'undefined', charging:'undefined',
     gallery:[]
   }];
   try {
@@ -830,8 +830,8 @@ function renderCompare(){
     {cat:'Platform',keys:[{k:'os',l:'OS'},{k:'chipset',l:'Chipset'}]},
     {cat:'Memory',keys:[{k:'storage',l:'Storage'},{k:'ram',l:'RAM'}]}
   ];
-  pre.forEach(s=>{html+=`<tr><td colspan="${span}" class="cat-header" style="text-align:center">${s.cat}</td></tr>`;s.keys.forEach(k=>html+=genRow(k.k,k.l));});
-  html+=`<tr><td colspan="${span}" class="cat-header" style="text-align:center">Camera</td></tr>`;
+  pre.forEach(s=>{html+=`<tr><th class="cat-header">${s.cat}</th>${Array(compareSlots.length).fill("<td></td>").join("")}</tr>`;s.keys.forEach(k=>html+=genRow(k.k,k.l));});
+  html+=`<tr><th class="cat-header">Camera</th>${Array(compareSlots.length).fill("<td></td>").join("")}</tr>`;
   getUniqueCamTypes().forEach(t=>html+=genRow('dyn_cam_'+t,t));
   html+=genRow('camera_features','Features')+genRow('cam_video','Video')+genRow('cam_selfie','Selfie');
   const post=[
@@ -839,7 +839,7 @@ function renderCompare(){
     {cat:'Power',keys:[{k:'battery',l:'Battery'},{k:'charging',l:'Charging'}]},
     {cat:'Tests & Price',keys:[{k:'geek_s',l:'Geekbench Single'},{k:'geek_m',l:'Geekbench Multi'},{k:'antutu',l:'AnTuTu'},{k:'price',l:'Price'}]}
   ];
-  post.forEach(s=>{html+=`<tr><td colspan="${span}" class="cat-header" style="text-align:center">${s.cat}</td></tr>`;s.keys.forEach(k=>html+=genRow(k.k,k.l));});
+  post.forEach(s=>{html+=`<tr><th class="cat-header">${s.cat}</th>${Array(compareSlots.length).fill("<td></td>").join("")}</tr>`;s.keys.forEach(k=>html+=genRow(k.k,k.l));});
   html+=`</tbody>`;
   table.innerHTML=html;
 }
