@@ -305,12 +305,12 @@ async function init() {
     if(!allNews.length) throw new Error();
   } catch(e) {
     allNews = [{
-      title:'Welcome to ConceptHarmony News',
-      summary:'Stay up to date with the latest concept devices, chipsets, sensors and announcements from the ConceptHarmony community.',
-      author:'ConceptHarmony',
-      date:'2025-01-01',
+      title:'undefined',
+      summary:'undefined',
+      author:'undefined',
+      date:'',
       image:'',
-      content:'<p>No news.json file was found. Add a news.json file to start publishing articles.</p>'
+      content:'<p>undefined</p>'
     }];
   }
   renderNews();
