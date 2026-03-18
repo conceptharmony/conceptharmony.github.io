@@ -1,666 +1,644 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sensors - ConceptHarmony</title>
-    <script>
-        (function() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') document.documentElement.classList.add('light-mode');
-        })();
-    </script>
-    <style>
-        :root {
-            --glass-bg: rgba(20, 20, 20, 0.95);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5); 
-            --accent: #ffffff;
-            --text-main: #ffffff; 
-            --text-muted: #bbbbbb; 
-            --radius-main: 12px; 
-            --radius-btn: 6px;
-            --diff-highlight: #fff;
-            --diff-dim: #555;
-        }
-        html.light-mode body {
-            --glass-bg: rgba(255, 255, 255, 0.98); 
-            --glass-border: rgba(0, 0, 0, 0.1);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); 
-            --accent: #000000;
-            --text-main: #1a1a1a; 
-            --text-muted: #555555; 
-            background-color: #f4f4f9;
-            --diff-highlight: #000;
-            --diff-dim: #ccc;
-        }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        html, body { overflow-x: hidden; }
-        
-        body { 
-            background-color: #121212; 
-            color: var(--text-main); 
-            font-family: 'Segoe UI', sans-serif; 
-            margin: 0; padding: 20px; 
-            min-height: 100vh; 
-            transition: none !important;
-        }
-        body::before { 
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
-            background: url('background.jpg') center/cover; filter: blur(20px); 
-        }
-        html.light-mode body::before { filter: blur(20px) opacity(0.3) brightness(1.5); }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sensors - ConceptHarmony</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script>
+(function(){
+  const t=localStorage.getItem('ch-theme');
+  if(t) document.documentElement.dataset.theme=t;
+})();
+</script>
+<style>
+:root {
+  --bg:#f0eeea;
+  --glass:rgba(255,255,255,0.55);
+  --glass-hov:rgba(255,255,255,0.80);
+  --glass-border:rgba(255,255,255,0.85);
+  --glass-shadow:rgba(0,0,0,0.08);
+  --glass-inset:rgba(255,255,255,0.92);
+  --nav-bg:rgba(242,240,236,0.75);
+  --text:#1c1c1e;
+  --text-soft:#6b6b6e;
+  --divider:rgba(0,0,0,0.07);
+  --badge:rgba(0,0,0,0.07);
+  --row-hover:rgba(255,255,255,0.5);
+  --dropdown-bg:rgba(248,246,242,0.98);
+  --slot-bg:rgba(255,255,255,0.12);
+  --pixel-color:rgba(28,28,30,0.55);
+  --diff-common:#aaa;
+  --diff-unique:#1c1c1e;
+  --sun:#f59e0b;
+}
+[data-theme="dark"] {
+  --bg:#111113;
+  --glass:rgba(26,26,30,0.75);
+  --glass-hov:rgba(34,34,40,0.90);
+  --glass-border:rgba(255,255,255,0.09);
+  --glass-shadow:rgba(0,0,0,0.4);
+  --glass-inset:rgba(255,255,255,0.04);
+  --nav-bg:rgba(16,16,20,0.85);
+  --text:#f2f2f7;
+  --text-soft:#aeaeb2;
+  --divider:rgba(255,255,255,0.07);
+  --badge:rgba(255,255,255,0.1);
+  --row-hover:rgba(255,255,255,0.04);
+  --dropdown-bg:rgba(22,22,28,0.98);
+  --slot-bg:rgba(255,255,255,0.07);
+  --pixel-color:rgba(242,242,247,0.55);
+  --diff-common:#555;
+  --diff-unique:#f2f2f7;
+}
 
-        .container { max-width: 1100px; margin: auto; width: 100%; }
-        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-main); padding: 25px; margin-bottom: 25px; width: 100%; }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{overflow-x:hidden;}
+html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background 0.4s,color 0.4s;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 65% 50% at 10% 0%,rgba(210,205,195,0.6) 0%,transparent 60%),radial-gradient(ellipse 55% 45% at 90% 100%,rgba(200,198,192,0.4) 0%,transparent 60%);transition:opacity 0.4s;}
+[data-theme="dark"] body::before{background:radial-gradient(ellipse 65% 50% at 10% 0%,rgba(25,25,32,0.18) 0%,transparent 60%),radial-gradient(ellipse 55% 45% at 90% 100%,rgba(22,22,30,0.12) 0%,transparent 60%);}
+.blob{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
+.blob-1{width:500px;height:500px;background:rgba(200,195,185,0.3);top:-100px;left:-100px;animation:b1 14s ease-in-out infinite;}
+.blob-2{width:380px;height:380px;background:rgba(195,192,183,0.22);bottom:-80px;right:-80px;animation:b2 17s ease-in-out infinite;}
+[data-theme="dark"] .blob-1{background:rgba(30,30,40,0.08);}
+[data-theme="dark"] .blob-2{background:rgba(26,26,36,0.06);}
+@keyframes b1{0%,100%{transform:translate(0,0)}50%{transform:translate(45px,35px)}}
+@keyframes b2{0%,100%{transform:translate(0,0)}50%{transform:translate(-35px,-30px)}}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(128,128,128,0.2);border-radius:3px;}
 
-        .nav-container { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1000; height: 70px; padding: 0 15px; }
-        .logo { font-size: 1.5rem; letter-spacing: 2px; color: var(--text-main); text-decoration: none; font-weight: 300; white-space: nowrap; margin-right: 15px; }
-        .logo span { font-weight: 700; }
-        
-        .nav-links { display: flex; gap: 5px; align-items: center; height: 100%; flex: 1; justify-content: flex-end; margin-right: 10px; }
-        
-        .nav-btn { flex: 1; text-align: center; text-decoration: none; color: var(--text-main); padding: 0 5px; height: 40px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: var(--radius-btn); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.85rem; font-weight: 500; transition: all 0.2s ease; white-space: nowrap; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
-        .nav-btn:hover, .nav-btn.active { background: var(--accent); color: #000 !important; border-color: var(--accent); }
-        html.light-mode .nav-btn:hover, html.light-mode .nav-btn.active { color: white !important; }
+nav{position:sticky;top:0;z-index:200;height:60px;display:flex;align-items:center;padding:0 clamp(14px,3vw,36px);gap:4px;background:var(--nav-bg);backdrop-filter:blur(32px) saturate(1.5);-webkit-backdrop-filter:blur(32px) saturate(1.5);border-bottom:1px solid var(--divider);box-shadow:0 1px 16px var(--glass-shadow);transition:background 0.4s;}
+.logo{font-size:clamp(15px,2vw,19px);font-weight:300;letter-spacing:-0.3px;color:var(--text);margin-right:14px;white-space:nowrap;flex-shrink:0;text-decoration:none;transition:color 0.4s;}
+.logo b{font-weight:700;}
+.nav-links{display:flex;gap:3px;align-items:center;flex:1;overflow:hidden;}
+.nav-btn{padding:6px 13px;border-radius:16px;border:1px solid transparent;background:transparent;font-family:'Outfit',sans-serif;font-size:13.5px;font-weight:500;color:var(--text-soft);cursor:pointer;white-space:nowrap;text-decoration:none;display:flex;align-items:center;gap:6px;transition:all 0.18s cubic-bezier(.34,1.4,.64,1);flex-shrink:0;}
+.nav-btn:hover,.nav-btn.active{background:var(--glass-hov);border-color:var(--glass-border);color:var(--text);box-shadow:0 2px 10px var(--glass-shadow);transform:scale(1.04);}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:6px;flex-shrink:0;}
 
-        .dropdown-container { position: relative; flex: 1; } 
-        .dropdown-container .nav-btn { width: 100%; }
-        .dropdown-content { display: none; position: absolute; right: 0; top: 50px; background: rgba(30, 30, 30, 0.98); min-width: 200px; border-radius: var(--radius-btn); box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 200; overflow: hidden; border: 1px solid var(--glass-border); }
-        .dropdown-content.show { display: block; }
-        html.light-mode .dropdown-content { background: rgba(255,255,255,0.98); }
-        .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; text-decoration: none; color: #ddd; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
-        html.light-mode .dropdown-item { color: #333; border-color: rgba(0,0,0,0.05); }
-        .dropdown-item:hover { background: var(--accent); color: black !important; }
-        
-        .social-icon { width: 18px; height: 18px; fill: currentColor; }
-        
-        .mobile-controls { display: flex; align-items: center; gap: 10px; }
-        .theme-btn { width: 40px; padding: 0; border-radius: 50%; flex: 0 0 40px; margin: 0; }
-        .theme-icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.dropdown-wrap{position:relative;}
+.dropdown{display:none;position:absolute;right:0;top:calc(100% + 6px);background:var(--dropdown-bg);border:1px solid var(--glass-border);border-radius:16px;overflow:hidden;min-width:190px;box-shadow:0 12px 40px rgba(0,0,0,0.18);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);z-index:300;}
+.dropdown.open{display:block;animation:dropIn 0.18s ease;}
+@keyframes dropIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.dropdown a{display:flex;align-items:center;gap:10px;padding:12px 16px;text-decoration:none;color:var(--text-soft);font-size:13.5px;border-bottom:1px solid var(--divider);transition:all 0.15s;}
+.dropdown a:last-child{border-bottom:none;}
+.dropdown a:hover{background:var(--glass);color:var(--text);}
+.dropdown svg{width:17px;height:17px;fill:currentColor;flex-shrink:0;}
 
-        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-main); cursor: pointer; padding: 5px; }
+.hamburger{display:none;width:36px;height:36px;border-radius:16px;border:1px solid var(--glass-border);background:var(--glass);cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);flex-shrink:0;transition:all 0.18s cubic-bezier(.34,1.4,.64,1);}
+.hamburger:hover{transform:scale(1.04);}
+.hamburger span{display:block;width:15px;height:1.5px;background:var(--text);border-radius:2px;transition:all 0.3s;}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.mobile-nav{display:none;position:fixed;top:60px;left:0;right:0;z-index:190;flex-direction:column;gap:4px;padding:12px;background:var(--nav-bg);border-bottom:1px solid var(--divider);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);}
+.mobile-nav.open{display:flex;}
+.mobile-nav .nav-btn{width:100%;justify-content:flex-start;padding:10px 14px;font-size:14.5px;}
+.mobile-nav .dropdown{position:static;box-shadow:none;border:none;background:transparent;padding-left:16px;margin-top:2px;border-radius:0;}
+.mobile-nav .dropdown.open{display:block;}
+.mobile-nav .dropdown a{border-radius:10px;}
 
-        @media (max-width: 768px) {
-            .mobile-menu-btn { display: block; }
-            .nav-container.menu-open { border-radius: 12px 12px 0 0 !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
-            .nav-links { 
-                display: none; position: absolute; top: 70px; left: 0; width: 100%; 
-                flex-direction: column; background: var(--glass-bg); backdrop-filter: blur(20px); 
-                -webkit-backdrop-filter: blur(20px); padding: 15px; border-radius: 0 0 12px 12px; 
-                border-bottom: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-                gap: 10px; height: auto; z-index: 2000; margin: 0;
-            }
-            .nav-links.active { display: flex; }
-            .nav-btn { width: 100%; padding: 0 20px; font-size: 0.9rem; flex: none; }
-            .dropdown-container { width: 100%; flex: none; }
-            .dropdown-content { position: static; width: 100%; box-shadow: none; border: none; background: transparent; padding-left: 20px; margin-top:5px; }
-        }
+.theme-toggle{width:38px;height:38px;border-radius:16px;border:1px solid var(--glass-border);background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 10px var(--glass-shadow);transition:background 0.3s;overflow:hidden;position:relative;}
+.theme-toggle:hover{background:var(--glass-hov);}
+.theme-toggle::after{content:'';position:absolute;width:0;height:0;border-radius:50%;background:rgba(245,158,11,0.2);top:50%;left:50%;transform:translate(-50%,-50%);}
+.theme-toggle.rippling::after{animation:ripple 0.5s ease-out forwards;}
+@keyframes ripple{to{width:90px;height:90px;opacity:0}}
+.icon-wrap{position:relative;width:20px;height:20px;}
+.icon-wrap.spin{animation:iconSpin 0.55s cubic-bezier(.34,1.4,.64,1) forwards;}
+@keyframes iconSpin{0%{transform:rotate(0) scale(1)}45%{transform:rotate(195deg) scale(0.5)}100%{transform:rotate(360deg) scale(1)}}
+.icon-sun,.icon-moon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:opacity 0.3s,transform 0.45s cubic-bezier(.34,1.4,.64,1);}
+.sun-core{width:9px;height:9px;border-radius:50%;background:var(--sun);box-shadow:0 0 6px 2px rgba(245,158,11,0.45);position:relative;z-index:2;}
+.sun-rays{position:absolute;inset:0;}
+.sun-rays::before{content:'';position:absolute;top:50%;left:50%;width:2px;height:2px;margin:-1px;border-radius:50%;background:var(--sun);box-shadow:0 -9px 0 1px var(--sun),0 9px 0 1px var(--sun),-9px 0 0 1px var(--sun),9px 0 0 1px var(--sun),-6px -6px 0 1px var(--sun),6px -6px 0 1px var(--sun),-6px 6px 0 1px var(--sun),6px 6px 0 1px var(--sun);}
+.moon-shape{width:12px;height:12px;border-radius:50%;background:transparent;box-shadow:3px -2px 0 0 #c8c8ce;}
+[data-theme="light"] .icon-sun{opacity:1;transform:scale(1) rotate(0);}
+[data-theme="light"] .icon-moon{opacity:0;transform:scale(0.4) rotate(-80deg);}
+[data-theme="dark"] .icon-sun{opacity:0;transform:scale(0.4) rotate(80deg);}
+[data-theme="dark"] .icon-moon{opacity:1;transform:scale(1) rotate(0);}
 
-        .controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .search-box { flex: 2; min-width: 200px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); }
-        .filter-box { flex: 1; min-width: 140px; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: var(--radius-btn); cursor: pointer; }
-        html.light-mode .search-box, html.light-mode .filter-box { background: rgba(255,255,255,0.6); color: black; border-color: rgba(0,0,0,0.1); }
+main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:clamp(20px,3vw,36px) clamp(14px,3vw,28px) 80px;}
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-        .card { cursor: pointer; transition: transform 0.2s; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
-        .sensor-preview { width: 100%; height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; }
-        .card h3 { margin: 0 0 5px 0; color: var(--accent); text-align: center; width: 100%; font-size: 1.1rem; }
-        .card p { width: 100%; text-align: center; margin: 0; color: var(--text-muted); font-size: 0.9rem; }
-        .card .type-tag { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
-        
-        .hidden { display: none !important; }
-        .top-section { display: flex; gap: 20px; flex-wrap: wrap; }
-        
-        .hero-visuals { flex: 1.5; display: flex; gap: 20px; min-width: 300px; }
-        .visual-card { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; height: 350px; overflow: hidden; position: relative; }
-        .visual-card h4 { display: none; } 
-        
-        .specs-summary { flex: 1; text-align: left; display: flex; flex-direction: column; justify-content: center; min-width: 250px; }
-        
-        @media (max-width: 768px) { 
-            .top-section { flex-direction: column; align-items: stretch; } 
-            .hero-visuals { width: 100%; flex-direction: column; height: auto; min-width: 0; }
-            .visual-card { width: 100%; height: 250px; }
-            .specs-summary { width: 100%; margin-top: 15px; min-width: 0; }
-            .controls { flex-direction: column; }
-            .search-box, .filter-box { width: 100%; }
-        }
-        
-        .quick-data { margin-top: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .spec-item { display: flex; align-items: center; gap: 12px; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
-        .spec-icon { width: 24px; height: 24px; fill: var(--text-muted); flex-shrink: 0; }
-        .spec-text small { display: block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-        .spec-text span { font-size: 0.95rem; font-weight: 600; color: var(--text-main); display: block; line-height: 1.2; word-break: break-word; }
+.controls{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;}
+.search-input{flex:2;min-width:160px;padding:11px 14px;border-radius:16px;border:1px solid var(--glass-border);background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);font-family:'Outfit',sans-serif;font-size:14px;color:var(--text);outline:none;box-shadow:0 3px 12px var(--glass-shadow);transition:all 0.2s;}
+.search-input::placeholder{color:var(--text-soft);}
+.search-input:focus{background:var(--glass-hov);border-color:rgba(100,100,110,0.3);}
 
-        .tab-container { display: flex; gap: 10px; justify-content: flex-start; margin-bottom: 20px; margin-top: 20px; flex-wrap: wrap; }
-        .tab-container .nav-btn { flex: 1; text-align: center; min-width: 100px; }
+.csel{position:relative;flex:1;min-width:130px;}
+.csel-btn{width:100%;padding:11px 12px;border-radius:16px;border:1px solid var(--glass-border);background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);font-family:'Outfit',sans-serif;font-size:14px;color:var(--text);outline:none;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:6px;box-shadow:0 3px 12px var(--glass-shadow);transition:all 0.18s cubic-bezier(.34,1.4,.64,1);}
+.csel-btn:hover,.csel.open .csel-btn{border-color:rgba(100,100,110,0.35);background:var(--glass-hov);transform:scale(1.02);}
+.csel-chev{flex-shrink:0;color:var(--text-soft);transition:transform 0.2s;}
+.csel.open .csel-chev{transform:rotate(180deg);}
+.csel-menu{display:none;position:absolute;top:calc(100% + 5px);left:0;right:0;z-index:400;background:var(--dropdown-bg);border:1px solid var(--glass-border);border-radius:16px;overflow:hidden;box-shadow:0 10px 32px rgba(0,0,0,0.14);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);}
+.csel.open .csel-menu{display:block;animation:dropIn 0.16s ease;}
+.csel-opt{padding:10px 13px;font-size:13.5px;color:var(--text-soft);cursor:pointer;border-bottom:1px solid var(--divider);transition:all 0.13s;font-family:'Outfit',sans-serif;}
+.csel-opt:last-child{border-bottom:none;}
+.csel-opt:hover{background:var(--glass);color:var(--text);}
+.csel-opt.selected{color:var(--text);font-weight:600;}
 
-        table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 5px; table-layout: fixed; }
-        th, td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: left; vertical-align: top; }
-        td { word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
-        html.light-mode th, html.light-mode td { border-bottom: 1px solid rgba(0,0,0,0.05); }
-        tr:nth-child(odd) { background: rgba(255,255,255,0.03); }
-        html.light-mode tr:nth-child(odd) { background: rgba(0,0,0,0.03); }
-        th { color: var(--accent); width: 40%; font-weight: 600; opacity: 0.9; }
-        td { color: var(--text-main); line-height: 1.6; }
-        .cat-header { 
-            background: transparent !important; color: var(--text-muted); font-size: 0.9rem; 
-            letter-spacing: 2px; text-transform: uppercase; padding-top: 35px; padding-bottom: 10px;
-            border-bottom: 2px solid var(--accent) !important; font-weight: 800;
-        }
+.glass-panel{background:var(--glass);backdrop-filter:blur(24px) saturate(1.5);-webkit-backdrop-filter:blur(24px) saturate(1.5);border:1px solid var(--glass-border);box-shadow:0 6px 28px var(--glass-shadow),inset 0 1px 0 var(--glass-inset);border-radius:16px;padding:clamp(18px,3vw,28px);transition:background 0.4s,border-color 0.4s;}
 
-        .compare-wrapper { 
-            overflow-x: auto; 
-            -webkit-overflow-scrolling: touch; 
-            position: relative; 
-            padding-bottom: 10px; 
-            max-height: 75vh;
-            overflow-y: auto; 
-        }
-        
-        .compare-table { 
-            width: max-content; 
-            min-width: 100%; 
-            border-collapse: separate; 
-            border-spacing: 0; 
-            table-layout: fixed; 
-        }
-        
-        .compare-table thead th, .compare-table thead td {
-            position: sticky; 
-            top: 0; 
-            z-index: 100;
-            background: #121212; 
-            border-bottom: 1px solid var(--glass-border);
-        }
-        html.light-mode .compare-table thead th, html.light-mode .compare-table thead td { background: #f4f4f9; }
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:clamp(12px,2vw,18px);}
 
-        .compare-table tbody th { 
-            width: 150px; 
-            position: sticky; 
-            left: 0; 
-            background: var(--glass-bg);
-            z-index: 50; 
-            border-right: 1px solid var(--glass-border); 
-            font-size: 0.85rem; 
-            padding: 10px;
-        }
-        
-        .compare-table td { 
-            width: 220px; 
-            text-align: center; 
-            border-right: 1px solid var(--glass-border); 
-            padding: 15px 10px; 
-            font-size: 0.9rem; 
-            vertical-align: middle;
-        }
+.card{border-radius:16px;overflow:hidden;cursor:pointer;background:var(--glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--glass-border);box-shadow:0 6px 22px var(--glass-shadow),inset 0 1px 0 var(--glass-inset);transition:transform 0.3s cubic-bezier(.34,1.4,.64,1),box-shadow 0.3s,background 0.4s;animation:cardIn 0.4s ease both;display:flex;flex-direction:column;align-items:center;padding:clamp(14px,2vw,20px);}
+@keyframes cardIn{from{opacity:0;transform:translateY(16px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.card:hover{transform:translateY(-5px) scale(1.015);box-shadow:0 16px 40px var(--glass-shadow);background:var(--glass-hov);}
+.card:active{transform:scale(0.98);}
+.sensor-preview{width:100%;height:160px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;border-radius:10px;background:linear-gradient(145deg,rgba(255,255,255,0.25),rgba(200,198,194,0.1));border:1px solid var(--divider);overflow:hidden;}
+[data-theme="dark"] .sensor-preview{background:linear-gradient(145deg,rgba(255,255,255,0.03),rgba(40,40,50,0.25));}
+.card-name{font-size:clamp(15px,2vw,18px);font-weight:700;letter-spacing:-0.3px;color:var(--text);margin-bottom:3px;text-align:center;}
+.card-brand{font-size:12px;color:var(--text-soft);text-align:center;}
+.type-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:var(--badge);color:var(--text-soft);margin-bottom:8px;}
 
-        @media (max-width: 768px) {
-            .compare-table tbody th { 
-                position: static; 
-                width: 60px !important; 
-                min-width: 60px;
-                font-size: 0.65rem; 
-                padding: 5px;
-                background: transparent;
-            }
-            .compare-table thead th { width: 60px !important; min-width: 60px; }
-            
-            .compare-table td { 
-                width: calc((100vw - 100px) / 2); 
-                min-width: calc((100vw - 100px) / 2);
-                max-width: calc((100vw - 100px) / 2);
-                font-size: 0.8rem;
-            } 
-        }
-        
-        .slot-header { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 15px 0; }
-        .slot-img-container { width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; }
-        
-        .slot-search { width: 90%; padding: 8px; font-size: 0.8rem; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: 4px; }
-        .slot-dropdown { position: absolute; top: 100%; left: 0; width: 100%; background: #1a1a1a; border: 1px solid var(--glass-border); z-index: 200; max-height: 200px; overflow-y: auto; display: none; text-align: left; }
-        html.light-mode .slot-dropdown { background: #fff; }
-        .slot-item { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; display: flex; align-items: center; gap: 8px; }
-        html.light-mode .slot-item { border-bottom: 1px solid rgba(0,0,0,0.1); color: #333; }
-        .slot-item:hover { background: var(--accent); color: black !important; }
-        .slot-item img { width: 30px; height: 30px; object-fit: contain; }
+.hidden{display:none!important;}
 
-        .diff-mode-active .row-same { display: none !important; }
-        .diff-word-common { color: var(--diff-dim); }
-        .diff-word-unique { color: var(--diff-highlight); font-weight: 700; }
-        .diff-btn { margin-left: auto; border-color: var(--accent); font-size: 0.8rem; }
-    </style>
+#detail-view{animation:fadeUp 0.35s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:16px;border:1px solid var(--glass-border);background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);font-family:'Outfit',sans-serif;font-size:13.5px;font-weight:500;color:var(--text);cursor:pointer;margin-bottom:20px;box-shadow:0 3px 12px var(--glass-shadow);transition:all 0.18s cubic-bezier(.34,1.4,.64,1);}
+.back-btn:hover{transform:translateX(-3px) scale(1.02);background:var(--glass-hov);}
+
+.detail-hero{display:flex;flex-direction:column;gap:clamp(16px,2vw,24px);margin-bottom:16px;}
+.hero-visuals{display:flex;gap:clamp(10px,2vw,16px);}
+.visual-card{flex:1;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(14px,2vw,20px);min-height:220px;overflow:hidden;box-shadow:0 4px 16px var(--glass-shadow),inset 0 1px 0 var(--glass-inset);transition:background 0.4s;}
+.visual-card-label{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-soft);margin-bottom:10px;align-self:flex-start;}
+.detail-info{display:flex;flex-wrap:wrap;gap:clamp(16px,2vw,28px);align-items:flex-start;}
+.detail-title{flex:1;min-width:200px;}
+.detail-name{font-size:clamp(24px,4vw,40px);font-weight:700;letter-spacing:-0.8px;line-height:1.1;margin:8px 0 4px;}
+.detail-brand{font-size:16px;color:var(--text-soft);margin-bottom:0;}
+.quick-specs{flex:2;min-width:260px;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.detail-name{font-size:clamp(24px,4vw,40px);font-weight:700;letter-spacing:-0.8px;line-height:1.1;margin:8px 0 4px;}
+.detail-brand{font-size:16px;color:var(--text-soft);margin-bottom:22px;}
+
+.quick-specs{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.qs-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:10px;background:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.8);box-shadow:0 2px 10px rgba(0,0,0,0.05);transition:all 0.2s,background 0.4s;}
+[data-theme="dark"] .qs-item{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);}
+.qs-item:hover{transform:translateY(-2px);}
+.qs-icon{width:22px;height:22px;fill:var(--text-soft);flex-shrink:0;}
+.qs-label{font-size:9.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-soft);display:block;margin-bottom:3px;}
+.qs-val{font-size:14px;font-weight:600;color:var(--text);display:block;line-height:1.2;word-break:break-word;}
+
+.tabs{display:flex;gap:8px;margin:18px 0 14px;flex-wrap:wrap;}
+.tab-btn{flex:1;min-width:90px;padding:12px;border-radius:16px;text-align:center;border:1px solid var(--glass-border);background:var(--glass);font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;color:var(--text-soft);cursor:pointer;transition:all 0.18s cubic-bezier(.34,1.4,.64,1);}
+.tab-btn.active{background:var(--glass-hov);color:var(--text);font-weight:600;box-shadow:0 2px 10px var(--glass-shadow);}
+.tab-btn:not(.active):hover{background:rgba(128,128,128,0.07);transform:scale(1.04);}
+
+.spec-list{display:flex;flex-direction:column;}
+.spec-group-title{font-size:10px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-soft);padding:20px 20px 7px;border-top:1px solid var(--divider);margin-top:4px;}
+.spec-group-title:first-child{border-top:none;margin-top:0;padding-top:14px;}
+.spec-row{display:flex;align-items:baseline;gap:12px;padding:10px 20px;transition:background 0.15s;cursor:default;}
+.spec-row:hover{background:var(--row-hover);}
+.spec-key{width:42%;flex-shrink:0;font-size:13px;color:var(--text-soft);line-height:1.5;}
+.spec-val{flex:1;font-size:13.5px;font-weight:500;color:var(--text);line-height:1.5;word-break:break-word;}
+
+#tab-pics{min-height:200px;}
+#tab-pics .pics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;}
+#tab-pics img{width:100%;border-radius:10px;cursor:pointer;display:block;}
+
+.compare-wrapper{overflow-x:auto;max-height:72vh;overflow-y:auto;position:relative;-webkit-overflow-scrolling:touch;}
+.compare-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
+.compare-header h3{font-size:17px;font-weight:700;}
+.compare-actions{display:flex;gap:8px;}
+.diff-btn,.add-slot-btn{padding:7px 14px;font-size:13px;transition:all 0.18s cubic-bezier(.34,1.4,.64,1);}
+.diff-btn:hover,.add-slot-btn:hover{transform:scale(1.04);}
+
+.compare-table{width:max-content;min-width:100%;border-collapse:separate;border-spacing:0;table-layout:fixed;}
+.compare-table thead th,.compare-table thead td{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--divider);vertical-align:top;}
+[data-theme="dark"] .compare-table thead th,[data-theme="dark"] .compare-table thead td{background:#111113;}
+.compare-table tbody th{width:130px;position:sticky;left:0;background:var(--glass);z-index:50;border-right:1px solid var(--divider);font-size:0.82rem;padding:10px;font-weight:500;color:var(--text-soft);}
+.compare-table td{text-align:center;border-right:1px solid var(--divider);padding:13px 10px;font-size:0.88rem;vertical-align:middle;}
+.cat-header{background:transparent!important;text-align:center;font-size:9.5px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-soft);padding:14px 10px 6px!important;border-top:1px solid var(--divider)!important;border-bottom:none!important;}
+
+.slot-card{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 10px;margin:8px;border-radius:16px;background:var(--glass);border:1px solid var(--glass-border);box-shadow:0 4px 16px var(--glass-shadow),inset 0 1px 0 var(--glass-inset);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:background 0.3s;}
+.slot-card.empty{background:rgba(128,128,128,0.05);border-style:dashed;box-shadow:none;}
+.slot-img-wrap{width:80px;height:60px;display:flex;align-items:center;justify-content:center;}
+.slot-name{font-size:12.5px;font-weight:600;color:var(--text);text-align:center;line-height:1.3;}
+.slot-brand{font-size:11px;color:var(--text-soft);margin-top:-4px;}
+.slot-search{width:100%;padding:7px 10px;font-size:12px;background:var(--slot-bg);border:1px solid var(--glass-border);color:var(--text);border-radius:10px;font-family:'Outfit',sans-serif;outline:none;transition:all 0.2s;}
+.slot-search:focus{border-color:rgba(100,100,110,0.35);background:var(--glass-hov);}
+.slot-remove{font-size:11px;color:var(--text-soft);cursor:pointer;padding:3px 8px;border-radius:6px;border:1px solid var(--divider);background:transparent;font-family:'Outfit',sans-serif;transition:all 0.18s cubic-bezier(.34,1.4,.64,1);}
+.slot-remove:hover{background:rgba(200,50,50,0.1);color:#c0392b;border-color:rgba(200,50,50,0.25);transform:scale(1.04);}
+.slot-dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--dropdown-bg);border:1px solid var(--glass-border);z-index:300;max-height:200px;overflow-y:auto;display:none;text-align:left;border-radius:10px;backdrop-filter:blur(20px);box-shadow:0 8px 24px rgba(0,0,0,0.15);}
+.slot-item{padding:9px 12px;border-bottom:1px solid var(--divider);cursor:pointer;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text);transition:all 0.18s cubic-bezier(.34,1.4,.64,1);}
+.slot-item:hover{background:var(--glass);transform:scale(1.01);}
+.diff-mode-active .row-same{display:none!important;}
+.diff-word-common{color:var(--diff-common);}
+.diff-word-unique{color:var(--diff-unique);font-weight:700;}
+
+.similar-section{margin-top:26px;padding-top:20px;border-top:1px solid var(--divider);}
+.similar-section h3{font-size:15px;font-weight:700;margin-bottom:12px;}
+.similar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;}
+.mini-card{background:rgba(255,255,255,0.08);padding:10px;border-radius:16px;cursor:pointer;text-align:center;border:1px solid transparent;transition:all 0.18s cubic-bezier(.34,1.4,.64,1);}
+[data-theme="dark"] .mini-card{background:rgba(255,255,255,0.05);}
+.mini-card:hover{border-color:var(--glass-border);background:var(--glass);transform:translateY(-2px) scale(1.03);}
+.mini-card-preview{width:100%;height:70px;display:flex;align-items:center;justify-content:center;margin-bottom:6px;}
+.mini-card h4{font-size:11px;font-weight:600;color:var(--text);margin:0;}
+
+@media(max-width:900px){.nav-links{display:none;}.hamburger{display:flex;}}
+@media(max-width:600px){
+  .controls{flex-direction:column;}
+  .csel{min-width:0;width:100%;}
+  .detail-hero{gap:12px;}
+  .hero-visuals{flex-direction:column;}
+  .visual-card{min-height:180px;}
+  .detail-info{flex-direction:column;}
+  .quick-specs{min-width:0;grid-template-columns:1fr 1fr;}
+  .compare-table tbody th{position:static;width:70px!important;min-width:70px;font-size:0.7rem;padding:6px 4px;background:transparent;}
+  .compare-table thead th{width:70px!important;min-width:70px;}
+  .compare-table td{width:calc((100vw - 72px)/2);min-width:calc((100vw - 72px)/2);max-width:calc((100vw - 72px)/2);font-size:0.78rem;}
+}
+@media(min-width:601px){
+  .compare-table tbody th{width:130px;}
+  .compare-table td{width:calc((min(100vw,1200px) - 130px)/3);min-width:180px;}
+}
+@media(max-width:360px){.quick-specs{grid-template-columns:1fr;}}
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="glass-panel nav-container">
-            <a href="index.html" class="logo">Concept<span>Harmony</span></a>
-            
-            <div class="nav-links" id="navLinks">
-                <a href="index.html" class="nav-btn">Mobile Devices</a>
-                <a href="laptops.html" class="nav-btn">Laptops</a>
-                <a href="soc.html" class="nav-btn">SoCs</a>
-                <a href="sensors.html" class="nav-btn active" style="border-color:var(--accent);">Sensors</a>
-                <a href="news.html" class="nav-btn">News</a>
-                <a href="submit.html" class="nav-btn">Submit</a>
-      
-                <div class="dropdown-container">
-                    <button class="nav-btn" onclick="toggleSocials(event)">Socials ▾</button>
-                    <div class="dropdown-content" id="socialDropdown">
-                        <a href="https://discord.gg/hNPtTVHurH" target="_blank" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg> Discord</a>
-                        <a href="https://www.tiktok.com/@spinach.tech?_r=1&_t=ZG-93ScgcKEI9R" target="_blank" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> TikTok Main</a>
-                        <a href="https://www.tiktok.com/@spinach.technologies?_r=1&_t=ZG-93SccZzS6zp" target="_blank" class="dropdown-item"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg> TikTok Concept</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mobile-controls">
-                <button id="themeToggle" class="nav-btn theme-btn">
-                    <svg class="theme-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                </button>
-                <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
-            </div>
-        </div>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
 
-        <div id="galleryView">
-            <div class="glass-panel" style="padding:15px;">
-                <div class="controls">
-                    <input type="text" id="searchInput" class="search-box" placeholder="Search sensors...">
-                    <select id="brandFilter" class="filter-box"><option value="all">All Brands</option></select>
-                    <select id="sortOrder" class="filter-box">
-                        <option value="newest">Newest First</option>
-                        <option value="oldest">Oldest First</option>
-                        <option value="az">Name (A-Z)</option>
-                        <option value="za">Name (Z-A)</option>
-                    </select>
-                </div>
-            </div>
-            <div id="sensorGrid" class="grid">Loading...</div>
-        </div>
-
-        <div id="detailView" class="hidden">
-            <button onclick="location.reload()" class="nav-btn" style="margin-bottom:20px;">← Back</button>
-            <div class="glass-panel top-section">
-                
-                <div class="hero-visuals">
-                    <div class="visual-card">
-                        <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
-                            <img id="d_img" src="images/sensor.png">
-                        </div>
-                    </div>
-                    <div class="visual-card">
-                        <div id="d_mp_grid" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;"></div>
-                    </div>
-                </div>
-
-                <div class="specs-summary">
-                    <span id="d_type" class="nav-btn" style="padding: 2px 8px; font-size: 0.7rem; pointer-events:none; border:none; background:rgba(255,255,255,0.1); width:fit-content; height:auto;">SENSOR</span>
-                    <h1 id="d_model" style="font-size:2.5rem; margin:10px 0;">Model</h1>
-                    <h3 id="d_brand" style="color:var(--text-muted); margin:0;">Brand</h3>
-                    
-                    <div id="d_quick_specs" class="quick-data"></div>
-                </div>
-            </div>
-            
-            <div class="tab-container">
-                <button id="btn-specs" class="nav-btn active" onclick="setTab('specs')">Specifications</button>
-                <button id="btn-pics" class="nav-btn" onclick="setTab('pics')">Gallery</button>
-                <button id="btn-compare" class="nav-btn" onclick="setTab('compare')">Compare</button>
-            </div>
-
-            <div id="tab-specs" class="glass-panel">
-                <table id="specTable"></table>
-            </div>
-            
-            <div id="tab-pics" class="glass-panel hidden">
-                <div id="galleryGrid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:10px;"></div>
-            </div>
-
-            <div id="tab-compare" class="glass-panel hidden">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                    <h3 style="margin:0;">Compare Sensors</h3>
-                    <button class="nav-btn diff-btn" onclick="toggleDiffMode()">Show Differences</button>
-                </div>
-                <div class="compare-wrapper">
-                    <table class="compare-table" id="compareTable"></table>
-                </div>
-            </div>
-        </div>
+<nav>
+  <a href="index.html" class="logo">Concept<b>Harmony</b></a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html" class="nav-btn">Devices</a>
+    <a href="laptops.html" class="nav-btn">Laptops</a>
+    <a href="soc.html" class="nav-btn">SoCs</a>
+    <a href="sensors.html" class="nav-btn active">Sensors</a>
+    <a href="news.html" class="nav-btn">News</a>
+    <a href="submit.html" class="nav-btn">Submit</a>
+    <div class="dropdown-wrap">
+      <button class="nav-btn" id="socialsBtn">Socials ▾</button>
+      <div class="dropdown" id="socialsDropdown">
+        <a href="https://discord.gg/hNPtTVHurH" target="_blank"><svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>Discord</a>
+        <a href="https://www.tiktok.com/@spinach.tech?_r=1&_t=ZG-93ScgcKEI9R" target="_blank"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>TikTok Main</a>
+        <a href="https://www.tiktok.com/@spinach.technologies?_r=1&_t=ZG-93SccZzS6zp" target="_blank"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>TikTok Concept</a>
+      </div>
     </div>
+  </div>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeBtn">
+      <div class="icon-wrap" id="iconWrap">
+        <div class="icon-sun"><div class="sun-rays"></div><div class="sun-core"></div></div>
+        <div class="icon-moon"><div class="moon-shape"></div></div>
+      </div>
+    </button>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
 
-    <script>
-        document.getElementById('themeToggle').onclick = () => {
-            const isLight = document.documentElement.classList.toggle('light-mode');
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
-        };
-        
-        function toggleMenu() { 
-            document.getElementById('navLinks').classList.toggle('active'); 
-            document.querySelector('.nav-container').classList.toggle('menu-open');
-        }
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html" class="nav-btn">Devices</a>
+  <a href="laptops.html" class="nav-btn">Laptops</a>
+  <a href="soc.html" class="nav-btn">SoCs</a>
+  <a href="sensors.html" class="nav-btn active">Sensors</a>
+  <a href="news.html" class="nav-btn">News</a>
+  <a href="submit.html" class="nav-btn">Submit</a>
+  <div class="dropdown-wrap">
+    <button class="nav-btn" id="mobileSocialsBtn">Socials ▾</button>
+    <div class="dropdown" id="mobileSocialsDropdown">
+      <a href="https://discord.gg/hNPtTVHurH" target="_blank"><svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>Discord</a>
+      <a href="https://www.tiktok.com/@spinach.tech" target="_blank"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>TikTok Main</a>
+      <a href="https://www.tiktok.com/@spinach.technologies" target="_blank"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>TikTok Concept</a>
+    </div>
+  </div>
+</div>
 
-        function toggleSocials(e) { e.stopPropagation(); document.getElementById('socialDropdown').classList.toggle('show'); }
-        window.onclick = function(e) { if (!e.target.matches('.nav-btn')) document.getElementById('socialDropdown').classList.remove('show'); }
+<main>
+  <div id="gallery-view">
+    <div class="controls">
+      <input class="search-input" id="searchInput" type="text" placeholder="Search sensors…"/>
+      <div class="csel" id="brandSel">
+        <button type="button" class="csel-btn" onclick="cselToggle('brandSel',event)"><span id="brandLabel">All Brands</span><svg class="csel-chev" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="csel-menu" id="brandMenu"></div>
+      </div>
+      <div class="csel" id="sortSel">
+        <button type="button" class="csel-btn" onclick="cselToggle('sortSel',event)"><span id="sortLabel">Newest First</span><svg class="csel-chev" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="csel-menu">
+          <div class="csel-opt selected" onclick="cselPick('sortSel','sortLabel','newest','Newest First')">Newest First</div>
+          <div class="csel-opt" onclick="cselPick('sortSel','sortLabel','oldest','Oldest First')">Oldest First</div>
+          <div class="csel-opt" onclick="cselPick('sortSel','sortLabel','az','Name (A–Z)')">Name (A–Z)</div>
+          <div class="csel-opt" onclick="cselPick('sortSel','sortLabel','za','Name (Z–A)')">Name (Z–A)</div>
+        </div>
+      </div>
+    </div>
+    <div class="grid" id="sensorGrid"></div>
+  </div>
 
-        let allSensors = [];
-        let currentSensorIndex = 0;
-        let compareSlots = [null, null, null];
-        let diffMode = false;
+  <div id="detail-view" class="hidden">
+    <button class="back-btn" onclick="goHome()">← Back</button>
+    <div class="glass-panel detail-hero">
+      <div class="hero-visuals">
+        <div class="visual-card">
+          <div style="width:100%;flex:1;display:flex;align-items:center;justify-content:center;">
+            <img id="d_img" src="sensor.png" style="object-fit:contain;max-width:100%;max-height:100%;"/>
+          </div>
+        </div>
+        <div class="visual-card">
+          <div id="d_mp_grid" style="width:100%;flex:1;display:flex;align-items:center;justify-content:center;"></div>
+        </div>
+      </div>
+      <div class="detail-info">
+        <div class="detail-title">
+          <span class="type-tag">Sensor</span>
+          <div class="detail-name" id="d_model">Model</div>
+          <div class="detail-brand" id="d_brand">Brand</div>
+        </div>
+        <div class="quick-specs" id="d_quick"></div>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" id="btn-specs" onclick="setTab('specs')">Specifications</button>
+      <button class="tab-btn" id="btn-pics" onclick="setTab('pics')">Gallery</button>
+      <button class="tab-btn" id="btn-compare" onclick="setTab('compare')">Compare</button>
+    </div>
+    <div class="glass-panel" id="tab-specs">
+      <div id="specList" class="spec-list"></div>
+      <div class="similar-section">
+        <h3>Similar Sensors</h3>
+        <div class="similar-grid" id="similarGrid"></div>
+      </div>
+    </div>
+    <div class="glass-panel hidden" id="tab-pics"><div class="pics-grid" id="galleryGrid"></div></div>
+    <div class="glass-panel hidden" id="tab-compare">
+      <div class="compare-header">
+        <h3>Compare Sensors</h3>
+        <div class="compare-actions">
+          <button class="nav-btn add-slot-btn" onclick="addSlot()">+ Add Sensor</button>
+          <button class="nav-btn diff-btn" onclick="toggleDiffMode()">Show Differences</button>
+        </div>
+      </div>
+      <div class="compare-wrapper"><table class="compare-table" id="compareTable"></table></div>
+    </div>
+  </div>
+</main>
 
-        async function init() {
-            try {
-                const res = await fetch('sensors.json');
-                allSensors = await res.json();
-                populateBrands(allSensors);
-                filterAndSort();
-            } catch(e) { document.getElementById('sensorGrid').innerHTML = "No sensors found. (Create sensors.json)"; }
-        }
+<script>
+let allSensors = [], currentSensorIndex = 0, compareSlots = [], diffMode = false;
+let brandVal = 'all', sortVal = 'newest';
 
-        function populateBrands(list) {
-            const brands = new Set(list.map(d => d.brand));
-            const select = document.getElementById('brandFilter');
-            brands.forEach(b => {
-                const opt = document.createElement('option');
-                opt.value = b;
-                opt.innerText = b;
-                select.appendChild(opt);
-            });
-        }
+function cselToggle(id, e) {
+  e.stopPropagation();
+  const isOpen = document.getElementById(id).classList.contains('open');
+  document.querySelectorAll('.csel.open').forEach(el => el.classList.remove('open'));
+  if(!isOpen) document.getElementById(id).classList.add('open');
+}
+function cselPick(selId, lblId, val, label) {
+  document.getElementById(lblId).textContent = label;
+  document.getElementById(selId).querySelector('.csel-menu').querySelectorAll('.csel-opt').forEach(o => o.classList.toggle('selected', o.textContent.trim() === label));
+  document.getElementById(selId).classList.remove('open');
+  if(selId === 'brandSel') brandVal = val;
+  else if(selId === 'sortSel') sortVal = val;
+  filterAndSort();
+}
 
-        function filterAndSort() {
-            const term = document.getElementById('searchInput').value.toLowerCase();
-            const brand = document.getElementById('brandFilter').value;
-            const sort = document.getElementById('sortOrder').value;
+function getSensorScale(fmt, baseSize) {
+  let s = 1;
+  if(fmt) {
+    let c = fmt.toLowerCase().replace(/"|-type/g,'').trim();
+    if(c === '1' || c === '1/1') s = 1;
+    else if(c.startsWith('1/')) { let d = parseFloat(c.split('/')[1]); if(!isNaN(d)&&d>0) s = Math.sqrt(1/d); }
+  }
+  return s * baseSize;
+}
 
-            let filtered = allSensors.filter(d => {
-                const matchSearch = d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term);
-                const matchBrand = brand === 'all' || d.brand === brand;
-                return matchSearch && matchBrand;
-            });
+function createMpGrid(mpRaw) {
+  const mp = parseFloat(mpRaw) || 0;
+  if(mp === 0) return '';
+  let rows = Math.round(Math.sqrt(mp/(4/3)));
+  let cols = Math.round(rows*(4/3));
+  if(rows*cols > 400) { const scale = Math.sqrt(400/(rows*cols)); rows = Math.round(rows*scale); cols = Math.round(cols*scale); }
+  let html = `<div style="display:grid;grid-template-columns:repeat(${cols},1fr);gap:1px;width:100%;aspect-ratio:4/3;">`;
+  for(let i=0;i<rows*cols;i++) html += `<div style="background:var(--pixel-color);border-radius:1px;aspect-ratio:1/1;"></div>`;
+  html += `</div>`;
+  return html;
+}
 
-            filtered.sort((a, b) => {
-                if (sort === 'az') return a.model.localeCompare(b.model);
-                if (sort === 'za') return b.model.localeCompare(a.model);
-                const dateA = new Date(a.announced).getTime() || 0;
-                const dateB = new Date(b.announced).getTime() || 0;
-                if (sort === 'newest') return dateB - dateA;
-                if (sort === 'oldest') return dateA - dateB;
-            });
+async function init() {
+  const placeholder = [{
+    model:'Demo Sensor X50', brand:'ConceptHarmony', type:'Sensor',
+    announced:'2025',
+    resolution:'50 MP', format:'1/1.3"', pixel_size:'1.2µm', bit_depth:'14-bit',
+    video:'4K@120fps, 8K@30fps', features:'Phase-detect AF, OIS, Dual Pixel',
+    gallery:[]
+  }];
+  try {
+    const res = await fetch('sensors.json');
+    if(!res.ok) throw new Error();
+    allSensors = await res.json();
+    if(!allSensors.length) throw new Error();
+  } catch(e) { allSensors = placeholder; }
+  populateBrands();
+  filterAndSort();
+}
 
-            renderGrid(filtered);
-        }
+function populateBrands() {
+  const menu = document.getElementById('brandMenu');
+  menu.innerHTML = '<div class="csel-opt selected" onclick="cselPick(\'brandSel\',\'brandLabel\',\'all\',\'All Brands\')">All Brands</div>';
+  [...new Set(allSensors.map(d=>d.brand))].sort().forEach(b => {
+    const safe = b.replace(/'/g,"\\'");
+    menu.innerHTML += `<div class="csel-opt" onclick="cselPick('brandSel','brandLabel','${safe}','${safe}')">${b}</div>`;
+  });
+}
 
-        document.getElementById('searchInput').addEventListener('keyup', filterAndSort);
-        document.getElementById('brandFilter').addEventListener('change', filterAndSort);
-        document.getElementById('sortOrder').addEventListener('change', filterAndSort);
+function filterAndSort() {
+  const term = document.getElementById('searchInput').value.toLowerCase();
+  let list = allSensors.filter(d =>
+    (brandVal === 'all' || d.brand === brandVal) &&
+    (d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term))
+  );
+  list.sort((a,b) => {
+    if(sortVal==='az') return a.model.localeCompare(b.model);
+    if(sortVal==='za') return b.model.localeCompare(a.model);
+    const da = new Date(a.announced||0).getTime();
+    const db = new Date(b.announced||0).getTime();
+    return sortVal==='newest' ? db-da : da-db;
+  });
+  const grid = document.getElementById('sensorGrid');
+  grid.innerHTML = list.length ? list.map((d,i) => {
+    const idx = allSensors.indexOf(d);
+    return `<div class="card" onclick="showDetails(${idx})" style="animation-delay:${i*0.05}s">
+      <div class="sensor-preview"><img src="sensor.png" style="width:100%;height:100%;object-fit:contain;padding:16px;" loading="lazy"/></div>
+      <span class="type-tag">Sensor</span>
+      <div class="card-name">${d.model}</div>
+      <div class="card-brand">${d.brand}</div>
+    </div>`;
+  }).join('') : '<p style="color:var(--text-soft);padding:40px;grid-column:1/-1;text-align:center;">No sensors found.</p>';
+}
 
-        function getSensorScale(fmt, baseSize) {
-            let s = 1;
-            if (fmt) {
-                let c = fmt.toLowerCase().replace(/"|-type/g, '').trim();
-                if (c === '1' || c === '1/1') {
-                    s = 1;
-                } else if (c.startsWith('1/')) {
-                    let d = parseFloat(c.split('/')[1]);
-                    if (!isNaN(d) && d > 0) {
-                        s = Math.sqrt(1 / d);
-                    }
-                }
-            }
-            return s * baseSize;
-        }
+function showDetails(i) {
+  currentSensorIndex = i;
+  compareSlots = [i, null, null];
+  const d = allSensors[i];
+  document.getElementById('gallery-view').classList.add('hidden');
+  document.getElementById('detail-view').classList.remove('hidden');
+  window.scrollTo(0,0);
+  const img = document.getElementById('d_img');
+  img.src = 'sensor.png';
+  const w = getSensorScale(d.format, 160);
+  img.style.width = w + 'px';
+  img.style.aspectRatio = '4/3';
+  document.getElementById('d_mp_grid').innerHTML = createMpGrid(d.resolution);
+  document.getElementById('d_model').textContent = d.model;
+  document.getElementById('d_brand').textContent = d.brand;
+  document.getElementById('d_quick').innerHTML = `
+    <div class="qs-item"><svg class="qs-icon" viewBox="0 0 24 24"><path d="M4 6h16v12H4z" fill="none" stroke="currentColor" stroke-width="2"/></svg><div><span class="qs-label">Resolution</span><span class="qs-val">${d.resolution||'–'}</span></div></div>
+    <div class="qs-item"><svg class="qs-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/></svg><div><span class="qs-label">Format</span><span class="qs-val">${d.format||'–'}</span></div></div>
+    <div class="qs-item"><svg class="qs-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="currentColor"/></svg><div><span class="qs-label">Pixel Size</span><span class="qs-val">${d.pixel_size||'–'}</span></div></div>
+    <div class="qs-item"><svg class="qs-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path d="M7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z" fill="currentColor"/></svg><div><span class="qs-label">Bit Depth</span><span class="qs-val">${d.bit_depth||'–'}</span></div></div>`;
+  const row = (l,v) => `<div class="spec-row"><span class="spec-key">${l}</span><span class="spec-val">${v||'–'}</span></div>`;
+  const hdr = t => `<div class="spec-group-title">${t}</div>`;
+  let html = '';
+  if(d.announced){ html += hdr('Launch'); html += row('Announced', d.announced); }
+  if(d.resolution||d.format||d.pixel_size||d.bit_depth){
+    html += hdr('Specs');
+    if(d.resolution) html += row('Resolution', d.resolution);
+    if(d.format) html += row('Optical Format', d.format);
+    if(d.pixel_size) html += row('Pixel Size', d.pixel_size);
+    if(d.bit_depth) html += row('Bit Depth', d.bit_depth);
+  }
+  if(d.video){ html += hdr('Video'); html += row('Video Capabilities', d.video); }
+  if(d.features){ html += hdr('Features'); html += row('Key Features', d.features); }
+  document.getElementById('specList').innerHTML = html;
+  const sg = document.getElementById('similarGrid');
+  let sim = allSensors.filter(x => x.brand===d.brand && x.model!==d.model);
+  if(sim.length<4){const oth=allSensors.filter(x=>x.brand!==d.brand).sort(()=>.5-Math.random());sim=sim.concat(oth.slice(0,4-sim.length));}
+  sg.innerHTML = sim.slice(0,4).map(m => {
+    const idx = allSensors.indexOf(m);
+    return `<div class="mini-card" onclick="showDetails(${idx});window.scrollTo(0,0)">
+      <div class="mini-card-preview">${createMpGrid(m.resolution)}</div>
+      <h4>${m.model}</h4>
+    </div>`;
+  }).join('');
+  const gg = document.getElementById('galleryGrid');
+  gg.innerHTML = d.gallery&&d.gallery.length ? d.gallery.map(s=>`<img src="${s}" onclick="window.open('${s}')" loading="lazy"/>`).join('') : '<p style="color:var(--text-soft);padding:20px;">No extra images.</p>';
+  setTab('specs');
+}
 
-        function createMpGrid(mpRaw) {
-            const mp = parseFloat(mpRaw) || 0;
-            if(mp === 0) return '';
+function goHome() {
+  document.getElementById('detail-view').classList.add('hidden');
+  document.getElementById('gallery-view').classList.remove('hidden');
+}
 
-            let rows = Math.round(Math.sqrt(mp / (4/3)));
-            let cols = Math.round(rows * (4/3));
+function setTab(t) {
+  ['specs','pics','compare'].forEach(x => {
+    document.getElementById('tab-'+x).classList.add('hidden');
+    document.getElementById('btn-'+x).classList.remove('active');
+  });
+  document.getElementById('tab-'+t).classList.remove('hidden');
+  document.getElementById('btn-'+t).classList.add('active');
+  if(t==='compare') renderCompare();
+}
 
-            if(rows * cols > 400) {
-                const scale = Math.sqrt(400 / (rows*cols));
-                rows = Math.round(rows * scale);
-                cols = Math.round(cols * scale);
-            }
+function addSlot() { if(compareSlots.length>=5) return; compareSlots.push(null); renderCompare(); }
 
-            let html = `<div style="
-                display: grid;
-                grid-template-columns: repeat(${cols}, 1fr);
-                grid-template-rows: repeat(${rows}, 1fr);
-                gap: 1px;
-                width: 100%;
-                height: 100%;
-                aspect-ratio: 4/3;
-            ">`;
+function getSensor(s) { return compareSlots[s]!==null&&compareSlots[s]!==undefined ? allSensors[compareSlots[s]] : null; }
 
-            for(let i=0; i<(rows*cols); i++) {
-                html += `<div style="background: var(--accent); opacity: 0.3; border-radius:1px;"></div>`;
-            }
-            html += `</div>`;
-            return html;
-        }
+function getRawVal(s, key) { const d=getSensor(s); if(!d) return '-'; return d[key]||'-'; }
 
-        const renderGrid = (list) => {
-            const grid = document.getElementById('sensorGrid');
-            grid.innerHTML = "";
-            list.forEach((d) => {
-                const originalIndex = allSensors.indexOf(d); 
-                grid.innerHTML += `
-                    <div class="glass-panel card" onclick="showDetails(${originalIndex})">
-                        <div class="sensor-preview">
-                            ${createMpGrid(d.resolution)}
-                        </div>
-                        <span class="type-tag">Sensor</span>
-                        <h3>${d.model}</h3>
-                        <p>${d.brand}</p>
-                    </div>`;
-            });
-        };
+function getRowTokens(values) {
+  const valid = values.filter(v=>v!==''&&v!=='-');
+  if(valid.length<2) return{isAllSame:false,common:new Set()};
+  const tok = s => new Set(s.toString().toLowerCase().replace(/,/g,' ').split(/\s+/).filter(w=>w.length>0));
+  const sets = valid.map(tok);
+  const common = new Set([...sets[0]].filter(x=>sets.every(s=>s.has(x))));
+  return{isAllSame:sets.every(s=>s.size===common.size),common};
+}
 
-        window.showDetails = (i) => {
-            currentSensorIndex = i;
-            compareSlots = [i, null, null];
-            window.scrollTo(0,0);
-            
-            const d = allSensors[i];
-            document.getElementById('galleryView').classList.add('hidden');
-            document.getElementById('detailView').classList.remove('hidden');
-            
-            const w = getSensorScale(d.format, 200); 
-            const img = document.getElementById('d_img');
-            img.src = "images/sensor.png";
-            img.style.width = w + "px";
-            img.style.aspectRatio = "4/3";
+function highlightDiff(text, commonSet) {
+  if(!text||text==='-') return '-';
+  return text.toString().split(/(\s+|,\s*)/).map(p=>{
+    const c=p.toLowerCase().trim();
+    if(!c||!c.match(/[a-z0-9]/)) return p;
+    return commonSet.has(c)?`<span class="diff-word-common">${p}</span>`:`<span class="diff-word-unique">${p}</span>`;
+  }).join('');
+}
 
-            document.getElementById('d_mp_grid').innerHTML = createMpGrid(d.resolution);
+function genRow(key, label) {
+  const vals = compareSlots.map((_,s)=>getRawVal(s,key));
+  let hs=[...vals], rowClass='';
+  if(diffMode){
+    const t=getRowTokens(vals);
+    if(t.isAllSame) rowClass='row-same';
+    else hs=vals.map(v=>highlightDiff(v,t.common));
+  }
+  return `<tr class="${rowClass}"><th>${label}</th>${hs.map(h=>`<td>${h}</td>`).join('')}</tr>`;
+}
 
-            document.getElementById('d_model').innerText = d.model;
-            document.getElementById('d_brand').innerText = d.brand;
-            
-            const res = d.resolution || '-';
-            const fmt = d.format || '-';
-            const pix = d.pixel_size || '-';
-            const bit = d.bit_depth || '-';
+function renderCompare() {
+  const table = document.getElementById('compareTable');
+  const n = compareSlots.length;
+  const span = n+1;
+  let html = `<thead><tr><th style="min-width:130px"></th>`;
+  compareSlots.forEach((idx,sid) => {
+    const s = idx!==null&&idx!==undefined ? allSensors[idx] : null;
+    const w = s ? getSensorScale(s.format, 60) : 0;
+    html += `<td><div class="slot-card${s?'':' empty'}">`;
+    if(s) {
+      html += `<img src="sensor.png" style="width:${w}px;aspect-ratio:4/3;object-fit:contain;display:block;"/>`;
+      html += `<div style="width:${w}px;aspect-ratio:4/3;">${createMpGrid(s.resolution)}</div>`;
+      html += `<div class="slot-name">${s.model}</div><div class="slot-brand">${s.brand}</div>`;
+    } else {
+      html += `<div class="slot-img-wrap" style="opacity:0.3"><svg width="36" height="28" viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="1"><rect x="1" y="1" width="22" height="16" rx="2"/></svg></div><div class="slot-name" style="opacity:0.4">Empty Slot</div>`;
+    }
+    html += `<div style="position:relative;width:100%"><input type="text" class="slot-search" placeholder="Search…" onkeyup="searchForSlot(this,${sid})"/><div class="slot-dropdown" id="dropdown-${sid}"></div></div>`;
+    if(sid>0) html += `<button class="slot-remove" onclick="removeSlot(${sid})">Remove</button>`;
+    html += `</div></td>`;
+  });
+  html += `</tr></thead><tbody>`;
+  const sections = [
+    {cat:'Launch',  keys:[{k:'announced',l:'Announced'}]},
+    {cat:'Specs',   keys:[{k:'resolution',l:'Resolution'},{k:'format',l:'Optical Format'},{k:'pixel_size',l:'Pixel Size'},{k:'bit_depth',l:'Bit Depth'}]},
+    {cat:'Video',   keys:[{k:'video',l:'Video Capabilities'}]},
+    {cat:'Features',keys:[{k:'features',l:'Key Features'}]}
+  ];
+  sections.forEach(s => {
+    html += `<tr><td colspan="${span}" class="cat-header">${s.cat}</td></tr>`;
+    s.keys.forEach(k => html += genRow(k.k,k.l));
+  });
+  html += `</tbody>`;
+  table.innerHTML = html;
+}
 
-            document.getElementById('d_quick_specs').innerHTML = `
-                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M4 6h16v12H4z" fill="none" stroke="currentColor" stroke-width="2"/></svg><div class="spec-text"><small>RES</small><span>${res}</span></div></div>
-                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/></svg><div class="spec-text"><small>FORMAT</small><span>${fmt}</span></div></div>
-                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="currentColor"/></svg><div class="spec-text"><small>PIXEL</small><span>${pix}</span></div></div>
-                <div class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path d="M7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z" fill="currentColor"/></svg><div class="spec-text"><small>BIT DEPTH</small><span>${bit}</span></div></div>
-            `;
+function removeSlot(sid) { compareSlots.splice(sid,1); renderCompare(); }
 
-            let html = "";
-            const row = (lbl, val) => `<tr><th>${lbl}</th><td>${val || '-'}</td></tr>`;
-            
-            let launch = "";
-            if(d.announced) launch += row("Announced", d.announced);
-            if(launch) html += `<tr><td colspan="2" class="cat-header">Launch</td></tr>` + launch;
+function searchForSlot(input, sid) {
+  const term = input.value.toLowerCase();
+  const drop = document.getElementById('dropdown-'+sid);
+  if(term.length<1){drop.style.display='none';drop.innerHTML='';return;}
+  const matches = allSensors.map((d,i)=>({...d,idx:i})).filter(d=>d.model.toLowerCase().includes(term)||d.brand.toLowerCase().includes(term));
+  if(matches.length){
+    drop.style.display='block';
+    drop.innerHTML = matches.map(m=>{
+      const w=getSensorScale(m.format,24);
+      return `<div class="slot-item" onclick="setSlot(${sid},${m.idx})"><img src="sensor.png" style="width:${w}px;aspect-ratio:4/3;object-fit:contain;"/><span>${m.model}</span></div>`;
+    }).join('');
+  } else drop.style.display='none';
+}
 
-            let specs = "";
-            if(d.resolution) specs += row("Resolution", d.resolution);
-            if(d.format) specs += row("Optical Format", d.format);
-            if(d.pixel_size) specs += row("Pixel Size", d.pixel_size);
-            if(d.bit_depth) specs += row("Bit Depth", d.bit_depth);
-            if(specs) html += `<tr><td colspan="2" class="cat-header">Specs</td></tr>` + specs;
+function setSlot(sid,idx){compareSlots[sid]=idx;renderCompare();}
+function toggleDiffMode(){diffMode=!diffMode;document.getElementById('tab-compare').classList.toggle('diff-mode-active');renderCompare();}
 
-            let video = "";
-            if(d.video) video += row("Video Capabilities", d.video);
-            if(video) html += `<tr><td colspan="2" class="cat-header">Video</td></tr>` + video;
-
-            let feats = "";
-            if(d.features) feats += row("Features", d.features);
-            if(feats) html += `<tr><td colspan="2" class="cat-header">Features</td></tr>` + feats;
-
-            document.getElementById('specTable').innerHTML = html;
-
-            const galleryDiv = document.getElementById('galleryGrid');
-            galleryDiv.innerHTML = "";
-            if(d.gallery && d.gallery.length > 0) {
-                d.gallery.forEach(src => {
-                    galleryDiv.innerHTML += `<img src="${src}" style="width:100%; border-radius:6px; cursor:pointer;" onclick="window.open('${src}')">`;
-                });
-            } else {
-                galleryDiv.innerHTML = "<p style='color:var(--text-muted);'>No extra images.</p>";
-            }
-            setTab('specs');
-        };
-
-        window.setTab = (t) => {
-            ['specs', 'pics', 'compare'].forEach(x => {
-                document.getElementById('tab-'+x).classList.add('hidden');
-                document.getElementById('btn-'+x).classList.remove('active');
-            });
-            document.getElementById('tab-'+t).classList.remove('hidden');
-            document.getElementById('btn-'+t).classList.add('active');
-            if(t === 'compare') renderCompareTable();
-        };
-
-        function renderCompareTable() {
-            const table = document.getElementById('compareTable');
-            let html = `<thead><tr><th></th>`;
-            compareSlots.forEach((idx, slotId) => {
-                const s = idx !== null ? allSensors[idx] : null;
-                const w = s ? getSensorScale(s.format, 100) : 0;
-                const img = s ? `<div class="slot-img-container"><img src="images/sensor.png" style="width:${w}px; aspect-ratio:4/3;"></div>` : '';
-                html += `<td><div class="slot-header">${img}<div>${s ? s.model : 'Empty Slot'}</div><input type="text" class="slot-search" placeholder="Search..." onkeyup="searchForSlot(this, ${slotId})"><div class="slot-dropdown" id="dropdown-${slotId}"></div></div></td>`;
-            });
-            html += `</tr></thead><tbody>`;
-
-            const specKeys = [
-                {cat: "Launch", keys: [{k:'announced', l:'Announced'}]},
-                {cat: "Specs", keys: [{k:'resolution', l:'Resolution'}, {k:'format', l:'Optical Format'}, {k:'pixel_size', l:'Pixel Size'}, {k:'bit_depth', l:'Bit Depth'}]},
-                {cat: "Video", keys: [{k:'video', l:'Video Recording'}]},
-                {cat: "Features", keys: [{k:'features', l:'Key Features'}]}
-            ];
-
-            specKeys.forEach(section => {
-                html += `<tr><td colspan="4" class="cat-header" style="text-align:center;">${section.cat}</td></tr>`;
-                section.keys.forEach(s => {
-                    const raw1 = getRawVal(0, s.k);
-                    const raw2 = getRawVal(1, s.k);
-                    const raw3 = getRawVal(2, s.k);
-
-                    let isRowSame = false;
-                    let html1 = raw1 || '-', html2 = raw2 || '-', html3 = raw3 || '-';
-
-                    if (diffMode) {
-                        const rowTokens = getRowTokens([raw1, raw2, raw3]);
-                        if (rowTokens.isAllSame) {
-                            isRowSame = true; 
-                        } else {
-                            html1 = highlightDiff(raw1, rowTokens.common);
-                            html2 = highlightDiff(raw2, rowTokens.common);
-                            html3 = highlightDiff(raw3, rowTokens.common);
-                        }
-                    }
-
-                    let rowClass = (diffMode && isRowSame) ? 'row-same' : 'row-diff';
-                    if (!diffMode) rowClass = '';
-
-                    html += `<tr class="${rowClass}">
-                        <th>${s.l}</th>
-                        <td>${html1}</td>
-                        <td>${html2}</td>
-                        <td>${html3}</td>
-                    </tr>`;
-                });
-            });
-
-            html += `</tbody>`;
-            table.innerHTML = html;
-        }
-
-        function getRawVal(slotIdx, key) {
-            const d = getSensor(slotIdx);
-            if(!d) return '-';
-            return d[key] || '-';
-        }
-
-        function getSensor(slotIdx) { return compareSlots[slotIdx] !== null ? allSensors[compareSlots[slotIdx]] : null; }
-
-        function getRowTokens(values) {
-            const validValues = values.filter(v => v !== '' && v !== '-');
-            if (validValues.length < 2) return { isAllSame: false, common: new Set() };
-
-            const tokenize = (str) => {
-                return str.toString().toLowerCase()
-                    .replace(/,/g, ' ') 
-                    .split(/\s+/)
-                    .filter(w => w.length > 0); 
-            };
-
-            const sets = validValues.map(v => new Set(tokenize(v)));
-            const common = new Set([...sets[0]].filter(x => sets.every(s => s.has(x))));
-            const isAllSame = sets.every(s => s.size === common.size);
-
-            return { isAllSame, common };
-        }
-
-        function highlightDiff(text, commonSet) {
-            if (!text || text === '-') return '-';
-            const parts = text.toString().split(/(\s+|,\s*)/); 
-            return parts.map(part => {
-                const clean = part.toLowerCase().trim();
-                if (!clean || clean.match(/^\s*$/)) return part; 
-                const isWord = clean.match(/[a-z0-9]/);
-                if (!isWord) return part;
-                if (commonSet.has(clean)) {
-                    return `<span class="diff-word-common">${part}</span>`;
-                } else {
-                    return `<span class="diff-word-unique">${part}</span>`;
-                }
-            }).join('');
-        }
-
-        function searchForSlot(input, slotId) {
-            const term = input.value.toLowerCase();
-            const drop = document.getElementById(`dropdown-${slotId}`);
-            drop.innerHTML = "";
-            if(term.length < 1) { drop.style.display = 'none'; return; }
-            const matches = allSensors.map((d, i) => ({...d, idx: i})).filter(d => d.model.toLowerCase().includes(term) || d.brand.toLowerCase().includes(term));
-            if(matches.length > 0) {
-                drop.style.display = 'block';
-                matches.forEach(m => {
-                    const w = getSensorScale(m.format, 30);
-                    drop.innerHTML += `<div class="slot-item" onclick="setSlot(${slotId}, ${m.idx})"><img src="images/sensor.png" style="width:${w}px; aspect-ratio:4/3;"><span>${m.model}</span></div>`;
-                });
-            } else { drop.style.display = 'none'; }
-        }
-
-        function setSlot(slotId, devIdx) { compareSlots[slotId] = devIdx; renderCompareTable(); }
-        function toggleDiffMode() { 
-            diffMode = !diffMode;
-            document.getElementById('tab-compare').classList.toggle('diff-mode-active'); 
-            renderCompareTable();
-        }
-
-        document.getElementById('searchInput').addEventListener('keyup', filterAndSort);
-        document.getElementById('brandFilter').addEventListener('change', filterAndSort);
-        document.getElementById('sortOrder').addEventListener('change', filterAndSort);
-
-        init();
-    </script>
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  const html=document.documentElement;
+  const isDark=html.dataset.theme==='dark';
+  const btn=document.getElementById('themeBtn');
+  const wrap=document.getElementById('iconWrap');
+  btn.classList.remove('rippling');void btn.offsetWidth;btn.classList.add('rippling');
+  wrap.classList.remove('spin');void wrap.offsetWidth;wrap.classList.add('spin');
+  setTimeout(()=>{html.dataset.theme=isDark?'light':'dark';localStorage.setItem('ch-theme',html.dataset.theme);},230);
+  setTimeout(()=>{wrap.classList.remove('spin');btn.classList.remove('rippling');},650);
+});
+document.getElementById('socialsBtn').addEventListener('click',e=>{e.stopPropagation();document.getElementById('socialsDropdown').classList.toggle('open');});
+document.getElementById('mobileSocialsBtn').addEventListener('click',e=>{e.stopPropagation();document.getElementById('mobileSocialsDropdown').classList.toggle('open');});
+document.getElementById('hamburger').addEventListener('click',()=>{document.getElementById('hamburger').classList.toggle('open');document.getElementById('mobileNav').classList.toggle('open');});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.dropdown-wrap')){document.getElementById('socialsDropdown').classList.remove('open');document.getElementById('mobileSocialsDropdown').classList.remove('open');}
+  if(!e.target.closest('.csel')) document.querySelectorAll('.csel.open').forEach(el=>el.classList.remove('open'));
+  if(!e.target.matches('.slot-search')) document.querySelectorAll('.slot-dropdown').forEach(d=>d.style.display='none');
+});
+document.getElementById('searchInput').addEventListener('input',filterAndSort);
+init();
+</script>
 </body>
 </html>
