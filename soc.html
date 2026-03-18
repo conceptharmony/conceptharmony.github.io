@@ -255,7 +255,7 @@ main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:clamp(20
 [data-theme="dark"] .compare-table thead th,[data-theme="dark"] .compare-table thead td{background:#111113;}
 .compare-table tbody th{width:130px;position:sticky;left:0;background:var(--glass);z-index:50;border-right:1px solid var(--divider);font-size:0.82rem;padding:10px;font-weight:500;color:var(--text-soft);}
 .compare-table td{text-align:center;border-right:1px solid var(--divider);padding:13px 10px;font-size:0.88rem;vertical-align:middle;}
-.cat-header{background:transparent!important;text-align:center;font-size:9.5px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-soft);padding:14px 10px 6px!important;border-top:1px solid var(--divider)!important;border-bottom:none!important;}
+.cat-header{background:transparent!important;text-align:left;font-size:9.5px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-soft);padding:14px 10px 6px!important;border-top:1px solid var(--divider)!important;border-bottom:none!important;}
 
 .slot-card{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 10px;margin:8px;border-radius:10px;background:var(--glass);border:1px solid var(--glass-border);box-shadow:0 4px 16px var(--glass-shadow),inset 0 1px 0 var(--glass-inset);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:background 0.3s;}
 .slot-card.empty{background:rgba(128,128,128,0.05);border-style:dashed;box-shadow:none;}
@@ -441,21 +441,14 @@ function cselPick(selId, lblId, val, label) {
 
 async function init() {
   const placeholder = [{
-    model: 'Demo SoC X1', brand: 'ConceptHarmony', type: 'SoC',
-    image: 'soc.png',
-    announced: '2025',
-    open_use: 'No (Proprietary)',
-    process: 'TSMC 3nm',
-    cpu_cores: '4×3.2GHz Prime + 4×2.0GHz Efficiency',
-    gpu_model: 'Demo GPU 9',
-    gpu_clock: '1.8 GHz',
-    npu: '30 TOPS',
-    isp: 'Dual 200MP ISP',
-    modem: 'Integrated 5G Sub-6 / mmWave',
-    geek_s: '1800',
-    geek_m: '5400',
-    antutu: '1500000',
-    gallery: []
+    model:'undefined', brand:'undefined', type:'SoC',
+    image:'',
+    announced:'undefined', open_use:'undefined',
+    process:'undefined', cpu_cores:'undefined',
+    gpu_model:'undefined', gpu_clock:'undefined',
+    npu:'undefined', isp:'undefined', modem:'undefined',
+    geek_s:'undefined', geek_m:'undefined', antutu:'undefined',
+    gallery:[]
   }];
   try {
     const res = await fetch('chips.json');
@@ -672,7 +665,7 @@ function renderCompare() {
     {cat:'Benchmarks',  keys:[{k:'geek_s',l:'Geekbench Single'},{k:'geek_m',l:'Geekbench Multi'},{k:'antutu',l:'AnTuTu'}]}
   ];
   sections.forEach(s => {
-    html += `<tr><td colspan="${span}" class="cat-header">${s.cat}</td></tr>`;
+    html += `<tr><th class="cat-header">${s.cat}</th>${Array(compareSlots.length).fill("<td></td>").join("")}</tr>`;
     s.keys.forEach(k => html += genRow(k.k, k.l));
   });
   html += `</tbody>`;
