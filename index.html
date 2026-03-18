@@ -886,6 +886,10 @@ document.getElementById('hamburger').addEventListener('click',()=>{
   document.getElementById('hamburger').classList.toggle('open');
   document.getElementById('mobileNav').classList.toggle('open');
 });
+function closeMobileNav(){
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobileNav').classList.remove('open');
+}
 document.addEventListener('click',e=>{
   if(!e.target.closest('.dropdown-wrap')) {
     document.getElementById('socialsDropdown').classList.remove('open');
