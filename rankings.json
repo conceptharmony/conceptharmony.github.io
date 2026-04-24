@@ -1,0 +1,12 @@
+{
+  "id": "experix-ultra",
+  "model": "Experix Ultra",
+  "brand": "Spinach",
+  "type": "Phone",
+  "image": "",
+  "camera_detail":     { "Photo": 170, "Video": 168, "Zoom": 164, "Low-light": 169 },
+  "display_detail":    { "Resolution": 160, "Color": 155, "Brightness": 172 },
+  "battery_detail":    { "Endurance": 142, "Charging": 132, "Longevity": 66 },
+  "software_detail":   { "UX": 148, "Updates": 155, "Features": 142 },
+  "performance_detail":{ "CPU": 168, "GPU": 166, "Memory": 173, "Benchmarks": 171 }
+}
