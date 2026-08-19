@@ -56,7 +56,7 @@ nav.topnav{position:sticky;top:0;z-index:500;background:var(--nav);backdrop-filt
 .nav-actions{display:flex;align-items:center;gap:6px;position:relative}
 .icon-btn{width:36px;height:36px;border-radius:9px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ts);transition:background .15s,color .15s;flex-shrink:0}
 .icon-btn:hover{background:var(--g);color:var(--tx)}
-.submit-btn{padding:8px 16px;border-radius:9px;background:var(--tx);color:var(--bg);border:none;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;transition:opacity .15s}
+.submit-btn{padding:8px 16px;border-radius:9px;background:var(--tx);color:var(--bg);border:none;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;transition:opacity .15s;white-space:nowrap}
 .submit-btn:hover{opacity:.85}
 .hamburger{display:none}
 .socials-wrap{position:relative}
@@ -72,11 +72,11 @@ nav.topnav{position:sticky;top:0;z-index:500;background:var(--nav);backdrop-filt
 .mobile-nav button{display:block;width:100%;text-align:left;padding:11px 10px;border-radius:8px;background:none;border:none;font-size:14.5px;font-weight:500;color:var(--ts);font-family:'Inter',sans-serif;cursor:pointer}
 .mobile-nav button.active{color:var(--tx);font-weight:600}
 .mobile-nav .m-row{display:flex;gap:8px;margin-top:8px}
-@media (max-width:880px){.nav-links{display:none}.hamburger{display:flex}}
+@media (max-width:880px){.nav-links{display:none}.hamburger{display:flex}.submit-btn{display:none}.socials-wrap{display:none}}
 .tab-row{display:flex;gap:6px;background:var(--g);backdrop-filter:blur(80px) saturate(2);-webkit-backdrop-filter:blur(80px) saturate(2);padding:5px;border-radius:12px;width:fit-content}
 .tab-btn{padding:8px 16px;border-radius:8px;border:none;background:none;font-size:13.5px;font-weight:500;color:var(--ts);cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s,color .15s}
 .tab-btn.active{background:var(--gh);color:var(--tx);font-weight:600}
-.ghost-btn{padding:10px 16px;border-radius:10px;border:none;background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);color:var(--tx);font-size:13.5px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:7px;transition:background .15s}
+.ghost-btn{padding:10px 16px;border-radius:10px;border:none;background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);color:var(--tx);font-size:13.5px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:background .15s}
 .ghost-btn:hover{background:var(--gh)}
 .csel,.fsel{position:relative}
 .csel-btn,.fsel-btn{width:100%;padding:11px 14px;border-radius:10px;border:none;background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);font-size:13.5px;color:var(--tx);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px;transition:background .2s;font-family:'Inter',sans-serif;text-align:left}
@@ -93,8 +93,8 @@ nav.topnav{position:sticky;top:0;z-index:500;background:var(--nav);backdrop-filt
 .csel.open .csel-chevron,.fsel.open .fsel-chevron{transform:rotate(180deg)}
 select.fsel-hidden{display:none!important}
 .page-head{padding:40px 0 26px}
-.page-head h1{font-size:30px;font-weight:700;letter-spacing:-0.02em;margin-bottom:6px}
-.page-head p{color:var(--ts);font-size:14.5px}
+.page-head h1{font-size:30px;font-weight:700;letter-spacing:-0.02em}
+.page-head p{color:var(--ts);font-size:14.5px;margin-top:6px}
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:28px}
 .search-box{flex:1;min-width:200px;position:relative}
 .search-box input{width:100%;padding:11px 14px 11px 38px;border-radius:10px;border:none;background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);font-size:13.5px;color:var(--tx);font-family:'Inter',sans-serif}
@@ -233,7 +233,25 @@ select.fsel-hidden{display:none!important}
 .submit-cta{padding:13px 22px;border-radius:11px;background:var(--tx);color:var(--bg);border:none;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer}
 .form-success{display:none;background:var(--g);border-radius:14px;padding:24px;font-size:14px;color:var(--tx);margin-top:16px}
 .form-success.show{display:block}
-@media(max-width:640px){.page-head{padding:26px 0 18px}.page-head h1{font-size:24px}.detail-head{gap:18px}.detail-img{width:100%;height:200px}.rank-card{flex-wrap:wrap}.modal-box{padding:20px}}
+@media(max-width:640px){
+  .wrap{padding:0 16px}
+  .nav-inner{padding:12px 16px}
+  .page-head{padding:20px 0 16px}
+  .page-head h1{font-size:22px}
+  .toolbar{gap:8px}
+  .search-box{flex-basis:100%}
+  .filter-w{flex:1;width:auto}
+  .compare-toggle-btn{flex:1}
+  .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px}
+  .card-img{height:100px;padding:12px}
+  .card-body{padding:10px 12px 12px}
+  .card-model{font-size:13.5px;margin-bottom:8px}
+  .card-quick{grid-template-columns:1fr;gap:5px}
+  .detail-head{gap:18px}
+  .detail-img{width:100%;height:200px}
+  .rank-card{flex-wrap:wrap}
+  .modal-box{padding:20px}
+}
 </style>
 </head>
 <body>
@@ -257,7 +275,7 @@ select.fsel-hidden{display:none!important}
       <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode" title="Toggle theme"></button>
       <div class="socials-wrap">
         <button class="icon-btn" id="socialsBtn" onclick="toggleSocials()" aria-label="Socials"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.6" x2="15.4" y2="6.4"/><line x1="8.6" y1="13.4" x2="15.4" y2="17.6"/></svg></button>
-        <div class="dropdown" id="socialsDropdown"><a href="#">Discord Community (Work in Progress)</a><a href="https://www.tiktok.com/@spinach.tech?_r=1&_t=ZG-98yEp1Pr9Yv">Follow on TikTok</a><a href="https://github.com/conceptharmony/conceptharmony.github.io">GitHub</a></div>
+        <div class="dropdown" id="socialsDropdown"><a href="#">Discord Community</a><a href="#">GitHub</a></div>
       </div>
       <button class="icon-btn hamburger" id="hamburger" onclick="toggleHamburger()" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
     </div>
@@ -272,12 +290,12 @@ select.fsel-hidden{display:none!important}
   <button data-page="news" onclick="showPage('news')">News</button>
   <button data-page="submit" onclick="showPage('submit')">Submit Concept</button>
   <div class="m-row"><button class="icon-btn" id="mobileSocialsBtn" onclick="toggleMobileSocials()" style="background:var(--g);width:auto;padding:8px 14px">Socials</button></div>
-  <div class="dropdown" id="mobileSocialsDropdown" style="position:static;margin-top:8px"><a href="#">Discord Community (Work in Progress)</a><a href="https://www.tiktok.com/@spinach.tech?_r=1&_t=ZG-98yEp1Pr9Yv">Follow on TikTok</a><a href="https://github.com/conceptharmony/conceptharmony.github.io">GitHub</a></div>
+  <div class="dropdown" id="mobileSocialsDropdown" style="position:static;margin-top:8px"><a href="#">Discord Community</a><a href="#">GitHub</a></div>
 </div>
 
 <div id="page-index" class="app-page active">
 <div class="wrap">
-  <div class="page-head"><h1>Mobile Devices</h1><p>Concept phones from your concept brands.</p></div>
+  <div class="page-head"><h1>Mobile Devices</h1></div>
   <div id="idx-gallery-view">
     <div class="toolbar">
       <div class="search-box"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="idx-searchInput" placeholder="Search devices..." oninput="IDX.filterAndSort()"></div>
@@ -309,7 +327,7 @@ select.fsel-hidden{display:none!important}
 
 <div id="page-laptops" class="app-page">
 <div class="wrap">
-  <div class="page-head"><h1>Laptops</h1><p>Concept laptops from your concept brands.</p></div>
+  <div class="page-head"><h1>Laptops</h1></div>
   <div id="lap-gallery-view">
     <div class="toolbar">
       <div class="search-box"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="lap-searchInput" placeholder="Search devices..." oninput="LAP.filterAndSort()"></div>
@@ -341,7 +359,7 @@ select.fsel-hidden{display:none!important}
 
 <div id="page-soc" class="app-page">
 <div class="wrap">
-  <div class="page-head"><h1>SoCs</h1><p>Concept chipsets from your concept brands.</p></div>
+  <div class="page-head"><h1>SoCs</h1></div>
   <div id="soc-gallery-view">
     <div class="toolbar">
       <div class="search-box"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="soc-searchInput" placeholder="Search chipsets..." oninput="SOC.filterAndSort()"></div>
@@ -373,7 +391,7 @@ select.fsel-hidden{display:none!important}
 
 <div id="page-sensors" class="app-page">
 <div class="wrap">
-  <div class="page-head"><h1>Camera Sensors</h1><p>Concept sensors from your concept brands.</p></div>
+  <div class="page-head"><h1>Camera Sensors</h1></div>
   <div id="sen-gallery-view">
     <div class="toolbar">
       <div class="search-box"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="sen-searchInput" placeholder="Search sensors..." oninput="SEN.filterAndSort()"></div>
@@ -405,7 +423,7 @@ select.fsel-hidden{display:none!important}
 
 <div id="page-news" class="app-page">
 <div class="wrap">
-  <div class="page-head"><h1>News</h1><p>Coverage of concept devices and the ConceptHarmony website.</p></div>
+  <div class="page-head"><h1>News</h1></div>
   <div id="nws-list-view"><div class="news-grid" id="nws-newsGrid"></div></div>
   <div id="nws-article-view" style="display:none">
     <button class="back-btn" onclick="NWS.goHome()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>All News</button>
@@ -416,7 +434,7 @@ select.fsel-hidden{display:none!important}
 
 <div id="page-submit" class="app-page">
 <div class="wrap">
-  <div class="page-head"><h1>Submit a Concept</h1><p>Add a new concept entry to the database.</p></div>
+  <div class="page-head"><h1>Submit a Concept</h1></div>
   <div class="form-wrap">
     <div class="form-section">
       <h3>Basic Info</h3>
@@ -533,7 +551,6 @@ select.fsel-hidden{display:none!important}
 </div>
 </div>
 
-
 <script>
 const SUN_SVG='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/><line x1="4.2" y1="4.2" x2="6" y2="6"/><line x1="18" y1="18" x2="19.8" y2="19.8"/><line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/><line x1="4.2" y1="19.8" x2="6" y2="18"/><line x1="18" y1="6" x2="19.8" y2="4.2"/></svg>';
 const MOON_SVG='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>';
@@ -558,18 +575,13 @@ applyTheme();
 </script>
 <script>
 (function(){
-  const PREFIX='idx-', NS_NAME='IDX';
+  const PREFIX='idx-', NS_NAME='IDX', DATA_URL='phones.json';
   const CARD_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="20" y="6" width="24" height="52" rx="6"/><line x1="27" y1="13" x2="37" y2="13"/><circle cx="32" cy="52" r="1.4" fill="currentColor" stroke="none"/></svg>';
   const MINI_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="2"><rect x="22" y="8" width="20" height="48" rx="5"/></svg>';
   const SLOT_SVG='<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="16" y1="6" x2="16" y2="26"/><line x1="6" y1="16" x2="26" y2="16"/></svg>';
   const SECTIONS=[['Launch',['Announced','Status']],['Body',['Dimensions','Weight','Build','Colors','Protection']],['Display',['Type','Size','Resolution','Refresh Rate','Peak Brightness','Screen Protection']],['Secondary Display',['Type','Size','Resolution','Secondary Display Brightness']],['Platform',['Chipset','CPU','GPU','Neural Processing Unit','Operating System']],['Memory',['RAM Options','Storage Options','Card Slot']],['Camera',['Main Camera','Front Camera','Video Recording','Camera Features']],['Features',['Sensors','Connectivity','Other Features']],['Power',['Battery Capacity','Charging','Estimated Battery Life']],['Tests & Price',['AnTuTu Score','Geekbench Single-Core','Geekbench Multi-Core','Estimated Price']]];
   const QUICK_FIELDS=[['display','Display'],['chipset','Chipset'],['camera','Camera'],['battery','Battery']];
-  const DATA=[
-    {id:'device-a',brand:'—',model:'Device A',tagline:'The balanced flagship concept',image:'',quick:{display:'6.7" LTPO OLED',chipset:'Concept Silicon X2 Pro',camera:'50MP Triple',battery:'5,200 mAh'},specs:{'Launch':{'Announced':'Concept — May 2026','Status':'Concept — Not for sale'},'Body':{'Dimensions':'162.8 × 76.2 × 8.1 mm','Weight':'204 g','Build':'Aluminum frame, dual glass','Colors':'Graphite, Cloud White, Sage','Protection':'IP68 dust and water resistant'},'Display':{'Type':'LTPO OLED','Size':'6.7 inches','Resolution':'1290 × 2796 pixels','Refresh Rate':'1–120Hz adaptive','Peak Brightness':'3,000 nits','Screen Protection':'Ceramic composite glass'},'Secondary Display':{'Type':'—','Size':'—','Resolution':'—','Secondary Display Brightness':'—'},'Platform':{'Chipset':'Concept Silicon X2 Pro','CPU':'Octa-core, up to 4.2GHz','GPU':'Concept Adreno-class 9-core','Neural Processing Unit':'48 TOPS','Operating System':'ConceptOS 17'},'Memory':{'RAM Options':'8GB / 12GB / 16GB','Storage Options':'128GB / 256GB / 512GB','Card Slot':'No'},'Camera':{'Main Camera':'50MP wide (f/1.8, OIS) + 48MP ultrawide (f/2.2) + 12MP telephoto 5x (f/2.8, OIS)','Front Camera':'32MP (f/2.2)','Video Recording':'8K@30fps, 4K@60fps with gyro-EIS','Camera Features':'Dual-native ISO, Night mode, Macro focus'},'Features':{'Sensors':'Under-display fingerprint, accelerometer, gyroscope, barometer','Connectivity':'5G, Wi-Fi 7, Bluetooth 6.0, NFC, USB Type-C 3.2','Other Features':'Stereo speakers, IP68 rating, satellite messaging'},'Power':{'Battery Capacity':'5,200 mAh','Charging':'80W wired, 50W wireless','Estimated Battery Life':'Up to 29 hours video playback'},'Tests & Price':{'AnTuTu Score':'2,150,000','Geekbench Single-Core':'2,950','Geekbench Multi-Core':'9,800','Estimated Price':'$1,099'}}},
-    {id:'device-b',brand:'—',model:'Device B',tagline:'Built around a one-inch main sensor',image:'',quick:{display:'6.8" LTPO OLED',chipset:'Concept Silicon X2 Pro',camera:'50MP 1-inch Main',battery:'5,000 mAh'},specs:{'Launch':{'Announced':'Concept — July 2026','Status':'Concept — Not for sale'},'Body':{'Dimensions':'164.3 × 75.9 × 9.4 mm','Weight':'221 g','Build':'Titanium frame, ceramic back','Colors':'Obsidian, Pearl','Protection':'IP68 dust and water resistant'},'Display':{'Type':'LTPO OLED','Size':'6.8 inches','Resolution':'1344 × 2992 pixels','Refresh Rate':'1–120Hz adaptive','Peak Brightness':'3,200 nits','Screen Protection':'Ceramic composite glass'},'Secondary Display':{'Type':'—','Size':'—','Resolution':'—','Secondary Display Brightness':'—'},'Platform':{'Chipset':'Concept Silicon X2 Pro','CPU':'Octa-core, up to 4.3GHz','GPU':'Concept Adreno-class 9-core','Neural Processing Unit':'48 TOPS','Operating System':'ConceptOS 17'},'Memory':{'RAM Options':'12GB / 16GB','Storage Options':'256GB / 512GB / 1TB','Card Slot':'No'},'Camera':{'Main Camera':'50MP 1-inch wide (f/1.6, OIS) + 48MP ultrawide (f/2.0) + 50MP periscope telephoto 5x (f/2.8, OIS)','Front Camera':'32MP (f/2.2)','Video Recording':'8K@30fps, 4K@120fps with gyro-EIS','Camera Features':'Variable aperture, dual-native ISO, Pro RAW'},'Features':{'Sensors':'Under-display fingerprint, accelerometer, gyroscope, barometer','Connectivity':'5G, Wi-Fi 7, Bluetooth 6.0, NFC, USB Type-C 3.2','Other Features':'Stereo speakers, IP68 rating, dedicated camera button'},'Power':{'Battery Capacity':'5,000 mAh','Charging':'65W wired, 40W wireless','Estimated Battery Life':'Up to 26 hours video playback'},'Tests & Price':{'AnTuTu Score':'2,140,000','Geekbench Single-Core':'2,930','Geekbench Multi-Core':'9,750','Estimated Price':'$1,299'}}},
-    {id:'device-c',brand:'—',model:'Device C',tagline:'Endurance-first, built for multi-day use',image:'',quick:{display:'6.9" AMOLED',chipset:'Concept Silicon E1',camera:'50MP Dual',battery:'7,500 mAh'},specs:{'Launch':{'Announced':'Concept — April 2026','Status':'Concept — Not for sale'},'Body':{'Dimensions':'166.5 × 77.0 × 9.8 mm','Weight':'232 g','Build':'Polycarbonate frame, glass back','Colors':'Slate, Forest Green','Protection':'IP68 dust and water resistant'},'Display':{'Type':'AMOLED','Size':'6.9 inches','Resolution':'1260 × 2800 pixels','Refresh Rate':'1–90Hz adaptive','Peak Brightness':'2,200 nits','Screen Protection':'Hardened glass'},'Secondary Display':{'Type':'—','Size':'—','Resolution':'—','Secondary Display Brightness':'—'},'Platform':{'Chipset':'Concept Silicon E1','CPU':'Octa-core, up to 3.4GHz','GPU':'Concept Adreno-class 6-core','Neural Processing Unit':'22 TOPS','Operating System':'ConceptOS 17 Lite'},'Memory':{'RAM Options':'8GB / 12GB','Storage Options':'128GB / 256GB','Card Slot':'microSD up to 2TB'},'Camera':{'Main Camera':'50MP wide (f/1.8, OIS) + 8MP ultrawide (f/2.2)','Front Camera':'16MP (f/2.4)','Video Recording':'4K@30fps with EIS','Camera Features':'Night mode, Macro focus'},'Features':{'Sensors':'Side-mounted fingerprint, accelerometer, gyroscope','Connectivity':'5G, Wi-Fi 6, Bluetooth 5.3, NFC, USB Type-C 2.0','Other Features':'Single speaker, IP68 rating, reverse wired charging'},'Power':{'Battery Capacity':'7,500 mAh','Charging':'45W wired, 15W wireless','Estimated Battery Life':'Up to 52 hours video playback'},'Tests & Price':{'AnTuTu Score':'1,180,000','Geekbench Single-Core':'1,650','Geekbench Multi-Core':'4,900','Estimated Price':'$649'}}},
-    {id:'device-d',brand:'—',model:'Device D',tagline:'A flip concept with a full-size cover display',image:'',quick:{display:'6.5" foldable OLED',chipset:'Concept Silicon X2 Pro',camera:'50MP Dual',battery:'4,200 mAh'},specs:{'Launch':{'Announced':'Concept — June 2026','Status':'Concept — Not for sale'},'Body':{'Dimensions':'165.1 × 71.9 × 7.2 mm (unfolded)','Weight':'196 g','Build':'Aluminum frame, folding glass','Colors':'Lilac, Charcoal','Protection':'IP48 dust and water resistant'},'Display':{'Type':'Foldable LTPO OLED','Size':'6.5 inches (unfolded)','Resolution':'1080 × 2640 pixels','Refresh Rate':'1–120Hz adaptive','Peak Brightness':'2,600 nits','Screen Protection':'Ultra-thin flexible glass'},'Secondary Display':{'Type':'AMOLED cover display','Size':'3.4 inches','Resolution':'748 × 1080 pixels','Secondary Display Brightness':'1,200 nits'},'Platform':{'Chipset':'Concept Silicon X2 Pro','CPU':'Octa-core, up to 4.2GHz','GPU':'Concept Adreno-class 9-core','Neural Processing Unit':'48 TOPS','Operating System':'ConceptOS 17'},'Memory':{'RAM Options':'12GB / 16GB','Storage Options':'256GB / 512GB','Card Slot':'No'},'Camera':{'Main Camera':'50MP wide (f/1.8, OIS) + 12MP ultrawide (f/2.2)','Front Camera':'10MP (f/2.4, under-display)','Video Recording':'4K@60fps with gyro-EIS','Camera Features':'Cover-screen selfies, Night mode'},'Features':{'Sensors':'Side-mounted fingerprint, accelerometer, gyroscope, hinge angle sensor','Connectivity':'5G, Wi-Fi 7, Bluetooth 6.0, NFC, USB Type-C 3.2','Other Features':'Stereo speakers, IP48 rating, flex mode multitasking'},'Power':{'Battery Capacity':'4,200 mAh','Charging':'50W wired, 30W wireless','Estimated Battery Life':'Up to 22 hours video playback'},'Tests & Price':{'AnTuTu Score':'2,120,000','Geekbench Single-Core':'2,910','Geekbench Multi-Core':'9,700','Estimated Price':'$1,499'}}}
-  ];
+  let DATA=[], loadFailed=false;
   let compareSlots=[null,null,null],currentIdx=null,diffMode=false,brandVal='all',sortVal='newest',_labelTimer=null;
   function $(x){ return document.getElementById(PREFIX+x); }
   function getDev(id){ return DATA.find(d=>d.id===id)||null; }
@@ -595,7 +607,11 @@ applyTheme();
     let quick=''; QUICK_FIELDS.forEach(([key,label])=>{ quick+=`<div>${label}<strong>${(dev.quick&&dev.quick[key])||'—'}</strong></div>`; });
     return `<div class="card" onclick="${NS_NAME}.showDetails('${dev.id}')"><div class="card-img">${img}</div><div class="card-body"><div class="card-brand">${dev.brand}</div><div class="card-model">${dev.model}</div><div class="card-quick">${quick}</div></div></div>`;
   }
-  function renderGallery(list){ const grid=$('galleryGrid'); grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
+  function renderGallery(list){
+    const grid=$('galleryGrid');
+    if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page and that you're viewing this over http(s), not a local file:// path.</div>`; return; }
+    grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>';
+  }
   function showDetails(devId){
     const dev=getDev(devId); if(!dev) return; currentIdx=devId;
     $('gallery-view').style.display='none'; $('detail-view').style.display='block';
@@ -618,60 +634,39 @@ applyTheme();
   function addSlot(devId){ if(compareSlots.includes(devId)) return; const empty=compareSlots.indexOf(null); compareSlots[empty!==-1?empty:compareSlots.length-1]=devId; updateCompareBadge(); if($('tab-compare').style.display!=='none') renderCompare(); }
   function removeSlot(i){ compareSlots[i]=null; updateCompareBadge(); renderCompare(); }
   function setSlot(i,devId){ compareSlots[i]=devId; updateCompareBadge(); renderCompare(); }
-  function searchSlot(i){
-    const val=document.getElementById(PREFIX+'slotSearch'+i).value.toLowerCase().trim();
-    const box=document.getElementById(PREFIX+'slotResults'+i);
-    if(!val){ box.innerHTML=''; box.style.display='none'; return; }
-    const matches=DATA.filter(d=>!compareSlots.includes(d.id)&&d.model.toLowerCase().includes(val)).slice(0,6);
-    box.innerHTML=matches.length?matches.map(d=>`<div onclick="${NS_NAME}.setSlot(${i},'${d.id}')">${d.model}</div>`).join(''):'<div style="color:var(--ts)">No matches</div>';
-    box.style.display='block';
-  }
+  function searchSlot(i){ const val=document.getElementById(PREFIX+'slotSearch'+i).value.toLowerCase().trim(); const box=document.getElementById(PREFIX+'slotResults'+i); if(!val){ box.innerHTML=''; box.style.display='none'; return; } const matches=DATA.filter(d=>!compareSlots.includes(d.id)&&d.model.toLowerCase().includes(val)).slice(0,6); box.innerHTML=matches.length?matches.map(d=>`<div onclick="${NS_NAME}.setSlot(${i},'${d.id}')">${d.model}</div>`).join(''):'<div style="color:var(--ts)">No matches</div>'; box.style.display='block'; }
   function renderCompare(){
     const area=$('compareArea'); const filled=compareSlots.filter(Boolean).length;
-    const headCells=compareSlots.map((id,i)=>{
-      const dev=getDev(id);
-      if(dev) return `<td><div class="slot-card"><div class="slot-img">${MINI_SVG}</div><div class="slot-name">${dev.model}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`;
-      return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`;
-    }).join('');
-    let rows='';
-    SECTIONS.forEach(([section,fields])=>{
-      rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`;
-      fields.forEach(f=>{ const rowDiffers=diffMode&&filled>1&&new Set(getRowTokens(section,f)).size>1; rows+=`<tr><th>${f}</th>${compareSlots.map((id,i)=>`<td${(rowDiffers&&id)?' class="diff"':''}>${getRawVal(i,section,f)}</td>`).join('')}</tr>`; });
-    });
+    const headCells=compareSlots.map((id,i)=>{ const dev=getDev(id); if(dev) return `<td><div class="slot-card"><div class="slot-img">${MINI_SVG}</div><div class="slot-name">${dev.model}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`; }).join('');
+    let rows=''; SECTIONS.forEach(([section,fields])=>{ rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`; fields.forEach(f=>{ const rowDiffers=diffMode&&filled>1&&new Set(getRowTokens(section,f)).size>1; rows+=`<tr><th>${f}</th>${compareSlots.map((id,i)=>`<td${(rowDiffers&&id)?' class="diff"':''}>${getRawVal(i,section,f)}</td>`).join('')}</tr>`; }); });
     area.innerHTML=`<div class="compare-actions"><label class="diff-toggle"><input type="checkbox" ${diffMode?'checked':''} onchange="${NS_NAME}.toggleDiffMode()"> Highlight differences</label></div><div class="compare-wrapper" id="${PREFIX}compareWrapper"><table class="compare-table" id="${PREFIX}compareTable"><thead><tr><th></th>${headCells}</tr></thead><tbody>${rows}</tbody></table></div>`;
     _attachCompareFade(); _updateSidebarBlur();
   }
   function toggleDiffMode(){ diffMode=!diffMode; renderCompare(); }
   function highlightDiff(){ renderCompare(); }
   function cselToggle(wrapId){ const el=document.getElementById(wrapId); const wasOpen=el.classList.contains('open'); document.querySelectorAll('.csel.open, .fsel.open').forEach(o=>o.classList.remove('open')); if(!wasOpen) el.classList.add('open'); }
-  function cselPick(wrapId,labelId,val,labelText,el){
-    if(wrapId.endsWith('brandSel')) brandVal=val; else if(wrapId.endsWith('sortSel')) sortVal=val;
-    const labelEl=document.getElementById(labelId); const sortSpan=labelEl.querySelector('.sort-text');
-    if(sortSpan){ sortSpan.classList.add('switching'); clearTimeout(_labelTimer); _labelTimer=setTimeout(()=>{ sortSpan.textContent=labelText; sortSpan.classList.remove('switching'); },140); } else { labelEl.textContent=labelText; }
-    el.parentElement.querySelectorAll('.csel-opt').forEach(o=>o.classList.remove('selected')); el.classList.add('selected');
-    document.getElementById(wrapId).classList.remove('open'); filterAndSort();
-  }
+  function cselPick(wrapId,labelId,val,labelText,el){ if(wrapId.endsWith('brandSel')) brandVal=val; else if(wrapId.endsWith('sortSel')) sortVal=val; const labelEl=document.getElementById(labelId); const sortSpan=labelEl.querySelector('.sort-text'); if(sortSpan){ sortSpan.classList.add('switching'); clearTimeout(_labelTimer); _labelTimer=setTimeout(()=>{ sortSpan.textContent=labelText; sortSpan.classList.remove('switching'); },140); } else { labelEl.textContent=labelText; } el.parentElement.querySelectorAll('.csel-opt').forEach(o=>o.classList.remove('selected')); el.classList.add('selected'); document.getElementById(wrapId).classList.remove('open'); filterAndSort(); }
   function _showLabels(){ const s=$('searchInput'); if(s) s.setAttribute('aria-label','Search devices'); }
   function _attachCompareFade(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.addEventListener('scroll',_updateSidebarBlur); }
   function _updateSidebarBlur(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.classList.toggle('scrolled', w.scrollTop>2); }
-  function init(){ populateBrands(); filterAndSort(); _showLabels(); }
-  window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,CARD_SVG,MINI_SVG,SLOT_SVG,DATA,SECTIONS};
+  async function init(){
+    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); }
+    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; }
+    populateBrands(); filterAndSort(); _showLabels();
+  }
+  window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,CARD_SVG,MINI_SVG,SLOT_SVG,get DATA(){return DATA;},SECTIONS};
   init();
 })();
 </script>
 <script>
 (function(){
-  const PREFIX='lap-', NS_NAME='LAP';
+  const PREFIX='lap-', NS_NAME='LAP', DATA_URL='laptops.json';
   const CARD_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="10" y="12" width="44" height="30" rx="3"/><path d="M4 46h56l-5 8H9z"/></svg>';
   const MINI_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="2"><rect x="12" y="16" width="40" height="26" rx="2"/></svg>';
   const SLOT_SVG='<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="16" y1="6" x2="16" y2="26"/><line x1="6" y1="16" x2="26" y2="16"/></svg>';
   const SECTIONS=[['Launch',['Announced','Status']],['Design',['Dimensions','Weight','Build','Colors']],['Display',['Type','Size','Resolution','Refresh Rate','Peak Brightness']],['Platform',['Processor','Graphics','Neural Processing Unit','Operating System']],['Memory & Storage',['RAM Options','Storage Options','Expandable Storage']],['Connectivity',['Wi-Fi','Bluetooth','Ports']],['Battery & Price',['Battery Capacity','Charging','Estimated Battery Life','Estimated Price']]];
   const QUICK_FIELDS=[['display','Display'],['processor','Processor'],['graphics','Graphics'],['battery','Battery']];
-  const DATA=[
-    {id:'device-a',brand:'—',model:'Device A',tagline:'An ultra-thin flagship for daily carry',image:'',quick:{display:'14" OLED',processor:'Concept Silicon L3',graphics:'Integrated 10-core',battery:'18 hr'},specs:{'Launch':{'Announced':'Concept — May 2026','Status':'Concept — Not for sale'},'Design':{'Dimensions':'310.5 × 220.2 × 12.4 mm','Weight':'1.19 kg','Build':'Unibody aluminum','Colors':'Space Gray, Silver'},'Display':{'Type':'OLED','Size':'14 inches','Resolution':'2880 × 1800 pixels','Refresh Rate':'up to 120Hz adaptive','Peak Brightness':'600 nits'},'Platform':{'Processor':'Concept Silicon L3, 12-core','Graphics':'Integrated 10-core','Neural Processing Unit':'38 TOPS','Operating System':'ConceptOS Desktop 6'},'Memory & Storage':{'RAM Options':'16GB / 32GB','Storage Options':'512GB / 1TB / 2TB','Expandable Storage':'No'},'Connectivity':{'Wi-Fi':'Wi-Fi 7','Bluetooth':'Bluetooth 6.0','Ports':'2× Thunderbolt 5, 1× USB-C, headphone jack'},'Battery & Price':{'Battery Capacity':'70Wh','Charging':'70W wired (USB-C)','Estimated Battery Life':'Up to 18 hours','Estimated Price':'$1,599'}}},
-    {id:'device-b',brand:'—',model:'Device B',tagline:'Discrete graphics for creators on the move',image:'',quick:{display:'16" Mini-LED',processor:'Concept Silicon L5 Pro',graphics:'Discrete 16GB',battery:'10 hr'},specs:{'Launch':{'Announced':'Concept — March 2026','Status':'Concept — Not for sale'},'Design':{'Dimensions':'356.0 × 246.3 × 16.8 mm','Weight':'2.15 kg','Build':'CNC aluminum chassis','Colors':'Graphite'},'Display':{'Type':'Mini-LED','Size':'16 inches','Resolution':'3456 × 2160 pixels','Refresh Rate':'up to 165Hz','Peak Brightness':'1,000 nits'},'Platform':{'Processor':'Concept Silicon L5 Pro, 16-core','Graphics':'Discrete, 16GB dedicated memory','Neural Processing Unit':'55 TOPS','Operating System':'ConceptOS Desktop 6'},'Memory & Storage':{'RAM Options':'32GB / 64GB','Storage Options':'1TB / 2TB / 4TB','Expandable Storage':'1× SSD expansion slot'},'Connectivity':{'Wi-Fi':'Wi-Fi 7','Bluetooth':'Bluetooth 6.0','Ports':'3× Thunderbolt 5, HDMI 2.1, SD card reader'},'Battery & Price':{'Battery Capacity':'96Wh','Charging':'140W wired (USB-C)','Estimated Battery Life':'Up to 10 hours','Estimated Price':'$2,899'}}},
-    {id:'device-c',brand:'—',model:'Device C',tagline:'A convertible for sketching and note-taking',image:'',quick:{display:'13.5" LCD touch',processor:'Concept Silicon L2',graphics:'Integrated 8-core',battery:'14 hr'},specs:{'Launch':{'Announced':'Concept — June 2026','Status':'Concept — Not for sale'},'Design':{'Dimensions':'297.4 × 210.6 × 15.9 mm','Weight':'1.34 kg','Build':'Aluminum, 360° hinge','Colors':'Sandstone, Ink Blue'},'Display':{'Type':'LCD, touch and pen input','Size':'13.5 inches','Resolution':'2256 × 1504 pixels','Refresh Rate':'up to 60Hz','Peak Brightness':'450 nits'},'Platform':{'Processor':'Concept Silicon L2, 8-core','Graphics':'Integrated 8-core','Neural Processing Unit':'18 TOPS','Operating System':'ConceptOS Desktop 6'},'Memory & Storage':{'RAM Options':'8GB / 16GB','Storage Options':'256GB / 512GB','Expandable Storage':'No'},'Connectivity':{'Wi-Fi':'Wi-Fi 6E','Bluetooth':'Bluetooth 5.3','Ports':'2× USB-C, headphone jack'},'Battery & Price':{'Battery Capacity':'56Wh','Charging':'45W wired (USB-C)','Estimated Battery Life':'Up to 14 hours','Estimated Price':'$999'}}}
-  ];
+  let DATA=[], loadFailed=false;
   let compareSlots=[null,null,null],currentIdx=null,diffMode=false,brandVal='all',sortVal='newest',_labelTimer=null;
   function $(x){ return document.getElementById(PREFIX+x); }
   function getDev(id){ return DATA.find(d=>d.id===id)||null; }
@@ -682,7 +677,7 @@ applyTheme();
   function populateBrands(){ const menu=$('brandMenu'); const brands=Array.from(new Set(DATA.map(d=>d.brand))); let html=`<div class="csel-opt selected" data-val="all" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','all','All Brands',this)">All Brands</div>`; brands.forEach(b=>{ html+=`<div class="csel-opt" data-val="${b}" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','${b}','${b}',this)">${b}</div>`; }); menu.innerHTML=html; }
   function filterAndSort(){ const q=($('searchInput').value||'').toLowerCase().trim(); let list=DATA.filter(d=>{ const ms=!q||d.model.toLowerCase().includes(q)||(d.tagline||'').toLowerCase().includes(q); const mb=brandVal==='all'||d.brand===brandVal; return ms&&mb; }); if(sortVal==='az') list.sort((a,b)=>a.model.localeCompare(b.model)); else if(sortVal==='za') list.sort((a,b)=>b.model.localeCompare(a.model)); renderGallery(list); }
   function cardHTML(dev){ const img=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; QUICK_FIELDS.forEach(([key,label])=>{ quick+=`<div>${label}<strong>${(dev.quick&&dev.quick[key])||'—'}</strong></div>`; }); return `<div class="card" onclick="${NS_NAME}.showDetails('${dev.id}')"><div class="card-img">${img}</div><div class="card-body"><div class="card-brand">${dev.brand}</div><div class="card-model">${dev.model}</div><div class="card-quick">${quick}</div></div></div>`; }
-  function renderGallery(list){ const grid=$('galleryGrid'); grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
+  function renderGallery(list){ const grid=$('galleryGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page and that you're viewing this over http(s), not a local file:// path.</div>`; return; } grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
   function showDetails(devId){ const dev=getDev(devId); if(!dev) return; currentIdx=devId; $('gallery-view').style.display='none'; $('detail-view').style.display='block'; $('d_brand').textContent=dev.brand; $('d_model').textContent=dev.model; $('d_tagline').textContent=dev.tagline||''; $('d_img_wrap').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; QUICK_FIELDS.forEach(([key,label])=>{ quick+=`<div class="dq-item"><span>${label}</span><strong>${(dev.quick&&dev.quick[key])||'—'}</strong></div>`; }); $('d_quick').innerHTML=quick; renderSpecList(dev); renderSimilar(dev); renderPics(dev); setTab('specs'); window.scrollTo(0,0); }
   function renderSpecList(dev){ let html=''; SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(f=>{ html+=`<div class="spec-row"><span class="spec-label">${f}</span><span class="spec-value">${getRaw(dev,section,f)}</span></div>`; }); }); $('specList').innerHTML=html; }
   function renderSimilar(dev){ $('similarGrid').innerHTML=DATA.filter(d=>d.id!==dev.id).slice(0,3).map(cardHTML).join(''); }
@@ -709,24 +704,24 @@ applyTheme();
   function _showLabels(){ const s=$('searchInput'); if(s) s.setAttribute('aria-label','Search devices'); }
   function _attachCompareFade(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.addEventListener('scroll',_updateSidebarBlur); }
   function _updateSidebarBlur(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.classList.toggle('scrolled', w.scrollTop>2); }
-  function init(){ populateBrands(); filterAndSort(); _showLabels(); }
-  window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,CARD_SVG,MINI_SVG,SLOT_SVG,DATA,SECTIONS};
+  async function init(){
+    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); }
+    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; }
+    populateBrands(); filterAndSort(); _showLabels();
+  }
+  window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,CARD_SVG,MINI_SVG,SLOT_SVG,get DATA(){return DATA;},SECTIONS};
   init();
 })();
 </script>
 <script>
 (function(){
-  const PREFIX='soc-', NS_NAME='SOC';
+  const PREFIX='soc-', NS_NAME='SOC', DATA_URL='chips.json';
   const CARD_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="18" y="18" width="28" height="28" rx="3"/><line x1="26" y1="10" x2="26" y2="18"/><line x1="38" y1="10" x2="38" y2="18"/><line x1="26" y1="46" x2="26" y2="54"/><line x1="38" y1="46" x2="38" y2="54"/><line x1="10" y1="26" x2="18" y2="26"/><line x1="10" y1="38" x2="18" y2="38"/><line x1="46" y1="26" x2="54" y2="26"/><line x1="46" y1="38" x2="54" y2="38"/></svg>';
   const MINI_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="2"><rect x="20" y="20" width="24" height="24" rx="2"/></svg>';
   const SLOT_SVG='<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="16" y1="6" x2="16" y2="26"/><line x1="6" y1="16" x2="26" y2="16"/></svg>';
   const SECTIONS=[['Overview',['Announced','Status','Manufacturing Process']],['CPU',['Configuration','Architecture','Cache']],['GPU',['Model','Cores','Peak Frequency']],['Neural Processing Unit',['Performance','Precision Support','Use Cases']],['Memory Support',['RAM Type','Max Capacity','Bus Width']],['Connectivity',['Modem','Wi-Fi','Bluetooth']],['Benchmarks',['AnTuTu Score','Geekbench Single-Core','Geekbench Multi-Core','GPU Benchmark']]];
   const QUICK_FIELDS=[['process','Process'],['cpu','CPU'],['gpu','GPU'],['npu','Neural Engine']];
-  const DATA=[
-    {id:'device-a',brand:'—',model:'Device A',tagline:"The flagship chipset behind this year's top concepts",image:'',quick:{process:'3nm',cpu:'Octa-core 4.3GHz',gpu:'9-core',npu:'48 TOPS'},specs:{'Overview':{'Announced':'Concept — February 2026','Status':'Concept — Sampling','Manufacturing Process':'3nm'},'CPU':{'Configuration':'1× Prime 4.3GHz + 3× Performance 3.5GHz + 4× Efficiency 2.4GHz','Architecture':'Concept Cortex-X hybrid','Cache':'12MB shared L3'},'GPU':{'Model':'Concept Adreno-class','Cores':'9-core','Peak Frequency':'1.3GHz'},'Neural Processing Unit':{'Performance':'48 TOPS','Precision Support':'INT4, INT8, FP16','Use Cases':'On-device generative AI, computational photography'},'Memory Support':{'RAM Type':'LPDDR6','Max Capacity':'24GB','Bus Width':'64-bit dual-channel'},'Connectivity':{'Modem':'Integrated 5G, sub-6 and mmWave','Wi-Fi':'Wi-Fi 7','Bluetooth':'Bluetooth 6.0'},'Benchmarks':{'AnTuTu Score':'2,150,000','Geekbench Single-Core':'2,950','Geekbench Multi-Core':'9,800','GPU Benchmark':'18,400 (3DMark Wild Life Extreme)'}}},
-    {id:'device-b',brand:'—',model:'Device B',tagline:'Efficiency-tuned silicon for all-day mid-range devices',image:'',quick:{process:'5nm',cpu:'Octa-core 3.0GHz',gpu:'6-core',npu:'22 TOPS'},specs:{'Overview':{'Announced':'Concept — January 2026','Status':'Concept — Sampling','Manufacturing Process':'5nm'},'CPU':{'Configuration':'2× Performance 3.0GHz + 6× Efficiency 2.0GHz','Architecture':'Concept Cortex-A hybrid','Cache':'8MB shared L3'},'GPU':{'Model':'Concept Adreno-class','Cores':'6-core','Peak Frequency':'950MHz'},'Neural Processing Unit':{'Performance':'22 TOPS','Precision Support':'INT8, FP16','Use Cases':'Camera scene detection, voice assistants'},'Memory Support':{'RAM Type':'LPDDR5X','Max Capacity':'16GB','Bus Width':'64-bit dual-channel'},'Connectivity':{'Modem':'Integrated 5G, sub-6','Wi-Fi':'Wi-Fi 6','Bluetooth':'Bluetooth 5.3'},'Benchmarks':{'AnTuTu Score':'1,180,000','Geekbench Single-Core':'1,650','Geekbench Multi-Core':'4,900','GPU Benchmark':'6,200 (3DMark Wild Life Extreme)'}}},
-    {id:'device-c',brand:'—',model:'Device C',tagline:'Twelve efficient cores built for thin-and-light laptops',image:'',quick:{process:'3nm',cpu:'12-core',gpu:'10-core integrated',npu:'38 TOPS'},specs:{'Overview':{'Announced':'Concept — April 2026','Status':'Concept — Sampling','Manufacturing Process':'3nm'},'CPU':{'Configuration':'4× Performance 4.0GHz + 8× Efficiency 2.8GHz','Architecture':'Concept wide-core design','Cache':'24MB shared L3'},'GPU':{'Model':'Concept integrated graphics','Cores':'10-core','Peak Frequency':'1.6GHz'},'Neural Processing Unit':{'Performance':'38 TOPS','Precision Support':'INT8, FP16, BF16','Use Cases':'On-device video generation, local language models'},'Memory Support':{'RAM Type':'LPDDR5X, unified memory','Max Capacity':'64GB','Bus Width':'128-bit'},'Connectivity':{'Modem':'None (Wi-Fi only)','Wi-Fi':'Wi-Fi 7','Bluetooth':'Bluetooth 6.0'},'Benchmarks':{'AnTuTu Score':'N/A (desktop-class benchmark suite)','Geekbench Single-Core':'3,200','Geekbench Multi-Core':'16,400','GPU Benchmark':'42,000 (3DMark Steel Nomad)'}}}
-  ];
+  let DATA=[], loadFailed=false;
   let compareSlots=[null,null,null],currentIdx=null,diffMode=false,brandVal='all',sortVal='newest',_labelTimer=null;
   function $(x){ return document.getElementById(PREFIX+x); }
   function getDev(id){ return DATA.find(d=>d.id===id)||null; }
@@ -737,7 +732,7 @@ applyTheme();
   function populateBrands(){ const menu=$('brandMenu'); const brands=Array.from(new Set(DATA.map(d=>d.brand))); let html=`<div class="csel-opt selected" data-val="all" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','all','All Brands',this)">All Brands</div>`; brands.forEach(b=>{ html+=`<div class="csel-opt" data-val="${b}" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','${b}','${b}',this)">${b}</div>`; }); menu.innerHTML=html; }
   function filterAndSort(){ const q=($('searchInput').value||'').toLowerCase().trim(); let list=DATA.filter(d=>{ const ms=!q||d.model.toLowerCase().includes(q)||(d.tagline||'').toLowerCase().includes(q); const mb=brandVal==='all'||d.brand===brandVal; return ms&&mb; }); if(sortVal==='az') list.sort((a,b)=>a.model.localeCompare(b.model)); else if(sortVal==='za') list.sort((a,b)=>b.model.localeCompare(a.model)); renderGallery(list); }
   function cardHTML(dev){ const img=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; QUICK_FIELDS.forEach(([key,label])=>{ quick+=`<div>${label}<strong>${(dev.quick&&dev.quick[key])||'—'}</strong></div>`; }); return `<div class="card" onclick="${NS_NAME}.showDetails('${dev.id}')"><div class="card-img">${img}</div><div class="card-body"><div class="card-brand">${dev.brand}</div><div class="card-model">${dev.model}</div><div class="card-quick">${quick}</div></div></div>`; }
-  function renderGallery(list){ const grid=$('galleryGrid'); grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
+  function renderGallery(list){ const grid=$('galleryGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page and that you're viewing this over http(s), not a local file:// path.</div>`; return; } grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
   function showDetails(devId){ const dev=getDev(devId); if(!dev) return; currentIdx=devId; $('gallery-view').style.display='none'; $('detail-view').style.display='block'; $('d_brand').textContent=dev.brand; $('d_model').textContent=dev.model; $('d_tagline').textContent=dev.tagline||''; $('d_img_wrap').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; QUICK_FIELDS.forEach(([key,label])=>{ quick+=`<div class="dq-item"><span>${label}</span><strong>${(dev.quick&&dev.quick[key])||'—'}</strong></div>`; }); $('d_quick').innerHTML=quick; renderSpecList(dev); renderSimilar(dev); renderPics(dev); setTab('specs'); window.scrollTo(0,0); }
   function renderSpecList(dev){ let html=''; SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(f=>{ html+=`<div class="spec-row"><span class="spec-label">${f}</span><span class="spec-value">${getRaw(dev,section,f)}</span></div>`; }); }); $('specList').innerHTML=html; }
   function renderSimilar(dev){ $('similarGrid').innerHTML=DATA.filter(d=>d.id!==dev.id).slice(0,3).map(cardHTML).join(''); }
@@ -764,24 +759,24 @@ applyTheme();
   function _showLabels(){ const s=$('searchInput'); if(s) s.setAttribute('aria-label','Search devices'); }
   function _attachCompareFade(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.addEventListener('scroll',_updateSidebarBlur); }
   function _updateSidebarBlur(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.classList.toggle('scrolled', w.scrollTop>2); }
-  function init(){ populateBrands(); filterAndSort(); _showLabels(); }
-  window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,CARD_SVG,MINI_SVG,SLOT_SVG,DATA,SECTIONS};
+  async function init(){
+    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); }
+    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; }
+    populateBrands(); filterAndSort(); _showLabels();
+  }
+  window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,CARD_SVG,MINI_SVG,SLOT_SVG,get DATA(){return DATA;},SECTIONS};
   init();
 })();
 </script>
 <script>
 (function(){
-  const PREFIX='sen-', NS_NAME='SEN';
+  const PREFIX='sen-', NS_NAME='SEN', DATA_URL='sensors.json';
   const CARD_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="32" cy="28" r="16"/><circle cx="32" cy="28" r="7"/><rect x="24" y="48" width="16" height="6" rx="1"/></svg>';
   const MINI_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="2"><circle cx="32" cy="30" r="16"/></svg>';
   const SLOT_SVG='<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="16" y1="6" x2="16" y2="26"/><line x1="6" y1="16" x2="26" y2="16"/></svg>';
   const SECTIONS=[['Overview',['Announced','Status','Sensor Type']],['Sensor Specifications',['Optical Format','Effective Resolution','Pixel Size','Sensor Size']],['Pixel Technology',['Technology','Color Filter','Dynamic Range']],['Video Capabilities',['Maximum Resolution','Frame Rates','Stabilization']],['Autofocus',['System','Focus Points','Low-light Autofocus']]];
   const QUICK_FIELDS=[['size','Optical Format'],['resolution','Resolution'],['pixelsize','Pixel Size'],['af','Autofocus']];
-  const DATA=[
-    {id:'device-a',brand:'—',model:'Device A',tagline:'A one-inch sensor built for flagship main cameras',image:'',quick:{size:'1-inch',resolution:'50MP',pixelsize:'1.6μm',af:'Dual Pixel'},specs:{'Overview':{'Announced':'Concept — March 2026','Status':'Concept — Sampling','Sensor Type':'Stacked CMOS'},'Sensor Specifications':{'Optical Format':'1-inch','Effective Resolution':'50 Megapixels','Pixel Size':'1.6μm (0.8μm native)','Sensor Size':'13.2 × 8.8 mm'},'Pixel Technology':{'Technology':'Quad Bayer with pixel binning','Color Filter':'RGBW','Dynamic Range':'14 stops, staggered HDR'},'Video Capabilities':{'Maximum Resolution':'8K at 30fps','Frame Rates':'4K up to 120fps','Stabilization':'Sensor-shift optical stabilization'},'Autofocus':{'System':'All-pixel Dual Pixel autofocus','Focus Points':'Full-frame coverage','Low-light Autofocus':'Down to -5 EV'}}},
-    {id:'device-b',brand:'—',model:'Device B',tagline:'A wide field of view without the usual softness',image:'',quick:{size:'1/1.5-inch',resolution:'48MP',pixelsize:'1.2μm',af:'Dual Pixel'},specs:{'Overview':{'Announced':'Concept — May 2026','Status':'Concept — Sampling','Sensor Type':'Stacked CMOS'},'Sensor Specifications':{'Optical Format':'1/1.5-inch','Effective Resolution':'48 Megapixels','Pixel Size':'1.2μm','Sensor Size':'9.8 × 7.3 mm'},'Pixel Technology':{'Technology':'Quad Bayer with pixel binning','Color Filter':'RGB Bayer','Dynamic Range':'13 stops, staggered HDR'},'Video Capabilities':{'Maximum Resolution':'4K at 60fps','Frame Rates':'1080p up to 240fps','Stabilization':'Electronic image stabilization'},'Autofocus':{'System':'Dual Pixel autofocus','Focus Points':'Full-frame coverage','Low-light Autofocus':'Down to -3 EV'}}},
-    {id:'device-c',brand:'—',model:'Device C',tagline:'Periscope optics for lossless zoom, minus the bump',image:'',quick:{size:'1/2.5-inch',resolution:'50MP',pixelsize:'0.7μm',af:'Voice coil'},specs:{'Overview':{'Announced':'Concept — June 2026','Status':'Concept — Sampling','Sensor Type':'Stacked CMOS'},'Sensor Specifications':{'Optical Format':'1/2.5-inch','Effective Resolution':'50 Megapixels','Pixel Size':'0.7μm','Sensor Size':'5.8 × 4.3 mm'},'Pixel Technology':{'Technology':'Quad Bayer with pixel binning','Color Filter':'RGB Bayer','Dynamic Range':'12 stops, staggered HDR'},'Video Capabilities':{'Maximum Resolution':'4K at 60fps','Frame Rates':'1080p up to 120fps','Stabilization':'Dual-axis optical image stabilization'},'Autofocus':{'System':'Voice coil motor autofocus','Focus Points':'Center-weighted','Low-light Autofocus':'Down to -2 EV'}}}
-  ];
+  let DATA=[], loadFailed=false;
   let compareSlots=[null,null,null],currentIdx=null,diffMode=false,brandVal='all',sortVal='newest',_labelTimer=null;
   function pixelGridHTML(){ let h='<div class="pixel-grid">'; for(let i=0;i<16;i++) h+='<div></div>'; return h+'</div>'; }
   function $(x){ return document.getElementById(PREFIX+x); }
@@ -793,7 +788,7 @@ applyTheme();
   function populateBrands(){ const menu=$('brandMenu'); const brands=Array.from(new Set(DATA.map(d=>d.brand))); let html=`<div class="csel-opt selected" data-val="all" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','all','All Brands',this)">All Brands</div>`; brands.forEach(b=>{ html+=`<div class="csel-opt" data-val="${b}" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','${b}','${b}',this)">${b}</div>`; }); menu.innerHTML=html; }
   function filterAndSort(){ const q=($('searchInput').value||'').toLowerCase().trim(); let list=DATA.filter(d=>{ const ms=!q||d.model.toLowerCase().includes(q)||(d.tagline||'').toLowerCase().includes(q); const mb=brandVal==='all'||d.brand===brandVal; return ms&&mb; }); if(sortVal==='az') list.sort((a,b)=>a.model.localeCompare(b.model)); else if(sortVal==='za') list.sort((a,b)=>b.model.localeCompare(a.model)); renderGallery(list); }
   function cardHTML(dev){ const img=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; QUICK_FIELDS.forEach(([key,label])=>{ quick+=`<div>${label}<strong>${(dev.quick&&dev.quick[key])||'—'}</strong></div>`; }); return `<div class="card" onclick="${NS_NAME}.showDetails('${dev.id}')"><div class="card-img" style="flex-direction:column;gap:6px"><div style="flex:1;min-height:0;display:flex;align-items:center;justify-content:center;width:100%">${img}</div><div style="width:55%;opacity:.45;flex-shrink:0">${pixelGridHTML()}</div></div><div class="card-body"><div class="card-brand">${dev.brand}</div><div class="card-model">${dev.model}</div><div class="card-quick">${quick}</div></div></div>`; }
-  function renderGallery(list){ const grid=$('galleryGrid'); grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
+  function renderGallery(list){ const grid=$('galleryGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page and that you're viewing this over http(s), not a local file:// path.</div>`; return; } grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
   function showDetails(devId){ const dev=getDev(devId); if(!dev) return; currentIdx=devId; $('gallery-view').style.display='none'; $('detail-view').style.display='block'; $('d_brand').textContent=dev.brand; $('d_model').textContent=dev.model; $('d_tagline').textContent=dev.tagline||''; $('d_img_wrap').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; QUICK_FIELDS.forEach(([key,label])=>{ quick+=`<div class="dq-item"><span>${label}</span><strong>${(dev.quick&&dev.quick[key])||'—'}</strong></div>`; }); $('d_quick').innerHTML=quick; renderSpecList(dev); renderSimilar(dev); renderPics(dev); setTab('specs'); window.scrollTo(0,0); }
   function renderSpecList(dev){ let html=''; SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(f=>{ html+=`<div class="spec-row"><span class="spec-label">${f}</span><span class="spec-value">${getRaw(dev,section,f)}</span></div>`; }); }); $('specList').innerHTML=html; }
   function renderSimilar(dev){ $('similarGrid').innerHTML=DATA.filter(d=>d.id!==dev.id).slice(0,3).map(cardHTML).join(''); }
@@ -820,25 +815,29 @@ applyTheme();
   function _showLabels(){ const s=$('searchInput'); if(s) s.setAttribute('aria-label','Search devices'); }
   function _attachCompareFade(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.addEventListener('scroll',_updateSidebarBlur); }
   function _updateSidebarBlur(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.classList.toggle('scrolled', w.scrollTop>2); }
-  function init(){ populateBrands(); filterAndSort(); _showLabels(); }
-  window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,CARD_SVG,MINI_SVG,SLOT_SVG,DATA,SECTIONS};
+  async function init(){
+    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); }
+    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; }
+    populateBrands(); filterAndSort(); _showLabels();
+  }
+  window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,CARD_SVG,MINI_SVG,SLOT_SVG,get DATA(){return DATA;},SECTIONS};
   init();
 })();
 </script>
 <script>
 (function(){
-  const PREFIX='nws-', NS_NAME='NWS';
-  const DATA=[
-    {id:'a1',cat:'Analysis',title:'Five Concepts, One Question: How Big Should a Phone Battery Get?',date:'July 24, 2026',author:'Community Desk',excerpt:'Device C pushes past 7,500 mAh while Device D stays under 4,500. A look at what the rest of the lineup gives up for endurance.',body:['Battery capacity is the easiest spec to compare and the hardest to design around. Add more cell and the phone gets thicker, heavier, or loses room for other components. This week\'s submissions make that trade-off unusually visible.','Device C leans all the way into endurance: a 7,500 mAh cell, a lower-power display, and a chipset built for efficiency over peak performance. Device D goes the other way, fitting a second display and a folding hinge into a phone that still needs to close flat.','Neither approach is wrong — they answer different questions about what a phone is for. The rankings page scores battery endurance separately from performance for exactly this reason.']},
-    {id:'a2',cat:'Deep Dive',title:"Inside Device D's Cover Display: Designing a Screen You Close",date:'July 18, 2026',author:'Community Desk',excerpt:'A look at the secondary-display fields in the database, and why most concepts still leave them blank.',body:['Most concepts in the database leave every field in the Secondary Display section blank. That is by design — the section appears on every spec sheet whether or not a device has a second screen, so comparisons stay consistent across the board.','Device D is one of the few entries that fills it in. Its 3.4-inch cover display runs at a lower resolution than the main panel but a comparable peak brightness, since a cover screen spends more time outdoors and unshaded than the folded display does.','Submitting a concept with a real secondary display just means filling in that section instead of leaving it as a dash — the form already supports it.']},
-    {id:'a3',cat:'Community',title:"Submitting Your First Concept: A Quick Guide to ConceptHarmony's Fields",date:'July 10, 2026',author:'Community Desk',excerpt:"A short walkthrough of the submission form, and why a few sections show or hide depending on device type.",body:['The submission form adapts to what you\'re describing. Pick "Camera Sensor" as the type and the physical-design and display sections disappear, replaced by fields for optical format and pixel size. Pick "SoC / Chipset" and a CPU configuration field appears instead of a battery section.','A few fields are worth filling in carefully even when they seem minor. Dimensions and resolution both expect separate numbers rather than one combined string, so the compare table can align them correctly across devices.','Everything submitted joins the same pool used across the site — the gallery, the compare tool, and the rankings page all read from the same entries.']}
-  ];
+  const PREFIX='nws-', NS_NAME='NWS', DATA_URL='news.json';
+  let DATA=[], loadFailed=false;
   function $(x){ return document.getElementById(PREFIX+x); }
   function cardHTML(a){ return `<div class="news-card" onclick="${NS_NAME}.showArticle('${a.id}')"><div class="news-cat">${a.cat}</div><div class="news-title">${a.title}</div><div class="news-excerpt">${a.excerpt}</div><div class="news-meta">${a.date} · ${a.author}</div></div>`; }
-  function renderList(){ $('newsGrid').innerHTML=DATA.map(cardHTML).join(''); }
+  function renderList(){ const grid=$('newsGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page.</div>`; return; } grid.innerHTML=DATA.map(cardHTML).join(''); }
   function showArticle(id){ const a=DATA.find(x=>x.id===id); if(!a) return; $('list-view').style.display='none'; $('article-view').style.display='block'; $('a_cat').textContent=a.cat; $('a_title').textContent=a.title; $('a_meta').textContent=a.date+' · '+a.author; $('a_body').innerHTML=a.body.map(p=>`<p>${p}</p>`).join(''); window.scrollTo(0,0); }
   function goHome(){ $('article-view').style.display='none'; $('list-view').style.display='block'; }
-  function init(){ renderList(); }
+  async function init(){
+    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); }
+    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; }
+    renderList();
+  }
   window[NS_NAME]={showArticle,goHome};
   init();
 })();
@@ -879,19 +878,14 @@ applyTheme();
 </script>
 <script>
 (function(){
-  const PREFIX='rnk-', NS_NAME='RNK';
+  const PREFIX='rnk-', NS_NAME='RNK', DATA_URL='rankings.json', PHONES_URL='phones.json';
   const TAB_COLOR={camera:'var(--score-cam)',display:'var(--score-dis)',battery:'var(--score-bat)',software:'var(--score-sft)',performance:'var(--score-prf)'};
   const DETAIL_KEYS={camera:'camera_detail',display:'display_detail',battery:'battery_detail',software:'software_detail',performance:'performance_detail'};
-  const DATA=[
-    {id:'device-a',model:'Device A',brand:'—',type:'Phone',image:'',camera_detail:{Photo:168,Video:172,Zoom:150,'Low-light':160},display_detail:{Resolution:158,Color:156,Brightness:155},battery_detail:{Endurance:88,Charging:86,Longevity:87},software_detail:{UX:145,Updates:140,Features:142},performance_detail:{CPU:162,GPU:155,Memory:158,Benchmarks:163}},
-    {id:'device-b',model:'Device B',brand:'—',type:'Phone',image:'',camera_detail:{Photo:178,Video:180,Zoom:172,'Low-light':175},display_detail:{Resolution:160,Color:158,Brightness:157},battery_detail:{Endurance:82,Charging:80,Longevity:83},software_detail:{UX:144,Updates:139,Features:143},performance_detail:{CPU:161,GPU:154,Memory:157,Benchmarks:162}},
-    {id:'device-c',model:'Device C',brand:'—',type:'Phone',image:'',camera_detail:{Photo:140,Video:142,Zoom:110,'Low-light':135},display_detail:{Resolution:130,Color:128,Brightness:125},battery_detail:{Endurance:98,Charging:90,Longevity:96},software_detail:{UX:130,Updates:128,Features:126},performance_detail:{CPU:118,GPU:110,Memory:120,Benchmarks:119}},
-    {id:'device-d',model:'Device D',brand:'—',type:'Phone',image:'',camera_detail:{Photo:158,Video:160,Zoom:120,'Low-light':150},display_detail:{Resolution:150,Color:152,Brightness:148},battery_detail:{Endurance:72,Charging:78,Longevity:75},software_detail:{UX:148,Updates:142,Features:150},performance_detail:{CPU:160,GPU:153,Memory:156,Benchmarks:161}}
-  ];
-  function avg(obj){ if(!obj) return null; const vals=Object.values(obj).filter(v=>typeof v==='number'); return vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):null; }
-  DATA.forEach(d=>{ d.scores={}; Object.keys(DETAIL_KEYS).forEach(tab=>{ d.scores[tab]=avg(d[DETAIL_KEYS[tab]]); }); });
+  const PHONE_SECTIONS=[['Launch',['Announced','Status']],['Body',['Dimensions','Weight','Build','Colors','Protection']],['Display',['Type','Size','Resolution','Refresh Rate','Peak Brightness','Screen Protection']],['Secondary Display',['Type','Size','Resolution','Secondary Display Brightness']],['Platform',['Chipset','CPU','GPU','Neural Processing Unit','Operating System']],['Memory',['RAM Options','Storage Options','Card Slot']],['Camera',['Main Camera','Front Camera','Video Recording','Camera Features']],['Features',['Sensors','Connectivity','Other Features']],['Power',['Battery Capacity','Charging','Estimated Battery Life']],['Tests & Price',['AnTuTu Score','Geekbench Single-Core','Geekbench Multi-Core','Estimated Price']]];
+  let DATA=[], loadFailed=false, phonesCache=null;
   let activeTab='camera', sortDesc=true, _labelTimer=null;
   function $(x){ return document.getElementById(PREFIX+x); }
+  function avg(obj){ if(!obj) return null; const vals=Object.values(obj).filter(v=>typeof v==='number'); return vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):null; }
   function setTab(tab){ activeTab=tab; document.querySelectorAll('#rnk-tabs .tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab)); render(); }
   function toggleSort(){
     sortDesc=!sortDesc;
@@ -902,20 +896,26 @@ applyTheme();
     render();
   }
   function render(){
+    const listEl=$('list');
+    if(loadFailed){ listEl.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page.</div>`; return; }
     let list=DATA.slice().sort((a,b)=>sortDesc?b.scores[activeTab]-a.scores[activeTab]:a.scores[activeTab]-b.scores[activeTab]);
     const color=TAB_COLOR[activeTab], detailKey=DETAIL_KEYS[activeTab];
-    $('list').innerHTML=list.map((d,i)=>{
+    listEl.innerHTML=list.map((d,i)=>{
       const detail=d[detailKey]||{};
       const bars=Object.entries(detail).map(([label,val])=>`<div class="rank-bar-row"><span class="rank-bar-label">${label}</span><div class="rank-bar-track"><div class="rank-bar-fill" style="width:${Math.min(100,val/2)}%;background:${color}"></div></div><span class="rank-bar-val">${val}</span></div>`).join('');
       return `<div class="rank-card" onclick="${NS_NAME}.openModal('${d.model}')"><div class="rank-num">${i+1}</div><div class="rank-img"><svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="20" y="6" width="24" height="52" rx="6"/></svg></div><div class="rank-info"><div class="rank-name">${d.model}</div><div class="rank-brand">${d.brand}</div></div><div class="rank-bars">${bars}</div><div class="rank-score" style="color:${color}">${d.scores[activeTab]}</div></div>`;
     }).join('');
   }
-  function openModal(model){
-    const phone=(window.IDX && window.IDX.DATA || []).find(d=>d.model===model);
+  async function openModal(model){
+    if(!phonesCache){
+      try{ const res=await fetch(PHONES_URL); if(!res.ok) throw new Error('HTTP '+res.status); phonesCache=await res.json(); }
+      catch(e){ console.error('Could not load '+PHONES_URL, e); phonesCache=[]; }
+    }
+    const phone=phonesCache.find(d=>d.model===model);
     if(!phone) return;
     $('m_brand').textContent=phone.brand; $('m_model').textContent=phone.model;
     let html='';
-    (window.IDX.SECTIONS||[]).forEach(([section,fields])=>{
+    PHONE_SECTIONS.forEach(([section,fields])=>{
       html+=`<div class="spec-section-title">${section}</div>`;
       fields.forEach(f=>{ const v=(phone.specs&&phone.specs[section]&&phone.specs[section][f])||'—'; html+=`<div class="spec-row"><span class="spec-label">${f}</span><span class="spec-value">${v}</span></div>`; });
     });
@@ -924,11 +924,14 @@ applyTheme();
   }
   function closeModal(){ $('modalOverlay').classList.remove('open'); }
   function closeModalBg(e){ if(e.target.id===PREFIX+'modalOverlay') closeModal(); }
-  function init(){ render(); }
+  async function init(){
+    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); DATA.forEach(d=>{ d.scores={}; Object.keys(DETAIL_KEYS).forEach(tab=>{ d.scores[tab]=avg(d[DETAIL_KEYS[tab]]); }); }); }
+    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; }
+    render();
+  }
   window[NS_NAME]={setTab,toggleSort,openModal,closeModal,closeModalBg};
   init();
 })();
 </script>
-
 </body>
 </html>
