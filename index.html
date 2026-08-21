@@ -45,10 +45,10 @@ a{color:inherit}
 .app-page{display:none;position:relative;z-index:1}
 .app-page.active{display:block}
 .wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+input[type="checkbox"]{-webkit-tap-highlight-color:transparent;outline:none}
 nav.topnav{position:sticky;top:0;z-index:500;background:var(--nav);backdrop-filter:blur(96px) saturate(2);-webkit-backdrop-filter:blur(96px) saturate(2);border-bottom:1px solid var(--dv)}
 .nav-inner{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.logo{font-weight:700;font-size:17px;letter-spacing:-0.02em;text-decoration:none;display:flex;align-items:center;gap:9px;cursor:pointer;background:none;border:none;font-family:'Inter',sans-serif;color:var(--tx)}
-.logo svg{flex-shrink:0}
+.logo{font-weight:700;font-size:17px;letter-spacing:-0.02em;text-decoration:none;cursor:pointer;background:none;border:none;font-family:'Inter',sans-serif;color:var(--tx)}
 .nav-links{display:flex;gap:2px;list-style:none}
 .nav-links button{padding:8px 14px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--ts);background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s,color .15s}
 .nav-links button:hover{background:var(--g);color:var(--tx)}
@@ -60,7 +60,7 @@ nav.topnav{position:sticky;top:0;z-index:500;background:var(--nav);backdrop-filt
 .submit-btn:hover{opacity:.85}
 .hamburger{display:none}
 .socials-wrap{position:relative}
-.dropdown{display:none;position:absolute;top:calc(100% + 8px);right:0;min-width:170px;background:#f0f0f2;backdrop-filter:blur(60px);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.10);overflow:hidden;z-index:600;transform-origin:top right}
+.dropdown{display:none;position:absolute;top:calc(100% + 8px);right:0;min-width:190px;background:#f0f0f2;backdrop-filter:blur(60px);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.10);overflow:hidden;z-index:600;transform-origin:top right}
 [data-theme=dark] .dropdown{background:#1c1c22}
 .dropdown.open{display:block;animation:dropIn .18s cubic-bezier(0.16,1,0.3,1)}
 .dropdown a{display:block;padding:10px 14px;font-size:13px;color:var(--ts);text-decoration:none;border-bottom:1px solid var(--dv);transition:background .12s,color .12s}
@@ -114,9 +114,10 @@ select.fsel-hidden{display:none!important}
 .card-quick{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .card-quick div{font-size:11px;color:var(--ts);overflow-wrap:break-word}
 .card-quick strong{display:block;color:var(--tx);font-weight:600;font-size:11.5px;margin-top:1px}
-.empty-state{padding:60px 20px;text-align:center;color:var(--ts);font-size:14px}
-.back-btn{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--ts);font-size:13.5px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;padding:8px 0;margin-bottom:18px}
+.empty-state{padding:60px 20px;text-align:center;color:var(--ts);font-size:14px;grid-column:1/-1}
+.back-btn{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--ts);font-size:13.5px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;padding:8px 0}
 .back-btn:hover{color:var(--tx)}
+.detail-topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:10px}
 .detail-head{display:flex;gap:28px;flex-wrap:wrap;margin-bottom:28px}
 .detail-img{width:220px;height:220px;flex-shrink:0;background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);border-radius:18px;display:flex;align-items:center;justify-content:center;color:var(--dc);padding:30px}
 .detail-img img{max-width:100%;max-height:100%;object-fit:contain}
@@ -124,6 +125,7 @@ select.fsel-hidden{display:none!important}
 .detail-brand{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dc);margin-bottom:6px}
 .detail-model{font-size:26px;font-weight:700;letter-spacing:-0.02em;margin-bottom:8px}
 .detail-tagline{color:var(--ts);font-size:14px;margin-bottom:18px}
+.detail-tagline:empty{display:none;margin:0}
 .detail-quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
 .dq-item{background:var(--g);border-radius:10px;padding:10px 12px}
 .dq-item span{display:block;font-size:10px;color:var(--ts);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
@@ -134,8 +136,9 @@ select.fsel-hidden{display:none!important}
 .spec-row:last-child{border-bottom:none}
 .spec-label{color:var(--ts);flex-shrink:0;min-width:170px}
 .spec-value{color:var(--tx);font-weight:500;text-align:right}
-.pics-view{display:flex;align-items:center;justify-content:center;min-height:340px;background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);border-radius:18px;color:var(--dc);padding:40px}
-.pics-view img{max-width:100%;max-height:340px;object-fit:contain}
+.spec-value.block{text-align:left;flex:1}
+.spec-value strong{font-weight:600}
+.pics-view{display:flex;align-items:center;justify-content:center;min-height:200px;background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);border-radius:18px;color:var(--dc);padding:24px;flex-wrap:wrap}
 .similar-title{font-size:15px;font-weight:700;margin:36px 0 14px}
 .similar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;padding-bottom:50px}
 .compare-actions{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px;flex-wrap:wrap}
@@ -164,8 +167,6 @@ select.fsel-hidden{display:none!important}
 [data-theme=dark] .slot-results{background:#1c1c22}
 .slot-results div{padding:8px 10px;font-size:12px;cursor:pointer;color:var(--ts)}
 .slot-results div:hover{background:var(--g);color:var(--tx)}
-.pixel-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:2px}
-.pixel-grid div{aspect-ratio:1;background:var(--pixel-color);border-radius:1px}
 .rank-tabs{display:flex;gap:6px;background:var(--g);backdrop-filter:blur(80px) saturate(2);-webkit-backdrop-filter:blur(80px) saturate(2);padding:5px;border-radius:12px;width:fit-content;margin-bottom:10px;flex-wrap:wrap}
 .rank-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;flex-wrap:wrap;gap:10px}
 .sort-toggle{display:flex;align-items:center;gap:7px;background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);border:none;border-radius:10px;padding:9px 14px;font-size:13px;font-weight:600;color:var(--tx);cursor:pointer;font-family:'Inter',sans-serif}
@@ -195,12 +196,10 @@ select.fsel-hidden{display:none!important}
 .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;padding-bottom:60px}
 .news-card{background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);border-radius:16px;padding:22px;cursor:pointer;transition:transform .18s,background .18s}
 .news-card:hover{transform:translateY(-3px);background:var(--gh)}
-.news-cat{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dc);margin-bottom:10px}
 .news-title{font-size:17px;font-weight:700;margin-bottom:10px;letter-spacing:-0.01em}
 .news-excerpt{font-size:13.5px;color:var(--ts);margin-bottom:14px}
 .news-meta{font-size:11.5px;color:var(--dc)}
 .article-view{max-width:680px}
-.article-cat{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dc);margin-bottom:10px}
 .article-title{font-size:26px;font-weight:700;letter-spacing:-0.02em;margin-bottom:10px}
 .article-meta{font-size:13px;color:var(--ts);margin-bottom:26px}
 .article-body p{margin-bottom:16px;font-size:15px;line-height:1.7;color:var(--tx)}
@@ -210,29 +209,26 @@ select.fsel-hidden{display:none!important}
 .form-section h3{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dc);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--dv)}
 .form-field{margin-bottom:14px}
 .form-field label{display:block;font-size:12.5px;font-weight:600;color:var(--ts);margin-bottom:6px}
-.form-field input[type=text],.form-field input[type=url],.form-field input[type=number],.form-field textarea{width:100%;padding:11px 14px;border-radius:10px;border:none;background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);font-size:13.5px;color:var(--tx);font-family:'Inter',sans-serif}
-.form-field textarea{resize:vertical;min-height:90px}
+.form-field input[type=text],.form-field input[type=number],.form-field textarea{width:100%;padding:11px 14px;border-radius:10px;border:none;background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);font-size:13.5px;color:var(--tx);font-family:'Inter',sans-serif}
+.form-field textarea{resize:vertical;min-height:70px}
 .form-field input::placeholder,.form-field textarea::placeholder{color:var(--ts)}
-.dynamic-row{display:flex;gap:10px;margin-bottom:10px;align-items:center}
-@media(max-width:600px){.dynamic-row{flex-direction:column;align-items:stretch}}
-.triple-input{display:flex;gap:8px;align-items:center;flex:1}
-.triple-input .fsel{flex:1;min-width:0}
-.triple-input input,.triple-input select{flex:1;min-width:0}
-.dim-sep{color:var(--ts);font-size:13px;flex-shrink:0}
-.charge-row{display:flex;gap:8px}
-.charge-row .fsel{width:80px;flex-shrink:0}
 .form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.full-width-soc{grid-column:span 2}
-@media(max-width:600px){.form-grid-2{grid-template-columns:1fr}.full-width-soc{grid-column:span 1}}
+@media(max-width:600px){.form-grid-2{grid-template-columns:1fr}}
 .opt-grid{display:flex;flex-wrap:wrap;gap:8px}
 .opt-btn{padding:8px 14px;border-radius:9px;border:none;background:var(--g);color:var(--ts);font-size:12.5px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s,color .15s}
 .opt-btn.selected{background:var(--tx);color:var(--bg)}
-#page-submit[data-mode=laptop] .hide-on-laptop{display:none!important}
-#page-submit[data-mode=sensor] .hide-on-sensor{display:none!important}
-#page-submit[data-mode=soc] .hide-on-soc{display:none!important}
+.show-phone,.show-laptop,.show-soc,.show-sensor{display:none}
+#page-submit[data-mode=device] .show-phone,#page-submit[data-mode=tablet] .show-phone,#page-submit[data-mode=watch] .show-phone{display:block}
+#page-submit[data-mode=laptop] .show-laptop{display:block}
+#page-submit[data-mode=soc] .show-soc{display:block}
+#page-submit[data-mode=sensor] .show-sensor{display:block}
+.cam-module-row{display:flex;gap:8px;margin-bottom:8px}
+.cam-module-row input{flex:1;padding:9px 12px;border-radius:8px;border:none;background:var(--g);color:var(--tx);font-family:'Inter',sans-serif;font-size:13px}
 .submit-cta{padding:13px 22px;border-radius:11px;background:var(--tx);color:var(--bg);border:none;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer}
 .form-success{display:none;background:var(--g);border-radius:14px;padding:24px;font-size:14px;color:var(--tx);margin-top:16px}
 .form-success.show{display:block}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--tx);color:var(--bg);padding:11px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:1000;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:640px){
   .wrap{padding:0 16px}
   .nav-inner{padding:12px 16px}
@@ -258,10 +254,7 @@ select.fsel-hidden{display:none!important}
 <div class="blob blob-1"></div><div class="blob blob-2"></div>
 <nav class="topnav">
   <div class="nav-inner">
-    <button class="logo" onclick="IDX.goHome();showPage('index')">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/></svg>
-      ConceptHarmony
-    </button>
+    <button class="logo" onclick="IDX.goHome();showPage('index')">ConceptHarmony</button>
     <ul class="nav-links" id="navLinks">
       <li><button data-page="index" class="active" onclick="IDX.goHome();showPage('index')">Mobile Devices</button></li>
       <li><button data-page="laptops" onclick="showPage('laptops')">Laptops</button></li>
@@ -275,7 +268,7 @@ select.fsel-hidden{display:none!important}
       <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode" title="Toggle theme"></button>
       <div class="socials-wrap">
         <button class="icon-btn" id="socialsBtn" onclick="toggleSocials()" aria-label="Socials"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.6" x2="15.4" y2="6.4"/><line x1="8.6" y1="13.4" x2="15.4" y2="17.6"/></svg></button>
-        <div class="dropdown" id="socialsDropdown"><a href="#">Discord Community</a><a href="#">GitHub</a></div>
+        <div class="dropdown" id="socialsDropdown"><a href="#" target="_blank" rel="noopener">Concept Tech — TikTok</a><a href="#" target="_blank" rel="noopener">Main TikTok</a></div>
       </div>
       <button class="icon-btn hamburger" id="hamburger" onclick="toggleHamburger()" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
     </div>
@@ -290,7 +283,7 @@ select.fsel-hidden{display:none!important}
   <button data-page="news" onclick="showPage('news')">News</button>
   <button data-page="submit" onclick="showPage('submit')">Submit Concept</button>
   <div class="m-row"><button class="icon-btn" id="mobileSocialsBtn" onclick="toggleMobileSocials()" style="background:var(--g);width:auto;padding:8px 14px">Socials</button></div>
-  <div class="dropdown" id="mobileSocialsDropdown" style="position:static;margin-top:8px"><a href="#">Discord Community</a><a href="#">GitHub</a></div>
+  <div class="dropdown" id="mobileSocialsDropdown" style="position:static;margin-top:8px"><a href="#" target="_blank" rel="noopener">Concept Tech — TikTok</a><a href="#" target="_blank" rel="noopener">Main TikTok</a></div>
 </div>
 
 <div id="page-index" class="app-page active">
@@ -312,7 +305,10 @@ select.fsel-hidden{display:none!important}
     <div class="gallery-grid" id="idx-galleryGrid"></div>
   </div>
   <div id="idx-detail-view" style="display:none">
-    <button class="back-btn" onclick="IDX.goHome()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>All Devices</button>
+    <div class="detail-topbar">
+      <button class="back-btn" onclick="IDX.goHome()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>All Devices</button>
+      <button class="icon-btn" onclick="IDX.doShare()" aria-label="Share" title="Share"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v6a2 2 0 002 2h12a2 2 0 002-2v-6"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+    </div>
     <div class="detail-head">
       <div class="detail-img" id="idx-d_img_wrap"></div>
       <div class="detail-info"><div class="detail-brand" id="idx-d_brand"></div><div class="detail-model" id="idx-d_model"></div><div class="detail-tagline" id="idx-d_tagline"></div><div class="detail-quick" id="idx-d_quick"></div></div>
@@ -344,7 +340,10 @@ select.fsel-hidden{display:none!important}
     <div class="gallery-grid" id="lap-galleryGrid"></div>
   </div>
   <div id="lap-detail-view" style="display:none">
-    <button class="back-btn" onclick="LAP.goHome()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>All Laptops</button>
+    <div class="detail-topbar">
+      <button class="back-btn" onclick="LAP.goHome()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>All Laptops</button>
+      <button class="icon-btn" onclick="LAP.doShare()" aria-label="Share" title="Share"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v6a2 2 0 002 2h12a2 2 0 002-2v-6"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+    </div>
     <div class="detail-head">
       <div class="detail-img" id="lap-d_img_wrap"></div>
       <div class="detail-info"><div class="detail-brand" id="lap-d_brand"></div><div class="detail-model" id="lap-d_model"></div><div class="detail-tagline" id="lap-d_tagline"></div><div class="detail-quick" id="lap-d_quick"></div></div>
@@ -376,7 +375,10 @@ select.fsel-hidden{display:none!important}
     <div class="gallery-grid" id="soc-galleryGrid"></div>
   </div>
   <div id="soc-detail-view" style="display:none">
-    <button class="back-btn" onclick="SOC.goHome()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>All SoCs</button>
+    <div class="detail-topbar">
+      <button class="back-btn" onclick="SOC.goHome()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>All SoCs</button>
+      <button class="icon-btn" onclick="SOC.doShare()" aria-label="Share" title="Share"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v6a2 2 0 002 2h12a2 2 0 002-2v-6"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+    </div>
     <div class="detail-head">
       <div class="detail-img" id="soc-d_img_wrap"></div>
       <div class="detail-info"><div class="detail-brand" id="soc-d_brand"></div><div class="detail-model" id="soc-d_model"></div><div class="detail-tagline" id="soc-d_tagline"></div><div class="detail-quick" id="soc-d_quick"></div></div>
@@ -408,7 +410,10 @@ select.fsel-hidden{display:none!important}
     <div class="gallery-grid" id="sen-galleryGrid"></div>
   </div>
   <div id="sen-detail-view" style="display:none">
-    <button class="back-btn" onclick="SEN.goHome()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>All Sensors</button>
+    <div class="detail-topbar">
+      <button class="back-btn" onclick="SEN.goHome()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>All Sensors</button>
+      <button class="icon-btn" onclick="SEN.doShare()" aria-label="Share" title="Share"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v6a2 2 0 002 2h12a2 2 0 002-2v-6"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+    </div>
     <div class="detail-head">
       <div class="detail-img" id="sen-d_img_wrap"></div>
       <div class="detail-info"><div class="detail-brand" id="sen-d_brand"></div><div class="detail-model" id="sen-d_model"></div><div class="detail-tagline" id="sen-d_tagline"></div><div class="detail-quick" id="sen-d_quick"></div></div>
@@ -426,103 +431,123 @@ select.fsel-hidden{display:none!important}
   <div class="page-head"><h1>News</h1></div>
   <div id="nws-list-view"><div class="news-grid" id="nws-newsGrid"></div></div>
   <div id="nws-article-view" style="display:none">
-    <button class="back-btn" onclick="NWS.goHome()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>All News</button>
-    <div class="article-view"><div class="article-cat" id="nws-a_cat"></div><div class="article-title" id="nws-a_title"></div><div class="article-meta" id="nws-a_meta"></div><div class="article-body" id="nws-a_body"></div></div>
+    <div class="detail-topbar">
+      <button class="back-btn" onclick="NWS.goHome()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>All News</button>
+      <button class="icon-btn" onclick="NWS.doShare()" aria-label="Share" title="Share"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v6a2 2 0 002 2h12a2 2 0 002-2v-6"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+    </div>
+    <div class="article-view"><div class="article-title" id="nws-a_title"></div><div class="article-meta" id="nws-a_meta"></div><div class="article-body" id="nws-a_body"></div></div>
   </div>
 </div>
 </div>
 
 <div id="page-submit" class="app-page">
 <div class="wrap">
-  <div class="page-head"><h1>Submit a Concept</h1></div>
+  <div class="page-head"><h1>Submit a Concept</h1><p>This site has no backend — submitting generates a JSON entry you copy into the matching data file yourself.</p></div>
   <div class="form-wrap">
     <div class="form-section">
       <h3>Basic Info</h3>
       <div class="form-field"><label>Type</label>
         <div class="fsel" id="sub-typeSel">
-          <button class="fsel-btn" type="button" onclick="SUB.fselToggle('sub-typeSel')"><span id="sub-typeLabel">Phone / Device</span><svg class="fsel-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <button class="fsel-btn" type="button" onclick="SUB.fselToggle('sub-typeSel')"><span id="sub-typeLabel">Phone</span><svg class="fsel-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div class="fsel-menu">
-            <div class="fsel-opt selected" onclick="SUB.fselPick('sub-typeReal','sub-typeLabel','device','Phone / Device',this,'SUB.handleTypeChange()')">Phone / Device</div>
+            <div class="fsel-opt selected" onclick="SUB.fselPick('sub-typeReal','sub-typeLabel','device','Phone',this,'SUB.handleTypeChange()')">Phone</div>
             <div class="fsel-opt" onclick="SUB.fselPick('sub-typeReal','sub-typeLabel','tablet','Tablet',this,'SUB.handleTypeChange()')">Tablet</div>
+            <div class="fsel-opt" onclick="SUB.fselPick('sub-typeReal','sub-typeLabel','watch','Watch',this,'SUB.handleTypeChange()')">Watch</div>
             <div class="fsel-opt" onclick="SUB.fselPick('sub-typeReal','sub-typeLabel','laptop','Laptop',this,'SUB.handleTypeChange()')">Laptop</div>
             <div class="fsel-opt" onclick="SUB.fselPick('sub-typeReal','sub-typeLabel','soc','SoC / Chipset',this,'SUB.handleTypeChange()')">SoC / Chipset</div>
             <div class="fsel-opt" onclick="SUB.fselPick('sub-typeReal','sub-typeLabel','sensor','Camera Sensor',this,'SUB.handleTypeChange()')">Camera Sensor</div>
-            <div class="fsel-opt" onclick="SUB.fselPick('sub-typeReal','sub-typeLabel','watch','Watch',this,'SUB.handleTypeChange()')">Watch</div>
           </div>
-          <select id="sub-typeReal" class="fsel-hidden"><option value="device">Phone / Device</option><option value="tablet">Tablet</option><option value="laptop">Laptop</option><option value="soc">SoC / Chipset</option><option value="sensor">Camera Sensor</option><option value="watch">Watch</option></select>
+          <select id="sub-typeReal" class="fsel-hidden"><option value="device">Phone</option><option value="tablet">Tablet</option><option value="watch">Watch</option><option value="laptop">Laptop</option><option value="soc">SoC</option><option value="sensor">Sensor</option></select>
         </div>
       </div>
-      <div class="form-grid-2"><div class="form-field"><label>Model Name</label><input type="text" id="sub-model" placeholder="e.g. Device G"></div><div class="form-field"><label>Brand / Designer</label><input type="text" id="sub-brand" placeholder="e.g. — or your name"></div></div>
+      <div class="form-grid-2"><div class="form-field"><label>Brand</label><input type="text" id="sub-brand" placeholder="e.g. Wyx"></div><div class="form-field"><label>Model</label><input type="text" id="sub-model" placeholder="e.g. X1"></div></div>
       <div class="form-grid-2">
-        <div class="form-field"><label>Announced</label><input type="text" id="sub-announced" placeholder="e.g. Concept — August 2026"></div>
+        <div class="form-field"><label>Announced</label><input type="text" id="sub-announced" placeholder="e.g. February 5, 2026"></div>
         <div class="form-field"><label>Status</label>
           <div class="fsel" id="sub-statusSel">
-            <button class="fsel-btn" type="button" onclick="SUB.fselToggle('sub-statusSel')"><span id="sub-statusLabel">Concept — Not for sale</span><svg class="fsel-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <button class="fsel-btn" type="button" onclick="SUB.fselToggle('sub-statusSel')"><span id="sub-statusLabel">Released</span><svg class="fsel-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>
             <div class="fsel-menu">
-              <div class="fsel-opt selected" onclick="SUB.fselPick('sub-statusReal','sub-statusLabel','notforsale','Concept — Not for sale',this,'')">Concept — Not for sale</div>
-              <div class="fsel-opt" onclick="SUB.fselPick('sub-statusReal','sub-statusLabel','sampling','Concept — Sampling',this,'')">Concept — Sampling</div>
-              <div class="fsel-opt" onclick="SUB.fselPick('sub-statusReal','sub-statusLabel','dev','Concept — In development',this,'')">Concept — In development</div>
+              <div class="fsel-opt selected" onclick="SUB.fselPick('sub-statusReal','sub-statusLabel','Released','Released',this,'')">Released</div>
+              <div class="fsel-opt" onclick="SUB.fselPick('sub-statusReal','sub-statusLabel','Coming Soon','Coming Soon',this,'')">Coming Soon</div>
             </div>
-            <select id="sub-statusReal" class="fsel-hidden"><option value="notforsale">Concept — Not for sale</option><option value="sampling">Concept — Sampling</option><option value="dev">Concept — In development</option></select>
+            <select id="sub-statusReal" class="fsel-hidden"><option value="Released">Released</option><option value="Coming Soon">Coming Soon</option></select>
           </div>
         </div>
       </div>
-      <div class="form-field"><label>Image URL (optional)</label><input type="url" id="sub-image" placeholder="https://..."></div>
+      <div class="form-grid-2"><div class="form-field"><label>Released Date</label><input type="text" id="sub-released" placeholder="e.g. February 5, 2026"></div><div class="form-field"><label>Colors</label><input type="text" id="sub-colors" placeholder="e.g. Black, Pearl White"></div></div>
+      <div class="form-field"><label>Image</label><input type="file" id="sub-imageFile" accept="image/*" onchange="SUB.handleImageSelect(this)"><div id="sub-imagePreviewName" style="font-size:12px;color:var(--ts);margin-top:6px"></div><img id="sub-imagePreviewImg" style="display:none;max-width:160px;max-height:160px;margin-top:8px;border-radius:10px"></div>
     </div>
-    <div class="form-section hide-on-soc hide-on-sensor">
-      <h3>Physical Design</h3>
-      <div class="form-field"><label>Dimensions (Height × Width × Depth, mm)</label><div class="dynamic-row"><div class="triple-input"><input type="number" id="sub-dimH" placeholder="Height"><span class="dim-sep">×</span><input type="number" id="sub-dimW" placeholder="Width"><span class="dim-sep">×</span><input type="number" id="sub-dimD" placeholder="Depth"></div></div></div>
-      <div class="form-grid-2"><div class="form-field"><label>Weight</label><input type="text" id="sub-weight" placeholder="e.g. 204 g"></div><div class="form-field"><label>Colors</label><input type="text" id="sub-colors" placeholder="e.g. Graphite, White"></div></div>
+
+    <div class="form-section show-phone">
+      <h3>Body &amp; Display</h3>
+      <div class="form-grid-2"><div class="form-field"><label>Dimensions</label><input type="text" id="sub-dimensions" placeholder="e.g. 148.9 x 71.8 x 7.9 mm"></div><div class="form-field"><label>Weight</label><input type="text" id="sub-weight" placeholder="e.g. 187g"></div></div>
+      <div class="form-grid-2"><div class="form-field"><label>Build</label><input type="text" id="sub-build" placeholder="e.g. Glass front, aluminum frame"></div><div class="form-field"><label>IP Rating</label><input type="text" id="sub-ip" placeholder="e.g. IP68"></div></div>
+      <div class="form-grid-2"><div class="form-field"><label>Screen</label><input type="text" id="sub-screen" placeholder="e.g. LTPO OLED, 120Hz, 6.2&quot;, 2000 nits"></div><div class="form-field"><label>Resolution</label><input type="text" id="sub-resolution" placeholder="e.g. 1440 x 2560 pixels"></div></div>
+      <div class="form-field"><label>Second Screen (foldables only)</label><input type="text" id="sub-secondscreen" placeholder="e.g. LTPO AMOLED, 120Hz, 4.1&quot;, 1080 x 1250"></div>
     </div>
-    <div class="form-section hide-on-soc hide-on-sensor">
-      <h3>Display</h3>
-      <div class="form-grid-2"><div class="form-field"><label>Display Type</label><input type="text" id="sub-dispType" placeholder="e.g. LTPO OLED"></div><div class="form-field"><label>Display Size</label><input type="text" id="sub-dispSize" placeholder="e.g. 6.7 inches"></div></div>
-      <div class="form-field"><label>Resolution (Width × Height)</label><div class="dynamic-row"><div class="triple-input"><input type="number" id="sub-resW" placeholder="Width"><span class="dim-sep">×</span><input type="number" id="sub-resH" placeholder="Height"></div></div></div>
-      <div class="form-field"><label>Refresh Rate</label><input type="text" id="sub-refresh" placeholder="e.g. 1–120Hz adaptive"></div>
+    <div class="form-section show-phone">
+      <h3>Platform &amp; Memory</h3>
+      <div class="form-grid-2"><div class="form-field"><label>Chipset</label><input type="text" id="sub-chipset" placeholder="e.g. Wyx W10 Gen 1"></div><div class="form-field"><label>Operating System</label><input type="text" id="sub-os" placeholder="e.g. WyxOS 1.0"></div></div>
+      <div class="form-grid-2"><div class="form-field"><label>RAM</label><input type="text" id="sub-ram" placeholder="e.g. 8GB / 12GB"></div><div class="form-field"><label>Storage</label><input type="text" id="sub-storage" placeholder="e.g. 256GB / 512GB"></div></div>
     </div>
-    <div class="form-section hide-on-sensor">
-      <h3>Platform</h3>
-      <div class="form-grid-2"><div class="form-field"><label>Chipset / Processor</label><input type="text" id="sub-chipset" placeholder="e.g. Concept Silicon X2 Pro"></div><div class="form-field"><label>Neural Processing Unit</label><input type="text" id="sub-npu" placeholder="e.g. 48 TOPS"></div></div>
-      <div class="form-field hide-on-soc"><label>Operating System</label><input type="text" id="sub-os" placeholder="e.g. ConceptOS 17"></div>
-    </div>
-    <div class="form-section hide-on-laptop hide-on-sensor hide-on-soc">
+    <div class="form-section show-phone">
       <h3>Camera</h3>
-      <div class="form-field"><label>Main Camera (Megapixels / Aperture / Focal Length)</label><div class="dynamic-row"><div class="triple-input"><input type="text" id="sub-camMP" placeholder="e.g. 50MP"><input type="text" id="sub-camF" placeholder="e.g. f/1.8"><input type="text" id="sub-camFocal" placeholder="e.g. 24mm"></div></div></div>
-      <div class="form-field"><label>Front Camera</label><input type="text" id="sub-camFront" placeholder="e.g. 32MP (f/2.2)"></div>
+      <div id="sub-camModules"></div>
+      <button type="button" class="opt-btn" onclick="SUB.addCamModule()" style="margin-bottom:14px">+ Add Camera Module</button>
+      <div class="form-field"><label>Selfie Camera</label><input type="text" id="sub-camselfie" placeholder="e.g. 12MP, f/2.2, 26mm"></div>
+      <div class="form-field"><label>Video Recording</label><input type="text" id="sub-camvideo" placeholder="e.g. 8K@30fps, 4K@60fps, HDR10"></div>
+      <div class="form-field"><label>Camera Features (comma-separated)</label><input type="text" id="sub-camfeatures" placeholder="e.g. LED Flash, HDR, panorama"></div>
     </div>
-    <div class="form-section" id="sub-sensorOnly" style="display:none">
+    <div class="form-section show-phone">
+      <h3>Power &amp; Sensors</h3>
+      <div class="form-grid-2"><div class="form-field"><label>Battery</label><input type="text" id="sub-battery" placeholder="e.g. Li-Ion 4200 mAh"></div><div class="form-field"><label>Charging</label><input type="text" id="sub-charging" placeholder="e.g. 45W wired, 15W wireless"></div></div>
+      <div class="form-field"><label>Sensors (comma-separated)</label><input type="text" id="sub-sensors" placeholder="e.g. Under-display fingerprint, accelerometer"></div>
+    </div>
+
+    <div class="form-section show-laptop">
+      <h3>Body &amp; Display</h3>
+      <div class="form-grid-2"><div class="form-field"><label>Dimensions</label><input type="text" id="sub-lapDimensions" placeholder="e.g. 310 x 220 x 12 mm"></div><div class="form-field"><label>Weight</label><input type="text" id="sub-lapWeight" placeholder="e.g. 1.2kg"></div></div>
+      <div class="form-field"><label>Build</label><input type="text" id="sub-lapBuild" placeholder="e.g. Unibody aluminum"></div>
+      <div class="form-grid-2"><div class="form-field"><label>Screen</label><input type="text" id="sub-lapScreen" placeholder="e.g. OLED, 120Hz, 14&quot;"></div><div class="form-field"><label>Resolution</label><input type="text" id="sub-lapResolution" placeholder="e.g. 2880 x 1800"></div></div>
+    </div>
+    <div class="form-section show-laptop">
+      <h3>Platform &amp; Memory</h3>
+      <div class="form-grid-2"><div class="form-field"><label>Processor</label><input type="text" id="sub-lapChipset" placeholder="e.g. Concept Silicon L3"></div><div class="form-field"><label>Graphics</label><input type="text" id="sub-lapGpu" placeholder="e.g. Integrated 10-core"></div></div>
+      <div class="form-grid-2"><div class="form-field"><label>Operating System</label><input type="text" id="sub-lapOs" placeholder="e.g. ConceptOS Desktop 6"></div><div class="form-field"><label>RAM</label><input type="text" id="sub-lapRam" placeholder="e.g. 16GB / 32GB"></div></div>
+      <div class="form-field"><label>Storage</label><input type="text" id="sub-lapStorage" placeholder="e.g. 512GB / 1TB"></div>
+    </div>
+    <div class="form-section show-laptop">
+      <h3>Connectivity &amp; Power</h3>
+      <div class="form-grid-2"><div class="form-field"><label>Ports</label><input type="text" id="sub-lapPorts" placeholder="e.g. 2x Thunderbolt 5, USB-C"></div><div class="form-field"><label>Wi-Fi</label><input type="text" id="sub-lapWifi" placeholder="e.g. Wi-Fi 7"></div></div>
+      <div class="form-grid-2"><div class="form-field"><label>Bluetooth</label><input type="text" id="sub-lapBt" placeholder="e.g. Bluetooth 6.0"></div><div class="form-field"><label>Battery</label><input type="text" id="sub-lapBattery" placeholder="e.g. 70Wh"></div></div>
+      <div class="form-field"><label>Charging</label><input type="text" id="sub-lapCharging" placeholder="e.g. 70W wired (USB-C)"></div>
+    </div>
+
+    <div class="form-section show-soc">
+      <h3>Silicon Details</h3>
+      <div class="form-grid-2"><div class="form-field"><label>Manufacturing Process</label><input type="text" id="sub-socProcess" placeholder="e.g. TSMC 3nm"></div><div class="form-field"><label>Open Source</label><input type="text" id="sub-socOpenUse" placeholder="e.g. Yes / No (Proprietary)"></div></div>
+      <div class="form-field"><label>CPU Core Configuration</label><input type="text" id="sub-socCpu" placeholder="e.g. 6x4.6GHz Neptune + 4x3.0GHz Calcite"></div>
+      <div class="form-grid-2"><div class="form-field"><label>GPU Model</label><input type="text" id="sub-socGpuModel" placeholder="e.g. M90"></div><div class="form-field"><label>GPU Clock</label><input type="text" id="sub-socGpuClock" placeholder="e.g. 912MHz"></div></div>
+      <div class="form-grid-2"><div class="form-field"><label>NPU</label><input type="text" id="sub-socNpu" placeholder="e.g. 1st Gen Neural Engine"></div><div class="form-field"><label>Image Signal Processor</label><input type="text" id="sub-socIsp" placeholder="e.g. Multivision AI Engine"></div></div>
+      <div class="form-field"><label>Modem</label><input type="text" id="sub-socModem" placeholder="e.g. NextGate N11 5G"></div>
+    </div>
+
+    <div class="form-section show-sensor">
       <h3>Sensor Specifications</h3>
-      <div class="form-grid-2"><div class="form-field"><label>Optical Format</label><input type="text" id="sub-optFormat" placeholder="e.g. 1-inch"></div><div class="form-field"><label>Effective Resolution</label><input type="text" id="sub-effRes" placeholder="e.g. 50 Megapixels"></div></div>
-      <div class="form-field"><label>Equivalent Focal Length / Pixel Size / Optical Image Stabilization</label><div class="dynamic-row"><div class="triple-input"><input type="text" id="sub-senFocal" placeholder="e.g. 24mm"><input type="text" id="sub-senPixel" placeholder="e.g. 1.6μm"><input type="text" id="sub-senOis" placeholder="e.g. Yes"></div></div></div>
+      <div class="form-grid-2"><div class="form-field"><label>Resolution</label><input type="text" id="sub-senResolution" placeholder="e.g. 50 MP"></div><div class="form-field"><label>Optical Format</label><input type="text" id="sub-senFormat" placeholder="e.g. 1/1.31&quot;"></div></div>
+      <div class="form-grid-2"><div class="form-field"><label>Pixel Size</label><input type="text" id="sub-senPixel" placeholder="e.g. 1.39µm"></div><div class="form-field"><label>Bit Depth</label><input type="text" id="sub-senBitDepth" placeholder="e.g. 12-bit"></div></div>
+      <div class="form-field"><label>Features (comma-separated)</label><input type="text" id="sub-senFeatures" placeholder="e.g. Pixel Binning to 12 & 24MP"></div>
+      <div class="form-field"><label>Video</label><input type="text" id="sub-senVideo" placeholder="e.g. 8K@24fps, 4K@24/30/60/120fps"></div>
     </div>
-    <div class="form-section hide-on-sensor">
-      <h3>Memory &amp; Storage</h3>
-      <div class="form-field"><label>RAM Options</label><div class="opt-grid" id="sub-ramContainer"></div></div>
-      <div class="form-field"><label>Storage Options</label><div class="opt-grid" id="sub-storageContainer"></div></div>
+
+    <div class="form-section show-phone show-laptop show-soc">
+      <h3>Benchmarks &amp; Price</h3>
+      <div class="form-grid-2"><div class="form-field"><label>Geekbench Single-Core</label><input type="text" id="sub-geekS" placeholder="e.g. 2432"></div><div class="form-field"><label>Geekbench Multi-Core</label><input type="text" id="sub-geekM" placeholder="e.g. 5896"></div></div>
+      <div class="form-grid-2"><div class="form-field show-phone show-soc"><label>AnTuTu</label><input type="text" id="sub-antutu" placeholder="e.g. 1421562"></div><div class="form-field show-laptop"><label>Cinebench Multi-Core</label><input type="text" id="sub-cinebench" placeholder="e.g. 16400"></div></div>
+      <div class="form-grid-2"><div class="form-field"><label>Price (USD)</label><input type="text" id="sub-price" placeholder="e.g. $599"></div><div class="form-field"><label>Price (EUR)</label><input type="text" id="sub-priceEur" placeholder="e.g. €549"></div></div>
     </div>
-    <div class="form-section hide-on-soc hide-on-sensor">
-      <h3>Battery</h3>
-      <div class="form-grid-2">
-        <div class="form-field"><label>Battery Capacity</label><input type="text" id="sub-battery" placeholder="e.g. 5,200 mAh"></div>
-        <div class="form-field"><label>Charging Speed</label><div class="charge-row"><input type="number" id="sub-chargeNum" placeholder="65">
-          <div class="fsel" id="sub-chargeSel"><button class="fsel-btn" type="button" onclick="SUB.fselToggle('sub-chargeSel')"><span id="sub-chargeLabel">W Wired</span><svg class="fsel-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-            <div class="fsel-menu"><div class="fsel-opt selected" onclick="SUB.fselPick('sub-chargeReal','sub-chargeLabel','wired','W Wired',this,'')">W Wired</div><div class="fsel-opt" onclick="SUB.fselPick('sub-chargeReal','sub-chargeLabel','wireless','W Wireless',this,'')">W Wireless</div></div>
-            <select id="sub-chargeReal" class="fsel-hidden"><option value="wired">Wired</option><option value="wireless">Wireless</option></select>
-          </div>
-        </div></div>
-      </div>
-    </div>
-    <div class="form-section" id="sub-socOnly" style="display:none">
-      <h3>SoC Details</h3>
-      <div class="form-grid-2"><div class="form-field"><label>Manufacturing Process</label><input type="text" id="sub-process" placeholder="e.g. 3nm"></div><div class="form-field"><label>Memory Support</label><input type="text" id="sub-memSupport" placeholder="e.g. LPDDR6, 24GB max"></div></div>
-      <div class="form-field full-width-soc"><label>CPU Configuration</label><textarea id="sub-cpuConfig" placeholder="e.g. 1× Prime 4.3GHz + 3× Performance 3.5GHz + 4× Efficiency 2.4GHz"></textarea></div>
-    </div>
-    <div class="form-section">
-      <h3>Notes &amp; Price</h3>
-      <div class="form-field"><label>Estimated Price</label><input type="text" id="sub-price" placeholder="e.g. $1,099"></div>
-      <div class="form-field"><label>Concept Notes</label><textarea id="sub-notes" placeholder="Describe the concept, what problem it explores, design intent..."></textarea></div>
-    </div>
-    <button class="submit-cta" onclick="SUB.submitForm()">Submit Concept</button>
+
+    <button class="submit-cta" onclick="SUB.submitForm()">Generate JSON</button>
     <div class="form-success" id="sub-formSuccess"></div>
   </div>
 </div>
@@ -572,307 +597,432 @@ document.addEventListener('click', function(e){
   if(!e.target.closest('.socials-wrap')){ const d=document.getElementById('socialsDropdown'); if(d) d.classList.remove('open'); }
 });
 applyTheme();
+let _toastTimer=null;
+function showToast(msg){
+  let t=document.getElementById('toast');
+  if(!t){ t=document.createElement('div'); t.id='toast'; document.body.appendChild(t); }
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer=setTimeout(()=>t.classList.remove('show'), 2200);
+}
+function shareItem(title,text){
+  const url=location.href;
+  if(navigator.share){ navigator.share({title,text,url}).catch(()=>{}); }
+  else if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(()=>showToast('Link copied to clipboard')).catch(()=>showToast(url)); }
+  else { showToast(url); }
+}
+window.__pendingDeepLink=null;
+(function(){
+  const h=location.hash.slice(1); if(!h) return;
+  const parts=h.split('/'); const pg=parts[0]; const item=parts.slice(1).join('/');
+  const validPages=['index','laptops','soc','sensors','news','submit','rankings'];
+  if(validPages.includes(pg)){ showPage(pg); if(item) window.__pendingDeepLink={page:pg,item:decodeURIComponent(item)}; }
+})();
 </script>
 <script>
 (function(){
-  const PREFIX='idx-', NS_NAME='IDX', DATA_URL='phones.json';
+  const PREFIX='idx-', NS_NAME='IDX', PAGE_KEY='index', DATA_URL='phones.json';
   const CARD_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="20" y="6" width="24" height="52" rx="6"/><line x1="27" y1="13" x2="37" y2="13"/><circle cx="32" cy="52" r="1.4" fill="currentColor" stroke="none"/></svg>';
   const MINI_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="2"><rect x="22" y="8" width="20" height="48" rx="5"/></svg>';
   const SLOT_SVG='<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="16" y1="6" x2="16" y2="26"/><line x1="6" y1="16" x2="26" y2="16"/></svg>';
-  const SECTIONS=[['Launch',['Announced','Status']],['Body',['Dimensions','Weight','Build','Colors','Protection']],['Display',['Type','Size','Resolution','Refresh Rate','Peak Brightness','Screen Protection']],['Secondary Display',['Type','Size','Resolution','Secondary Display Brightness']],['Platform',['Chipset','CPU','GPU','Neural Processing Unit','Operating System']],['Memory',['RAM Options','Storage Options','Card Slot']],['Camera',['Main Camera','Front Camera','Video Recording','Camera Features']],['Features',['Sensors','Connectivity','Other Features']],['Power',['Battery Capacity','Charging','Estimated Battery Life']],['Tests & Price',['AnTuTu Score','Geekbench Single-Core','Geekbench Multi-Core','Estimated Price']]];
-  const QUICK_FIELDS=[['display','Display'],['chipset','Chipset'],['camera','Camera'],['battery','Battery']];
+  const SECTIONS=[
+    ['Launch',[['announced','Announced'],['status','Status'],['released','Released']]],
+    ['Body',[['dimensions','Dimensions'],['weight','Weight'],['build','Build'],['colors','Colors'],['ip_rating','IP Rating']]],
+    ['Display',[['screen','Screen'],['resolution','Resolution'],['second_screen','Secondary Display']]],
+    ['Platform',[['chipset','Chipset'],['os','Operating System']]],
+    ['Memory',[['ram','RAM'],['storage','Storage']]],
+    ['Camera',[['camera_modules','Camera Modules'],['cam_selfie','Selfie Camera'],['cam_video','Video Recording'],['camera_features','Camera Features']]],
+    ['Sensors',[['sensors','Sensors']]],
+    ['Power',[['battery','Battery'],['charging','Charging']]],
+    ['Benchmarks & Price',[['geek_s','Geekbench Single-Core'],['geek_m','Geekbench Multi-Core'],['antutu','AnTuTu Score'],['price','Price (USD)'],['price_eur','Price (EUR)']]]
+  ];
+  function dash(v){ return (v===undefined||v===null||v===''||(Array.isArray(v)&&v.length===0))?'—':v; }
+  function mainCameraSummary(dev){ if(!dev.camera_modules||!dev.camera_modules.length) return ''; const m=dev.camera_modules[0]; const match=(m.specs||'').match(/^(\d+MP)/i); return match?match[1]:(m.label||''); }
+  function quickFields(dev){ return [['Display',dash(dev.screen)],['Chipset',dash(dev.chipset)],['Camera',dash(mainCameraSummary(dev))],['Battery',dash(dev.battery)]]; }
   let DATA=[], loadFailed=false;
   let compareSlots=[null,null,null],currentIdx=null,diffMode=false,brandVal='all',sortVal='newest',_labelTimer=null;
   function $(x){ return document.getElementById(PREFIX+x); }
-  function getDev(id){ return DATA.find(d=>d.id===id)||null; }
-  function getRaw(dev,section,field){ if(!dev) return '—'; const v=dev.specs&&dev.specs[section]?dev.specs[section][field]:null; return (v===undefined||v===null||v==='')?'—':v; }
-  function getRawVal(slotIdx,section,field){ return getRaw(getDev(compareSlots[slotIdx]),section,field); }
-  function getTokens(val){ return String(val).trim().toLowerCase(); }
-  function getRowTokens(section,field){ return compareSlots.map((id,i)=>id?getTokens(getRawVal(i,section,field)):null).filter(v=>v!==null); }
+  function slugify(s){ return (s||'').toString().toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')||'item'; }
+  function getDev(id){ return DATA.find(d=>d._id===id)||null; }
+  function getRaw(dev,key){
+    if(!dev) return '—';
+    let v=dev[key];
+    if(v===undefined||v===null||v==='') return '—';
+    if(Array.isArray(v)){ if(!v.length) return '—'; if(key==='camera_modules') return v.map(m=>`<strong>${dash(m&&m.label)}:</strong> ${dash(m&&m.specs)}`).join('<br>'); return v.join(', '); }
+    return v;
+  }
+  function getRawVal(slotIdx,key){ return getRaw(getDev(compareSlots[slotIdx]),key); }
+  function getTokens(val){ return String(val).replace(/<[^>]*>/g,'').trim().toLowerCase(); }
+  function getRowTokens(key){ return compareSlots.map((id,i)=>id?getTokens(getRawVal(i,key)):null).filter(v=>v!==null); }
   function populateBrands(){
-    const menu=$('brandMenu'); const brands=Array.from(new Set(DATA.map(d=>d.brand)));
+    const menu=$('brandMenu'); const brands=Array.from(new Set(DATA.map(d=>d.brand).filter(Boolean))).sort();
     let html=`<div class="csel-opt selected" data-val="all" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','all','All Brands',this)">All Brands</div>`;
     brands.forEach(b=>{ html+=`<div class="csel-opt" data-val="${b}" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','${b}','${b}',this)">${b}</div>`; });
     menu.innerHTML=html;
   }
   function filterAndSort(){
     const q=($('searchInput').value||'').toLowerCase().trim();
-    let list=DATA.filter(d=>{ const ms=!q||d.model.toLowerCase().includes(q)||(d.tagline||'').toLowerCase().includes(q); const mb=brandVal==='all'||d.brand===brandVal; return ms&&mb; });
-    if(sortVal==='az') list.sort((a,b)=>a.model.localeCompare(b.model));
-    else if(sortVal==='za') list.sort((a,b)=>b.model.localeCompare(a.model));
+    let list=DATA.filter(d=>{ const ms=!q||(d.model||'').toLowerCase().includes(q)||(d.brand||'').toLowerCase().includes(q); const mb=brandVal==='all'||d.brand===brandVal; return ms&&mb; });
+    if(sortVal==='az') list.sort((a,b)=>(a.model||'').localeCompare(b.model||''));
+    else if(sortVal==='za') list.sort((a,b)=>(b.model||'').localeCompare(a.model||''));
     renderGallery(list);
   }
   function cardHTML(dev){
     const img=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG;
-    let quick=''; QUICK_FIELDS.forEach(([key,label])=>{ quick+=`<div>${label}<strong>${(dev.quick&&dev.quick[key])||'—'}</strong></div>`; });
-    return `<div class="card" onclick="${NS_NAME}.showDetails('${dev.id}')"><div class="card-img">${img}</div><div class="card-body"><div class="card-brand">${dev.brand}</div><div class="card-model">${dev.model}</div><div class="card-quick">${quick}</div></div></div>`;
+    let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div>${label}<strong>${value}</strong></div>`; });
+    return `<div class="card" onclick="${NS_NAME}.showDetails('${dev._id}')"><div class="card-img">${img}</div><div class="card-body"><div class="card-brand">${dash(dev.brand)}</div><div class="card-model">${dash(dev.model)}</div><div class="card-quick">${quick}</div></div></div>`;
   }
   function renderGallery(list){
     const grid=$('galleryGrid');
-    if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page and that you're viewing this over http(s), not a local file:// path.</div>`; return; }
+    if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page and you're viewing this over http(s), not a local file:// path.</div>`; return; }
     grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>';
   }
   function showDetails(devId){
     const dev=getDev(devId); if(!dev) return; currentIdx=devId;
     $('gallery-view').style.display='none'; $('detail-view').style.display='block';
-    $('d_brand').textContent=dev.brand; $('d_model').textContent=dev.model; $('d_tagline').textContent=dev.tagline||'';
+    $('d_brand').textContent=dash(dev.brand); $('d_model').textContent=dash(dev.model); $('d_tagline').textContent='';
     $('d_img_wrap').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG;
-    let quick=''; QUICK_FIELDS.forEach(([key,label])=>{ quick+=`<div class="dq-item"><span>${label}</span><strong>${(dev.quick&&dev.quick[key])||'—'}</strong></div>`; });
+    let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div class="dq-item"><span>${label}</span><strong>${value}</strong></div>`; });
     $('d_quick').innerHTML=quick;
     renderSpecList(dev); renderSimilar(dev); renderPics(dev); setTab('specs'); window.scrollTo(0,0);
+    history.replaceState(null,'',location.pathname+'#'+PAGE_KEY+'/'+devId);
   }
   function renderSpecList(dev){
-    let html=''; SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(f=>{ html+=`<div class="spec-row"><span class="spec-label">${f}</span><span class="spec-value">${getRaw(dev,section,f)}</span></div>`; }); });
+    let html='';
+    SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(([key,label])=>{ html+=`<div class="spec-row"><span class="spec-label">${label}</span><span class="spec-value${key==='camera_modules'?' block':''}">${getRaw(dev,key)}</span></div>`; }); });
     $('specList').innerHTML=html;
   }
-  function renderSimilar(dev){ $('similarGrid').innerHTML=DATA.filter(d=>d.id!==dev.id).slice(0,3).map(cardHTML).join(''); }
-  function renderPics(dev){ $('picsView').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.innerHTML=${NS_NAME}.CARD_SVG">`:`<div style="width:160px;height:160px">${CARD_SVG}</div>`; }
-  function goHome(){ $('detail-view').style.display='none'; $('gallery-view').style.display='block'; currentIdx=null; filterAndSort(); }
+  function renderSimilar(dev){ $('similarGrid').innerHTML=DATA.filter(d=>d._id!==dev._id).slice(0,3).map(cardHTML).join(''); }
+  function renderPics(dev){ const imgs=[dev.image,...(dev.gallery||[])].filter(Boolean); $('picsView').innerHTML=imgs.length?imgs.map(src=>`<img src="${src}" style="max-width:240px;max-height:240px;object-fit:contain;border-radius:12px;margin:6px" onerror="this.style.display='none'">`).join(''):`<div style="width:160px;height:160px">${CARD_SVG}</div>`; }
+  function goHome(){ $('detail-view').style.display='none'; $('gallery-view').style.display='block'; currentIdx=null; filterAndSort(); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY); }
   function setTab(name){ ['specs','pics','compare'].forEach(t=>{ $('btn-'+t).classList.toggle('active',t===name); $('tab-'+t).style.display=(t===name)?'block':'none'; }); if(name==='compare') renderCompare(); }
-  function openCompare(){ const hostId=compareSlots.find(Boolean)||(DATA[0]&&DATA[0].id); if(!hostId) return; showDetails(hostId); setTab('compare'); }
+  function openCompare(){ const hostId=compareSlots.find(Boolean)||(DATA[0]&&DATA[0]._id); if(!hostId) return; showDetails(hostId); setTab('compare'); }
   function updateCompareBadge(){ const n=compareSlots.filter(Boolean).length; const badge=$('compareBadge'); if(!badge) return; badge.textContent=n; badge.style.display=n>0?'flex':'none'; }
   function addSlot(devId){ if(compareSlots.includes(devId)) return; const empty=compareSlots.indexOf(null); compareSlots[empty!==-1?empty:compareSlots.length-1]=devId; updateCompareBadge(); if($('tab-compare').style.display!=='none') renderCompare(); }
   function removeSlot(i){ compareSlots[i]=null; updateCompareBadge(); renderCompare(); }
   function setSlot(i,devId){ compareSlots[i]=devId; updateCompareBadge(); renderCompare(); }
-  function searchSlot(i){ const val=document.getElementById(PREFIX+'slotSearch'+i).value.toLowerCase().trim(); const box=document.getElementById(PREFIX+'slotResults'+i); if(!val){ box.innerHTML=''; box.style.display='none'; return; } const matches=DATA.filter(d=>!compareSlots.includes(d.id)&&d.model.toLowerCase().includes(val)).slice(0,6); box.innerHTML=matches.length?matches.map(d=>`<div onclick="${NS_NAME}.setSlot(${i},'${d.id}')">${d.model}</div>`).join(''):'<div style="color:var(--ts)">No matches</div>'; box.style.display='block'; }
+  function searchSlot(i){
+    const val=document.getElementById(PREFIX+'slotSearch'+i).value.toLowerCase().trim();
+    const box=document.getElementById(PREFIX+'slotResults'+i);
+    if(!val){ box.innerHTML=''; box.style.display='none'; return; }
+    const matches=DATA.filter(d=>!compareSlots.includes(d._id)&&((d.model||'').toLowerCase().includes(val)||(d.brand||'').toLowerCase().includes(val))).slice(0,6);
+    box.innerHTML=matches.length?matches.map(d=>`<div onclick="${NS_NAME}.setSlot(${i},'${d._id}')">${dash(d.brand)} ${dash(d.model)}</div>`).join(''):'<div style="color:var(--ts)">No matches</div>';
+    box.style.display='block';
+  }
   function renderCompare(){
     const area=$('compareArea'); const filled=compareSlots.filter(Boolean).length;
-    const headCells=compareSlots.map((id,i)=>{ const dev=getDev(id); if(dev) return `<td><div class="slot-card"><div class="slot-img">${MINI_SVG}</div><div class="slot-name">${dev.model}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`; }).join('');
-    let rows=''; SECTIONS.forEach(([section,fields])=>{ rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`; fields.forEach(f=>{ const rowDiffers=diffMode&&filled>1&&new Set(getRowTokens(section,f)).size>1; rows+=`<tr><th>${f}</th>${compareSlots.map((id,i)=>`<td${(rowDiffers&&id)?' class="diff"':''}>${getRawVal(i,section,f)}</td>`).join('')}</tr>`; }); });
+    const headCells=compareSlots.map((id,i)=>{ const dev=getDev(id); if(dev) return `<td><div class="slot-card"><div class="slot-img">${MINI_SVG}</div><div class="slot-name">${dash(dev.model)}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`; }).join('');
+    let rows=''; SECTIONS.forEach(([section,fields])=>{ rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`; fields.forEach(([key,label])=>{ const rowDiffers=diffMode&&filled>1&&new Set(getRowTokens(key)).size>1; rows+=`<tr><th>${label}</th>${compareSlots.map((id,i)=>`<td${(rowDiffers&&id)?' class="diff"':''}>${getRawVal(i,key)}</td>`).join('')}</tr>`; }); });
     area.innerHTML=`<div class="compare-actions"><label class="diff-toggle"><input type="checkbox" ${diffMode?'checked':''} onchange="${NS_NAME}.toggleDiffMode()"> Highlight differences</label></div><div class="compare-wrapper" id="${PREFIX}compareWrapper"><table class="compare-table" id="${PREFIX}compareTable"><thead><tr><th></th>${headCells}</tr></thead><tbody>${rows}</tbody></table></div>`;
     _attachCompareFade(); _updateSidebarBlur();
   }
   function toggleDiffMode(){ diffMode=!diffMode; renderCompare(); }
-  function highlightDiff(){ renderCompare(); }
   function cselToggle(wrapId){ const el=document.getElementById(wrapId); const wasOpen=el.classList.contains('open'); document.querySelectorAll('.csel.open, .fsel.open').forEach(o=>o.classList.remove('open')); if(!wasOpen) el.classList.add('open'); }
   function cselPick(wrapId,labelId,val,labelText,el){ if(wrapId.endsWith('brandSel')) brandVal=val; else if(wrapId.endsWith('sortSel')) sortVal=val; const labelEl=document.getElementById(labelId); const sortSpan=labelEl.querySelector('.sort-text'); if(sortSpan){ sortSpan.classList.add('switching'); clearTimeout(_labelTimer); _labelTimer=setTimeout(()=>{ sortSpan.textContent=labelText; sortSpan.classList.remove('switching'); },140); } else { labelEl.textContent=labelText; } el.parentElement.querySelectorAll('.csel-opt').forEach(o=>o.classList.remove('selected')); el.classList.add('selected'); document.getElementById(wrapId).classList.remove('open'); filterAndSort(); }
   function _showLabels(){ const s=$('searchInput'); if(s) s.setAttribute('aria-label','Search devices'); }
   function _attachCompareFade(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.addEventListener('scroll',_updateSidebarBlur); }
   function _updateSidebarBlur(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.classList.toggle('scrolled', w.scrollTop>2); }
+  function doShare(){ const dev=getDev(currentIdx); if(!dev) return; const title=dev.model||'Concept device'; const text=[dev.brand,dev.model].filter(Boolean).join(' ')||title; shareItem(title,text); }
   async function init(){
-    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); }
-    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; }
+    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; }
+    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; DATA=[]; }
+    DATA.forEach(d=>{ d._id=slugify((d.brand||'')+'-'+(d.model||'')); });
     populateBrands(); filterAndSort(); _showLabels();
+    if(window.__pendingDeepLink && window.__pendingDeepLink.page===PAGE_KEY && window.__pendingDeepLink.item) showDetails(window.__pendingDeepLink.item);
   }
-  window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,CARD_SVG,MINI_SVG,SLOT_SVG,get DATA(){return DATA;},SECTIONS};
+  window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,doShare,CARD_SVG,MINI_SVG,SLOT_SVG};
   init();
 })();
 </script>
 <script>
 (function(){
-  const PREFIX='lap-', NS_NAME='LAP', DATA_URL='laptops.json';
+  const PREFIX='lap-', NS_NAME='LAP', PAGE_KEY='laptops', DATA_URL='laptops.json';
   const CARD_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="10" y="12" width="44" height="30" rx="3"/><path d="M4 46h56l-5 8H9z"/></svg>';
   const MINI_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="2"><rect x="12" y="16" width="40" height="26" rx="2"/></svg>';
   const SLOT_SVG='<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="16" y1="6" x2="16" y2="26"/><line x1="6" y1="16" x2="26" y2="16"/></svg>';
-  const SECTIONS=[['Launch',['Announced','Status']],['Design',['Dimensions','Weight','Build','Colors']],['Display',['Type','Size','Resolution','Refresh Rate','Peak Brightness']],['Platform',['Processor','Graphics','Neural Processing Unit','Operating System']],['Memory & Storage',['RAM Options','Storage Options','Expandable Storage']],['Connectivity',['Wi-Fi','Bluetooth','Ports']],['Battery & Price',['Battery Capacity','Charging','Estimated Battery Life','Estimated Price']]];
-  const QUICK_FIELDS=[['display','Display'],['processor','Processor'],['graphics','Graphics'],['battery','Battery']];
+  const SECTIONS=[
+    ['Launch',[['announced','Announced'],['status','Status'],['released','Released']]],
+    ['Body',[['dimensions','Dimensions'],['weight','Weight'],['build','Build']]],
+    ['Display',[['screen','Screen'],['resolution','Resolution']]],
+    ['Platform',[['chipset','Processor'],['gpu','Graphics'],['os','Operating System']]],
+    ['Memory',[['ram','RAM'],['storage','Storage']]],
+    ['Connectivity',[['ports','Ports'],['wifi','Wi-Fi'],['bluetooth','Bluetooth']]],
+    ['Power',[['battery','Battery'],['charging','Charging']]],
+    ['Benchmarks & Price',[['geek_s','Geekbench Single-Core'],['geek_m','Geekbench Multi-Core'],['cinebench','Cinebench Multi-Core'],['price','Price (USD)'],['price_eur','Price (EUR)']]]
+  ];
+  function dash(v){ return (v===undefined||v===null||v===''||(Array.isArray(v)&&v.length===0))?'—':v; }
+  function quickFields(dev){ return [['Display',dash(dev.screen)],['Processor',dash(dev.chipset)],['Graphics',dash(dev.gpu)],['Battery',dash(dev.battery)]]; }
   let DATA=[], loadFailed=false;
   let compareSlots=[null,null,null],currentIdx=null,diffMode=false,brandVal='all',sortVal='newest',_labelTimer=null;
   function $(x){ return document.getElementById(PREFIX+x); }
-  function getDev(id){ return DATA.find(d=>d.id===id)||null; }
-  function getRaw(dev,section,field){ if(!dev) return '—'; const v=dev.specs&&dev.specs[section]?dev.specs[section][field]:null; return (v===undefined||v===null||v==='')?'—':v; }
-  function getRawVal(slotIdx,section,field){ return getRaw(getDev(compareSlots[slotIdx]),section,field); }
-  function getTokens(val){ return String(val).trim().toLowerCase(); }
-  function getRowTokens(section,field){ return compareSlots.map((id,i)=>id?getTokens(getRawVal(i,section,field)):null).filter(v=>v!==null); }
-  function populateBrands(){ const menu=$('brandMenu'); const brands=Array.from(new Set(DATA.map(d=>d.brand))); let html=`<div class="csel-opt selected" data-val="all" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','all','All Brands',this)">All Brands</div>`; brands.forEach(b=>{ html+=`<div class="csel-opt" data-val="${b}" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','${b}','${b}',this)">${b}</div>`; }); menu.innerHTML=html; }
-  function filterAndSort(){ const q=($('searchInput').value||'').toLowerCase().trim(); let list=DATA.filter(d=>{ const ms=!q||d.model.toLowerCase().includes(q)||(d.tagline||'').toLowerCase().includes(q); const mb=brandVal==='all'||d.brand===brandVal; return ms&&mb; }); if(sortVal==='az') list.sort((a,b)=>a.model.localeCompare(b.model)); else if(sortVal==='za') list.sort((a,b)=>b.model.localeCompare(a.model)); renderGallery(list); }
-  function cardHTML(dev){ const img=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; QUICK_FIELDS.forEach(([key,label])=>{ quick+=`<div>${label}<strong>${(dev.quick&&dev.quick[key])||'—'}</strong></div>`; }); return `<div class="card" onclick="${NS_NAME}.showDetails('${dev.id}')"><div class="card-img">${img}</div><div class="card-body"><div class="card-brand">${dev.brand}</div><div class="card-model">${dev.model}</div><div class="card-quick">${quick}</div></div></div>`; }
-  function renderGallery(list){ const grid=$('galleryGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page and that you're viewing this over http(s), not a local file:// path.</div>`; return; } grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
-  function showDetails(devId){ const dev=getDev(devId); if(!dev) return; currentIdx=devId; $('gallery-view').style.display='none'; $('detail-view').style.display='block'; $('d_brand').textContent=dev.brand; $('d_model').textContent=dev.model; $('d_tagline').textContent=dev.tagline||''; $('d_img_wrap').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; QUICK_FIELDS.forEach(([key,label])=>{ quick+=`<div class="dq-item"><span>${label}</span><strong>${(dev.quick&&dev.quick[key])||'—'}</strong></div>`; }); $('d_quick').innerHTML=quick; renderSpecList(dev); renderSimilar(dev); renderPics(dev); setTab('specs'); window.scrollTo(0,0); }
-  function renderSpecList(dev){ let html=''; SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(f=>{ html+=`<div class="spec-row"><span class="spec-label">${f}</span><span class="spec-value">${getRaw(dev,section,f)}</span></div>`; }); }); $('specList').innerHTML=html; }
-  function renderSimilar(dev){ $('similarGrid').innerHTML=DATA.filter(d=>d.id!==dev.id).slice(0,3).map(cardHTML).join(''); }
-  function renderPics(dev){ $('picsView').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.innerHTML=${NS_NAME}.CARD_SVG">`:`<div style="width:160px;height:160px">${CARD_SVG}</div>`; }
-  function goHome(){ $('detail-view').style.display='none'; $('gallery-view').style.display='block'; currentIdx=null; filterAndSort(); }
+  function slugify(s){ return (s||'').toString().toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')||'item'; }
+  function getDev(id){ return DATA.find(d=>d._id===id)||null; }
+  function getRaw(dev,key){ if(!dev) return '—'; let v=dev[key]; if(v===undefined||v===null||v==='') return '—'; if(Array.isArray(v)){ if(!v.length) return '—'; return v.join(', '); } return v; }
+  function getRawVal(slotIdx,key){ return getRaw(getDev(compareSlots[slotIdx]),key); }
+  function getTokens(val){ return String(val).replace(/<[^>]*>/g,'').trim().toLowerCase(); }
+  function getRowTokens(key){ return compareSlots.map((id,i)=>id?getTokens(getRawVal(i,key)):null).filter(v=>v!==null); }
+  function populateBrands(){ const menu=$('brandMenu'); const brands=Array.from(new Set(DATA.map(d=>d.brand).filter(Boolean))).sort(); let html=`<div class="csel-opt selected" data-val="all" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','all','All Brands',this)">All Brands</div>`; brands.forEach(b=>{ html+=`<div class="csel-opt" data-val="${b}" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','${b}','${b}',this)">${b}</div>`; }); menu.innerHTML=html; }
+  function filterAndSort(){ const q=($('searchInput').value||'').toLowerCase().trim(); let list=DATA.filter(d=>{ const ms=!q||(d.model||'').toLowerCase().includes(q)||(d.brand||'').toLowerCase().includes(q); const mb=brandVal==='all'||d.brand===brandVal; return ms&&mb; }); if(sortVal==='az') list.sort((a,b)=>(a.model||'').localeCompare(b.model||'')); else if(sortVal==='za') list.sort((a,b)=>(b.model||'').localeCompare(a.model||'')); renderGallery(list); }
+  function cardHTML(dev){ const img=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div>${label}<strong>${value}</strong></div>`; }); return `<div class="card" onclick="${NS_NAME}.showDetails('${dev._id}')"><div class="card-img">${img}</div><div class="card-body"><div class="card-brand">${dash(dev.brand)}</div><div class="card-model">${dash(dev.model)}</div><div class="card-quick">${quick}</div></div></div>`; }
+  function renderGallery(list){ const grid=$('galleryGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page and you're viewing this over http(s), not a local file:// path.</div>`; return; } grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
+  function showDetails(devId){ const dev=getDev(devId); if(!dev) return; currentIdx=devId; $('gallery-view').style.display='none'; $('detail-view').style.display='block'; $('d_brand').textContent=dash(dev.brand); $('d_model').textContent=dash(dev.model); $('d_tagline').textContent=''; $('d_img_wrap').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div class="dq-item"><span>${label}</span><strong>${value}</strong></div>`; }); $('d_quick').innerHTML=quick; renderSpecList(dev); renderSimilar(dev); renderPics(dev); setTab('specs'); window.scrollTo(0,0); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY+'/'+devId); }
+  function renderSpecList(dev){ let html=''; SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(([key,label])=>{ html+=`<div class="spec-row"><span class="spec-label">${label}</span><span class="spec-value">${getRaw(dev,key)}</span></div>`; }); }); $('specList').innerHTML=html; }
+  function renderSimilar(dev){ $('similarGrid').innerHTML=DATA.filter(d=>d._id!==dev._id).slice(0,3).map(cardHTML).join(''); }
+  function renderPics(dev){ const imgs=[dev.image,...(dev.gallery||[])].filter(Boolean); $('picsView').innerHTML=imgs.length?imgs.map(src=>`<img src="${src}" style="max-width:240px;max-height:240px;object-fit:contain;border-radius:12px;margin:6px" onerror="this.style.display='none'">`).join(''):`<div style="width:160px;height:160px">${CARD_SVG}</div>`; }
+  function goHome(){ $('detail-view').style.display='none'; $('gallery-view').style.display='block'; currentIdx=null; filterAndSort(); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY); }
   function setTab(name){ ['specs','pics','compare'].forEach(t=>{ $('btn-'+t).classList.toggle('active',t===name); $('tab-'+t).style.display=(t===name)?'block':'none'; }); if(name==='compare') renderCompare(); }
-  function openCompare(){ const hostId=compareSlots.find(Boolean)||(DATA[0]&&DATA[0].id); if(!hostId) return; showDetails(hostId); setTab('compare'); }
+  function openCompare(){ const hostId=compareSlots.find(Boolean)||(DATA[0]&&DATA[0]._id); if(!hostId) return; showDetails(hostId); setTab('compare'); }
   function updateCompareBadge(){ const n=compareSlots.filter(Boolean).length; const badge=$('compareBadge'); if(!badge) return; badge.textContent=n; badge.style.display=n>0?'flex':'none'; }
   function addSlot(devId){ if(compareSlots.includes(devId)) return; const empty=compareSlots.indexOf(null); compareSlots[empty!==-1?empty:compareSlots.length-1]=devId; updateCompareBadge(); if($('tab-compare').style.display!=='none') renderCompare(); }
   function removeSlot(i){ compareSlots[i]=null; updateCompareBadge(); renderCompare(); }
   function setSlot(i,devId){ compareSlots[i]=devId; updateCompareBadge(); renderCompare(); }
-  function searchSlot(i){ const val=document.getElementById(PREFIX+'slotSearch'+i).value.toLowerCase().trim(); const box=document.getElementById(PREFIX+'slotResults'+i); if(!val){ box.innerHTML=''; box.style.display='none'; return; } const matches=DATA.filter(d=>!compareSlots.includes(d.id)&&d.model.toLowerCase().includes(val)).slice(0,6); box.innerHTML=matches.length?matches.map(d=>`<div onclick="${NS_NAME}.setSlot(${i},'${d.id}')">${d.model}</div>`).join(''):'<div style="color:var(--ts)">No matches</div>'; box.style.display='block'; }
+  function searchSlot(i){ const val=document.getElementById(PREFIX+'slotSearch'+i).value.toLowerCase().trim(); const box=document.getElementById(PREFIX+'slotResults'+i); if(!val){ box.innerHTML=''; box.style.display='none'; return; } const matches=DATA.filter(d=>!compareSlots.includes(d._id)&&((d.model||'').toLowerCase().includes(val)||(d.brand||'').toLowerCase().includes(val))).slice(0,6); box.innerHTML=matches.length?matches.map(d=>`<div onclick="${NS_NAME}.setSlot(${i},'${d._id}')">${dash(d.brand)} ${dash(d.model)}</div>`).join(''):'<div style="color:var(--ts)">No matches</div>'; box.style.display='block'; }
   function renderCompare(){
     const area=$('compareArea'); const filled=compareSlots.filter(Boolean).length;
-    const headCells=compareSlots.map((id,i)=>{ const dev=getDev(id); if(dev) return `<td><div class="slot-card"><div class="slot-img">${MINI_SVG}</div><div class="slot-name">${dev.model}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`; }).join('');
-    let rows=''; SECTIONS.forEach(([section,fields])=>{ rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`; fields.forEach(f=>{ const rowDiffers=diffMode&&filled>1&&new Set(getRowTokens(section,f)).size>1; rows+=`<tr><th>${f}</th>${compareSlots.map((id,i)=>`<td${(rowDiffers&&id)?' class="diff"':''}>${getRawVal(i,section,f)}</td>`).join('')}</tr>`; }); });
+    const headCells=compareSlots.map((id,i)=>{ const dev=getDev(id); if(dev) return `<td><div class="slot-card"><div class="slot-img">${MINI_SVG}</div><div class="slot-name">${dash(dev.model)}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`; }).join('');
+    let rows=''; SECTIONS.forEach(([section,fields])=>{ rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`; fields.forEach(([key,label])=>{ const rowDiffers=diffMode&&filled>1&&new Set(getRowTokens(key)).size>1; rows+=`<tr><th>${label}</th>${compareSlots.map((id,i)=>`<td${(rowDiffers&&id)?' class="diff"':''}>${getRawVal(i,key)}</td>`).join('')}</tr>`; }); });
     area.innerHTML=`<div class="compare-actions"><label class="diff-toggle"><input type="checkbox" ${diffMode?'checked':''} onchange="${NS_NAME}.toggleDiffMode()"> Highlight differences</label></div><div class="compare-wrapper" id="${PREFIX}compareWrapper"><table class="compare-table" id="${PREFIX}compareTable"><thead><tr><th></th>${headCells}</tr></thead><tbody>${rows}</tbody></table></div>`;
     _attachCompareFade(); _updateSidebarBlur();
   }
   function toggleDiffMode(){ diffMode=!diffMode; renderCompare(); }
-  function highlightDiff(){ renderCompare(); }
   function cselToggle(wrapId){ const el=document.getElementById(wrapId); const wasOpen=el.classList.contains('open'); document.querySelectorAll('.csel.open, .fsel.open').forEach(o=>o.classList.remove('open')); if(!wasOpen) el.classList.add('open'); }
   function cselPick(wrapId,labelId,val,labelText,el){ if(wrapId.endsWith('brandSel')) brandVal=val; else if(wrapId.endsWith('sortSel')) sortVal=val; const labelEl=document.getElementById(labelId); const sortSpan=labelEl.querySelector('.sort-text'); if(sortSpan){ sortSpan.classList.add('switching'); clearTimeout(_labelTimer); _labelTimer=setTimeout(()=>{ sortSpan.textContent=labelText; sortSpan.classList.remove('switching'); },140); } else { labelEl.textContent=labelText; } el.parentElement.querySelectorAll('.csel-opt').forEach(o=>o.classList.remove('selected')); el.classList.add('selected'); document.getElementById(wrapId).classList.remove('open'); filterAndSort(); }
   function _showLabels(){ const s=$('searchInput'); if(s) s.setAttribute('aria-label','Search devices'); }
   function _attachCompareFade(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.addEventListener('scroll',_updateSidebarBlur); }
   function _updateSidebarBlur(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.classList.toggle('scrolled', w.scrollTop>2); }
+  function doShare(){ const dev=getDev(currentIdx); if(!dev) return; const title=dev.model||'Concept laptop'; const text=[dev.brand,dev.model].filter(Boolean).join(' ')||title; shareItem(title,text); }
   async function init(){
-    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); }
-    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; }
+    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; }
+    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; DATA=[]; }
+    DATA.forEach(d=>{ d._id=slugify((d.brand||'')+'-'+(d.model||'')); });
     populateBrands(); filterAndSort(); _showLabels();
+    if(window.__pendingDeepLink && window.__pendingDeepLink.page===PAGE_KEY && window.__pendingDeepLink.item) showDetails(window.__pendingDeepLink.item);
   }
-  window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,CARD_SVG,MINI_SVG,SLOT_SVG,get DATA(){return DATA;},SECTIONS};
+  window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,doShare,CARD_SVG,MINI_SVG,SLOT_SVG};
   init();
 })();
 </script>
 <script>
 (function(){
-  const PREFIX='soc-', NS_NAME='SOC', DATA_URL='chips.json';
+  const PREFIX='soc-', NS_NAME='SOC', PAGE_KEY='soc', DATA_URL='chips.json';
   const CARD_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="18" y="18" width="28" height="28" rx="3"/><line x1="26" y1="10" x2="26" y2="18"/><line x1="38" y1="10" x2="38" y2="18"/><line x1="26" y1="46" x2="26" y2="54"/><line x1="38" y1="46" x2="38" y2="54"/><line x1="10" y1="26" x2="18" y2="26"/><line x1="10" y1="38" x2="18" y2="38"/><line x1="46" y1="26" x2="54" y2="26"/><line x1="46" y1="38" x2="54" y2="38"/></svg>';
   const MINI_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="2"><rect x="20" y="20" width="24" height="24" rx="2"/></svg>';
   const SLOT_SVG='<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="16" y1="6" x2="16" y2="26"/><line x1="6" y1="16" x2="26" y2="16"/></svg>';
-  const SECTIONS=[['Overview',['Announced','Status','Manufacturing Process']],['CPU',['Configuration','Architecture','Cache']],['GPU',['Model','Cores','Peak Frequency']],['Neural Processing Unit',['Performance','Precision Support','Use Cases']],['Memory Support',['RAM Type','Max Capacity','Bus Width']],['Connectivity',['Modem','Wi-Fi','Bluetooth']],['Benchmarks',['AnTuTu Score','Geekbench Single-Core','Geekbench Multi-Core','GPU Benchmark']]];
-  const QUICK_FIELDS=[['process','Process'],['cpu','CPU'],['gpu','GPU'],['npu','Neural Engine']];
+  const SECTIONS=[
+    ['Overview',[['announced','Announced'],['process','Manufacturing Process'],['open_use','Open Source']]],
+    ['CPU',[['cpu_cores','Core Configuration']]],
+    ['GPU',[['gpu_model','Model'],['gpu_clock','Clock Speed']]],
+    ['Neural Processing Unit',[['npu','NPU']]],
+    ['Media & Connectivity',[['isp','Image Signal Processor'],['modem','Modem']]],
+    ['Benchmarks & Price',[['geek_s','Geekbench Single-Core'],['geek_m','Geekbench Multi-Core'],['antutu','AnTuTu Score'],['price','Price (USD)'],['price_eur','Price (EUR)']]]
+  ];
+  function dash(v){ return (v===undefined||v===null||v===''||(Array.isArray(v)&&v.length===0))?'—':v; }
+  function quickFields(dev){ return [['Process',dash(dev.process)],['CPU',dash(dev.cpu_cores)],['GPU',dash(dev.gpu_model)],['NPU',dash(dev.npu)]]; }
   let DATA=[], loadFailed=false;
   let compareSlots=[null,null,null],currentIdx=null,diffMode=false,brandVal='all',sortVal='newest',_labelTimer=null;
   function $(x){ return document.getElementById(PREFIX+x); }
-  function getDev(id){ return DATA.find(d=>d.id===id)||null; }
-  function getRaw(dev,section,field){ if(!dev) return '—'; const v=dev.specs&&dev.specs[section]?dev.specs[section][field]:null; return (v===undefined||v===null||v==='')?'—':v; }
-  function getRawVal(slotIdx,section,field){ return getRaw(getDev(compareSlots[slotIdx]),section,field); }
-  function getTokens(val){ return String(val).trim().toLowerCase(); }
-  function getRowTokens(section,field){ return compareSlots.map((id,i)=>id?getTokens(getRawVal(i,section,field)):null).filter(v=>v!==null); }
-  function populateBrands(){ const menu=$('brandMenu'); const brands=Array.from(new Set(DATA.map(d=>d.brand))); let html=`<div class="csel-opt selected" data-val="all" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','all','All Brands',this)">All Brands</div>`; brands.forEach(b=>{ html+=`<div class="csel-opt" data-val="${b}" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','${b}','${b}',this)">${b}</div>`; }); menu.innerHTML=html; }
-  function filterAndSort(){ const q=($('searchInput').value||'').toLowerCase().trim(); let list=DATA.filter(d=>{ const ms=!q||d.model.toLowerCase().includes(q)||(d.tagline||'').toLowerCase().includes(q); const mb=brandVal==='all'||d.brand===brandVal; return ms&&mb; }); if(sortVal==='az') list.sort((a,b)=>a.model.localeCompare(b.model)); else if(sortVal==='za') list.sort((a,b)=>b.model.localeCompare(a.model)); renderGallery(list); }
-  function cardHTML(dev){ const img=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; QUICK_FIELDS.forEach(([key,label])=>{ quick+=`<div>${label}<strong>${(dev.quick&&dev.quick[key])||'—'}</strong></div>`; }); return `<div class="card" onclick="${NS_NAME}.showDetails('${dev.id}')"><div class="card-img">${img}</div><div class="card-body"><div class="card-brand">${dev.brand}</div><div class="card-model">${dev.model}</div><div class="card-quick">${quick}</div></div></div>`; }
-  function renderGallery(list){ const grid=$('galleryGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page and that you're viewing this over http(s), not a local file:// path.</div>`; return; } grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
-  function showDetails(devId){ const dev=getDev(devId); if(!dev) return; currentIdx=devId; $('gallery-view').style.display='none'; $('detail-view').style.display='block'; $('d_brand').textContent=dev.brand; $('d_model').textContent=dev.model; $('d_tagline').textContent=dev.tagline||''; $('d_img_wrap').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; QUICK_FIELDS.forEach(([key,label])=>{ quick+=`<div class="dq-item"><span>${label}</span><strong>${(dev.quick&&dev.quick[key])||'—'}</strong></div>`; }); $('d_quick').innerHTML=quick; renderSpecList(dev); renderSimilar(dev); renderPics(dev); setTab('specs'); window.scrollTo(0,0); }
-  function renderSpecList(dev){ let html=''; SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(f=>{ html+=`<div class="spec-row"><span class="spec-label">${f}</span><span class="spec-value">${getRaw(dev,section,f)}</span></div>`; }); }); $('specList').innerHTML=html; }
-  function renderSimilar(dev){ $('similarGrid').innerHTML=DATA.filter(d=>d.id!==dev.id).slice(0,3).map(cardHTML).join(''); }
-  function renderPics(dev){ $('picsView').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.innerHTML=${NS_NAME}.CARD_SVG">`:`<div style="width:160px;height:160px">${CARD_SVG}</div>`; }
-  function goHome(){ $('detail-view').style.display='none'; $('gallery-view').style.display='block'; currentIdx=null; filterAndSort(); }
+  function slugify(s){ return (s||'').toString().toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')||'item'; }
+  function getDev(id){ return DATA.find(d=>d._id===id)||null; }
+  function getRaw(dev,key){ if(!dev) return '—'; let v=dev[key]; if(v===undefined||v===null||v==='') return '—'; if(Array.isArray(v)){ if(!v.length) return '—'; return v.join(', '); } return v; }
+  function getRawVal(slotIdx,key){ return getRaw(getDev(compareSlots[slotIdx]),key); }
+  function getTokens(val){ return String(val).replace(/<[^>]*>/g,'').trim().toLowerCase(); }
+  function getRowTokens(key){ return compareSlots.map((id,i)=>id?getTokens(getRawVal(i,key)):null).filter(v=>v!==null); }
+  function populateBrands(){ const menu=$('brandMenu'); const brands=Array.from(new Set(DATA.map(d=>d.brand).filter(Boolean))).sort(); let html=`<div class="csel-opt selected" data-val="all" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','all','All Brands',this)">All Brands</div>`; brands.forEach(b=>{ html+=`<div class="csel-opt" data-val="${b}" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','${b}','${b}',this)">${b}</div>`; }); menu.innerHTML=html; }
+  function filterAndSort(){ const q=($('searchInput').value||'').toLowerCase().trim(); let list=DATA.filter(d=>{ const ms=!q||(d.model||'').toLowerCase().includes(q)||(d.brand||'').toLowerCase().includes(q); const mb=brandVal==='all'||d.brand===brandVal; return ms&&mb; }); if(sortVal==='az') list.sort((a,b)=>(a.model||'').localeCompare(b.model||'')); else if(sortVal==='za') list.sort((a,b)=>(b.model||'').localeCompare(a.model||'')); renderGallery(list); }
+  function cardHTML(dev){ const img=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div>${label}<strong>${value}</strong></div>`; }); return `<div class="card" onclick="${NS_NAME}.showDetails('${dev._id}')"><div class="card-img">${img}</div><div class="card-body"><div class="card-brand">${dash(dev.brand)}</div><div class="card-model">${dash(dev.model)}</div><div class="card-quick">${quick}</div></div></div>`; }
+  function renderGallery(list){ const grid=$('galleryGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page and you're viewing this over http(s), not a local file:// path.</div>`; return; } grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
+  function showDetails(devId){ const dev=getDev(devId); if(!dev) return; currentIdx=devId; $('gallery-view').style.display='none'; $('detail-view').style.display='block'; $('d_brand').textContent=dash(dev.brand); $('d_model').textContent=dash(dev.model); $('d_tagline').textContent=''; $('d_img_wrap').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div class="dq-item"><span>${label}</span><strong>${value}</strong></div>`; }); $('d_quick').innerHTML=quick; renderSpecList(dev); renderSimilar(dev); renderPics(dev); setTab('specs'); window.scrollTo(0,0); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY+'/'+devId); }
+  function renderSpecList(dev){ let html=''; SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(([key,label])=>{ html+=`<div class="spec-row"><span class="spec-label">${label}</span><span class="spec-value">${getRaw(dev,key)}</span></div>`; }); }); $('specList').innerHTML=html; }
+  function renderSimilar(dev){ $('similarGrid').innerHTML=DATA.filter(d=>d._id!==dev._id).slice(0,3).map(cardHTML).join(''); }
+  function renderPics(dev){ const imgs=[dev.image,...(dev.gallery||[])].filter(Boolean); $('picsView').innerHTML=imgs.length?imgs.map(src=>`<img src="${src}" style="max-width:240px;max-height:240px;object-fit:contain;border-radius:12px;margin:6px" onerror="this.style.display='none'">`).join(''):`<div style="width:160px;height:160px">${CARD_SVG}</div>`; }
+  function goHome(){ $('detail-view').style.display='none'; $('gallery-view').style.display='block'; currentIdx=null; filterAndSort(); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY); }
   function setTab(name){ ['specs','pics','compare'].forEach(t=>{ $('btn-'+t).classList.toggle('active',t===name); $('tab-'+t).style.display=(t===name)?'block':'none'; }); if(name==='compare') renderCompare(); }
-  function openCompare(){ const hostId=compareSlots.find(Boolean)||(DATA[0]&&DATA[0].id); if(!hostId) return; showDetails(hostId); setTab('compare'); }
+  function openCompare(){ const hostId=compareSlots.find(Boolean)||(DATA[0]&&DATA[0]._id); if(!hostId) return; showDetails(hostId); setTab('compare'); }
   function updateCompareBadge(){ const n=compareSlots.filter(Boolean).length; const badge=$('compareBadge'); if(!badge) return; badge.textContent=n; badge.style.display=n>0?'flex':'none'; }
   function addSlot(devId){ if(compareSlots.includes(devId)) return; const empty=compareSlots.indexOf(null); compareSlots[empty!==-1?empty:compareSlots.length-1]=devId; updateCompareBadge(); if($('tab-compare').style.display!=='none') renderCompare(); }
   function removeSlot(i){ compareSlots[i]=null; updateCompareBadge(); renderCompare(); }
   function setSlot(i,devId){ compareSlots[i]=devId; updateCompareBadge(); renderCompare(); }
-  function searchSlot(i){ const val=document.getElementById(PREFIX+'slotSearch'+i).value.toLowerCase().trim(); const box=document.getElementById(PREFIX+'slotResults'+i); if(!val){ box.innerHTML=''; box.style.display='none'; return; } const matches=DATA.filter(d=>!compareSlots.includes(d.id)&&d.model.toLowerCase().includes(val)).slice(0,6); box.innerHTML=matches.length?matches.map(d=>`<div onclick="${NS_NAME}.setSlot(${i},'${d.id}')">${d.model}</div>`).join(''):'<div style="color:var(--ts)">No matches</div>'; box.style.display='block'; }
+  function searchSlot(i){ const val=document.getElementById(PREFIX+'slotSearch'+i).value.toLowerCase().trim(); const box=document.getElementById(PREFIX+'slotResults'+i); if(!val){ box.innerHTML=''; box.style.display='none'; return; } const matches=DATA.filter(d=>!compareSlots.includes(d._id)&&((d.model||'').toLowerCase().includes(val)||(d.brand||'').toLowerCase().includes(val))).slice(0,6); box.innerHTML=matches.length?matches.map(d=>`<div onclick="${NS_NAME}.setSlot(${i},'${d._id}')">${dash(d.brand)} ${dash(d.model)}</div>`).join(''):'<div style="color:var(--ts)">No matches</div>'; box.style.display='block'; }
   function renderCompare(){
     const area=$('compareArea'); const filled=compareSlots.filter(Boolean).length;
-    const headCells=compareSlots.map((id,i)=>{ const dev=getDev(id); if(dev) return `<td><div class="slot-card"><div class="slot-img">${MINI_SVG}</div><div class="slot-name">${dev.model}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`; }).join('');
-    let rows=''; SECTIONS.forEach(([section,fields])=>{ rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`; fields.forEach(f=>{ const rowDiffers=diffMode&&filled>1&&new Set(getRowTokens(section,f)).size>1; rows+=`<tr><th>${f}</th>${compareSlots.map((id,i)=>`<td${(rowDiffers&&id)?' class="diff"':''}>${getRawVal(i,section,f)}</td>`).join('')}</tr>`; }); });
+    const headCells=compareSlots.map((id,i)=>{ const dev=getDev(id); if(dev) return `<td><div class="slot-card"><div class="slot-img">${MINI_SVG}</div><div class="slot-name">${dash(dev.model)}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`; }).join('');
+    let rows=''; SECTIONS.forEach(([section,fields])=>{ rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`; fields.forEach(([key,label])=>{ const rowDiffers=diffMode&&filled>1&&new Set(getRowTokens(key)).size>1; rows+=`<tr><th>${label}</th>${compareSlots.map((id,i)=>`<td${(rowDiffers&&id)?' class="diff"':''}>${getRawVal(i,key)}</td>`).join('')}</tr>`; }); });
     area.innerHTML=`<div class="compare-actions"><label class="diff-toggle"><input type="checkbox" ${diffMode?'checked':''} onchange="${NS_NAME}.toggleDiffMode()"> Highlight differences</label></div><div class="compare-wrapper" id="${PREFIX}compareWrapper"><table class="compare-table" id="${PREFIX}compareTable"><thead><tr><th></th>${headCells}</tr></thead><tbody>${rows}</tbody></table></div>`;
     _attachCompareFade(); _updateSidebarBlur();
   }
   function toggleDiffMode(){ diffMode=!diffMode; renderCompare(); }
-  function highlightDiff(){ renderCompare(); }
   function cselToggle(wrapId){ const el=document.getElementById(wrapId); const wasOpen=el.classList.contains('open'); document.querySelectorAll('.csel.open, .fsel.open').forEach(o=>o.classList.remove('open')); if(!wasOpen) el.classList.add('open'); }
   function cselPick(wrapId,labelId,val,labelText,el){ if(wrapId.endsWith('brandSel')) brandVal=val; else if(wrapId.endsWith('sortSel')) sortVal=val; const labelEl=document.getElementById(labelId); const sortSpan=labelEl.querySelector('.sort-text'); if(sortSpan){ sortSpan.classList.add('switching'); clearTimeout(_labelTimer); _labelTimer=setTimeout(()=>{ sortSpan.textContent=labelText; sortSpan.classList.remove('switching'); },140); } else { labelEl.textContent=labelText; } el.parentElement.querySelectorAll('.csel-opt').forEach(o=>o.classList.remove('selected')); el.classList.add('selected'); document.getElementById(wrapId).classList.remove('open'); filterAndSort(); }
-  function _showLabels(){ const s=$('searchInput'); if(s) s.setAttribute('aria-label','Search devices'); }
+  function _showLabels(){ const s=$('searchInput'); if(s) s.setAttribute('aria-label','Search chipsets'); }
   function _attachCompareFade(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.addEventListener('scroll',_updateSidebarBlur); }
   function _updateSidebarBlur(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.classList.toggle('scrolled', w.scrollTop>2); }
+  function doShare(){ const dev=getDev(currentIdx); if(!dev) return; const title=dev.model||'Concept chipset'; const text=[dev.brand,dev.model].filter(Boolean).join(' ')||title; shareItem(title,text); }
   async function init(){
-    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); }
-    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; }
+    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; }
+    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; DATA=[]; }
+    DATA.forEach(d=>{ d._id=slugify((d.brand||'')+'-'+(d.model||'')); });
     populateBrands(); filterAndSort(); _showLabels();
+    if(window.__pendingDeepLink && window.__pendingDeepLink.page===PAGE_KEY && window.__pendingDeepLink.item) showDetails(window.__pendingDeepLink.item);
   }
-  window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,CARD_SVG,MINI_SVG,SLOT_SVG,get DATA(){return DATA;},SECTIONS};
+  window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,doShare,CARD_SVG,MINI_SVG,SLOT_SVG};
   init();
 })();
 </script>
 <script>
 (function(){
-  const PREFIX='sen-', NS_NAME='SEN', DATA_URL='sensors.json';
+  const PREFIX='sen-', NS_NAME='SEN', PAGE_KEY='sensors', DATA_URL='sensors.json';
   const CARD_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="32" cy="28" r="16"/><circle cx="32" cy="28" r="7"/><rect x="24" y="48" width="16" height="6" rx="1"/></svg>';
   const MINI_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="2"><circle cx="32" cy="30" r="16"/></svg>';
   const SLOT_SVG='<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="16" y1="6" x2="16" y2="26"/><line x1="6" y1="16" x2="26" y2="16"/></svg>';
-  const SECTIONS=[['Overview',['Announced','Status','Sensor Type']],['Sensor Specifications',['Optical Format','Effective Resolution','Pixel Size','Sensor Size']],['Pixel Technology',['Technology','Color Filter','Dynamic Range']],['Video Capabilities',['Maximum Resolution','Frame Rates','Stabilization']],['Autofocus',['System','Focus Points','Low-light Autofocus']]];
-  const QUICK_FIELDS=[['size','Optical Format'],['resolution','Resolution'],['pixelsize','Pixel Size'],['af','Autofocus']];
+  const SECTIONS=[
+    ['Overview',[['announced','Announced']]],
+    ['Sensor Specifications',[['resolution','Resolution'],['format','Optical Format'],['pixel_size','Pixel Size'],['bit_depth','Bit Depth']]],
+    ['Features',[['features','Features']]],
+    ['Video Capabilities',[['video','Video']]]
+  ];
+  function dash(v){ return (v===undefined||v===null||v===''||(Array.isArray(v)&&v.length===0))?'—':v; }
+  function quickFields(dev){ return [['Resolution',dash(dev.resolution)],['Format',dash(dev.format)],['Pixel Size',dash(dev.pixel_size)],['Bit Depth',dash(dev.bit_depth)]]; }
   let DATA=[], loadFailed=false;
   let compareSlots=[null,null,null],currentIdx=null,diffMode=false,brandVal='all',sortVal='newest',_labelTimer=null;
-  function pixelGridHTML(){ let h='<div class="pixel-grid">'; for(let i=0;i<16;i++) h+='<div></div>'; return h+'</div>'; }
   function $(x){ return document.getElementById(PREFIX+x); }
-  function getDev(id){ return DATA.find(d=>d.id===id)||null; }
-  function getRaw(dev,section,field){ if(!dev) return '—'; const v=dev.specs&&dev.specs[section]?dev.specs[section][field]:null; return (v===undefined||v===null||v==='')?'—':v; }
-  function getRawVal(slotIdx,section,field){ return getRaw(getDev(compareSlots[slotIdx]),section,field); }
-  function getTokens(val){ return String(val).trim().toLowerCase(); }
-  function getRowTokens(section,field){ return compareSlots.map((id,i)=>id?getTokens(getRawVal(i,section,field)):null).filter(v=>v!==null); }
-  function populateBrands(){ const menu=$('brandMenu'); const brands=Array.from(new Set(DATA.map(d=>d.brand))); let html=`<div class="csel-opt selected" data-val="all" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','all','All Brands',this)">All Brands</div>`; brands.forEach(b=>{ html+=`<div class="csel-opt" data-val="${b}" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','${b}','${b}',this)">${b}</div>`; }); menu.innerHTML=html; }
-  function filterAndSort(){ const q=($('searchInput').value||'').toLowerCase().trim(); let list=DATA.filter(d=>{ const ms=!q||d.model.toLowerCase().includes(q)||(d.tagline||'').toLowerCase().includes(q); const mb=brandVal==='all'||d.brand===brandVal; return ms&&mb; }); if(sortVal==='az') list.sort((a,b)=>a.model.localeCompare(b.model)); else if(sortVal==='za') list.sort((a,b)=>b.model.localeCompare(a.model)); renderGallery(list); }
-  function cardHTML(dev){ const img=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; QUICK_FIELDS.forEach(([key,label])=>{ quick+=`<div>${label}<strong>${(dev.quick&&dev.quick[key])||'—'}</strong></div>`; }); return `<div class="card" onclick="${NS_NAME}.showDetails('${dev.id}')"><div class="card-img" style="flex-direction:column;gap:6px"><div style="flex:1;min-height:0;display:flex;align-items:center;justify-content:center;width:100%">${img}</div><div style="width:55%;opacity:.45;flex-shrink:0">${pixelGridHTML()}</div></div><div class="card-body"><div class="card-brand">${dev.brand}</div><div class="card-model">${dev.model}</div><div class="card-quick">${quick}</div></div></div>`; }
-  function renderGallery(list){ const grid=$('galleryGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page and that you're viewing this over http(s), not a local file:// path.</div>`; return; } grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
-  function showDetails(devId){ const dev=getDev(devId); if(!dev) return; currentIdx=devId; $('gallery-view').style.display='none'; $('detail-view').style.display='block'; $('d_brand').textContent=dev.brand; $('d_model').textContent=dev.model; $('d_tagline').textContent=dev.tagline||''; $('d_img_wrap').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; QUICK_FIELDS.forEach(([key,label])=>{ quick+=`<div class="dq-item"><span>${label}</span><strong>${(dev.quick&&dev.quick[key])||'—'}</strong></div>`; }); $('d_quick').innerHTML=quick; renderSpecList(dev); renderSimilar(dev); renderPics(dev); setTab('specs'); window.scrollTo(0,0); }
-  function renderSpecList(dev){ let html=''; SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(f=>{ html+=`<div class="spec-row"><span class="spec-label">${f}</span><span class="spec-value">${getRaw(dev,section,f)}</span></div>`; }); }); $('specList').innerHTML=html; }
-  function renderSimilar(dev){ $('similarGrid').innerHTML=DATA.filter(d=>d.id!==dev.id).slice(0,3).map(cardHTML).join(''); }
-  function renderPics(dev){ $('picsView').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.innerHTML=${NS_NAME}.CARD_SVG">`:`<div style="width:160px;height:160px">${CARD_SVG}</div>`; }
-  function goHome(){ $('detail-view').style.display='none'; $('gallery-view').style.display='block'; currentIdx=null; filterAndSort(); }
+  function slugify(s){ return (s||'').toString().toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')||'item'; }
+  function getDev(id){ return DATA.find(d=>d._id===id)||null; }
+  function getRaw(dev,key){ if(!dev) return '—'; let v=dev[key]; if(v===undefined||v===null||v==='') return '—'; if(Array.isArray(v)){ if(!v.length) return '—'; return v.join(', '); } return v; }
+  function getRawVal(slotIdx,key){ return getRaw(getDev(compareSlots[slotIdx]),key); }
+  function getTokens(val){ return String(val).replace(/<[^>]*>/g,'').trim().toLowerCase(); }
+  function getRowTokens(key){ return compareSlots.map((id,i)=>id?getTokens(getRawVal(i,key)):null).filter(v=>v!==null); }
+  function populateBrands(){ const menu=$('brandMenu'); const brands=Array.from(new Set(DATA.map(d=>d.brand).filter(Boolean))).sort(); let html=`<div class="csel-opt selected" data-val="all" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','all','All Brands',this)">All Brands</div>`; brands.forEach(b=>{ html+=`<div class="csel-opt" data-val="${b}" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','${b}','${b}',this)">${b}</div>`; }); menu.innerHTML=html; }
+  function filterAndSort(){ const q=($('searchInput').value||'').toLowerCase().trim(); let list=DATA.filter(d=>{ const ms=!q||(d.model||'').toLowerCase().includes(q)||(d.brand||'').toLowerCase().includes(q); const mb=brandVal==='all'||d.brand===brandVal; return ms&&mb; }); if(sortVal==='az') list.sort((a,b)=>(a.model||'').localeCompare(b.model||'')); else if(sortVal==='za') list.sort((a,b)=>(b.model||'').localeCompare(a.model||'')); renderGallery(list); }
+  function cardHTML(dev){ const img=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div>${label}<strong>${value}</strong></div>`; }); return `<div class="card" onclick="${NS_NAME}.showDetails('${dev._id}')"><div class="card-img">${img}</div><div class="card-body"><div class="card-brand">${dash(dev.brand)}</div><div class="card-model">${dash(dev.model)}</div><div class="card-quick">${quick}</div></div></div>`; }
+  function renderGallery(list){ const grid=$('galleryGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page and you're viewing this over http(s), not a local file:// path.</div>`; return; } grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
+  function showDetails(devId){ const dev=getDev(devId); if(!dev) return; currentIdx=devId; $('gallery-view').style.display='none'; $('detail-view').style.display='block'; $('d_brand').textContent=dash(dev.brand); $('d_model').textContent=dash(dev.model); $('d_tagline').textContent=''; $('d_img_wrap').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div class="dq-item"><span>${label}</span><strong>${value}</strong></div>`; }); $('d_quick').innerHTML=quick; renderSpecList(dev); renderSimilar(dev); renderPics(dev); setTab('specs'); window.scrollTo(0,0); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY+'/'+devId); }
+  function renderSpecList(dev){ let html=''; SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(([key,label])=>{ html+=`<div class="spec-row"><span class="spec-label">${label}</span><span class="spec-value">${getRaw(dev,key)}</span></div>`; }); }); $('specList').innerHTML=html; }
+  function renderSimilar(dev){ $('similarGrid').innerHTML=DATA.filter(d=>d._id!==dev._id).slice(0,3).map(cardHTML).join(''); }
+  function renderPics(dev){ const imgs=[dev.image,...(dev.gallery||[])].filter(Boolean); $('picsView').innerHTML=imgs.length?imgs.map(src=>`<img src="${src}" style="max-width:240px;max-height:240px;object-fit:contain;border-radius:12px;margin:6px" onerror="this.style.display='none'">`).join(''):`<div style="width:160px;height:160px">${CARD_SVG}</div>`; }
+  function goHome(){ $('detail-view').style.display='none'; $('gallery-view').style.display='block'; currentIdx=null; filterAndSort(); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY); }
   function setTab(name){ ['specs','pics','compare'].forEach(t=>{ $('btn-'+t).classList.toggle('active',t===name); $('tab-'+t).style.display=(t===name)?'block':'none'; }); if(name==='compare') renderCompare(); }
-  function openCompare(){ const hostId=compareSlots.find(Boolean)||(DATA[0]&&DATA[0].id); if(!hostId) return; showDetails(hostId); setTab('compare'); }
+  function openCompare(){ const hostId=compareSlots.find(Boolean)||(DATA[0]&&DATA[0]._id); if(!hostId) return; showDetails(hostId); setTab('compare'); }
   function updateCompareBadge(){ const n=compareSlots.filter(Boolean).length; const badge=$('compareBadge'); if(!badge) return; badge.textContent=n; badge.style.display=n>0?'flex':'none'; }
   function addSlot(devId){ if(compareSlots.includes(devId)) return; const empty=compareSlots.indexOf(null); compareSlots[empty!==-1?empty:compareSlots.length-1]=devId; updateCompareBadge(); if($('tab-compare').style.display!=='none') renderCompare(); }
   function removeSlot(i){ compareSlots[i]=null; updateCompareBadge(); renderCompare(); }
   function setSlot(i,devId){ compareSlots[i]=devId; updateCompareBadge(); renderCompare(); }
-  function searchSlot(i){ const val=document.getElementById(PREFIX+'slotSearch'+i).value.toLowerCase().trim(); const box=document.getElementById(PREFIX+'slotResults'+i); if(!val){ box.innerHTML=''; box.style.display='none'; return; } const matches=DATA.filter(d=>!compareSlots.includes(d.id)&&d.model.toLowerCase().includes(val)).slice(0,6); box.innerHTML=matches.length?matches.map(d=>`<div onclick="${NS_NAME}.setSlot(${i},'${d.id}')">${d.model}</div>`).join(''):'<div style="color:var(--ts)">No matches</div>'; box.style.display='block'; }
+  function searchSlot(i){ const val=document.getElementById(PREFIX+'slotSearch'+i).value.toLowerCase().trim(); const box=document.getElementById(PREFIX+'slotResults'+i); if(!val){ box.innerHTML=''; box.style.display='none'; return; } const matches=DATA.filter(d=>!compareSlots.includes(d._id)&&((d.model||'').toLowerCase().includes(val)||(d.brand||'').toLowerCase().includes(val))).slice(0,6); box.innerHTML=matches.length?matches.map(d=>`<div onclick="${NS_NAME}.setSlot(${i},'${d._id}')">${dash(d.brand)} ${dash(d.model)}</div>`).join(''):'<div style="color:var(--ts)">No matches</div>'; box.style.display='block'; }
   function renderCompare(){
     const area=$('compareArea'); const filled=compareSlots.filter(Boolean).length;
-    const headCells=compareSlots.map((id,i)=>{ const dev=getDev(id); if(dev) return `<td><div class="slot-card"><div class="slot-img">${MINI_SVG}</div><div class="slot-name">${dev.model}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`; }).join('');
-    let rows=''; SECTIONS.forEach(([section,fields])=>{ rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`; fields.forEach(f=>{ const rowDiffers=diffMode&&filled>1&&new Set(getRowTokens(section,f)).size>1; rows+=`<tr><th>${f}</th>${compareSlots.map((id,i)=>`<td${(rowDiffers&&id)?' class="diff"':''}>${getRawVal(i,section,f)}</td>`).join('')}</tr>`; }); });
+    const headCells=compareSlots.map((id,i)=>{ const dev=getDev(id); if(dev) return `<td><div class="slot-card"><div class="slot-img">${MINI_SVG}</div><div class="slot-name">${dash(dev.model)}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`; }).join('');
+    let rows=''; SECTIONS.forEach(([section,fields])=>{ rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`; fields.forEach(([key,label])=>{ const rowDiffers=diffMode&&filled>1&&new Set(getRowTokens(key)).size>1; rows+=`<tr><th>${label}</th>${compareSlots.map((id,i)=>`<td${(rowDiffers&&id)?' class="diff"':''}>${getRawVal(i,key)}</td>`).join('')}</tr>`; }); });
     area.innerHTML=`<div class="compare-actions"><label class="diff-toggle"><input type="checkbox" ${diffMode?'checked':''} onchange="${NS_NAME}.toggleDiffMode()"> Highlight differences</label></div><div class="compare-wrapper" id="${PREFIX}compareWrapper"><table class="compare-table" id="${PREFIX}compareTable"><thead><tr><th></th>${headCells}</tr></thead><tbody>${rows}</tbody></table></div>`;
     _attachCompareFade(); _updateSidebarBlur();
   }
   function toggleDiffMode(){ diffMode=!diffMode; renderCompare(); }
-  function highlightDiff(){ renderCompare(); }
   function cselToggle(wrapId){ const el=document.getElementById(wrapId); const wasOpen=el.classList.contains('open'); document.querySelectorAll('.csel.open, .fsel.open').forEach(o=>o.classList.remove('open')); if(!wasOpen) el.classList.add('open'); }
   function cselPick(wrapId,labelId,val,labelText,el){ if(wrapId.endsWith('brandSel')) brandVal=val; else if(wrapId.endsWith('sortSel')) sortVal=val; const labelEl=document.getElementById(labelId); const sortSpan=labelEl.querySelector('.sort-text'); if(sortSpan){ sortSpan.classList.add('switching'); clearTimeout(_labelTimer); _labelTimer=setTimeout(()=>{ sortSpan.textContent=labelText; sortSpan.classList.remove('switching'); },140); } else { labelEl.textContent=labelText; } el.parentElement.querySelectorAll('.csel-opt').forEach(o=>o.classList.remove('selected')); el.classList.add('selected'); document.getElementById(wrapId).classList.remove('open'); filterAndSort(); }
-  function _showLabels(){ const s=$('searchInput'); if(s) s.setAttribute('aria-label','Search devices'); }
+  function _showLabels(){ const s=$('searchInput'); if(s) s.setAttribute('aria-label','Search sensors'); }
   function _attachCompareFade(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.addEventListener('scroll',_updateSidebarBlur); }
   function _updateSidebarBlur(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.classList.toggle('scrolled', w.scrollTop>2); }
+  function doShare(){ const dev=getDev(currentIdx); if(!dev) return; const title=dev.model||'Concept sensor'; const text=[dev.brand,dev.model].filter(Boolean).join(' ')||title; shareItem(title,text); }
   async function init(){
-    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); }
-    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; }
+    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; }
+    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; DATA=[]; }
+    DATA.forEach(d=>{ d._id=slugify((d.brand||'')+'-'+(d.model||'')); });
     populateBrands(); filterAndSort(); _showLabels();
+    if(window.__pendingDeepLink && window.__pendingDeepLink.page===PAGE_KEY && window.__pendingDeepLink.item) showDetails(window.__pendingDeepLink.item);
   }
-  window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,CARD_SVG,MINI_SVG,SLOT_SVG,get DATA(){return DATA;},SECTIONS};
+  window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,doShare,CARD_SVG,MINI_SVG,SLOT_SVG};
   init();
 })();
 </script>
 <script>
 (function(){
-  const PREFIX='nws-', NS_NAME='NWS', DATA_URL='news.json';
-  let DATA=[], loadFailed=false;
+  const PREFIX='nws-', NS_NAME='NWS', PAGE_KEY='news', DATA_URL='news.json';
+  let DATA=[], loadFailed=false, currentId=null;
   function $(x){ return document.getElementById(PREFIX+x); }
-  function cardHTML(a){ return `<div class="news-card" onclick="${NS_NAME}.showArticle('${a.id}')"><div class="news-cat">${a.cat}</div><div class="news-title">${a.title}</div><div class="news-excerpt">${a.excerpt}</div><div class="news-meta">${a.date} · ${a.author}</div></div>`; }
-  function renderList(){ const grid=$('newsGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page.</div>`; return; } grid.innerHTML=DATA.map(cardHTML).join(''); }
-  function showArticle(id){ const a=DATA.find(x=>x.id===id); if(!a) return; $('list-view').style.display='none'; $('article-view').style.display='block'; $('a_cat').textContent=a.cat; $('a_title').textContent=a.title; $('a_meta').textContent=a.date+' · '+a.author; $('a_body').innerHTML=a.body.map(p=>`<p>${p}</p>`).join(''); window.scrollTo(0,0); }
-  function goHome(){ $('article-view').style.display='none'; $('list-view').style.display='block'; }
-  async function init(){
-    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); }
-    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; }
-    renderList();
+  function dash(v){ return v?v:'—'; }
+  function slugify(s){ return (s||'').toString().toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')||'article'; }
+  function readTime(text){ const words=(text||'').trim().split(/\s+/).filter(Boolean).length; return Math.max(1,Math.round(words/225))+' min read'; }
+  function getArt(id){ return DATA.find(a=>a._id===id)||null; }
+  function cardHTML(a){ return `<div class="news-card" onclick="${NS_NAME}.showArticle('${a._id}')"><div class="news-title">${dash(a.title)}</div><div class="news-excerpt">${dash(a.summary)}</div><div class="news-meta">${dash(a.date)}${a.author?' · '+a.author:''} · ${readTime(a.content)}</div></div>`; }
+  function renderList(){ const grid=$('newsGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page.</div>`; return; } grid.innerHTML=DATA.length?DATA.map(cardHTML).join(''):'<div class="empty-state">No articles yet.</div>'; }
+  function showArticle(id){
+    const a=getArt(id); if(!a) return; currentId=id;
+    $('list-view').style.display='none'; $('article-view').style.display='block';
+    $('a_title').textContent=dash(a.title);
+    $('a_meta').textContent=[dash(a.date),a.author,readTime(a.content)].filter(Boolean).join(' · ');
+    $('a_body').innerHTML=(a.image?`<img src="${a.image}" style="width:100%;max-height:360px;object-fit:cover;border-radius:16px;margin-bottom:20px" onerror="this.style.display='none'">`:'')+(a.content?a.content.split(/\n\n+/).map(p=>`<p>${p}</p>`).join(''):'');
+    window.scrollTo(0,0);
+    history.replaceState(null,'',location.pathname+'#'+PAGE_KEY+'/'+id);
   }
-  window[NS_NAME]={showArticle,goHome};
+  function goHome(){ $('article-view').style.display='none'; $('list-view').style.display='block'; currentId=null; history.replaceState(null,'',location.pathname+'#'+PAGE_KEY); }
+  function doShare(){ const a=getArt(currentId); if(!a) return; shareItem(a.title||'ConceptHarmony News', a.summary||a.title||''); }
+  async function init(){
+    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; }
+    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; DATA=[]; }
+    DATA.forEach(a=>{ a._id=slugify(a.title); });
+    renderList();
+    if(window.__pendingDeepLink && window.__pendingDeepLink.page===PAGE_KEY && window.__pendingDeepLink.item) showArticle(window.__pendingDeepLink.item);
+  }
+  window[NS_NAME]={showArticle,goHome,doShare};
   init();
 })();
 </script>
 <script>
 (function(){
   const NS_NAME='SUB';
-  const RAM_BY_TYPE={device:['4GB','6GB','8GB','12GB','16GB'],tablet:['6GB','8GB','12GB','16GB'],laptop:['8GB','16GB','32GB','64GB'],soc:[],sensor:[],watch:['1GB','2GB']};
-  const STORAGE_BY_TYPE={device:['128GB','256GB','512GB','1TB'],tablet:['128GB','256GB','512GB'],laptop:['256GB','512GB','1TB','2TB'],soc:[],sensor:[],watch:['16GB','32GB']};
-  let selectedRam=new Set(), selectedStorage=new Set();
+  let selectedImageName='', camModuleCount=0;
   function fselToggle(wrapId){ const el=document.getElementById(wrapId); const wasOpen=el.classList.contains('open'); document.querySelectorAll('.csel.open, .fsel.open').forEach(o=>o.classList.remove('open')); if(!wasOpen) el.classList.add('open'); }
   function fselPick(realSelectId,labelId,val,labelText,el,cbStr){ document.getElementById(realSelectId).value=val; document.getElementById(labelId).textContent=labelText; el.parentElement.querySelectorAll('.fsel-opt').forEach(o=>o.classList.remove('selected')); el.classList.add('selected'); el.closest('.fsel').classList.remove('open'); if(cbStr){ eval(cbStr); } }
-  function renderMem(m){
-    const ramOpts=RAM_BY_TYPE[m]||[], storageOpts=STORAGE_BY_TYPE[m]||[];
-    selectedRam.clear(); selectedStorage.clear();
-    document.getElementById('sub-ramContainer').innerHTML=ramOpts.length?ramOpts.map(v=>`<button type="button" class="opt-btn" onclick="SUB.toggleOpt(this,'ram','${v}')">${v}</button>`).join(''):'<span style="color:var(--ts);font-size:12.5px">Not applicable for this type</span>';
-    document.getElementById('sub-storageContainer').innerHTML=storageOpts.length?storageOpts.map(v=>`<button type="button" class="opt-btn" onclick="SUB.toggleOpt(this,'storage','${v}')">${v}</button>`).join(''):'<span style="color:var(--ts);font-size:12.5px">Not applicable for this type</span>';
+  function handleTypeChange(){ const m=document.getElementById('sub-typeReal').value; document.getElementById('page-submit').setAttribute('data-mode',m); }
+  function handleImageSelect(input){
+    const file=input.files && input.files[0];
+    const nameBox=document.getElementById('sub-imagePreviewName');
+    const previewImg=document.getElementById('sub-imagePreviewImg');
+    if(!file){ selectedImageName=''; nameBox.textContent=''; previewImg.style.display='none'; return; }
+    selectedImageName='images/'+file.name;
+    nameBox.textContent='Will reference: '+selectedImageName+' — place this exact file in an images/ folder next to the JSON.';
+    previewImg.src=URL.createObjectURL(file);
+    previewImg.style.display='block';
   }
-  function toggleOpt(el,group,val){ el.classList.toggle('selected'); const set=group==='ram'?selectedRam:selectedStorage; if(el.classList.contains('selected')) set.add(val); else set.delete(val); }
-  function handleTypeChange(){
-    const m=document.getElementById('sub-typeReal').value;
-    document.getElementById('page-submit').setAttribute('data-mode',m);
-    document.getElementById('sub-sensorOnly').style.display=(m==='sensor')?'block':'none';
-    document.getElementById('sub-socOnly').style.display=(m==='soc')?'block':'none';
-    renderMem(m);
+  function addCamModule(label,specs){
+    const id='cm'+(camModuleCount++);
+    const row=document.createElement('div'); row.className='cam-module-row'; row.id=id;
+    row.innerHTML=`<input type="text" placeholder="Label (e.g. Wide)" value="${label||''}" class="cm-label"><input type="text" placeholder="Specs (e.g. 64MP, f/1.7, 24mm, PDAF, OIS)" value="${specs||''}" class="cm-specs"><button type="button" class="slot-remove" onclick="document.getElementById('${id}').remove()">✕</button>`;
+    document.getElementById('sub-camModules').appendChild(row);
+  }
+  function collectCamModules(){ return Array.from(document.querySelectorAll('#sub-camModules .cam-module-row')).map(row=>({label:row.querySelector('.cm-label').value.trim(),specs:row.querySelector('.cm-specs').value.trim()})).filter(m=>m.label||m.specs); }
+  function val(id){ const el=document.getElementById(id); return el?(el.value||'').trim():''; }
+  function csv(id){ return val(id).split(',').map(s=>s.trim()).filter(Boolean); }
+  function omitEmpty(obj){ const out={}; Object.keys(obj).forEach(k=>{ const v=obj[k]; if(v===''||v===undefined||v===null) return; if(Array.isArray(v)&&v.length===0) return; out[k]=v; }); return out; }
+  const TARGET_FILE={device:'phones.json',tablet:'phones.json',watch:'phones.json',laptop:'laptops.json',soc:'chips.json',sensor:'sensors.json'};
+  const TYPE_LABEL={device:'Phone',tablet:'Tablet',watch:'Watch',laptop:'Laptop',soc:'SoC',sensor:'Sensor'};
+  function buildEntry(){
+    const type=document.getElementById('sub-typeReal').value;
+    const status=document.getElementById('sub-statusReal').value;
+    const common={ brand:val('sub-brand'), model:val('sub-model'), announced:val('sub-announced'), type:TYPE_LABEL[type], image:selectedImageName };
+    if(type==='laptop'){
+      return omitEmpty(Object.assign({},common,{ status, released:val('sub-released'), colors:val('sub-colors'), dimensions:val('sub-lapDimensions'), weight:val('sub-lapWeight'), build:val('sub-lapBuild'), screen:val('sub-lapScreen'), resolution:val('sub-lapResolution'), chipset:val('sub-lapChipset'), gpu:val('sub-lapGpu'), os:val('sub-lapOs'), ram:val('sub-lapRam'), storage:val('sub-lapStorage'), ports:val('sub-lapPorts'), wifi:val('sub-lapWifi'), bluetooth:val('sub-lapBt'), battery:val('sub-lapBattery'), charging:val('sub-lapCharging'), geek_s:val('sub-geekS'), geek_m:val('sub-geekM'), cinebench:val('sub-cinebench'), price:val('sub-price'), price_eur:val('sub-priceEur') }));
+    }
+    if(type==='soc'){
+      return omitEmpty(Object.assign({},common,{ colors:val('sub-colors'), process:val('sub-socProcess'), open_use:val('sub-socOpenUse'), cpu_cores:val('sub-socCpu'), gpu_model:val('sub-socGpuModel'), gpu_clock:val('sub-socGpuClock'), npu:val('sub-socNpu'), isp:val('sub-socIsp'), modem:val('sub-socModem'), geek_s:val('sub-geekS'), geek_m:val('sub-geekM'), antutu:val('sub-antutu'), price:val('sub-price'), price_eur:val('sub-priceEur') }));
+    }
+    if(type==='sensor'){
+      return omitEmpty({ brand:common.brand, model:common.model, announced:common.announced, type:common.type, resolution:val('sub-senResolution'), format:val('sub-senFormat'), pixel_size:val('sub-senPixel'), bit_depth:val('sub-senBitDepth'), features:csv('sub-senFeatures'), video:val('sub-senVideo') });
+    }
+    return omitEmpty(Object.assign({},common,{ status, released:val('sub-released'), colors:val('sub-colors'), dimensions:val('sub-dimensions'), weight:val('sub-weight'), build:val('sub-build'), ip_rating:val('sub-ip'), screen:val('sub-screen'), resolution:val('sub-resolution'), second_screen:val('sub-secondscreen'), chipset:val('sub-chipset'), os:val('sub-os'), ram:val('sub-ram'), storage:val('sub-storage'), camera_modules:collectCamModules(), camera_features:csv('sub-camfeatures'), cam_selfie:val('sub-camselfie'), cam_video:val('sub-camvideo'), sensors:csv('sub-sensors'), battery:val('sub-battery'), charging:val('sub-charging'), geek_s:val('sub-geekS'), geek_m:val('sub-geekM'), antutu:val('sub-antutu'), price:val('sub-price'), price_eur:val('sub-priceEur') }));
   }
   function submitForm(){
-    const model=document.getElementById('sub-model').value.trim();
+    const model=val('sub-model'), brand=val('sub-brand');
     const box=document.getElementById('sub-formSuccess');
-    if(!model){ box.textContent='Add a model name before submitting.'; box.classList.add('show'); return; }
-    box.textContent=`"${model}" was added to the concept queue. Thanks for the submission — new entries are reviewed before they join the public database.`;
+    if(!model||!brand){ box.innerHTML='Add at least a brand and model before generating JSON.'; box.classList.add('show'); return; }
+    const type=document.getElementById('sub-typeReal').value;
+    const json=JSON.stringify(buildEntry(),null,2);
+    const targetFile=TARGET_FILE[type]||'phones.json';
+    box.innerHTML=`<div style="margin-bottom:10px">This site has no backend, so nothing saves automatically. Copy the object below into the array in <strong>${targetFile}</strong>.${selectedImageName?` Place the image file at <strong>${selectedImageName}</strong>.`:''}</div><div style="margin-bottom:10px"><button type="button" class="opt-btn" onclick="SUB.copyJSON()">Copy JSON</button></div><textarea id="sub-jsonOutput" readonly style="width:100%;min-height:260px;font-family:monospace;font-size:12px;padding:12px;border-radius:10px;border:none;background:var(--g);color:var(--tx)">${json.replace(/</g,'&lt;')}</textarea>`;
     box.classList.add('show');
+    box.scrollIntoView({behavior:'smooth',block:'nearest'});
   }
-  function init(){ document.getElementById('page-submit').setAttribute('data-mode','device'); renderMem('device'); }
-  window[NS_NAME]={fselToggle,fselPick,handleTypeChange,toggleOpt,submitForm};
+  function copyJSON(){ const ta=document.getElementById('sub-jsonOutput'); if(!ta) return; ta.select(); if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(ta.value).then(()=>showToast('JSON copied')).catch(()=>document.execCommand('copy')); } else { document.execCommand('copy'); showToast('JSON copied'); } }
+  function init(){ document.getElementById('page-submit').setAttribute('data-mode','device'); addCamModule(); }
+  window[NS_NAME]={fselToggle,fselPick,handleTypeChange,handleImageSelect,addCamModule,submitForm,copyJSON};
   init();
 })();
 </script>
@@ -881,10 +1031,21 @@ applyTheme();
   const PREFIX='rnk-', NS_NAME='RNK', DATA_URL='rankings.json', PHONES_URL='phones.json';
   const TAB_COLOR={camera:'var(--score-cam)',display:'var(--score-dis)',battery:'var(--score-bat)',software:'var(--score-sft)',performance:'var(--score-prf)'};
   const DETAIL_KEYS={camera:'camera_detail',display:'display_detail',battery:'battery_detail',software:'software_detail',performance:'performance_detail'};
-  const PHONE_SECTIONS=[['Launch',['Announced','Status']],['Body',['Dimensions','Weight','Build','Colors','Protection']],['Display',['Type','Size','Resolution','Refresh Rate','Peak Brightness','Screen Protection']],['Secondary Display',['Type','Size','Resolution','Secondary Display Brightness']],['Platform',['Chipset','CPU','GPU','Neural Processing Unit','Operating System']],['Memory',['RAM Options','Storage Options','Card Slot']],['Camera',['Main Camera','Front Camera','Video Recording','Camera Features']],['Features',['Sensors','Connectivity','Other Features']],['Power',['Battery Capacity','Charging','Estimated Battery Life']],['Tests & Price',['AnTuTu Score','Geekbench Single-Core','Geekbench Multi-Core','Estimated Price']]];
+  const PHONE_SECTIONS=[
+    ['Launch',[['announced','Announced'],['status','Status'],['released','Released']]],
+    ['Body',[['dimensions','Dimensions'],['weight','Weight'],['build','Build'],['colors','Colors'],['ip_rating','IP Rating']]],
+    ['Display',[['screen','Screen'],['resolution','Resolution'],['second_screen','Secondary Display']]],
+    ['Platform',[['chipset','Chipset'],['os','Operating System']]],
+    ['Memory',[['ram','RAM'],['storage','Storage']]],
+    ['Camera',[['camera_modules','Camera Modules'],['cam_selfie','Selfie Camera'],['cam_video','Video Recording'],['camera_features','Camera Features']]],
+    ['Sensors',[['sensors','Sensors']]],
+    ['Power',[['battery','Battery'],['charging','Charging']]],
+    ['Benchmarks & Price',[['geek_s','Geekbench Single-Core'],['geek_m','Geekbench Multi-Core'],['antutu','AnTuTu Score'],['price','Price (USD)'],['price_eur','Price (EUR)']]]
+  ];
   let DATA=[], loadFailed=false, phonesCache=null;
   let activeTab='camera', sortDesc=true, _labelTimer=null;
   function $(x){ return document.getElementById(PREFIX+x); }
+  function getRaw(dev,key){ if(!dev) return '—'; let v=dev[key]; if(v===undefined||v===null||v==='') return '—'; if(Array.isArray(v)){ if(!v.length) return '—'; if(key==='camera_modules') return v.map(m=>`<strong>${(m&&m.label)||'—'}:</strong> ${(m&&m.specs)||'—'}`).join('<br>'); return v.join(', '); } return v; }
   function avg(obj){ if(!obj) return null; const vals=Object.values(obj).filter(v=>typeof v==='number'); return vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):null; }
   function setTab(tab){ activeTab=tab; document.querySelectorAll('#rnk-tabs .tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab)); render(); }
   function toggleSort(){
@@ -898,34 +1059,33 @@ applyTheme();
   function render(){
     const listEl=$('list');
     if(loadFailed){ listEl.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page.</div>`; return; }
-    let list=DATA.slice().sort((a,b)=>sortDesc?b.scores[activeTab]-a.scores[activeTab]:a.scores[activeTab]-b.scores[activeTab]);
+    if(!DATA.length){ listEl.innerHTML='<div class="empty-state">No ranked devices yet.</div>'; return; }
+    let list=DATA.slice().sort((a,b)=>sortDesc?((b.scores[activeTab]??-1)-(a.scores[activeTab]??-1)):((a.scores[activeTab]??999)-(b.scores[activeTab]??999)));
     const color=TAB_COLOR[activeTab], detailKey=DETAIL_KEYS[activeTab];
     listEl.innerHTML=list.map((d,i)=>{
       const detail=d[detailKey]||{};
-      const bars=Object.entries(detail).map(([label,val])=>`<div class="rank-bar-row"><span class="rank-bar-label">${label}</span><div class="rank-bar-track"><div class="rank-bar-fill" style="width:${Math.min(100,val/2)}%;background:${color}"></div></div><span class="rank-bar-val">${val}</span></div>`).join('');
-      return `<div class="rank-card" onclick="${NS_NAME}.openModal('${d.model}')"><div class="rank-num">${i+1}</div><div class="rank-img"><svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="20" y="6" width="24" height="52" rx="6"/></svg></div><div class="rank-info"><div class="rank-name">${d.model}</div><div class="rank-brand">${d.brand}</div></div><div class="rank-bars">${bars}</div><div class="rank-score" style="color:${color}">${d.scores[activeTab]}</div></div>`;
+      const bars=Object.entries(detail).map(([label,v])=>`<div class="rank-bar-row"><span class="rank-bar-label">${label}</span><div class="rank-bar-track"><div class="rank-bar-fill" style="width:${Math.min(100,v/2)}%;background:${color}"></div></div><span class="rank-bar-val">${v}</span></div>`).join('');
+      const eb=(d.brand||'').replace(/'/g,"\\'"), em=(d.model||'').replace(/'/g,"\\'");
+      return `<div class="rank-card" onclick="${NS_NAME}.openModal('${eb}','${em}')"><div class="rank-num">${i+1}</div><div class="rank-img"><svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="20" y="6" width="24" height="52" rx="6"/></svg></div><div class="rank-info"><div class="rank-name">${d.model||'—'}</div><div class="rank-brand">${d.brand||'—'}</div></div><div class="rank-bars">${bars}</div><div class="rank-score" style="color:${color}">${d.scores[activeTab]??'—'}</div></div>`;
     }).join('');
   }
-  async function openModal(model){
+  async function openModal(brand,model){
     if(!phonesCache){
-      try{ const res=await fetch(PHONES_URL); if(!res.ok) throw new Error('HTTP '+res.status); phonesCache=await res.json(); }
+      try{ const res=await fetch(PHONES_URL); if(!res.ok) throw new Error('HTTP '+res.status); phonesCache=await res.json(); if(!Array.isArray(phonesCache)) phonesCache=[]; }
       catch(e){ console.error('Could not load '+PHONES_URL, e); phonesCache=[]; }
     }
-    const phone=phonesCache.find(d=>d.model===model);
-    if(!phone) return;
-    $('m_brand').textContent=phone.brand; $('m_model').textContent=phone.model;
+    const phone=phonesCache.find(d=>d.model===model && (!brand||d.brand===brand)) || phonesCache.find(d=>d.model===model);
+    if(!phone){ $('m_brand').textContent=brand||''; $('m_model').textContent=model||''; $('m_specList').innerHTML='<div class="empty-state">No matching entry found in phones.json.</div>'; $('modalOverlay').classList.add('open'); return; }
+    $('m_brand').textContent=phone.brand||''; $('m_model').textContent=phone.model||'';
     let html='';
-    PHONE_SECTIONS.forEach(([section,fields])=>{
-      html+=`<div class="spec-section-title">${section}</div>`;
-      fields.forEach(f=>{ const v=(phone.specs&&phone.specs[section]&&phone.specs[section][f])||'—'; html+=`<div class="spec-row"><span class="spec-label">${f}</span><span class="spec-value">${v}</span></div>`; });
-    });
+    PHONE_SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(([key,label])=>{ html+=`<div class="spec-row"><span class="spec-label">${label}</span><span class="spec-value${key==='camera_modules'?' block':''}">${getRaw(phone,key)}</span></div>`; }); });
     $('m_specList').innerHTML=html;
     $('modalOverlay').classList.add('open');
   }
   function closeModal(){ $('modalOverlay').classList.remove('open'); }
   function closeModalBg(e){ if(e.target.id===PREFIX+'modalOverlay') closeModal(); }
   async function init(){
-    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); DATA.forEach(d=>{ d.scores={}; Object.keys(DETAIL_KEYS).forEach(tab=>{ d.scores[tab]=avg(d[DETAIL_KEYS[tab]]); }); }); }
+    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; DATA.forEach(d=>{ d.scores={}; Object.keys(DETAIL_KEYS).forEach(tab=>{ d.scores[tab]=avg(d[DETAIL_KEYS[tab]]); }); }); }
     catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; }
     render();
   }
@@ -933,5 +1093,6 @@ applyTheme();
   init();
 })();
 </script>
+
 </body>
 </html>
