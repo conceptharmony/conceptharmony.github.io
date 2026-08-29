@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 :root{
   --bg:#e8e8e8;--g:rgba(255,255,255,0.52);--gh:rgba(255,255,255,0.86);--gs:rgba(0,0,0,0.05);
@@ -16,6 +16,7 @@ html{scroll-behavior:smooth}
   --dv:rgba(0,0,0,0.08);--bd:rgba(0,0,0,0.06);--rh:rgba(255,255,255,0.45);--dd:rgba(246,244,241,0.82);
   --sl:rgba(0,0,0,0.05);--dc:#a1a1aa;--du:#111113;--sun:#f59e0b;--pixel-color:rgba(0,0,0,0.28);
   --score-cam:#4f8ef7;--score-dis:#9b59b6;--score-bat:#27ae60;--score-ov:#e67e22;--score-sft:#16a085;--score-prf:#8e44ad;
+  --good:#22c55e;--bad:#ef4444;
 }
 [data-theme=dark]{
   --bg:#0e0e11;--g:rgba(30,30,38,0.52);--gh:rgba(42,42,52,0.70);--gs:rgba(0,0,0,0.55);
@@ -92,6 +93,7 @@ nav.topnav{position:sticky;top:0;z-index:500;background:var(--nav);backdrop-filt
 .csel-chevron,.fsel-chevron{transition:transform .2s;flex-shrink:0}
 .csel.open .csel-chevron,.fsel.open .fsel-chevron{transform:rotate(180deg)}
 select.fsel-hidden{display:none!important}
+.native-select{width:100%;padding:10px 12px;border-radius:9px;border:none;background:var(--g);font-size:13px;color:var(--tx);font-family:'Inter',sans-serif;cursor:pointer}
 .page-head{padding:40px 0 26px}
 .page-head h1{font-size:30px;font-weight:700;letter-spacing:-0.02em}
 .page-head p{color:var(--ts);font-size:14.5px;margin-top:6px}
@@ -138,6 +140,9 @@ select.fsel-hidden{display:none!important}
 .spec-value{color:var(--tx);font-weight:500;text-align:right}
 .spec-value.block{text-align:left;flex:1}
 .spec-value strong{font-weight:600}
+.diff-word{background:rgba(245,158,11,0.22);border-radius:3px;padding:0 2px}
+.spec-better{color:var(--good);font-weight:700}
+.spec-worse{color:var(--bad);font-weight:700}
 .pics-view{display:flex;align-items:center;justify-content:center;min-height:200px;background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);border-radius:18px;color:var(--dc);padding:24px;flex-wrap:wrap}
 .similar-title{font-size:15px;font-weight:700;margin:36px 0 14px}
 .similar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;padding-bottom:50px}
@@ -153,9 +158,9 @@ select.fsel-hidden{display:none!important}
 .cat-header{background:var(--bg) !important;border:none !important;border-right:1px solid var(--dv) !important;font-size:10px !important;font-weight:700 !important;letter-spacing:.12em !important;text-transform:uppercase !important;color:var(--dc) !important;padding:16px 10px 4px !important}
 .cat-header ~ td{border:none !important;background:transparent !important}
 .compare-table tbody td{padding:10px;border-bottom:1px solid var(--dv);color:var(--tx);font-size:12.5px}
-.compare-table tbody td.diff{background:rgba(245,158,11,0.14) !important}
 .slot-card{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:140px}
 .slot-img{width:56px;height:56px;display:flex;align-items:center;justify-content:center;color:var(--dc)}
+.slot-img img{max-width:100%;max-height:100%;object-fit:contain}
 .slot-name{font-size:12.5px;font-weight:600;text-align:center}
 .slot-remove{background:none;border:none;color:var(--ts);cursor:pointer;font-size:11px;padding:3px 8px;border-radius:6px}
 .slot-remove:hover{background:var(--gs);color:var(--tx)}
@@ -194,8 +199,10 @@ select.fsel-hidden{display:none!important}
 .modal-close{position:absolute;top:18px;right:18px;background:var(--g);border:none;width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ts)}
 .modal-close:hover{color:var(--tx)}
 .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;padding-bottom:60px}
-.news-card{background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);border-radius:16px;padding:22px;cursor:pointer;transition:transform .18s,background .18s}
+.news-card{background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .18s,background .18s}
 .news-card:hover{transform:translateY(-3px);background:var(--gh)}
+.news-img{width:100%;height:150px;object-fit:cover;display:block;background:var(--gs)}
+.news-card-body{padding:20px}
 .news-title{font-size:17px;font-weight:700;margin-bottom:10px;letter-spacing:-0.01em}
 .news-excerpt{font-size:13.5px;color:var(--ts);margin-bottom:14px}
 .news-meta{font-size:11.5px;color:var(--dc)}
@@ -209,11 +216,12 @@ select.fsel-hidden{display:none!important}
 .form-section h3{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dc);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--dv)}
 .form-field{margin-bottom:14px}
 .form-field label{display:block;font-size:12.5px;font-weight:600;color:var(--ts);margin-bottom:6px}
-.form-field input[type=text],.form-field input[type=number],.form-field textarea{width:100%;padding:11px 14px;border-radius:10px;border:none;background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);font-size:13.5px;color:var(--tx);font-family:'Inter',sans-serif}
+.form-field input[type=text],.form-field input[type=number],.form-field input[type=date],.form-field textarea{width:100%;padding:11px 14px;border-radius:10px;border:none;background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);font-size:13.5px;color:var(--tx);font-family:'Inter',sans-serif}
 .form-field textarea{resize:vertical;min-height:70px}
 .form-field input::placeholder,.form-field textarea::placeholder{color:var(--ts)}
 .form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:600px){.form-grid-2{grid-template-columns:1fr}}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:600px){.form-grid-2{grid-template-columns:1fr}.form-grid-3{grid-template-columns:1fr}}
 .opt-grid{display:flex;flex-wrap:wrap;gap:8px}
 .opt-btn{padding:8px 14px;border-radius:9px;border:none;background:var(--g);color:var(--ts);font-size:12.5px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s,color .15s}
 .opt-btn.selected{background:var(--tx);color:var(--bg)}
@@ -222,11 +230,21 @@ select.fsel-hidden{display:none!important}
 #page-submit[data-mode=laptop] .show-laptop{display:block}
 #page-submit[data-mode=soc] .show-soc{display:block}
 #page-submit[data-mode=sensor] .show-sensor{display:block}
-.cam-module-row{display:flex;gap:8px;margin-bottom:8px}
-.cam-module-row input{flex:1;padding:9px 12px;border-radius:8px;border:none;background:var(--g);color:var(--tx);font-family:'Inter',sans-serif;font-size:13px}
+.file-btn{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dyn-card{background:var(--gs);border-radius:12px;padding:14px;margin-bottom:12px}
+.dyn-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.dyn-card-head span{font-size:12px;font-weight:700;color:var(--ts);text-transform:uppercase;letter-spacing:.06em}
+.dyn-remove{background:none;border:none;color:var(--ts);cursor:pointer;font-size:12px;font-weight:600}
+.dyn-remove:hover{color:var(--bad)}
+.add-row-btn{display:flex;align-items:center;gap:6px;background:var(--g);border:none;border-radius:10px;padding:10px 14px;color:var(--tx);font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;width:100%;justify-content:center}
+.add-row-btn:hover{background:var(--gh)}
+.thumb-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.thumb-row img{width:56px;height:56px;object-fit:cover;border-radius:8px}
 .submit-cta{padding:13px 22px;border-radius:11px;background:var(--tx);color:var(--bg);border:none;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer}
 .form-success{display:none;background:var(--g);border-radius:14px;padding:24px;font-size:14px;color:var(--tx);margin-top:16px}
 .form-success.show{display:block}
+.discord-note{background:var(--g);border-radius:12px;padding:14px 16px;font-size:13px;color:var(--ts);margin-bottom:24px}
+.discord-note strong{color:var(--tx)}
 #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--tx);color:var(--bg);padding:11px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:1000;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;white-space:nowrap}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:640px){
@@ -442,8 +460,10 @@ select.fsel-hidden{display:none!important}
 
 <div id="page-submit" class="app-page">
 <div class="wrap">
-  <div class="page-head"><h1>Submit a Concept</h1><p>This site has no backend — submitting generates a JSON entry you copy into the matching data file yourself.</p></div>
+  <div class="page-head"><h1>Submit a Concept</h1></div>
   <div class="form-wrap">
+    <div class="discord-note">This site has no backend. Generate the JSON below, then send it to <strong>@spinach.tech</strong> on Discord to get it added.</div>
+
     <div class="form-section">
       <h3>Basic Info</h3>
       <div class="form-field"><label>Type</label>
@@ -460,74 +480,133 @@ select.fsel-hidden{display:none!important}
           <select id="sub-typeReal" class="fsel-hidden"><option value="device">Phone</option><option value="tablet">Tablet</option><option value="watch">Watch</option><option value="laptop">Laptop</option><option value="soc">SoC</option><option value="sensor">Sensor</option></select>
         </div>
       </div>
-      <div class="form-grid-2"><div class="form-field"><label>Brand</label><input type="text" id="sub-brand" placeholder="e.g. Wyx"></div><div class="form-field"><label>Model</label><input type="text" id="sub-model" placeholder="e.g. X1"></div></div>
+      <div class="form-grid-2"><div class="form-field"><label>Brand</label><input type="text" id="sub-brand" placeholder="e.g. Spinach"></div><div class="form-field"><label>Model</label><input type="text" id="sub-model" placeholder="e.g. Ovate Prime"></div></div>
       <div class="form-grid-2">
-        <div class="form-field"><label>Announced</label><input type="text" id="sub-announced" placeholder="e.g. February 5, 2026"></div>
+        <div class="form-field"><label>Announced</label><input type="date" id="sub-announced"></div>
         <div class="form-field"><label>Status</label>
           <div class="fsel" id="sub-statusSel">
             <button class="fsel-btn" type="button" onclick="SUB.fselToggle('sub-statusSel')"><span id="sub-statusLabel">Released</span><svg class="fsel-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>
             <div class="fsel-menu">
               <div class="fsel-opt selected" onclick="SUB.fselPick('sub-statusReal','sub-statusLabel','Released','Released',this,'')">Released</div>
               <div class="fsel-opt" onclick="SUB.fselPick('sub-statusReal','sub-statusLabel','Coming Soon','Coming Soon',this,'')">Coming Soon</div>
+              <div class="fsel-opt" onclick="SUB.fselPick('sub-statusReal','sub-statusLabel','Concept','Concept',this,'')">Concept</div>
             </div>
-            <select id="sub-statusReal" class="fsel-hidden"><option value="Released">Released</option><option value="Coming Soon">Coming Soon</option></select>
+            <select id="sub-statusReal" class="fsel-hidden"><option value="Released">Released</option><option value="Coming Soon">Coming Soon</option><option value="Concept">Concept</option></select>
           </div>
         </div>
       </div>
-      <div class="form-grid-2"><div class="form-field"><label>Released Date</label><input type="text" id="sub-released" placeholder="e.g. February 5, 2026"></div><div class="form-field"><label>Colors</label><input type="text" id="sub-colors" placeholder="e.g. Black, Pearl White"></div></div>
-      <div class="form-field"><label>Image</label><input type="file" id="sub-imageFile" accept="image/*" onchange="SUB.handleImageSelect(this)"><div id="sub-imagePreviewName" style="font-size:12px;color:var(--ts);margin-top:6px"></div><img id="sub-imagePreviewImg" style="display:none;max-width:160px;max-height:160px;margin-top:8px;border-radius:10px"></div>
+      <div class="form-field"><label>Released Date</label><input type="date" id="sub-released"></div>
+      <div class="form-field"><label>Colors (comma-separated)</label><input type="text" id="sub-colors" placeholder="e.g. black, pearl white" oninput="SUB.capitalizeField(this)"></div>
+      <div class="form-field"><label>Image</label>
+        <button type="button" class="csel-btn file-btn" onclick="document.getElementById('sub-imageFile').click()"><span id="sub-imageFileLabel">Choose image file...</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></button>
+        <input type="file" id="sub-imageFile" accept="image/*" style="display:none" onchange="SUB.handleImageSelect(this)">
+        <img id="sub-imagePreviewImg" style="display:none;max-width:120px;max-height:120px;margin-top:8px;border-radius:10px">
+      </div>
+      <div class="form-field"><label>Gallery Images (optional)</label>
+        <button type="button" class="csel-btn file-btn" onclick="document.getElementById('sub-galleryFiles').click()"><span id="sub-galleryFilesLabel">Choose gallery images...</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></button>
+        <input type="file" id="sub-galleryFiles" accept="image/*" multiple style="display:none" onchange="SUB.handleGallerySelect(this)">
+        <div class="thumb-row" id="sub-galleryPreview"></div>
+      </div>
+    </div>
+
+    <div class="form-section show-phone show-laptop">
+      <h3>Dimensions &amp; Weight</h3>
+      <label style="display:block;font-size:12.5px;font-weight:600;color:var(--ts);margin-bottom:6px">Dimensions (mm)</label>
+      <div class="form-grid-3" style="margin-bottom:14px">
+        <input type="number" id="sub-dimH" placeholder="Height" step="0.1">
+        <input type="number" id="sub-dimW" placeholder="Width" step="0.1">
+        <input type="number" id="sub-dimD" placeholder="Depth" step="0.1">
+      </div>
+      <div class="form-field"><label>Weight (g)</label><input type="number" id="sub-weight" placeholder="e.g. 187" step="0.1"></div>
+      <div class="form-field show-phone"><label>Build</label><input type="text" id="sub-build" placeholder="e.g. Glass front, aluminum frame, matte glass back"></div>
+      <div class="form-field show-laptop"><label>Build</label><input type="text" id="sub-lapBuild" placeholder="e.g. Unibody aluminum"></div>
+      <div class="form-field show-phone">
+        <label>IP Ratings</label>
+        <div id="sub-ipRatings"></div>
+        <button type="button" class="add-row-btn" onclick="SUB.addIpRating()">+ Add IP Rating</button>
+      </div>
+    </div>
+
+    <div class="form-section show-phone show-laptop">
+      <h3>Display</h3>
+      <div class="form-field"><label>Display Type</label><input type="text" id="sub-screenType" placeholder="e.g. LTPO OLED"></div>
+      <div class="form-grid-3">
+        <div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">Refresh (Hz)</label><input type="number" id="sub-screenHz" placeholder="120"></div>
+        <div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">Size (in)</label><input type="number" id="sub-screenSize" placeholder="6.20" step="0.01"></div>
+        <div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">Brightness (nits)</label><input type="number" id="sub-screenNits" placeholder="2000"></div>
+      </div>
+      <label style="display:block;font-size:12.5px;font-weight:600;color:var(--ts);margin:14px 0 6px">Resolution (px)</label>
+      <div class="form-grid-2" style="margin-bottom:14px"><input type="number" id="sub-resW" placeholder="Width"><input type="number" id="sub-resH" placeholder="Height"></div>
+      <div id="sub-secondaryDisplayBlock" style="display:none" class="dyn-card">
+        <div class="dyn-card-head"><span>Secondary Display</span><button type="button" class="dyn-remove" onclick="SUB.removeSecondaryDisplay()">Remove</button></div>
+        <div class="form-field"><label>Display Type</label><input type="text" id="sub-secType" placeholder="e.g. AMOLED"></div>
+        <div class="form-grid-3">
+          <div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">Refresh (Hz)</label><input type="number" id="sub-secHz"></div>
+          <div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">Size (in)</label><input type="number" id="sub-secSize" step="0.01"></div>
+          <div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">Brightness (nits)</label><input type="number" id="sub-secNits"></div>
+        </div>
+        <label style="display:block;font-size:12.5px;font-weight:600;color:var(--ts);margin:14px 0 6px">Resolution (px)</label>
+        <div class="form-grid-2"><input type="number" id="sub-secResW" placeholder="Width"><input type="number" id="sub-secResH" placeholder="Height"></div>
+      </div>
+      <button type="button" class="add-row-btn" id="sub-addSecondaryBtn" onclick="SUB.addSecondaryDisplay()">+ Add Secondary Display</button>
+    </div>
+
+    <div class="form-section show-phone show-laptop">
+      <h3>Platform &amp; Memory</h3>
+      <div class="form-field show-phone"><label>Chipset</label><input type="text" id="sub-chipset" placeholder="e.g. Ovate O2 Gen 1"></div>
+      <div class="form-grid-2 show-laptop"><div class="form-field"><label>Processor</label><input type="text" id="sub-lapChipset" placeholder="e.g. Ovate O2 Desktop"></div><div class="form-field"><label>Graphics</label><input type="text" id="sub-lapGpu" placeholder="e.g. Integrated 10-core"></div></div>
+      <div class="form-field show-phone"><label>Operating System</label><input type="text" id="sub-os" placeholder="e.g. SpinachOS 3"></div>
+      <div class="form-field show-laptop"><label>Operating System</label><input type="text" id="sub-lapOs" placeholder="e.g. SpinachOS Desktop 1"></div>
+      <div class="form-field"><label>RAM</label><div class="opt-grid" id="sub-ramContainer"></div></div>
+      <div class="form-field"><label>Storage</label><div class="opt-grid" id="sub-storageContainer"></div></div>
+    </div>
+
+    <div class="form-section show-laptop">
+      <h3>Connectivity</h3>
+      <div class="form-grid-2"><div class="form-field"><label>Ports</label><input type="text" id="sub-lapPorts" placeholder="e.g. 2x Thunderbolt 5, USB-C"></div><div class="form-field"><label>Wi-Fi</label><input type="text" id="sub-lapWifi" placeholder="e.g. Wi-Fi 7"></div></div>
+      <div class="form-field"><label>Bluetooth</label><input type="text" id="sub-lapBt" placeholder="e.g. Bluetooth 6.0"></div>
     </div>
 
     <div class="form-section show-phone">
-      <h3>Body &amp; Display</h3>
-      <div class="form-grid-2"><div class="form-field"><label>Dimensions</label><input type="text" id="sub-dimensions" placeholder="e.g. 148.9 x 71.8 x 7.9 mm"></div><div class="form-field"><label>Weight</label><input type="text" id="sub-weight" placeholder="e.g. 187g"></div></div>
-      <div class="form-grid-2"><div class="form-field"><label>Build</label><input type="text" id="sub-build" placeholder="e.g. Glass front, aluminum frame"></div><div class="form-field"><label>IP Rating</label><input type="text" id="sub-ip" placeholder="e.g. IP68"></div></div>
-      <div class="form-grid-2"><div class="form-field"><label>Screen</label><input type="text" id="sub-screen" placeholder="e.g. LTPO OLED, 120Hz, 6.2&quot;, 2000 nits"></div><div class="form-field"><label>Resolution</label><input type="text" id="sub-resolution" placeholder="e.g. 1440 x 2560 pixels"></div></div>
-      <div class="form-field"><label>Second Screen (foldables only)</label><input type="text" id="sub-secondscreen" placeholder="e.g. LTPO AMOLED, 120Hz, 4.1&quot;, 1080 x 1250"></div>
-    </div>
-    <div class="form-section show-phone">
-      <h3>Platform &amp; Memory</h3>
-      <div class="form-grid-2"><div class="form-field"><label>Chipset</label><input type="text" id="sub-chipset" placeholder="e.g. Wyx W10 Gen 1"></div><div class="form-field"><label>Operating System</label><input type="text" id="sub-os" placeholder="e.g. WyxOS 1.0"></div></div>
-      <div class="form-grid-2"><div class="form-field"><label>RAM</label><input type="text" id="sub-ram" placeholder="e.g. 8GB / 12GB"></div><div class="form-field"><label>Storage</label><input type="text" id="sub-storage" placeholder="e.g. 256GB / 512GB"></div></div>
-    </div>
-    <div class="form-section show-phone">
-      <h3>Camera</h3>
+      <h3>Camera Modules</h3>
       <div id="sub-camModules"></div>
-      <button type="button" class="opt-btn" onclick="SUB.addCamModule()" style="margin-bottom:14px">+ Add Camera Module</button>
-      <div class="form-field"><label>Selfie Camera</label><input type="text" id="sub-camselfie" placeholder="e.g. 12MP, f/2.2, 26mm"></div>
-      <div class="form-field"><label>Video Recording</label><input type="text" id="sub-camvideo" placeholder="e.g. 8K@30fps, 4K@60fps, HDR10"></div>
-      <div class="form-field"><label>Camera Features (comma-separated)</label><input type="text" id="sub-camfeatures" placeholder="e.g. LED Flash, HDR, panorama"></div>
+      <button type="button" class="add-row-btn" onclick="SUB.addCamModule()">+ Add Camera Module</button>
     </div>
     <div class="form-section show-phone">
-      <h3>Power &amp; Sensors</h3>
-      <div class="form-grid-2"><div class="form-field"><label>Battery</label><input type="text" id="sub-battery" placeholder="e.g. Li-Ion 4200 mAh"></div><div class="form-field"><label>Charging</label><input type="text" id="sub-charging" placeholder="e.g. 45W wired, 15W wireless"></div></div>
+      <h3>Selfie Camera</h3>
+      <div class="form-grid-2">
+        <div class="form-field"><label>Megapixels</label><input type="number" id="sub-selfieMp" placeholder="32"></div>
+        <div class="form-field"><label>Aperture (f/)</label><input type="number" id="sub-selfieAp" placeholder="2.20" step="0.01"></div>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-field"><label>Focal Length (mm)</label><input type="number" id="sub-selfieFocal" placeholder="26"></div>
+        <div class="form-field"><label>Sensor Size (1/x")</label><input type="number" id="sub-selfieSensor" placeholder="2.80" step="0.001"></div>
+      </div>
+      <div class="form-field"><label>Stabilization / Features</label><input type="text" id="sub-selfieStab" placeholder="e.g. EIS"></div>
+    </div>
+    <div class="form-section show-phone">
+      <h3>Video Recording</h3>
+      <div id="sub-videoModes"></div>
+      <button type="button" class="add-row-btn" onclick="SUB.addVideoMode()">+ Add Video Mode</button>
+      <div class="form-field" style="margin-top:14px"><label>Camera Features (comma-separated)</label><input type="text" id="sub-camfeatures" placeholder="e.g. LED Flash, HDR, panorama"></div>
       <div class="form-field"><label>Sensors (comma-separated)</label><input type="text" id="sub-sensors" placeholder="e.g. Under-display fingerprint, accelerometer"></div>
     </div>
 
-    <div class="form-section show-laptop">
-      <h3>Body &amp; Display</h3>
-      <div class="form-grid-2"><div class="form-field"><label>Dimensions</label><input type="text" id="sub-lapDimensions" placeholder="e.g. 310 x 220 x 12 mm"></div><div class="form-field"><label>Weight</label><input type="text" id="sub-lapWeight" placeholder="e.g. 1.2kg"></div></div>
-      <div class="form-field"><label>Build</label><input type="text" id="sub-lapBuild" placeholder="e.g. Unibody aluminum"></div>
-      <div class="form-grid-2"><div class="form-field"><label>Screen</label><input type="text" id="sub-lapScreen" placeholder="e.g. OLED, 120Hz, 14&quot;"></div><div class="form-field"><label>Resolution</label><input type="text" id="sub-lapResolution" placeholder="e.g. 2880 x 1800"></div></div>
-    </div>
-    <div class="form-section show-laptop">
-      <h3>Platform &amp; Memory</h3>
-      <div class="form-grid-2"><div class="form-field"><label>Processor</label><input type="text" id="sub-lapChipset" placeholder="e.g. Concept Silicon L3"></div><div class="form-field"><label>Graphics</label><input type="text" id="sub-lapGpu" placeholder="e.g. Integrated 10-core"></div></div>
-      <div class="form-grid-2"><div class="form-field"><label>Operating System</label><input type="text" id="sub-lapOs" placeholder="e.g. ConceptOS Desktop 6"></div><div class="form-field"><label>RAM</label><input type="text" id="sub-lapRam" placeholder="e.g. 16GB / 32GB"></div></div>
-      <div class="form-field"><label>Storage</label><input type="text" id="sub-lapStorage" placeholder="e.g. 512GB / 1TB"></div>
-    </div>
-    <div class="form-section show-laptop">
-      <h3>Connectivity &amp; Power</h3>
-      <div class="form-grid-2"><div class="form-field"><label>Ports</label><input type="text" id="sub-lapPorts" placeholder="e.g. 2x Thunderbolt 5, USB-C"></div><div class="form-field"><label>Wi-Fi</label><input type="text" id="sub-lapWifi" placeholder="e.g. Wi-Fi 7"></div></div>
-      <div class="form-grid-2"><div class="form-field"><label>Bluetooth</label><input type="text" id="sub-lapBt" placeholder="e.g. Bluetooth 6.0"></div><div class="form-field"><label>Battery</label><input type="text" id="sub-lapBattery" placeholder="e.g. 70Wh"></div></div>
-      <div class="form-field"><label>Charging</label><input type="text" id="sub-lapCharging" placeholder="e.g. 70W wired (USB-C)"></div>
+    <div class="form-section show-phone show-laptop">
+      <h3>Battery</h3>
+      <div class="form-grid-3">
+        <div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">Type</label><select class="native-select" id="sub-battType"><option value="Li-Ion">Li-Ion</option><option value="Li-Po">Li-Po</option></select></div>
+        <div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">SiC</label><select class="native-select" id="sub-battSic"><option value="no">No</option><option value="yes">Yes</option></select></div>
+        <div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px" class="show-phone">Capacity (mAh)</label><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px" class="show-laptop">Capacity (Wh)</label><input type="number" id="sub-battCap" placeholder="4200"></div>
+      </div>
+      <div class="form-field" style="margin-top:14px show-phone"><label>Charging</label><input type="text" id="sub-charging" placeholder="e.g. 45W wired, 15W wireless"></div>
     </div>
 
     <div class="form-section show-soc">
       <h3>Silicon Details</h3>
       <div class="form-grid-2"><div class="form-field"><label>Manufacturing Process</label><input type="text" id="sub-socProcess" placeholder="e.g. TSMC 3nm"></div><div class="form-field"><label>Open Source</label><input type="text" id="sub-socOpenUse" placeholder="e.g. Yes / No (Proprietary)"></div></div>
       <div class="form-field"><label>CPU Core Configuration</label><input type="text" id="sub-socCpu" placeholder="e.g. 6x4.6GHz Neptune + 4x3.0GHz Calcite"></div>
-      <div class="form-grid-2"><div class="form-field"><label>GPU Model</label><input type="text" id="sub-socGpuModel" placeholder="e.g. M90"></div><div class="form-field"><label>GPU Clock</label><input type="text" id="sub-socGpuClock" placeholder="e.g. 912MHz"></div></div>
+      <div class="form-grid-2"><div class="form-field"><label>GPU Model</label><input type="text" id="sub-socGpuModel" placeholder="e.g. Ovate M90"></div><div class="form-field"><label>GPU Clock (MHz)</label><input type="number" id="sub-socGpuClock" placeholder="912"></div></div>
       <div class="form-grid-2"><div class="form-field"><label>NPU</label><input type="text" id="sub-socNpu" placeholder="e.g. 1st Gen Neural Engine"></div><div class="form-field"><label>Image Signal Processor</label><input type="text" id="sub-socIsp" placeholder="e.g. Multivision AI Engine"></div></div>
       <div class="form-field"><label>Modem</label><input type="text" id="sub-socModem" placeholder="e.g. NextGate N11 5G"></div>
     </div>
@@ -536,15 +615,15 @@ select.fsel-hidden{display:none!important}
       <h3>Sensor Specifications</h3>
       <div class="form-grid-2"><div class="form-field"><label>Resolution</label><input type="text" id="sub-senResolution" placeholder="e.g. 50 MP"></div><div class="form-field"><label>Optical Format</label><input type="text" id="sub-senFormat" placeholder="e.g. 1/1.31&quot;"></div></div>
       <div class="form-grid-2"><div class="form-field"><label>Pixel Size</label><input type="text" id="sub-senPixel" placeholder="e.g. 1.39µm"></div><div class="form-field"><label>Bit Depth</label><input type="text" id="sub-senBitDepth" placeholder="e.g. 12-bit"></div></div>
-      <div class="form-field"><label>Features (comma-separated)</label><input type="text" id="sub-senFeatures" placeholder="e.g. Pixel Binning to 12 & 24MP"></div>
+      <div class="form-field"><label>Features (comma-separated)</label><input type="text" id="sub-senFeatures" placeholder="e.g. Pixel Binning to 12 & 24MP" oninput="SUB.capitalizeField(this)"></div>
       <div class="form-field"><label>Video</label><input type="text" id="sub-senVideo" placeholder="e.g. 8K@24fps, 4K@24/30/60/120fps"></div>
     </div>
 
     <div class="form-section show-phone show-laptop show-soc">
       <h3>Benchmarks &amp; Price</h3>
-      <div class="form-grid-2"><div class="form-field"><label>Geekbench Single-Core</label><input type="text" id="sub-geekS" placeholder="e.g. 2432"></div><div class="form-field"><label>Geekbench Multi-Core</label><input type="text" id="sub-geekM" placeholder="e.g. 5896"></div></div>
-      <div class="form-grid-2"><div class="form-field show-phone show-soc"><label>AnTuTu</label><input type="text" id="sub-antutu" placeholder="e.g. 1421562"></div><div class="form-field show-laptop"><label>Cinebench Multi-Core</label><input type="text" id="sub-cinebench" placeholder="e.g. 16400"></div></div>
-      <div class="form-grid-2"><div class="form-field"><label>Price (USD)</label><input type="text" id="sub-price" placeholder="e.g. $599"></div><div class="form-field"><label>Price (EUR)</label><input type="text" id="sub-priceEur" placeholder="e.g. €549"></div></div>
+      <div class="form-grid-2"><div class="form-field"><label>Geekbench Single-Core</label><input type="number" id="sub-geekS" placeholder="2432"></div><div class="form-field"><label>Geekbench Multi-Core</label><input type="number" id="sub-geekM" placeholder="5896"></div></div>
+      <div class="form-grid-2"><div class="form-field show-phone show-soc"><label>AnTuTu</label><input type="number" id="sub-antutu" placeholder="1421562"></div><div class="form-field show-laptop"><label>Cinebench Multi-Core</label><input type="number" id="sub-cinebench" placeholder="16400"></div></div>
+      <div class="form-grid-2"><div class="form-field"><label>Price (USD)</label><input type="number" id="sub-price" placeholder="599"></div><div class="form-field"><label>Price (EUR)</label><input type="number" id="sub-priceEur" placeholder="549"></div></div>
     </div>
 
     <button class="submit-cta" onclick="SUB.submitForm()">Generate JSON</button>
@@ -598,26 +677,17 @@ document.addEventListener('click', function(e){
 });
 applyTheme();
 let _toastTimer=null;
-function showToast(msg){
-  let t=document.getElementById('toast');
-  if(!t){ t=document.createElement('div'); t.id='toast'; document.body.appendChild(t); }
-  t.textContent=msg; t.classList.add('show');
-  clearTimeout(_toastTimer);
-  _toastTimer=setTimeout(()=>t.classList.remove('show'), 2200);
-}
-function shareItem(title,text){
-  const url=location.href;
-  if(navigator.share){ navigator.share({title,text,url}).catch(()=>{}); }
-  else if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(()=>showToast('Link copied to clipboard')).catch(()=>showToast(url)); }
-  else { showToast(url); }
-}
+function showToast(msg){ let t=document.getElementById('toast'); if(!t){ t=document.createElement('div'); t.id='toast'; document.body.appendChild(t); } t.textContent=msg; t.classList.add('show'); clearTimeout(_toastTimer); _toastTimer=setTimeout(()=>t.classList.remove('show'),2200); }
+function shareItem(title,text){ const url=location.href; if(navigator.share){ navigator.share({title,text,url}).catch(()=>{}); } else if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(()=>showToast('Link copied to clipboard')).catch(()=>showToast(url)); } else { showToast(url); } }
 window.__pendingDeepLink=null;
-(function(){
-  const h=location.hash.slice(1); if(!h) return;
-  const parts=h.split('/'); const pg=parts[0]; const item=parts.slice(1).join('/');
-  const validPages=['index','laptops','soc','sensors','news','submit','rankings'];
-  if(validPages.includes(pg)){ showPage(pg); if(item) window.__pendingDeepLink={page:pg,item:decodeURIComponent(item)}; }
-})();
+(function(){ const h=location.hash.slice(1); if(!h) return; const parts=h.split('/'); const pg=parts[0]; const item=parts.slice(1).join('/'); const validPages=['index','laptops','soc','sensors','news','submit','rankings']; if(validPages.includes(pg)){ showPage(pg); if(item) window.__pendingDeepLink={page:pg,item:decodeURIComponent(item)}; } })();
+function wordDiffHighlight(texts){
+  if(texts.length<2) return texts.slice();
+  const tokenized=texts.map(t=>String(t).split(/(\s+)/));
+  const wordSets=tokenized.map(toks=>new Set(toks.filter(x=>x.trim()).map(x=>x.toLowerCase())));
+  return tokenized.map(toks=>toks.map(t=>{ if(!t.trim()) return t; const lower=t.toLowerCase(); return wordSets.every(ws=>ws.has(lower)) ? t : `<span class="diff-word">${t}</span>`; }).join(''));
+}
+function numColorize(text,better){ const m=String(text).match(/[\d,.]+/); const cls=better?'spec-better':'spec-worse'; return m ? String(text).replace(m[0],`<span class="${cls}">${m[0]}</span>`) : text; }
 </script>
 <script>
 (function(){
@@ -636,83 +706,88 @@ window.__pendingDeepLink=null;
     ['Power',[['battery','Battery'],['charging','Charging']]],
     ['Benchmarks & Price',[['geek_s','Geekbench Single-Core'],['geek_m','Geekbench Multi-Core'],['antutu','AnTuTu Score'],['price','Price (USD)'],['price_eur','Price (EUR)']]]
   ];
+  const NUMERIC_DIRECTION={weight:'lower',battery:'higher',geek_s:'higher',geek_m:'higher',antutu:'higher',price:'lower',price_eur:'lower',ram:'higher',storage:'higher',resolution:'higher'};
+  function extractNum(key,text){ if(!text||text==='—') return null; const s=String(text); switch(key){
+    case 'weight':{const m=s.match(/(\d+(?:\.\d+)?)/);return m?parseFloat(m[1]):null;}
+    case 'battery':{const m=s.match(/(\d{3,6})\s*m?Ah/i);return m?parseInt(m[1]):null;}
+    case 'geek_s':case 'geek_m':case 'antutu':{const m=s.match(/([\d,]+)/);return m?parseInt(m[1].replace(/,/g,'')):null;}
+    case 'price':case 'price_eur':{const m=s.match(/([\d,.]+)/);return m?parseFloat(m[1].replace(/,/g,'')):null;}
+    case 'ram':{const nums=[...s.matchAll(/(\d+)\s*GB/gi)].map(x=>parseInt(x[1]));return nums.length?Math.max(...nums):null;}
+    case 'storage':{const nums=[...s.matchAll(/(\d+)\s*(GB|TB)/gi)].map(x=>parseInt(x[1])*(x[2].toUpperCase()==='TB'?1024:1));return nums.length?Math.max(...nums):null;}
+    case 'resolution':{const m=s.match(/(\d+)\s*[x×]\s*(\d+)/i);return m?parseInt(m[1])*parseInt(m[2]):null;}
+    default:return null; } }
+  function extractHz(text){ const m=String(text).match(/(\d+)\s*Hz/i); return m?{num:parseInt(m[1]),match:m[0]}:null; }
   function dash(v){ return (v===undefined||v===null||v===''||(Array.isArray(v)&&v.length===0))?'—':v; }
   function mainCameraSummary(dev){ if(!dev.camera_modules||!dev.camera_modules.length) return ''; const m=dev.camera_modules[0]; const match=(m.specs||'').match(/^(\d+MP)/i); return match?match[1]:(m.label||''); }
   function quickFields(dev){ return [['Display',dash(dev.screen)],['Chipset',dash(dev.chipset)],['Camera',dash(mainCameraSummary(dev))],['Battery',dash(dev.battery)]]; }
   let DATA=[], loadFailed=false;
-  let compareSlots=[null,null,null],currentIdx=null,diffMode=false,brandVal='all',sortVal='newest',_labelTimer=null;
+  let compareSlots=[null,null,null],currentIdx=null,diffMode=true,brandVal='all',sortVal='newest',_labelTimer=null;
   function $(x){ return document.getElementById(PREFIX+x); }
   function slugify(s){ return (s||'').toString().toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')||'item'; }
   function getDev(id){ return DATA.find(d=>d._id===id)||null; }
-  function getRaw(dev,key){
-    if(!dev) return '—';
-    let v=dev[key];
-    if(v===undefined||v===null||v==='') return '—';
-    if(Array.isArray(v)){ if(!v.length) return '—'; if(key==='camera_modules') return v.map(m=>`<strong>${dash(m&&m.label)}:</strong> ${dash(m&&m.specs)}`).join('<br>'); return v.join(', '); }
-    return v;
-  }
-  function getRawVal(slotIdx,key){ return getRaw(getDev(compareSlots[slotIdx]),key); }
-  function getTokens(val){ return String(val).replace(/<[^>]*>/g,'').trim().toLowerCase(); }
-  function getRowTokens(key){ return compareSlots.map((id,i)=>id?getTokens(getRawVal(i,key)):null).filter(v=>v!==null); }
-  function populateBrands(){
-    const menu=$('brandMenu'); const brands=Array.from(new Set(DATA.map(d=>d.brand).filter(Boolean))).sort();
-    let html=`<div class="csel-opt selected" data-val="all" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','all','All Brands',this)">All Brands</div>`;
-    brands.forEach(b=>{ html+=`<div class="csel-opt" data-val="${b}" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','${b}','${b}',this)">${b}</div>`; });
-    menu.innerHTML=html;
-  }
-  function filterAndSort(){
-    const q=($('searchInput').value||'').toLowerCase().trim();
-    let list=DATA.filter(d=>{ const ms=!q||(d.model||'').toLowerCase().includes(q)||(d.brand||'').toLowerCase().includes(q); const mb=brandVal==='all'||d.brand===brandVal; return ms&&mb; });
-    if(sortVal==='az') list.sort((a,b)=>(a.model||'').localeCompare(b.model||''));
-    else if(sortVal==='za') list.sort((a,b)=>(b.model||'').localeCompare(a.model||''));
-    renderGallery(list);
-  }
-  function cardHTML(dev){
-    const img=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG;
-    let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div>${label}<strong>${value}</strong></div>`; });
-    return `<div class="card" onclick="${NS_NAME}.showDetails('${dev._id}')"><div class="card-img">${img}</div><div class="card-body"><div class="card-brand">${dash(dev.brand)}</div><div class="card-model">${dash(dev.model)}</div><div class="card-quick">${quick}</div></div></div>`;
-  }
-  function renderGallery(list){
-    const grid=$('galleryGrid');
-    if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page and you're viewing this over http(s), not a local file:// path.</div>`; return; }
-    grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>';
-  }
-  function showDetails(devId){
-    const dev=getDev(devId); if(!dev) return; currentIdx=devId;
-    $('gallery-view').style.display='none'; $('detail-view').style.display='block';
-    $('d_brand').textContent=dash(dev.brand); $('d_model').textContent=dash(dev.model); $('d_tagline').textContent='';
-    $('d_img_wrap').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG;
-    let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div class="dq-item"><span>${label}</span><strong>${value}</strong></div>`; });
-    $('d_quick').innerHTML=quick;
-    renderSpecList(dev); renderSimilar(dev); renderPics(dev); setTab('specs'); window.scrollTo(0,0);
-    history.replaceState(null,'',location.pathname+'#'+PAGE_KEY+'/'+devId);
-  }
-  function renderSpecList(dev){
-    let html='';
-    SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(([key,label])=>{ html+=`<div class="spec-row"><span class="spec-label">${label}</span><span class="spec-value${key==='camera_modules'?' block':''}">${getRaw(dev,key)}</span></div>`; }); });
-    $('specList').innerHTML=html;
-  }
+  function getRaw(dev,key){ if(!dev) return '—'; let v=dev[key]; if(v===undefined||v===null||v==='') return '—'; if(Array.isArray(v)){ if(!v.length) return '—'; if(key==='camera_modules') return v.map(m=>`<strong>${dash(m&&m.label)}:</strong> ${dash(m&&m.specs)}`).join('<br>'); return v.join(', '); } return v; }
+  function populateBrands(){ const menu=$('brandMenu'); const brands=Array.from(new Set(DATA.map(d=>d.brand).filter(Boolean))).sort(); let html=`<div class="csel-opt selected" data-val="all" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','all','All Brands',this)">All Brands</div>`; brands.forEach(b=>{ html+=`<div class="csel-opt" data-val="${b}" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','${b}','${b}',this)">${b}</div>`; }); menu.innerHTML=html; }
+  function filterAndSort(){ const q=($('searchInput').value||'').toLowerCase().trim(); let list=DATA.filter(d=>{ const ms=!q||(d.model||'').toLowerCase().includes(q)||(d.brand||'').toLowerCase().includes(q); const mb=brandVal==='all'||d.brand===brandVal; return ms&&mb; }); if(sortVal==='az') list.sort((a,b)=>(a.model||'').localeCompare(b.model||'')); else if(sortVal==='za') list.sort((a,b)=>(b.model||'').localeCompare(a.model||'')); renderGallery(list); }
+  function cardHTML(dev){ const img=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div>${label}<strong>${value}</strong></div>`; }); return `<div class="card" onclick="${NS_NAME}.showDetails('${dev._id}')"><div class="card-img">${img}</div><div class="card-body"><div class="card-brand">${dash(dev.brand)}</div><div class="card-model">${dash(dev.model)}</div><div class="card-quick">${quick}</div></div></div>`; }
+  function renderGallery(list){ const grid=$('galleryGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page.</div>`; return; } grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
+  function showDetails(devId){ const dev=getDev(devId); if(!dev) return; currentIdx=devId; $('gallery-view').style.display='none'; $('detail-view').style.display='block'; $('d_brand').textContent=dash(dev.brand); $('d_model').textContent=dash(dev.model); $('d_tagline').textContent=''; $('d_img_wrap').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div class="dq-item"><span>${label}</span><strong>${value}</strong></div>`; }); $('d_quick').innerHTML=quick; renderSpecList(dev); renderSimilar(dev); renderPics(dev); setTab('specs'); window.scrollTo(0,0); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY+'/'+devId); }
+  function renderSpecList(dev){ let html=''; SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(([key,label])=>{ html+=`<div class="spec-row"><span class="spec-label">${label}</span><span class="spec-value${key==='camera_modules'?' block':''}">${getRaw(dev,key)}</span></div>`; }); }); $('specList').innerHTML=html; }
   function renderSimilar(dev){ $('similarGrid').innerHTML=DATA.filter(d=>d._id!==dev._id).slice(0,3).map(cardHTML).join(''); }
   function renderPics(dev){ const imgs=[dev.image,...(dev.gallery||[])].filter(Boolean); $('picsView').innerHTML=imgs.length?imgs.map(src=>`<img src="${src}" style="max-width:240px;max-height:240px;object-fit:contain;border-radius:12px;margin:6px" onerror="this.style.display='none'">`).join(''):`<div style="width:160px;height:160px">${CARD_SVG}</div>`; }
   function goHome(){ $('detail-view').style.display='none'; $('gallery-view').style.display='block'; currentIdx=null; filterAndSort(); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY); }
-  function setTab(name){ ['specs','pics','compare'].forEach(t=>{ $('btn-'+t).classList.toggle('active',t===name); $('tab-'+t).style.display=(t===name)?'block':'none'; }); if(name==='compare') renderCompare(); }
+  function setTab(name){
+    ['specs','pics','compare'].forEach(t=>{ $('btn-'+t).classList.toggle('active',t===name); $('tab-'+t).style.display=(t===name)?'block':'none'; });
+    if(name==='compare'){
+      if(currentIdx && !compareSlots.includes(currentIdx)){ if(compareSlots[0]===null) compareSlots[0]=currentIdx; else { const e=compareSlots.indexOf(null); if(e!==-1) compareSlots[e]=currentIdx; } updateCompareBadge(); }
+      renderCompare();
+    }
+  }
   function openCompare(){ const hostId=compareSlots.find(Boolean)||(DATA[0]&&DATA[0]._id); if(!hostId) return; showDetails(hostId); setTab('compare'); }
   function updateCompareBadge(){ const n=compareSlots.filter(Boolean).length; const badge=$('compareBadge'); if(!badge) return; badge.textContent=n; badge.style.display=n>0?'flex':'none'; }
   function addSlot(devId){ if(compareSlots.includes(devId)) return; const empty=compareSlots.indexOf(null); compareSlots[empty!==-1?empty:compareSlots.length-1]=devId; updateCompareBadge(); if($('tab-compare').style.display!=='none') renderCompare(); }
   function removeSlot(i){ compareSlots[i]=null; updateCompareBadge(); renderCompare(); }
   function setSlot(i,devId){ compareSlots[i]=devId; updateCompareBadge(); renderCompare(); }
-  function searchSlot(i){
-    const val=document.getElementById(PREFIX+'slotSearch'+i).value.toLowerCase().trim();
-    const box=document.getElementById(PREFIX+'slotResults'+i);
-    if(!val){ box.innerHTML=''; box.style.display='none'; return; }
-    const matches=DATA.filter(d=>!compareSlots.includes(d._id)&&((d.model||'').toLowerCase().includes(val)||(d.brand||'').toLowerCase().includes(val))).slice(0,6);
-    box.innerHTML=matches.length?matches.map(d=>`<div onclick="${NS_NAME}.setSlot(${i},'${d._id}')">${dash(d.brand)} ${dash(d.model)}</div>`).join(''):'<div style="color:var(--ts)">No matches</div>';
-    box.style.display='block';
-  }
+  function searchSlot(i){ const val=document.getElementById(PREFIX+'slotSearch'+i).value.toLowerCase().trim(); const box=document.getElementById(PREFIX+'slotResults'+i); if(!val){ box.innerHTML=''; box.style.display='none'; return; } const matches=DATA.filter(d=>!compareSlots.includes(d._id)&&((d.model||'').toLowerCase().includes(val)||(d.brand||'').toLowerCase().includes(val))).slice(0,6); box.innerHTML=matches.length?matches.map(d=>`<div onclick="${NS_NAME}.setSlot(${i},'${d._id}')">${dash(d.brand)} ${dash(d.model)}</div>`).join(''):'<div style="color:var(--ts)">No matches</div>'; box.style.display='block'; }
   function renderCompare(){
     const area=$('compareArea'); const filled=compareSlots.filter(Boolean).length;
-    const headCells=compareSlots.map((id,i)=>{ const dev=getDev(id); if(dev) return `<td><div class="slot-card"><div class="slot-img">${MINI_SVG}</div><div class="slot-name">${dash(dev.model)}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`; }).join('');
-    let rows=''; SECTIONS.forEach(([section,fields])=>{ rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`; fields.forEach(([key,label])=>{ const rowDiffers=diffMode&&filled>1&&new Set(getRowTokens(key)).size>1; rows+=`<tr><th>${label}</th>${compareSlots.map((id,i)=>`<td${(rowDiffers&&id)?' class="diff"':''}>${getRawVal(i,key)}</td>`).join('')}</tr>`; }); });
+    const headCells=compareSlots.map((id,i)=>{
+      const dev=getDev(id);
+      if(dev){ const imgHtml=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.MINI_SVG">`:MINI_SVG; return `<td><div class="slot-card"><div class="slot-img">${imgHtml}</div><div class="slot-name">${dash(dev.model)}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; }
+      return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`;
+    }).join('');
+    let rows='';
+    SECTIONS.forEach(([section,fields])=>{
+      rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`;
+      fields.forEach(([key,label])=>{
+        let displays;
+        if(diffMode && filled>1 && key!=='camera_modules'){
+          const direction=NUMERIC_DIRECTION[key];
+          if(direction){
+            const raws=compareSlots.map(id=>id?getRaw(getDev(id),key):null);
+            const nums=raws.map((r,i)=>compareSlots[i]&&r?extractNum(key,r):null);
+            const present=nums.map((n,i)=>({n,i})).filter(o=>o.n!==null&&compareSlots[o.i]);
+            let best=null,worst=null;
+            if(present.length>1){ const vals=present.map(o=>o.n); best=direction==='higher'?Math.max(...vals):Math.min(...vals); worst=direction==='higher'?Math.min(...vals):Math.max(...vals); }
+            displays=compareSlots.map((id,i)=>{ if(!id) return '—'; let text=raws[i]; if(best!==null&&best!==worst&&nums[i]!==null){ if(nums[i]===best) text=numColorize(text,true); else if(nums[i]===worst) text=numColorize(text,false); } return text; });
+          } else if(key==='screen'){
+            const raws=compareSlots.map(id=>id?getRaw(getDev(id),key):null);
+            const hz=raws.map((r,i)=>compareSlots[i]&&r?extractHz(r):null);
+            const present=hz.map((h,i)=>({h,i})).filter(o=>o.h&&compareSlots[o.i]);
+            let best=null,worst=null;
+            if(present.length>1){ const vals=present.map(o=>o.h.num); best=Math.max(...vals); worst=Math.min(...vals); }
+            displays=compareSlots.map((id,i)=>{ if(!id) return '—'; let text=raws[i]; if(hz[i]&&best!==null&&best!==worst){ const cls=hz[i].num===best?'spec-better':(hz[i].num===worst?'spec-worse':null); if(cls) text=text.replace(hz[i].match,`<span class="${cls}">${hz[i].match}</span>`); } return text; });
+          } else {
+            const filledIdx=compareSlots.map((id,i)=>id?i:null).filter(i=>i!==null);
+            const texts=filledIdx.map(i=>String(getRaw(getDev(compareSlots[i]),key)));
+            const hl=wordDiffHighlight(texts);
+            displays=compareSlots.map((id,i)=>{ if(!id) return '—'; return hl[filledIdx.indexOf(i)]; });
+          }
+        } else {
+          displays=compareSlots.map((id,i)=> id? getRaw(getDev(id),key) : '—');
+        }
+        rows+=`<tr><th>${label}</th>${displays.map(d=>`<td>${d}</td>`).join('')}</tr>`;
+      });
+    });
     area.innerHTML=`<div class="compare-actions"><label class="diff-toggle"><input type="checkbox" ${diffMode?'checked':''} onchange="${NS_NAME}.toggleDiffMode()"> Highlight differences</label></div><div class="compare-wrapper" id="${PREFIX}compareWrapper"><table class="compare-table" id="${PREFIX}compareTable"><thead><tr><th></th>${headCells}</tr></thead><tbody>${rows}</tbody></table></div>`;
     _attachCompareFade(); _updateSidebarBlur();
   }
@@ -725,7 +800,7 @@ window.__pendingDeepLink=null;
   function doShare(){ const dev=getDev(currentIdx); if(!dev) return; const title=dev.model||'Concept device'; const text=[dev.brand,dev.model].filter(Boolean).join(' ')||title; shareItem(title,text); }
   async function init(){
     try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; }
-    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; DATA=[]; }
+    catch(e){ console.error('Could not load '+DATA_URL,e); loadFailed=true; DATA=[]; }
     DATA.forEach(d=>{ d._id=slugify((d.brand||'')+'-'+(d.model||'')); });
     populateBrands(); filterAndSort(); _showLabels();
     if(window.__pendingDeepLink && window.__pendingDeepLink.page===PAGE_KEY && window.__pendingDeepLink.item) showDetails(window.__pendingDeepLink.item);
@@ -750,27 +825,35 @@ window.__pendingDeepLink=null;
     ['Power',[['battery','Battery'],['charging','Charging']]],
     ['Benchmarks & Price',[['geek_s','Geekbench Single-Core'],['geek_m','Geekbench Multi-Core'],['cinebench','Cinebench Multi-Core'],['price','Price (USD)'],['price_eur','Price (EUR)']]]
   ];
+  const NUMERIC_DIRECTION={weight:'lower',battery:'higher',geek_s:'higher',geek_m:'higher',cinebench:'higher',price:'lower',price_eur:'lower',ram:'higher',storage:'higher',resolution:'higher'};
+  function extractNum(key,text){ if(!text||text==='—') return null; const s=String(text); switch(key){
+    case 'weight':{const m=s.match(/(\d+(?:\.\d+)?)/);return m?parseFloat(m[1]):null;}
+    case 'battery':{const m=s.match(/(\d+(?:\.\d+)?)\s*(mAh|Wh)/i);return m?parseFloat(m[1]):null;}
+    case 'geek_s':case 'geek_m':case 'cinebench':{const m=s.match(/([\d,]+)/);return m?parseInt(m[1].replace(/,/g,'')):null;}
+    case 'price':case 'price_eur':{const m=s.match(/([\d,.]+)/);return m?parseFloat(m[1].replace(/,/g,'')):null;}
+    case 'ram':{const nums=[...s.matchAll(/(\d+)\s*GB/gi)].map(x=>parseInt(x[1]));return nums.length?Math.max(...nums):null;}
+    case 'storage':{const nums=[...s.matchAll(/(\d+)\s*(GB|TB)/gi)].map(x=>parseInt(x[1])*(x[2].toUpperCase()==='TB'?1024:1));return nums.length?Math.max(...nums):null;}
+    case 'resolution':{const m=s.match(/(\d+)\s*[x×]\s*(\d+)/i);return m?parseInt(m[1])*parseInt(m[2]):null;}
+    default:return null; } }
+  function extractHz(text){ const m=String(text).match(/(\d+)\s*Hz/i); return m?{num:parseInt(m[1]),match:m[0]}:null; }
   function dash(v){ return (v===undefined||v===null||v===''||(Array.isArray(v)&&v.length===0))?'—':v; }
   function quickFields(dev){ return [['Display',dash(dev.screen)],['Processor',dash(dev.chipset)],['Graphics',dash(dev.gpu)],['Battery',dash(dev.battery)]]; }
   let DATA=[], loadFailed=false;
-  let compareSlots=[null,null,null],currentIdx=null,diffMode=false,brandVal='all',sortVal='newest',_labelTimer=null;
+  let compareSlots=[null,null,null],currentIdx=null,diffMode=true,brandVal='all',sortVal='newest',_labelTimer=null;
   function $(x){ return document.getElementById(PREFIX+x); }
   function slugify(s){ return (s||'').toString().toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')||'item'; }
   function getDev(id){ return DATA.find(d=>d._id===id)||null; }
   function getRaw(dev,key){ if(!dev) return '—'; let v=dev[key]; if(v===undefined||v===null||v==='') return '—'; if(Array.isArray(v)){ if(!v.length) return '—'; return v.join(', '); } return v; }
-  function getRawVal(slotIdx,key){ return getRaw(getDev(compareSlots[slotIdx]),key); }
-  function getTokens(val){ return String(val).replace(/<[^>]*>/g,'').trim().toLowerCase(); }
-  function getRowTokens(key){ return compareSlots.map((id,i)=>id?getTokens(getRawVal(i,key)):null).filter(v=>v!==null); }
   function populateBrands(){ const menu=$('brandMenu'); const brands=Array.from(new Set(DATA.map(d=>d.brand).filter(Boolean))).sort(); let html=`<div class="csel-opt selected" data-val="all" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','all','All Brands',this)">All Brands</div>`; brands.forEach(b=>{ html+=`<div class="csel-opt" data-val="${b}" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','${b}','${b}',this)">${b}</div>`; }); menu.innerHTML=html; }
   function filterAndSort(){ const q=($('searchInput').value||'').toLowerCase().trim(); let list=DATA.filter(d=>{ const ms=!q||(d.model||'').toLowerCase().includes(q)||(d.brand||'').toLowerCase().includes(q); const mb=brandVal==='all'||d.brand===brandVal; return ms&&mb; }); if(sortVal==='az') list.sort((a,b)=>(a.model||'').localeCompare(b.model||'')); else if(sortVal==='za') list.sort((a,b)=>(b.model||'').localeCompare(a.model||'')); renderGallery(list); }
   function cardHTML(dev){ const img=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div>${label}<strong>${value}</strong></div>`; }); return `<div class="card" onclick="${NS_NAME}.showDetails('${dev._id}')"><div class="card-img">${img}</div><div class="card-body"><div class="card-brand">${dash(dev.brand)}</div><div class="card-model">${dash(dev.model)}</div><div class="card-quick">${quick}</div></div></div>`; }
-  function renderGallery(list){ const grid=$('galleryGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page and you're viewing this over http(s), not a local file:// path.</div>`; return; } grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
+  function renderGallery(list){ const grid=$('galleryGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page.</div>`; return; } grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
   function showDetails(devId){ const dev=getDev(devId); if(!dev) return; currentIdx=devId; $('gallery-view').style.display='none'; $('detail-view').style.display='block'; $('d_brand').textContent=dash(dev.brand); $('d_model').textContent=dash(dev.model); $('d_tagline').textContent=''; $('d_img_wrap').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div class="dq-item"><span>${label}</span><strong>${value}</strong></div>`; }); $('d_quick').innerHTML=quick; renderSpecList(dev); renderSimilar(dev); renderPics(dev); setTab('specs'); window.scrollTo(0,0); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY+'/'+devId); }
   function renderSpecList(dev){ let html=''; SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(([key,label])=>{ html+=`<div class="spec-row"><span class="spec-label">${label}</span><span class="spec-value">${getRaw(dev,key)}</span></div>`; }); }); $('specList').innerHTML=html; }
   function renderSimilar(dev){ $('similarGrid').innerHTML=DATA.filter(d=>d._id!==dev._id).slice(0,3).map(cardHTML).join(''); }
   function renderPics(dev){ const imgs=[dev.image,...(dev.gallery||[])].filter(Boolean); $('picsView').innerHTML=imgs.length?imgs.map(src=>`<img src="${src}" style="max-width:240px;max-height:240px;object-fit:contain;border-radius:12px;margin:6px" onerror="this.style.display='none'">`).join(''):`<div style="width:160px;height:160px">${CARD_SVG}</div>`; }
   function goHome(){ $('detail-view').style.display='none'; $('gallery-view').style.display='block'; currentIdx=null; filterAndSort(); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY); }
-  function setTab(name){ ['specs','pics','compare'].forEach(t=>{ $('btn-'+t).classList.toggle('active',t===name); $('tab-'+t).style.display=(t===name)?'block':'none'; }); if(name==='compare') renderCompare(); }
+  function setTab(name){ ['specs','pics','compare'].forEach(t=>{ $('btn-'+t).classList.toggle('active',t===name); $('tab-'+t).style.display=(t===name)?'block':'none'; }); if(name==='compare'){ if(currentIdx && !compareSlots.includes(currentIdx)){ if(compareSlots[0]===null) compareSlots[0]=currentIdx; else { const e=compareSlots.indexOf(null); if(e!==-1) compareSlots[e]=currentIdx; } updateCompareBadge(); } renderCompare(); } }
   function openCompare(){ const hostId=compareSlots.find(Boolean)||(DATA[0]&&DATA[0]._id); if(!hostId) return; showDetails(hostId); setTab('compare'); }
   function updateCompareBadge(){ const n=compareSlots.filter(Boolean).length; const badge=$('compareBadge'); if(!badge) return; badge.textContent=n; badge.style.display=n>0?'flex':'none'; }
   function addSlot(devId){ if(compareSlots.includes(devId)) return; const empty=compareSlots.indexOf(null); compareSlots[empty!==-1?empty:compareSlots.length-1]=devId; updateCompareBadge(); if($('tab-compare').style.display!=='none') renderCompare(); }
@@ -779,8 +862,36 @@ window.__pendingDeepLink=null;
   function searchSlot(i){ const val=document.getElementById(PREFIX+'slotSearch'+i).value.toLowerCase().trim(); const box=document.getElementById(PREFIX+'slotResults'+i); if(!val){ box.innerHTML=''; box.style.display='none'; return; } const matches=DATA.filter(d=>!compareSlots.includes(d._id)&&((d.model||'').toLowerCase().includes(val)||(d.brand||'').toLowerCase().includes(val))).slice(0,6); box.innerHTML=matches.length?matches.map(d=>`<div onclick="${NS_NAME}.setSlot(${i},'${d._id}')">${dash(d.brand)} ${dash(d.model)}</div>`).join(''):'<div style="color:var(--ts)">No matches</div>'; box.style.display='block'; }
   function renderCompare(){
     const area=$('compareArea'); const filled=compareSlots.filter(Boolean).length;
-    const headCells=compareSlots.map((id,i)=>{ const dev=getDev(id); if(dev) return `<td><div class="slot-card"><div class="slot-img">${MINI_SVG}</div><div class="slot-name">${dash(dev.model)}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`; }).join('');
-    let rows=''; SECTIONS.forEach(([section,fields])=>{ rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`; fields.forEach(([key,label])=>{ const rowDiffers=diffMode&&filled>1&&new Set(getRowTokens(key)).size>1; rows+=`<tr><th>${label}</th>${compareSlots.map((id,i)=>`<td${(rowDiffers&&id)?' class="diff"':''}>${getRawVal(i,key)}</td>`).join('')}</tr>`; }); });
+    const headCells=compareSlots.map((id,i)=>{ const dev=getDev(id); if(dev){ const imgHtml=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.MINI_SVG">`:MINI_SVG; return `<td><div class="slot-card"><div class="slot-img">${imgHtml}</div><div class="slot-name">${dash(dev.model)}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; } return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`; }).join('');
+    let rows='';
+    SECTIONS.forEach(([section,fields])=>{
+      rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`;
+      fields.forEach(([key,label])=>{
+        let displays;
+        if(diffMode && filled>1){
+          const direction=NUMERIC_DIRECTION[key];
+          if(direction){
+            const raws=compareSlots.map(id=>id?getRaw(getDev(id),key):null);
+            const nums=raws.map((r,i)=>compareSlots[i]&&r?extractNum(key,r):null);
+            const present=nums.map((n,i)=>({n,i})).filter(o=>o.n!==null&&compareSlots[o.i]);
+            let best=null,worst=null; if(present.length>1){ const vals=present.map(o=>o.n); best=direction==='higher'?Math.max(...vals):Math.min(...vals); worst=direction==='higher'?Math.min(...vals):Math.max(...vals); }
+            displays=compareSlots.map((id,i)=>{ if(!id) return '—'; let text=raws[i]; if(best!==null&&best!==worst&&nums[i]!==null){ if(nums[i]===best) text=numColorize(text,true); else if(nums[i]===worst) text=numColorize(text,false); } return text; });
+          } else if(key==='screen'){
+            const raws=compareSlots.map(id=>id?getRaw(getDev(id),key):null);
+            const hz=raws.map((r,i)=>compareSlots[i]&&r?extractHz(r):null);
+            const present=hz.map((h,i)=>({h,i})).filter(o=>o.h&&compareSlots[o.i]);
+            let best=null,worst=null; if(present.length>1){ const vals=present.map(o=>o.h.num); best=Math.max(...vals); worst=Math.min(...vals); }
+            displays=compareSlots.map((id,i)=>{ if(!id) return '—'; let text=raws[i]; if(hz[i]&&best!==null&&best!==worst){ const cls=hz[i].num===best?'spec-better':(hz[i].num===worst?'spec-worse':null); if(cls) text=text.replace(hz[i].match,`<span class="${cls}">${hz[i].match}</span>`); } return text; });
+          } else {
+            const filledIdx=compareSlots.map((id,i)=>id?i:null).filter(i=>i!==null);
+            const texts=filledIdx.map(i=>String(getRaw(getDev(compareSlots[i]),key)));
+            const hl=wordDiffHighlight(texts);
+            displays=compareSlots.map((id,i)=>{ if(!id) return '—'; return hl[filledIdx.indexOf(i)]; });
+          }
+        } else { displays=compareSlots.map((id,i)=> id? getRaw(getDev(id),key) : '—'); }
+        rows+=`<tr><th>${label}</th>${displays.map(d=>`<td>${d}</td>`).join('')}</tr>`;
+      });
+    });
     area.innerHTML=`<div class="compare-actions"><label class="diff-toggle"><input type="checkbox" ${diffMode?'checked':''} onchange="${NS_NAME}.toggleDiffMode()"> Highlight differences</label></div><div class="compare-wrapper" id="${PREFIX}compareWrapper"><table class="compare-table" id="${PREFIX}compareTable"><thead><tr><th></th>${headCells}</tr></thead><tbody>${rows}</tbody></table></div>`;
     _attachCompareFade(); _updateSidebarBlur();
   }
@@ -791,13 +902,7 @@ window.__pendingDeepLink=null;
   function _attachCompareFade(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.addEventListener('scroll',_updateSidebarBlur); }
   function _updateSidebarBlur(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.classList.toggle('scrolled', w.scrollTop>2); }
   function doShare(){ const dev=getDev(currentIdx); if(!dev) return; const title=dev.model||'Concept laptop'; const text=[dev.brand,dev.model].filter(Boolean).join(' ')||title; shareItem(title,text); }
-  async function init(){
-    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; }
-    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; DATA=[]; }
-    DATA.forEach(d=>{ d._id=slugify((d.brand||'')+'-'+(d.model||'')); });
-    populateBrands(); filterAndSort(); _showLabels();
-    if(window.__pendingDeepLink && window.__pendingDeepLink.page===PAGE_KEY && window.__pendingDeepLink.item) showDetails(window.__pendingDeepLink.item);
-  }
+  async function init(){ try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; } catch(e){ console.error('Could not load '+DATA_URL,e); loadFailed=true; DATA=[]; } DATA.forEach(d=>{ d._id=slugify((d.brand||'')+'-'+(d.model||'')); }); populateBrands(); filterAndSort(); _showLabels(); if(window.__pendingDeepLink && window.__pendingDeepLink.page===PAGE_KEY && window.__pendingDeepLink.item) showDetails(window.__pendingDeepLink.item); }
   window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,doShare,CARD_SVG,MINI_SVG,SLOT_SVG};
   init();
 })();
@@ -808,35 +913,27 @@ window.__pendingDeepLink=null;
   const CARD_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="18" y="18" width="28" height="28" rx="3"/><line x1="26" y1="10" x2="26" y2="18"/><line x1="38" y1="10" x2="38" y2="18"/><line x1="26" y1="46" x2="26" y2="54"/><line x1="38" y1="46" x2="38" y2="54"/><line x1="10" y1="26" x2="18" y2="26"/><line x1="10" y1="38" x2="18" y2="38"/><line x1="46" y1="26" x2="54" y2="26"/><line x1="46" y1="38" x2="54" y2="38"/></svg>';
   const MINI_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="2"><rect x="20" y="20" width="24" height="24" rx="2"/></svg>';
   const SLOT_SVG='<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="16" y1="6" x2="16" y2="26"/><line x1="6" y1="16" x2="26" y2="16"/></svg>';
-  const SECTIONS=[
-    ['Overview',[['announced','Announced'],['process','Manufacturing Process'],['open_use','Open Source']]],
-    ['CPU',[['cpu_cores','Core Configuration']]],
-    ['GPU',[['gpu_model','Model'],['gpu_clock','Clock Speed']]],
-    ['Neural Processing Unit',[['npu','NPU']]],
-    ['Media & Connectivity',[['isp','Image Signal Processor'],['modem','Modem']]],
-    ['Benchmarks & Price',[['geek_s','Geekbench Single-Core'],['geek_m','Geekbench Multi-Core'],['antutu','AnTuTu Score'],['price','Price (USD)'],['price_eur','Price (EUR)']]]
-  ];
+  const SECTIONS=[['Overview',[['announced','Announced'],['process','Manufacturing Process'],['open_use','Open Source']]],['CPU',[['cpu_cores','Core Configuration']]],['GPU',[['gpu_model','Model'],['gpu_clock','Clock Speed']]],['Neural Processing Unit',[['npu','NPU']]],['Media & Connectivity',[['isp','Image Signal Processor'],['modem','Modem']]],['Benchmarks & Price',[['geek_s','Geekbench Single-Core'],['geek_m','Geekbench Multi-Core'],['antutu','AnTuTu Score'],['price','Price (USD)'],['price_eur','Price (EUR)']]]];
+  const NUMERIC_DIRECTION={geek_s:'higher',geek_m:'higher',antutu:'higher',price:'lower',price_eur:'lower'};
+  function extractNum(key,text){ if(!text||text==='—') return null; const s=String(text); if(key==='price'||key==='price_eur'){ const m=s.match(/([\d,.]+)/); return m?parseFloat(m[1].replace(/,/g,'')):null; } const m=s.match(/([\d,]+)/); return m?parseInt(m[1].replace(/,/g,'')):null; }
   function dash(v){ return (v===undefined||v===null||v===''||(Array.isArray(v)&&v.length===0))?'—':v; }
   function quickFields(dev){ return [['Process',dash(dev.process)],['CPU',dash(dev.cpu_cores)],['GPU',dash(dev.gpu_model)],['NPU',dash(dev.npu)]]; }
   let DATA=[], loadFailed=false;
-  let compareSlots=[null,null,null],currentIdx=null,diffMode=false,brandVal='all',sortVal='newest',_labelTimer=null;
+  let compareSlots=[null,null,null],currentIdx=null,diffMode=true,brandVal='all',sortVal='newest',_labelTimer=null;
   function $(x){ return document.getElementById(PREFIX+x); }
   function slugify(s){ return (s||'').toString().toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')||'item'; }
   function getDev(id){ return DATA.find(d=>d._id===id)||null; }
   function getRaw(dev,key){ if(!dev) return '—'; let v=dev[key]; if(v===undefined||v===null||v==='') return '—'; if(Array.isArray(v)){ if(!v.length) return '—'; return v.join(', '); } return v; }
-  function getRawVal(slotIdx,key){ return getRaw(getDev(compareSlots[slotIdx]),key); }
-  function getTokens(val){ return String(val).replace(/<[^>]*>/g,'').trim().toLowerCase(); }
-  function getRowTokens(key){ return compareSlots.map((id,i)=>id?getTokens(getRawVal(i,key)):null).filter(v=>v!==null); }
   function populateBrands(){ const menu=$('brandMenu'); const brands=Array.from(new Set(DATA.map(d=>d.brand).filter(Boolean))).sort(); let html=`<div class="csel-opt selected" data-val="all" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','all','All Brands',this)">All Brands</div>`; brands.forEach(b=>{ html+=`<div class="csel-opt" data-val="${b}" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','${b}','${b}',this)">${b}</div>`; }); menu.innerHTML=html; }
   function filterAndSort(){ const q=($('searchInput').value||'').toLowerCase().trim(); let list=DATA.filter(d=>{ const ms=!q||(d.model||'').toLowerCase().includes(q)||(d.brand||'').toLowerCase().includes(q); const mb=brandVal==='all'||d.brand===brandVal; return ms&&mb; }); if(sortVal==='az') list.sort((a,b)=>(a.model||'').localeCompare(b.model||'')); else if(sortVal==='za') list.sort((a,b)=>(b.model||'').localeCompare(a.model||'')); renderGallery(list); }
   function cardHTML(dev){ const img=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div>${label}<strong>${value}</strong></div>`; }); return `<div class="card" onclick="${NS_NAME}.showDetails('${dev._id}')"><div class="card-img">${img}</div><div class="card-body"><div class="card-brand">${dash(dev.brand)}</div><div class="card-model">${dash(dev.model)}</div><div class="card-quick">${quick}</div></div></div>`; }
-  function renderGallery(list){ const grid=$('galleryGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page and you're viewing this over http(s), not a local file:// path.</div>`; return; } grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
+  function renderGallery(list){ const grid=$('galleryGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page.</div>`; return; } grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
   function showDetails(devId){ const dev=getDev(devId); if(!dev) return; currentIdx=devId; $('gallery-view').style.display='none'; $('detail-view').style.display='block'; $('d_brand').textContent=dash(dev.brand); $('d_model').textContent=dash(dev.model); $('d_tagline').textContent=''; $('d_img_wrap').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div class="dq-item"><span>${label}</span><strong>${value}</strong></div>`; }); $('d_quick').innerHTML=quick; renderSpecList(dev); renderSimilar(dev); renderPics(dev); setTab('specs'); window.scrollTo(0,0); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY+'/'+devId); }
   function renderSpecList(dev){ let html=''; SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(([key,label])=>{ html+=`<div class="spec-row"><span class="spec-label">${label}</span><span class="spec-value">${getRaw(dev,key)}</span></div>`; }); }); $('specList').innerHTML=html; }
   function renderSimilar(dev){ $('similarGrid').innerHTML=DATA.filter(d=>d._id!==dev._id).slice(0,3).map(cardHTML).join(''); }
   function renderPics(dev){ const imgs=[dev.image,...(dev.gallery||[])].filter(Boolean); $('picsView').innerHTML=imgs.length?imgs.map(src=>`<img src="${src}" style="max-width:240px;max-height:240px;object-fit:contain;border-radius:12px;margin:6px" onerror="this.style.display='none'">`).join(''):`<div style="width:160px;height:160px">${CARD_SVG}</div>`; }
   function goHome(){ $('detail-view').style.display='none'; $('gallery-view').style.display='block'; currentIdx=null; filterAndSort(); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY); }
-  function setTab(name){ ['specs','pics','compare'].forEach(t=>{ $('btn-'+t).classList.toggle('active',t===name); $('tab-'+t).style.display=(t===name)?'block':'none'; }); if(name==='compare') renderCompare(); }
+  function setTab(name){ ['specs','pics','compare'].forEach(t=>{ $('btn-'+t).classList.toggle('active',t===name); $('tab-'+t).style.display=(t===name)?'block':'none'; }); if(name==='compare'){ if(currentIdx && !compareSlots.includes(currentIdx)){ if(compareSlots[0]===null) compareSlots[0]=currentIdx; else { const e=compareSlots.indexOf(null); if(e!==-1) compareSlots[e]=currentIdx; } updateCompareBadge(); } renderCompare(); } }
   function openCompare(){ const hostId=compareSlots.find(Boolean)||(DATA[0]&&DATA[0]._id); if(!hostId) return; showDetails(hostId); setTab('compare'); }
   function updateCompareBadge(){ const n=compareSlots.filter(Boolean).length; const badge=$('compareBadge'); if(!badge) return; badge.textContent=n; badge.style.display=n>0?'flex':'none'; }
   function addSlot(devId){ if(compareSlots.includes(devId)) return; const empty=compareSlots.indexOf(null); compareSlots[empty!==-1?empty:compareSlots.length-1]=devId; updateCompareBadge(); if($('tab-compare').style.display!=='none') renderCompare(); }
@@ -845,8 +942,30 @@ window.__pendingDeepLink=null;
   function searchSlot(i){ const val=document.getElementById(PREFIX+'slotSearch'+i).value.toLowerCase().trim(); const box=document.getElementById(PREFIX+'slotResults'+i); if(!val){ box.innerHTML=''; box.style.display='none'; return; } const matches=DATA.filter(d=>!compareSlots.includes(d._id)&&((d.model||'').toLowerCase().includes(val)||(d.brand||'').toLowerCase().includes(val))).slice(0,6); box.innerHTML=matches.length?matches.map(d=>`<div onclick="${NS_NAME}.setSlot(${i},'${d._id}')">${dash(d.brand)} ${dash(d.model)}</div>`).join(''):'<div style="color:var(--ts)">No matches</div>'; box.style.display='block'; }
   function renderCompare(){
     const area=$('compareArea'); const filled=compareSlots.filter(Boolean).length;
-    const headCells=compareSlots.map((id,i)=>{ const dev=getDev(id); if(dev) return `<td><div class="slot-card"><div class="slot-img">${MINI_SVG}</div><div class="slot-name">${dash(dev.model)}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`; }).join('');
-    let rows=''; SECTIONS.forEach(([section,fields])=>{ rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`; fields.forEach(([key,label])=>{ const rowDiffers=diffMode&&filled>1&&new Set(getRowTokens(key)).size>1; rows+=`<tr><th>${label}</th>${compareSlots.map((id,i)=>`<td${(rowDiffers&&id)?' class="diff"':''}>${getRawVal(i,key)}</td>`).join('')}</tr>`; }); });
+    const headCells=compareSlots.map((id,i)=>{ const dev=getDev(id); if(dev){ const imgHtml=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.MINI_SVG">`:MINI_SVG; return `<td><div class="slot-card"><div class="slot-img">${imgHtml}</div><div class="slot-name">${dash(dev.model)}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; } return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`; }).join('');
+    let rows='';
+    SECTIONS.forEach(([section,fields])=>{
+      rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`;
+      fields.forEach(([key,label])=>{
+        let displays;
+        if(diffMode && filled>1){
+          const direction=NUMERIC_DIRECTION[key];
+          if(direction){
+            const raws=compareSlots.map(id=>id?getRaw(getDev(id),key):null);
+            const nums=raws.map((r,i)=>compareSlots[i]&&r?extractNum(key,r):null);
+            const present=nums.map((n,i)=>({n,i})).filter(o=>o.n!==null&&compareSlots[o.i]);
+            let best=null,worst=null; if(present.length>1){ const vals=present.map(o=>o.n); best=direction==='higher'?Math.max(...vals):Math.min(...vals); worst=direction==='higher'?Math.min(...vals):Math.max(...vals); }
+            displays=compareSlots.map((id,i)=>{ if(!id) return '—'; let text=raws[i]; if(best!==null&&best!==worst&&nums[i]!==null){ if(nums[i]===best) text=numColorize(text,true); else if(nums[i]===worst) text=numColorize(text,false); } return text; });
+          } else {
+            const filledIdx=compareSlots.map((id,i)=>id?i:null).filter(i=>i!==null);
+            const texts=filledIdx.map(i=>String(getRaw(getDev(compareSlots[i]),key)));
+            const hl=wordDiffHighlight(texts);
+            displays=compareSlots.map((id,i)=>{ if(!id) return '—'; return hl[filledIdx.indexOf(i)]; });
+          }
+        } else { displays=compareSlots.map((id,i)=> id? getRaw(getDev(id),key) : '—'); }
+        rows+=`<tr><th>${label}</th>${displays.map(d=>`<td>${d}</td>`).join('')}</tr>`;
+      });
+    });
     area.innerHTML=`<div class="compare-actions"><label class="diff-toggle"><input type="checkbox" ${diffMode?'checked':''} onchange="${NS_NAME}.toggleDiffMode()"> Highlight differences</label></div><div class="compare-wrapper" id="${PREFIX}compareWrapper"><table class="compare-table" id="${PREFIX}compareTable"><thead><tr><th></th>${headCells}</tr></thead><tbody>${rows}</tbody></table></div>`;
     _attachCompareFade(); _updateSidebarBlur();
   }
@@ -857,13 +976,7 @@ window.__pendingDeepLink=null;
   function _attachCompareFade(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.addEventListener('scroll',_updateSidebarBlur); }
   function _updateSidebarBlur(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.classList.toggle('scrolled', w.scrollTop>2); }
   function doShare(){ const dev=getDev(currentIdx); if(!dev) return; const title=dev.model||'Concept chipset'; const text=[dev.brand,dev.model].filter(Boolean).join(' ')||title; shareItem(title,text); }
-  async function init(){
-    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; }
-    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; DATA=[]; }
-    DATA.forEach(d=>{ d._id=slugify((d.brand||'')+'-'+(d.model||'')); });
-    populateBrands(); filterAndSort(); _showLabels();
-    if(window.__pendingDeepLink && window.__pendingDeepLink.page===PAGE_KEY && window.__pendingDeepLink.item) showDetails(window.__pendingDeepLink.item);
-  }
+  async function init(){ try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; } catch(e){ console.error('Could not load '+DATA_URL,e); loadFailed=true; DATA=[]; } DATA.forEach(d=>{ d._id=slugify((d.brand||'')+'-'+(d.model||'')); }); populateBrands(); filterAndSort(); _showLabels(); if(window.__pendingDeepLink && window.__pendingDeepLink.page===PAGE_KEY && window.__pendingDeepLink.item) showDetails(window.__pendingDeepLink.item); }
   window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,doShare,CARD_SVG,MINI_SVG,SLOT_SVG};
   init();
 })();
@@ -874,33 +987,27 @@ window.__pendingDeepLink=null;
   const CARD_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="32" cy="28" r="16"/><circle cx="32" cy="28" r="7"/><rect x="24" y="48" width="16" height="6" rx="1"/></svg>';
   const MINI_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="2"><circle cx="32" cy="30" r="16"/></svg>';
   const SLOT_SVG='<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="16" y1="6" x2="16" y2="26"/><line x1="6" y1="16" x2="26" y2="16"/></svg>';
-  const SECTIONS=[
-    ['Overview',[['announced','Announced']]],
-    ['Sensor Specifications',[['resolution','Resolution'],['format','Optical Format'],['pixel_size','Pixel Size'],['bit_depth','Bit Depth']]],
-    ['Features',[['features','Features']]],
-    ['Video Capabilities',[['video','Video']]]
-  ];
+  const SECTIONS=[['Overview',[['announced','Announced']]],['Sensor Specifications',[['resolution','Resolution'],['format','Optical Format'],['pixel_size','Pixel Size'],['bit_depth','Bit Depth']]],['Features',[['features','Features']]],['Video Capabilities',[['video','Video']]]];
+  const NUMERIC_DIRECTION={resolution:'higher',bit_depth:'higher'};
+  function extractNum(key,text){ if(!text||text==='—') return null; const m=String(text).match(/([\d.]+)/); return m?parseFloat(m[1]):null; }
   function dash(v){ return (v===undefined||v===null||v===''||(Array.isArray(v)&&v.length===0))?'—':v; }
   function quickFields(dev){ return [['Resolution',dash(dev.resolution)],['Format',dash(dev.format)],['Pixel Size',dash(dev.pixel_size)],['Bit Depth',dash(dev.bit_depth)]]; }
   let DATA=[], loadFailed=false;
-  let compareSlots=[null,null,null],currentIdx=null,diffMode=false,brandVal='all',sortVal='newest',_labelTimer=null;
+  let compareSlots=[null,null,null],currentIdx=null,diffMode=true,brandVal='all',sortVal='newest',_labelTimer=null;
   function $(x){ return document.getElementById(PREFIX+x); }
   function slugify(s){ return (s||'').toString().toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')||'item'; }
   function getDev(id){ return DATA.find(d=>d._id===id)||null; }
   function getRaw(dev,key){ if(!dev) return '—'; let v=dev[key]; if(v===undefined||v===null||v==='') return '—'; if(Array.isArray(v)){ if(!v.length) return '—'; return v.join(', '); } return v; }
-  function getRawVal(slotIdx,key){ return getRaw(getDev(compareSlots[slotIdx]),key); }
-  function getTokens(val){ return String(val).replace(/<[^>]*>/g,'').trim().toLowerCase(); }
-  function getRowTokens(key){ return compareSlots.map((id,i)=>id?getTokens(getRawVal(i,key)):null).filter(v=>v!==null); }
   function populateBrands(){ const menu=$('brandMenu'); const brands=Array.from(new Set(DATA.map(d=>d.brand).filter(Boolean))).sort(); let html=`<div class="csel-opt selected" data-val="all" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','all','All Brands',this)">All Brands</div>`; brands.forEach(b=>{ html+=`<div class="csel-opt" data-val="${b}" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','${b}','${b}',this)">${b}</div>`; }); menu.innerHTML=html; }
   function filterAndSort(){ const q=($('searchInput').value||'').toLowerCase().trim(); let list=DATA.filter(d=>{ const ms=!q||(d.model||'').toLowerCase().includes(q)||(d.brand||'').toLowerCase().includes(q); const mb=brandVal==='all'||d.brand===brandVal; return ms&&mb; }); if(sortVal==='az') list.sort((a,b)=>(a.model||'').localeCompare(b.model||'')); else if(sortVal==='za') list.sort((a,b)=>(b.model||'').localeCompare(a.model||'')); renderGallery(list); }
   function cardHTML(dev){ const img=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div>${label}<strong>${value}</strong></div>`; }); return `<div class="card" onclick="${NS_NAME}.showDetails('${dev._id}')"><div class="card-img">${img}</div><div class="card-body"><div class="card-brand">${dash(dev.brand)}</div><div class="card-model">${dash(dev.model)}</div><div class="card-quick">${quick}</div></div></div>`; }
-  function renderGallery(list){ const grid=$('galleryGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page and you're viewing this over http(s), not a local file:// path.</div>`; return; } grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
+  function renderGallery(list){ const grid=$('galleryGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page.</div>`; return; } grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
   function showDetails(devId){ const dev=getDev(devId); if(!dev) return; currentIdx=devId; $('gallery-view').style.display='none'; $('detail-view').style.display='block'; $('d_brand').textContent=dash(dev.brand); $('d_model').textContent=dash(dev.model); $('d_tagline').textContent=''; $('d_img_wrap').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div class="dq-item"><span>${label}</span><strong>${value}</strong></div>`; }); $('d_quick').innerHTML=quick; renderSpecList(dev); renderSimilar(dev); renderPics(dev); setTab('specs'); window.scrollTo(0,0); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY+'/'+devId); }
   function renderSpecList(dev){ let html=''; SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(([key,label])=>{ html+=`<div class="spec-row"><span class="spec-label">${label}</span><span class="spec-value">${getRaw(dev,key)}</span></div>`; }); }); $('specList').innerHTML=html; }
   function renderSimilar(dev){ $('similarGrid').innerHTML=DATA.filter(d=>d._id!==dev._id).slice(0,3).map(cardHTML).join(''); }
   function renderPics(dev){ const imgs=[dev.image,...(dev.gallery||[])].filter(Boolean); $('picsView').innerHTML=imgs.length?imgs.map(src=>`<img src="${src}" style="max-width:240px;max-height:240px;object-fit:contain;border-radius:12px;margin:6px" onerror="this.style.display='none'">`).join(''):`<div style="width:160px;height:160px">${CARD_SVG}</div>`; }
   function goHome(){ $('detail-view').style.display='none'; $('gallery-view').style.display='block'; currentIdx=null; filterAndSort(); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY); }
-  function setTab(name){ ['specs','pics','compare'].forEach(t=>{ $('btn-'+t).classList.toggle('active',t===name); $('tab-'+t).style.display=(t===name)?'block':'none'; }); if(name==='compare') renderCompare(); }
+  function setTab(name){ ['specs','pics','compare'].forEach(t=>{ $('btn-'+t).classList.toggle('active',t===name); $('tab-'+t).style.display=(t===name)?'block':'none'; }); if(name==='compare'){ if(currentIdx && !compareSlots.includes(currentIdx)){ if(compareSlots[0]===null) compareSlots[0]=currentIdx; else { const e=compareSlots.indexOf(null); if(e!==-1) compareSlots[e]=currentIdx; } updateCompareBadge(); } renderCompare(); } }
   function openCompare(){ const hostId=compareSlots.find(Boolean)||(DATA[0]&&DATA[0]._id); if(!hostId) return; showDetails(hostId); setTab('compare'); }
   function updateCompareBadge(){ const n=compareSlots.filter(Boolean).length; const badge=$('compareBadge'); if(!badge) return; badge.textContent=n; badge.style.display=n>0?'flex':'none'; }
   function addSlot(devId){ if(compareSlots.includes(devId)) return; const empty=compareSlots.indexOf(null); compareSlots[empty!==-1?empty:compareSlots.length-1]=devId; updateCompareBadge(); if($('tab-compare').style.display!=='none') renderCompare(); }
@@ -909,8 +1016,30 @@ window.__pendingDeepLink=null;
   function searchSlot(i){ const val=document.getElementById(PREFIX+'slotSearch'+i).value.toLowerCase().trim(); const box=document.getElementById(PREFIX+'slotResults'+i); if(!val){ box.innerHTML=''; box.style.display='none'; return; } const matches=DATA.filter(d=>!compareSlots.includes(d._id)&&((d.model||'').toLowerCase().includes(val)||(d.brand||'').toLowerCase().includes(val))).slice(0,6); box.innerHTML=matches.length?matches.map(d=>`<div onclick="${NS_NAME}.setSlot(${i},'${d._id}')">${dash(d.brand)} ${dash(d.model)}</div>`).join(''):'<div style="color:var(--ts)">No matches</div>'; box.style.display='block'; }
   function renderCompare(){
     const area=$('compareArea'); const filled=compareSlots.filter(Boolean).length;
-    const headCells=compareSlots.map((id,i)=>{ const dev=getDev(id); if(dev) return `<td><div class="slot-card"><div class="slot-img">${MINI_SVG}</div><div class="slot-name">${dash(dev.model)}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`; }).join('');
-    let rows=''; SECTIONS.forEach(([section,fields])=>{ rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`; fields.forEach(([key,label])=>{ const rowDiffers=diffMode&&filled>1&&new Set(getRowTokens(key)).size>1; rows+=`<tr><th>${label}</th>${compareSlots.map((id,i)=>`<td${(rowDiffers&&id)?' class="diff"':''}>${getRawVal(i,key)}</td>`).join('')}</tr>`; }); });
+    const headCells=compareSlots.map((id,i)=>{ const dev=getDev(id); if(dev){ const imgHtml=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.MINI_SVG">`:MINI_SVG; return `<td><div class="slot-card"><div class="slot-img">${imgHtml}</div><div class="slot-name">${dash(dev.model)}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; } return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`; }).join('');
+    let rows='';
+    SECTIONS.forEach(([section,fields])=>{
+      rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`;
+      fields.forEach(([key,label])=>{
+        let displays;
+        if(diffMode && filled>1){
+          const direction=NUMERIC_DIRECTION[key];
+          if(direction){
+            const raws=compareSlots.map(id=>id?getRaw(getDev(id),key):null);
+            const nums=raws.map((r,i)=>compareSlots[i]&&r?extractNum(key,r):null);
+            const present=nums.map((n,i)=>({n,i})).filter(o=>o.n!==null&&compareSlots[o.i]);
+            let best=null,worst=null; if(present.length>1){ const vals=present.map(o=>o.n); best=direction==='higher'?Math.max(...vals):Math.min(...vals); worst=direction==='higher'?Math.min(...vals):Math.max(...vals); }
+            displays=compareSlots.map((id,i)=>{ if(!id) return '—'; let text=raws[i]; if(best!==null&&best!==worst&&nums[i]!==null){ if(nums[i]===best) text=numColorize(text,true); else if(nums[i]===worst) text=numColorize(text,false); } return text; });
+          } else {
+            const filledIdx=compareSlots.map((id,i)=>id?i:null).filter(i=>i!==null);
+            const texts=filledIdx.map(i=>String(getRaw(getDev(compareSlots[i]),key)));
+            const hl=wordDiffHighlight(texts);
+            displays=compareSlots.map((id,i)=>{ if(!id) return '—'; return hl[filledIdx.indexOf(i)]; });
+          }
+        } else { displays=compareSlots.map((id,i)=> id? getRaw(getDev(id),key) : '—'); }
+        rows+=`<tr><th>${label}</th>${displays.map(d=>`<td>${d}</td>`).join('')}</tr>`;
+      });
+    });
     area.innerHTML=`<div class="compare-actions"><label class="diff-toggle"><input type="checkbox" ${diffMode?'checked':''} onchange="${NS_NAME}.toggleDiffMode()"> Highlight differences</label></div><div class="compare-wrapper" id="${PREFIX}compareWrapper"><table class="compare-table" id="${PREFIX}compareTable"><thead><tr><th></th>${headCells}</tr></thead><tbody>${rows}</tbody></table></div>`;
     _attachCompareFade(); _updateSidebarBlur();
   }
@@ -921,13 +1050,7 @@ window.__pendingDeepLink=null;
   function _attachCompareFade(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.addEventListener('scroll',_updateSidebarBlur); }
   function _updateSidebarBlur(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.classList.toggle('scrolled', w.scrollTop>2); }
   function doShare(){ const dev=getDev(currentIdx); if(!dev) return; const title=dev.model||'Concept sensor'; const text=[dev.brand,dev.model].filter(Boolean).join(' ')||title; shareItem(title,text); }
-  async function init(){
-    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; }
-    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; DATA=[]; }
-    DATA.forEach(d=>{ d._id=slugify((d.brand||'')+'-'+(d.model||'')); });
-    populateBrands(); filterAndSort(); _showLabels();
-    if(window.__pendingDeepLink && window.__pendingDeepLink.page===PAGE_KEY && window.__pendingDeepLink.item) showDetails(window.__pendingDeepLink.item);
-  }
+  async function init(){ try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; } catch(e){ console.error('Could not load '+DATA_URL,e); loadFailed=true; DATA=[]; } DATA.forEach(d=>{ d._id=slugify((d.brand||'')+'-'+(d.model||'')); }); populateBrands(); filterAndSort(); _showLabels(); if(window.__pendingDeepLink && window.__pendingDeepLink.page===PAGE_KEY && window.__pendingDeepLink.item) showDetails(window.__pendingDeepLink.item); }
   window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,doShare,CARD_SVG,MINI_SVG,SLOT_SVG};
   init();
 })();
@@ -941,26 +1064,12 @@ window.__pendingDeepLink=null;
   function slugify(s){ return (s||'').toString().toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')||'article'; }
   function readTime(text){ const words=(text||'').trim().split(/\s+/).filter(Boolean).length; return Math.max(1,Math.round(words/225))+' min read'; }
   function getArt(id){ return DATA.find(a=>a._id===id)||null; }
-  function cardHTML(a){ return `<div class="news-card" onclick="${NS_NAME}.showArticle('${a._id}')"><div class="news-title">${dash(a.title)}</div><div class="news-excerpt">${dash(a.summary)}</div><div class="news-meta">${dash(a.date)}${a.author?' · '+a.author:''} · ${readTime(a.content)}</div></div>`; }
+  function cardHTML(a){ const img=a.image?`<img class="news-img" src="${a.image}" onerror="this.style.display='none'">`:''; return `<div class="news-card" onclick="${NS_NAME}.showArticle('${a._id}')">${img}<div class="news-card-body"><div class="news-title">${dash(a.title)}</div><div class="news-excerpt">${dash(a.summary)}</div><div class="news-meta">${dash(a.date)}${a.author?' · '+a.author:''} · ${readTime(a.content)}</div></div></div>`; }
   function renderList(){ const grid=$('newsGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page.</div>`; return; } grid.innerHTML=DATA.length?DATA.map(cardHTML).join(''):'<div class="empty-state">No articles yet.</div>'; }
-  function showArticle(id){
-    const a=getArt(id); if(!a) return; currentId=id;
-    $('list-view').style.display='none'; $('article-view').style.display='block';
-    $('a_title').textContent=dash(a.title);
-    $('a_meta').textContent=[dash(a.date),a.author,readTime(a.content)].filter(Boolean).join(' · ');
-    $('a_body').innerHTML=(a.image?`<img src="${a.image}" style="width:100%;max-height:360px;object-fit:cover;border-radius:16px;margin-bottom:20px" onerror="this.style.display='none'">`:'')+(a.content?a.content.split(/\n\n+/).map(p=>`<p>${p}</p>`).join(''):'');
-    window.scrollTo(0,0);
-    history.replaceState(null,'',location.pathname+'#'+PAGE_KEY+'/'+id);
-  }
+  function showArticle(id){ const a=getArt(id); if(!a) return; currentId=id; $('list-view').style.display='none'; $('article-view').style.display='block'; $('a_title').textContent=dash(a.title); $('a_meta').textContent=[dash(a.date),a.author,readTime(a.content)].filter(Boolean).join(' · '); $('a_body').innerHTML=(a.image?`<img src="${a.image}" style="width:100%;max-height:360px;object-fit:cover;border-radius:16px;margin-bottom:20px" onerror="this.style.display='none'">`:'')+(a.content?a.content.split(/\n\n+/).map(p=>`<p>${p}</p>`).join(''):''); window.scrollTo(0,0); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY+'/'+id); }
   function goHome(){ $('article-view').style.display='none'; $('list-view').style.display='block'; currentId=null; history.replaceState(null,'',location.pathname+'#'+PAGE_KEY); }
   function doShare(){ const a=getArt(currentId); if(!a) return; shareItem(a.title||'ConceptHarmony News', a.summary||a.title||''); }
-  async function init(){
-    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; }
-    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; DATA=[]; }
-    DATA.forEach(a=>{ a._id=slugify(a.title); });
-    renderList();
-    if(window.__pendingDeepLink && window.__pendingDeepLink.page===PAGE_KEY && window.__pendingDeepLink.item) showArticle(window.__pendingDeepLink.item);
-  }
+  async function init(){ try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; } catch(e){ console.error('Could not load '+DATA_URL,e); loadFailed=true; DATA=[]; } DATA.forEach(a=>{ a._id=slugify(a.title); }); renderList(); if(window.__pendingDeepLink && window.__pendingDeepLink.page===PAGE_KEY && window.__pendingDeepLink.item) showArticle(window.__pendingDeepLink.item); }
   window[NS_NAME]={showArticle,goHome,doShare};
   init();
 })();
@@ -968,47 +1077,108 @@ window.__pendingDeepLink=null;
 <script>
 (function(){
   const NS_NAME='SUB';
-  let selectedImageName='', camModuleCount=0;
+  const MONTH_NAMES=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const CAM_TYPES=['Wide','Periscope Telephoto','Telephoto','Ultrawide','Macro','Monochrome Module','Other'];
+  const VIDEO_RES=['720p','1080p','4K','8K'];
+  const VIDEO_FPS={'720p':[24,25,30,60,120,240,'480+'],'1080p':[24,25,30,60,120,240,'480+'],'4K':[24,25,30,60,120],'8K':[24,25,30]};
+  const RAM_PRESETS=['128MB','256MB','512MB','1GB','2GB','3GB','4GB','6GB','8GB','10GB','11GB','12GB','16GB','18GB','20GB','24GB','28GB','32GB'];
+  const STORAGE_PRESETS=['8GB','16GB','32GB','64GB','128GB','256GB','512GB','1TB','2TB','4TB'];
+  let selectedImageName='', galleryNames=[], selectedRam=new Set(), selectedStorage=new Set(), dynCount=0;
+
+  function val(id){ const el=document.getElementById(id); return el?(el.value||'').trim():''; }
+  function csv(id){ return val(id).split(',').map(s=>s.trim()).filter(Boolean); }
+  function capFirst(s){ return s ? s.charAt(0).toUpperCase()+s.slice(1) : s; }
+  function capitalizeField(input){ const pos=input.selectionStart; input.value=input.value.split(',').map(p=>{ const lead=p.match(/^\s*/)[0]; return lead+capFirst(p.slice(lead.length)); }).join(','); try{ input.setSelectionRange(pos,pos); }catch(e){} }
+  function omitEmpty(obj){ const out={}; Object.keys(obj).forEach(k=>{ const v=obj[k]; if(v===''||v===undefined||v===null) return; if(Array.isArray(v)&&v.length===0) return; out[k]=v; }); return out; }
+  function formatDate(iso){ if(!iso) return ''; const p=iso.split('-'); if(p.length!==3) return ''; const y=parseInt(p[0]),m=parseInt(p[1]),d=parseInt(p[2]); if(!y||!m||!d) return ''; return `${MONTH_NAMES[m-1]} ${d}, ${y}`; }
+
   function fselToggle(wrapId){ const el=document.getElementById(wrapId); const wasOpen=el.classList.contains('open'); document.querySelectorAll('.csel.open, .fsel.open').forEach(o=>o.classList.remove('open')); if(!wasOpen) el.classList.add('open'); }
   function fselPick(realSelectId,labelId,val,labelText,el,cbStr){ document.getElementById(realSelectId).value=val; document.getElementById(labelId).textContent=labelText; el.parentElement.querySelectorAll('.fsel-opt').forEach(o=>o.classList.remove('selected')); el.classList.add('selected'); el.closest('.fsel').classList.remove('open'); if(cbStr){ eval(cbStr); } }
   function handleTypeChange(){ const m=document.getElementById('sub-typeReal').value; document.getElementById('page-submit').setAttribute('data-mode',m); }
-  function handleImageSelect(input){
-    const file=input.files && input.files[0];
-    const nameBox=document.getElementById('sub-imagePreviewName');
-    const previewImg=document.getElementById('sub-imagePreviewImg');
-    if(!file){ selectedImageName=''; nameBox.textContent=''; previewImg.style.display='none'; return; }
-    selectedImageName='images/'+file.name;
-    nameBox.textContent='Will reference: '+selectedImageName+' — place this exact file in an images/ folder next to the JSON.';
-    previewImg.src=URL.createObjectURL(file);
-    previewImg.style.display='block';
+
+  function handleImageSelect(input){ const file=input.files&&input.files[0]; const label=document.getElementById('sub-imageFileLabel'); const preview=document.getElementById('sub-imagePreviewImg'); if(!file){ selectedImageName=''; label.textContent='Choose image file...'; preview.style.display='none'; return; } selectedImageName='images/'+file.name; label.textContent=file.name; preview.src=URL.createObjectURL(file); preview.style.display='block'; }
+  function handleGallerySelect(input){ const files=Array.from(input.files||[]); galleryNames=files.map(f=>'images/'+f.name); document.getElementById('sub-galleryFilesLabel').textContent=files.length?files.length+' image(s) selected':'Choose gallery images...'; document.getElementById('sub-galleryPreview').innerHTML=files.map(f=>`<img src="${URL.createObjectURL(f)}">`).join(''); }
+
+  function addIpRating(){
+    const id='ip'+(dynCount++);
+    const dustOpts=[0,1,2,3,4,5,6].map(d=>`<option value="${d}">${d}</option>`).join('');
+    const waterOpts=[0,1,2,3,4,5,6,7,8,9].map(w=>`<option value="${w}">${w}</option>`).join('');
+    const div=document.createElement('div'); div.className='dyn-card'; div.id=id; div.style.padding='10px 14px';
+    div.innerHTML=`<div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;color:var(--ts)">IP</span><select class="native-select ip-dust" style="width:auto">${dustOpts}</select><select class="native-select ip-water" style="width:auto">${waterOpts}</select><button type="button" class="dyn-remove" onclick="document.getElementById('${id}').remove()" style="margin-left:auto">Remove</button></div>`;
+    document.getElementById('sub-ipRatings').appendChild(div);
   }
-  function addCamModule(label,specs){
-    const id='cm'+(camModuleCount++);
-    const row=document.createElement('div'); row.className='cam-module-row'; row.id=id;
-    row.innerHTML=`<input type="text" placeholder="Label (e.g. Wide)" value="${label||''}" class="cm-label"><input type="text" placeholder="Specs (e.g. 64MP, f/1.7, 24mm, PDAF, OIS)" value="${specs||''}" class="cm-specs"><button type="button" class="slot-remove" onclick="document.getElementById('${id}').remove()">✕</button>`;
-    document.getElementById('sub-camModules').appendChild(row);
+  function collectIpRatings(){ return Array.from(document.querySelectorAll('#sub-ipRatings .dyn-card')).map(card=>`IP${card.querySelector('.ip-dust').value}${card.querySelector('.ip-water').value}`).join(', '); }
+
+  function addSecondaryDisplay(){ document.getElementById('sub-secondaryDisplayBlock').style.display='block'; document.getElementById('sub-addSecondaryBtn').style.display='none'; }
+  function removeSecondaryDisplay(){ document.getElementById('sub-secondaryDisplayBlock').style.display='none'; document.getElementById('sub-addSecondaryBtn').style.display='block'; ['sub-secType','sub-secHz','sub-secSize','sub-secNits','sub-secResW','sub-secResH'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; }); }
+  function buildScreen(){ const type=val('sub-screenType'),hz=val('sub-screenHz'),size=val('sub-screenSize'),nits=val('sub-screenNits'); const parts=[]; if(type) parts.push(type); if(hz) parts.push(hz+'Hz'); if(size) parts.push(size+'"'); if(nits) parts.push(nits+' nits'); return parts.join(', '); }
+  function buildResolution(){ const w=val('sub-resW'),h=val('sub-resH'); return (w&&h)?`${w} × ${h} pixels`:''; }
+  function buildSecondaryScreen(){ if(document.getElementById('sub-secondaryDisplayBlock').style.display!=='block') return ''; const type=val('sub-secType'),hz=val('sub-secHz'),size=val('sub-secSize'),nits=val('sub-secNits'),w=val('sub-secResW'),h=val('sub-secResH'); const parts=[]; if(type) parts.push(type); if(hz) parts.push(hz+'Hz'); if(size) parts.push(size+'"'); if(nits) parts.push(nits+' nits'); if(w&&h) parts.push(`${w} × ${h}`); return parts.join(', '); }
+
+  function camModuleRowHTML(id){ const typeOpts=CAM_TYPES.map(t=>`<option value="${t}">${t}</option>`).join(''); return `<div class="dyn-card" id="${id}"><div class="dyn-card-head"><span>Camera Module</span><button type="button" class="dyn-remove" onclick="document.getElementById('${id}').remove()">Remove</button></div><div class="form-field"><label>Type</label><select class="native-select cm-type" onchange="SUB.updateCamModuleVisibility('${id}')">${typeOpts}</select></div><div class="form-field cm-other" style="display:none"><label>Custom Type</label><input type="text" class="cm-othertype" placeholder="e.g. Depth sensor" oninput="SUB.capitalizeField(this)"></div><div class="form-grid-3"><div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">MP</label><input type="number" class="cm-mp" placeholder="64"></div><div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">Aperture (f/)</label><input type="number" class="cm-ap" placeholder="1.70" step="0.01"></div><div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">Focal (mm)</label><input type="number" class="cm-focal" placeholder="24"></div></div><div class="form-grid-2 cm-degrees-wrap" style="display:none;margin-top:10px"><div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">Field of View (°)</label><input type="number" class="cm-degrees" placeholder="120"></div></div><div class="form-grid-2" style="margin-top:10px"><div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">Sensor Size (1/x")</label><input type="number" class="cm-sensor" placeholder="1.56" step="0.001"></div><div class="cm-zoom-wrap" style="display:none"><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">Optical Zoom (x)</label><input type="number" class="cm-zoom" placeholder="5.0" step="0.1"></div></div><div class="form-field" style="margin-top:10px"><label>Stabilization / Features</label><input type="text" class="cm-stab" placeholder="e.g. Dual-pixel PDAF, Sensor-shift OIS"></div></div>`; }
+  function addCamModule(){ const id='cm'+(dynCount++); const div=document.createElement('div'); div.innerHTML=camModuleRowHTML(id); document.getElementById('sub-camModules').appendChild(div.firstElementChild); }
+  function updateCamModuleVisibility(id){ const card=document.getElementById(id); const type=card.querySelector('.cm-type').value; card.querySelector('.cm-other').style.display=type==='Other'?'block':'none'; card.querySelector('.cm-degrees-wrap').style.display=type==='Ultrawide'?'block':'none'; card.querySelector('.cm-zoom-wrap').style.display=(type==='Telephoto'||type==='Periscope Telephoto')?'block':'none'; }
+  function formatSensorSize(x){ if(!x) return ''; const n=parseFloat(x); if(n===1) return '1"-type'; return `1/${x}"`; }
+  function collectCamModules(){
+    return Array.from(document.querySelectorAll('#sub-camModules .dyn-card')).map(card=>{
+      const type=card.querySelector('.cm-type').value;
+      const label=type==='Other'?capFirst(card.querySelector('.cm-othertype').value.trim()):type;
+      const mp=card.querySelector('.cm-mp').value, ap=card.querySelector('.cm-ap').value, focal=card.querySelector('.cm-focal').value;
+      const degrees=card.querySelector('.cm-degrees')?card.querySelector('.cm-degrees').value:'';
+      const sensor=card.querySelector('.cm-sensor').value, stab=card.querySelector('.cm-stab').value.trim();
+      const zoom=card.querySelector('.cm-zoom')?card.querySelector('.cm-zoom').value:'';
+      const parts=[];
+      if(mp) parts.push(mp+'MP'); if(ap) parts.push('f/'+ap); if(focal) parts.push(focal+'mm');
+      if(degrees && type==='Ultrawide') parts.push(degrees+'°');
+      if(sensor) parts.push(formatSensorSize(sensor));
+      if(stab) parts.push(stab);
+      if(zoom && (type==='Telephoto'||type==='Periscope Telephoto')) parts.push(zoom+'x optical zoom');
+      return {label,specs:parts.join(', ')};
+    }).filter(m=>m.label&&m.specs);
   }
-  function collectCamModules(){ return Array.from(document.querySelectorAll('#sub-camModules .cam-module-row')).map(row=>({label:row.querySelector('.cm-label').value.trim(),specs:row.querySelector('.cm-specs').value.trim()})).filter(m=>m.label||m.specs); }
-  function val(id){ const el=document.getElementById(id); return el?(el.value||'').trim():''; }
-  function csv(id){ return val(id).split(',').map(s=>s.trim()).filter(Boolean); }
-  function omitEmpty(obj){ const out={}; Object.keys(obj).forEach(k=>{ const v=obj[k]; if(v===''||v===undefined||v===null) return; if(Array.isArray(v)&&v.length===0) return; out[k]=v; }); return out; }
+  function buildSelfie(){
+    const mp=val('sub-selfieMp'),ap=val('sub-selfieAp'),focal=val('sub-selfieFocal'),sensor=val('sub-selfieSensor'),stab=val('sub-selfieStab');
+    const parts=[]; if(mp) parts.push(mp+'MP'); if(ap) parts.push('f/'+ap); if(focal) parts.push(focal+'mm'); if(sensor) parts.push(formatSensorSize(sensor)); if(stab) parts.push(stab);
+    return parts.join(', ');
+  }
+
+  function videoModeRowHTML(id){ const resOpts=VIDEO_RES.map(r=>`<option value="${r}">${r}</option>`).join(''); return `<div class="dyn-card" id="${id}"><div class="dyn-card-head"><span>Video Mode</span><button type="button" class="dyn-remove" onclick="document.getElementById('${id}').remove()">Remove</button></div><div class="form-grid-2"><div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">Resolution</label><select class="native-select vm-res" onchange="SUB.updateVideoFps('${id}')">${resOpts}</select></div><div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">Frame Rate</label><select class="native-select vm-fps"></select></div></div></div>`; }
+  function updateVideoFps(id){ const card=document.getElementById(id); const res=card.querySelector('.vm-res').value; card.querySelector('.vm-fps').innerHTML=VIDEO_FPS[res].map(f=>`<option value="${f}">${f}</option>`).join(''); }
+  function addVideoMode(){ const id='vm'+(dynCount++); const div=document.createElement('div'); div.innerHTML=videoModeRowHTML(id); document.getElementById('sub-videoModes').appendChild(div.firstElementChild); updateVideoFps(id); }
+  function collectVideoModes(){ return Array.from(document.querySelectorAll('#sub-videoModes .dyn-card')).map(card=>`${card.querySelector('.vm-res').value}@${card.querySelector('.vm-fps').value}fps`); }
+
+  function renderPresets(){ document.getElementById('sub-ramContainer').innerHTML=RAM_PRESETS.map(v=>`<button type="button" class="opt-btn" onclick="SUB.toggleOpt(this,'ram','${v}')">${v}</button>`).join(''); document.getElementById('sub-storageContainer').innerHTML=STORAGE_PRESETS.map(v=>`<button type="button" class="opt-btn" onclick="SUB.toggleOpt(this,'storage','${v}')">${v}</button>`).join(''); }
+  function toggleOpt(el,group,v){ el.classList.toggle('selected'); const set=group==='ram'?selectedRam:selectedStorage; if(el.classList.contains('selected')) set.add(v); else set.delete(v); }
+  function buildBattery(unit){ const type=document.getElementById('sub-battType').value; const sic=document.getElementById('sub-battSic').value; const cap=val('sub-battCap'); if(!cap) return ''; return `${type}${sic==='yes'?' SiC':''} ${cap} ${unit}`; }
+
   const TARGET_FILE={device:'phones.json',tablet:'phones.json',watch:'phones.json',laptop:'laptops.json',soc:'chips.json',sensor:'sensors.json'};
   const TYPE_LABEL={device:'Phone',tablet:'Tablet',watch:'Watch',laptop:'Laptop',soc:'SoC',sensor:'Sensor'};
+
   function buildEntry(){
     const type=document.getElementById('sub-typeReal').value;
     const status=document.getElementById('sub-statusReal').value;
-    const common={ brand:val('sub-brand'), model:val('sub-model'), announced:val('sub-announced'), type:TYPE_LABEL[type], image:selectedImageName };
+    const common={ brand:val('sub-brand'), model:val('sub-model'), announced:formatDate(val('sub-announced')), type:TYPE_LABEL[type], image:selectedImageName, gallery:galleryNames.slice() };
     if(type==='laptop'){
-      return omitEmpty(Object.assign({},common,{ status, released:val('sub-released'), colors:val('sub-colors'), dimensions:val('sub-lapDimensions'), weight:val('sub-lapWeight'), build:val('sub-lapBuild'), screen:val('sub-lapScreen'), resolution:val('sub-lapResolution'), chipset:val('sub-lapChipset'), gpu:val('sub-lapGpu'), os:val('sub-lapOs'), ram:val('sub-lapRam'), storage:val('sub-lapStorage'), ports:val('sub-lapPorts'), wifi:val('sub-lapWifi'), bluetooth:val('sub-lapBt'), battery:val('sub-lapBattery'), charging:val('sub-lapCharging'), geek_s:val('sub-geekS'), geek_m:val('sub-geekM'), cinebench:val('sub-cinebench'), price:val('sub-price'), price_eur:val('sub-priceEur') }));
+      return omitEmpty(Object.assign({},common,{ status, released:formatDate(val('sub-released')), dimensions:(val('sub-dimH')&&val('sub-dimW')&&val('sub-dimD'))?`${val('sub-dimH')} x ${val('sub-dimW')} x ${val('sub-dimD')} mm`:'', weight:val('sub-weight')?val('sub-weight')+'g':'', build:val('sub-lapBuild'), screen:buildScreen(), resolution:buildResolution(), chipset:val('sub-lapChipset'), gpu:val('sub-lapGpu'), os:val('sub-lapOs'), ram:Array.from(selectedRam).join(' / '), storage:Array.from(selectedStorage).join(' / '), ports:val('sub-lapPorts'), wifi:val('sub-lapWifi'), bluetooth:val('sub-lapBt'), battery:buildBattery('Wh'), geek_s:val('sub-geekS'), geek_m:val('sub-geekM'), cinebench:val('sub-cinebench'), price:val('sub-price'), price_eur:val('sub-priceEur') }));
     }
     if(type==='soc'){
-      return omitEmpty(Object.assign({},common,{ colors:val('sub-colors'), process:val('sub-socProcess'), open_use:val('sub-socOpenUse'), cpu_cores:val('sub-socCpu'), gpu_model:val('sub-socGpuModel'), gpu_clock:val('sub-socGpuClock'), npu:val('sub-socNpu'), isp:val('sub-socIsp'), modem:val('sub-socModem'), geek_s:val('sub-geekS'), geek_m:val('sub-geekM'), antutu:val('sub-antutu'), price:val('sub-price'), price_eur:val('sub-priceEur') }));
+      return omitEmpty(Object.assign({},common,{ process:val('sub-socProcess'), open_use:val('sub-socOpenUse'), cpu_cores:val('sub-socCpu'), gpu_model:val('sub-socGpuModel'), gpu_clock:val('sub-socGpuClock')?val('sub-socGpuClock')+'MHz':'', npu:val('sub-socNpu'), isp:val('sub-socIsp'), modem:val('sub-socModem'), geek_s:val('sub-geekS'), geek_m:val('sub-geekM'), antutu:val('sub-antutu'), price:val('sub-price'), price_eur:val('sub-priceEur') }));
     }
     if(type==='sensor'){
-      return omitEmpty({ brand:common.brand, model:common.model, announced:common.announced, type:common.type, resolution:val('sub-senResolution'), format:val('sub-senFormat'), pixel_size:val('sub-senPixel'), bit_depth:val('sub-senBitDepth'), features:csv('sub-senFeatures'), video:val('sub-senVideo') });
+      return omitEmpty({ brand:common.brand, model:common.model, announced:common.announced, type:common.type, image:common.image, resolution:val('sub-senResolution'), format:val('sub-senFormat'), pixel_size:val('sub-senPixel'), bit_depth:val('sub-senBitDepth'), features:csv('sub-senFeatures'), video:val('sub-senVideo') });
     }
-    return omitEmpty(Object.assign({},common,{ status, released:val('sub-released'), colors:val('sub-colors'), dimensions:val('sub-dimensions'), weight:val('sub-weight'), build:val('sub-build'), ip_rating:val('sub-ip'), screen:val('sub-screen'), resolution:val('sub-resolution'), second_screen:val('sub-secondscreen'), chipset:val('sub-chipset'), os:val('sub-os'), ram:val('sub-ram'), storage:val('sub-storage'), camera_modules:collectCamModules(), camera_features:csv('sub-camfeatures'), cam_selfie:val('sub-camselfie'), cam_video:val('sub-camvideo'), sensors:csv('sub-sensors'), battery:val('sub-battery'), charging:val('sub-charging'), geek_s:val('sub-geekS'), geek_m:val('sub-geekM'), antutu:val('sub-antutu'), price:val('sub-price'), price_eur:val('sub-priceEur') }));
+    return omitEmpty(Object.assign({},common,{
+      status, released:formatDate(val('sub-released')),
+      dimensions:(val('sub-dimH')&&val('sub-dimW')&&val('sub-dimD'))?`${val('sub-dimH')} x ${val('sub-dimW')} x ${val('sub-dimD')} mm`:'',
+      weight:val('sub-weight')?val('sub-weight')+'g':'', build:val('sub-build'), ip_rating:collectIpRatings(),
+      screen:buildScreen(), resolution:buildResolution(), second_screen:buildSecondaryScreen(),
+      chipset:val('sub-chipset'), os:val('sub-os'), ram:Array.from(selectedRam).join(' / '), storage:Array.from(selectedStorage).join(' / '),
+      camera_modules:collectCamModules(), camera_features:csv('sub-camfeatures'), cam_selfie:buildSelfie(), cam_video:collectVideoModes(),
+      sensors:csv('sub-sensors'), battery:buildBattery('mAh'), charging:val('sub-charging'),
+      geek_s:val('sub-geekS'), geek_m:val('sub-geekM'), antutu:val('sub-antutu'), price:val('sub-price'), price_eur:val('sub-priceEur')
+    }));
   }
+
   function submitForm(){
     const model=val('sub-model'), brand=val('sub-brand');
     const box=document.getElementById('sub-formSuccess');
@@ -1016,13 +1186,14 @@ window.__pendingDeepLink=null;
     const type=document.getElementById('sub-typeReal').value;
     const json=JSON.stringify(buildEntry(),null,2);
     const targetFile=TARGET_FILE[type]||'phones.json';
-    box.innerHTML=`<div style="margin-bottom:10px">This site has no backend, so nothing saves automatically. Copy the object below into the array in <strong>${targetFile}</strong>.${selectedImageName?` Place the image file at <strong>${selectedImageName}</strong>.`:''}</div><div style="margin-bottom:10px"><button type="button" class="opt-btn" onclick="SUB.copyJSON()">Copy JSON</button></div><textarea id="sub-jsonOutput" readonly style="width:100%;min-height:260px;font-family:monospace;font-size:12px;padding:12px;border-radius:10px;border:none;background:var(--g);color:var(--tx)">${json.replace(/</g,'&lt;')}</textarea>`;
+    box.innerHTML=`<div style="margin-bottom:10px">Copy this into the array in <strong>${targetFile}</strong>, then send it to <strong>@spinach.tech</strong> on Discord.${selectedImageName?` Attach the image file <strong>${selectedImageName}</strong>.`:''}${galleryNames.length?` Attach the gallery files too: <strong>${galleryNames.join(', ')}</strong>.`:''}</div><div style="margin-bottom:10px"><button type="button" class="opt-btn" onclick="SUB.copyJSON()">Copy JSON</button></div><textarea id="sub-jsonOutput" readonly style="width:100%;min-height:260px;font-family:monospace;font-size:12px;padding:12px;border-radius:10px;border:none;background:var(--g);color:var(--tx)">${json.replace(/</g,'&lt;')}</textarea>`;
     box.classList.add('show');
     box.scrollIntoView({behavior:'smooth',block:'nearest'});
   }
   function copyJSON(){ const ta=document.getElementById('sub-jsonOutput'); if(!ta) return; ta.select(); if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(ta.value).then(()=>showToast('JSON copied')).catch(()=>document.execCommand('copy')); } else { document.execCommand('copy'); showToast('JSON copied'); } }
-  function init(){ document.getElementById('page-submit').setAttribute('data-mode','device'); addCamModule(); }
-  window[NS_NAME]={fselToggle,fselPick,handleTypeChange,handleImageSelect,addCamModule,submitForm,copyJSON};
+
+  function init(){ document.getElementById('page-submit').setAttribute('data-mode','device'); renderPresets(); addCamModule(); addVideoMode(); }
+  window[NS_NAME]={fselToggle,fselPick,handleTypeChange,handleImageSelect,handleGallerySelect,addIpRating,addSecondaryDisplay,removeSecondaryDisplay,addCamModule,updateCamModuleVisibility,addVideoMode,updateVideoFps,toggleOpt,capitalizeField,submitForm,copyJSON};
   init();
 })();
 </script>
@@ -1048,17 +1219,10 @@ window.__pendingDeepLink=null;
   function getRaw(dev,key){ if(!dev) return '—'; let v=dev[key]; if(v===undefined||v===null||v==='') return '—'; if(Array.isArray(v)){ if(!v.length) return '—'; if(key==='camera_modules') return v.map(m=>`<strong>${(m&&m.label)||'—'}:</strong> ${(m&&m.specs)||'—'}`).join('<br>'); return v.join(', '); } return v; }
   function avg(obj){ if(!obj) return null; const vals=Object.values(obj).filter(v=>typeof v==='number'); return vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):null; }
   function setTab(tab){ activeTab=tab; document.querySelectorAll('#rnk-tabs .tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab)); render(); }
-  function toggleSort(){
-    sortDesc=!sortDesc;
-    const span=$('sortLabel').querySelector('.sort-text');
-    span.classList.add('switching'); clearTimeout(_labelTimer);
-    _labelTimer=setTimeout(()=>{ span.textContent=sortDesc?'Highest first':'Lowest first'; span.classList.remove('switching'); },140);
-    $('sortIcon').style.transform=sortDesc?'none':'scaleY(-1)';
-    render();
-  }
+  function toggleSort(){ sortDesc=!sortDesc; const span=$('sortLabel').querySelector('.sort-text'); span.classList.add('switching'); clearTimeout(_labelTimer); _labelTimer=setTimeout(()=>{ span.textContent=sortDesc?'Highest first':'Lowest first'; span.classList.remove('switching'); },140); $('sortIcon').style.transform=sortDesc?'none':'scaleY(-1)'; render(); }
   function render(){
     const listEl=$('list');
-    if(loadFailed){ listEl.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page.</div>`; return; }
+    if(loadFailed){ listEl.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}.</div>`; return; }
     if(!DATA.length){ listEl.innerHTML='<div class="empty-state">No ranked devices yet.</div>'; return; }
     let list=DATA.slice().sort((a,b)=>sortDesc?((b.scores[activeTab]??-1)-(a.scores[activeTab]??-1)):((a.scores[activeTab]??999)-(b.scores[activeTab]??999)));
     const color=TAB_COLOR[activeTab], detailKey=DETAIL_KEYS[activeTab];
@@ -1066,33 +1230,25 @@ window.__pendingDeepLink=null;
       const detail=d[detailKey]||{};
       const bars=Object.entries(detail).map(([label,v])=>`<div class="rank-bar-row"><span class="rank-bar-label">${label}</span><div class="rank-bar-track"><div class="rank-bar-fill" style="width:${Math.min(100,v/2)}%;background:${color}"></div></div><span class="rank-bar-val">${v}</span></div>`).join('');
       const eb=(d.brand||'').replace(/'/g,"\\'"), em=(d.model||'').replace(/'/g,"\\'");
-      return `<div class="rank-card" onclick="${NS_NAME}.openModal('${eb}','${em}')"><div class="rank-num">${i+1}</div><div class="rank-img"><svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="20" y="6" width="24" height="52" rx="6"/></svg></div><div class="rank-info"><div class="rank-name">${d.model||'—'}</div><div class="rank-brand">${d.brand||'—'}</div></div><div class="rank-bars">${bars}</div><div class="rank-score" style="color:${color}">${d.scores[activeTab]??'—'}</div></div>`;
+      const imgHtml = d.image ? `<img src="${d.image}" style="max-width:100%;max-height:100%;object-fit:contain" onerror="this.style.display='none'">` : '<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="20" y="6" width="24" height="52" rx="6"/></svg>';
+      return `<div class="rank-card" onclick="${NS_NAME}.openModal('${eb}','${em}')"><div class="rank-num">${i+1}</div><div class="rank-img">${imgHtml}</div><div class="rank-info"><div class="rank-name">${d.model||'—'}</div><div class="rank-brand">${d.brand||'—'}</div></div><div class="rank-bars">${bars}</div><div class="rank-score" style="color:${color}">${d.scores[activeTab]??'—'}</div></div>`;
     }).join('');
   }
   async function openModal(brand,model){
-    if(!phonesCache){
-      try{ const res=await fetch(PHONES_URL); if(!res.ok) throw new Error('HTTP '+res.status); phonesCache=await res.json(); if(!Array.isArray(phonesCache)) phonesCache=[]; }
-      catch(e){ console.error('Could not load '+PHONES_URL, e); phonesCache=[]; }
-    }
+    if(!phonesCache){ try{ const res=await fetch(PHONES_URL); if(!res.ok) throw new Error('HTTP '+res.status); phonesCache=await res.json(); if(!Array.isArray(phonesCache)) phonesCache=[]; } catch(e){ console.error('Could not load '+PHONES_URL,e); phonesCache=[]; } }
     const phone=phonesCache.find(d=>d.model===model && (!brand||d.brand===brand)) || phonesCache.find(d=>d.model===model);
     if(!phone){ $('m_brand').textContent=brand||''; $('m_model').textContent=model||''; $('m_specList').innerHTML='<div class="empty-state">No matching entry found in phones.json.</div>'; $('modalOverlay').classList.add('open'); return; }
     $('m_brand').textContent=phone.brand||''; $('m_model').textContent=phone.model||'';
-    let html='';
-    PHONE_SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(([key,label])=>{ html+=`<div class="spec-row"><span class="spec-label">${label}</span><span class="spec-value${key==='camera_modules'?' block':''}">${getRaw(phone,key)}</span></div>`; }); });
+    let html=''; PHONE_SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(([key,label])=>{ html+=`<div class="spec-row"><span class="spec-label">${label}</span><span class="spec-value${key==='camera_modules'?' block':''}">${getRaw(phone,key)}</span></div>`; }); });
     $('m_specList').innerHTML=html;
     $('modalOverlay').classList.add('open');
   }
   function closeModal(){ $('modalOverlay').classList.remove('open'); }
   function closeModalBg(e){ if(e.target.id===PREFIX+'modalOverlay') closeModal(); }
-  async function init(){
-    try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; DATA.forEach(d=>{ d.scores={}; Object.keys(DETAIL_KEYS).forEach(tab=>{ d.scores[tab]=avg(d[DETAIL_KEYS[tab]]); }); }); }
-    catch(e){ console.error('Could not load '+DATA_URL, e); loadFailed=true; }
-    render();
-  }
+  async function init(){ try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; DATA.forEach(d=>{ d.scores={}; Object.keys(DETAIL_KEYS).forEach(tab=>{ d.scores[tab]=avg(d[DETAIL_KEYS[tab]]); }); }); } catch(e){ console.error('Could not load '+DATA_URL,e); loadFailed=true; } render(); }
   window[NS_NAME]={setTab,toggleSort,openModal,closeModal,closeModalBg};
   init();
 })();
 </script>
-
 </body>
 </html>
