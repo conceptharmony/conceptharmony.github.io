@@ -1,5 +1,81 @@
 [
   {
+  "brand": "Crescent",
+  "model": "Pulse 1 Ultra",
+  "announced": "August 13, 2026",
+  "type": "Phone",
+  "image": "images/Group 1.png",
+  "gallery": [
+    "images/p1u front (1).png",
+    "images/p1u back (1).png"
+  ],
+  "status": "Released",
+  "released": "August 13, 2026",
+  "dimensions": "163 x 77 x 9 mm",
+  "weight": "238g",
+  "build": "Glass front, glass back, aluminum frame",
+  "ip_rating": "IP69, IP68",
+  "screen": "Auravision ^2 OLED, 144Hz, 6.82\", 2000 nits",
+  "resolution": "1440 × 3168 pixels",
+  "chipset": "Spectre P8 Pro",
+  "os": "PrismOS 7",
+  "ram": "16GB",
+  "storage": "1TB",
+  "camera_modules": [
+    {
+      "label": "Wide",
+      "specs": "50MP, f/1.4, 23mm, 1\"-type, Dual-pixel PDAF, OIS"
+    },
+    {
+      "label": "Periscope Telephoto",
+      "specs": "200MP, f/2, 85mm, 1/1.12\", Multi-directional PDAF, OIS, macro 3.4:1, 3.7x optical zoom"
+    },
+    {
+      "label": "Ultrawide",
+      "specs": "50MP, f/1.8, 14mm, 116°, 1/1.28\", Dual-pixel PDAF, OIS, TOF 3D, (depth)"
+    }
+  ],
+  "camera_features": [
+    "Laser AF",
+    "color spectrum sensor",
+    "Vouse optics",
+    "Vouse V* lens coating",
+    "V-Log 2",
+    "LED flash",
+    "panorama",
+    "HDR",
+    "3D LUT import"
+  ],
+  "cam_selfie": "32MP, f/2.2, 22mm, 1/2.76\", PDAF, HDR, panorama",
+  "cam_video": [
+    "1080p@30fps",
+    "1080p@60fps",
+    "1080p@120fps",
+    "1080p@240fps",
+    "1080p@480+fps",
+    "4K@24fps",
+    "4K@30fps",
+    "4K@60fps",
+    "4K@120fps",
+    "8K@30fps"
+  ],
+  "sensors": [
+    "Fingerprint (under display",
+    "ultrasonic)",
+    "accelerometer",
+    "gyro",
+    "proximity",
+    "compass"
+  ],
+  "battery": "Li-Ion SiC 7640 mAh",
+  "charging": "100W wired, 50W wireless, 25W reverse wired, 15W reverse wireless",
+  "geek_s": "4768",
+  "geek_m": "16948",
+  "antutu": "5863012",
+  "price": "1399",
+  "price_eur": "1210"
+}
+  {
     "brand": "Wyx",
     "model": "X1",
     "announced": "February 5, 2026",
