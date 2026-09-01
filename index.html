@@ -93,7 +93,7 @@ nav.topnav{position:sticky;top:0;z-index:500;background:var(--nav);backdrop-filt
 .csel-chevron,.fsel-chevron{transition:transform .2s;flex-shrink:0}
 .csel.open .csel-chevron,.fsel.open .fsel-chevron{transform:rotate(180deg)}
 select.fsel-hidden{display:none!important}
-.native-select{width:100%;padding:10px 12px;border-radius:9px;border:none;background:var(--g);font-size:13px;color:var(--tx);font-family:'Inter',sans-serif;cursor:pointer}
+.native-select{width:100%;padding:11px 14px;border-radius:10px;border:none;background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);font-size:13.5px;color:var(--tx);font-family:'Inter',sans-serif;cursor:pointer;transition:background .15s ease}
 .page-head{padding:40px 0 26px}
 .page-head h1{font-size:30px;font-weight:700;letter-spacing:-0.02em}
 .page-head p{color:var(--ts);font-size:14.5px;margin-top:6px}
@@ -216,7 +216,7 @@ select.fsel-hidden{display:none!important}
 .form-section h3{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dc);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--dv)}
 .form-field{margin-bottom:14px}
 .form-field label{display:block;font-size:12.5px;font-weight:600;color:var(--ts);margin-bottom:6px}
-.form-field input[type=text],.form-field input[type=number],.form-field input[type=date],.form-field textarea{width:100%;padding:11px 14px;border-radius:10px;border:none;background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);font-size:13.5px;color:var(--tx);font-family:'Inter',sans-serif}
+.form-wrap input[type=text],.form-wrap input[type=number],.form-wrap input[type=date],.form-wrap input[type=url],.form-wrap textarea{width:100%;padding:11px 14px;border-radius:10px;border:none;background:var(--g);backdrop-filter:blur(88px) saturate(2);-webkit-backdrop-filter:blur(88px) saturate(2);font-size:13.5px;color:var(--tx);font-family:'Inter',sans-serif;transition:background .15s ease}
 .form-field textarea{resize:vertical;min-height:70px}
 .form-field input::placeholder,.form-field textarea::placeholder{color:var(--ts)}
 .form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -266,6 +266,28 @@ select.fsel-hidden{display:none!important}
   .rank-card{flex-wrap:wrap}
   .modal-box{padding:20px}
 }
+@keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.app-page.active,#idx-gallery-view,#idx-detail-view,#lap-gallery-view,#lap-detail-view,#soc-gallery-view,#soc-detail-view,#sen-gallery-view,#sen-detail-view,#nws-list-view,#nws-article-view{animation:pageIn .4s cubic-bezier(.16,1,.3,1)}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.card,.news-card,.rank-card{animation:cardIn .45s cubic-bezier(.16,1,.3,1)}
+@keyframes modalIn{from{opacity:0;transform:scale(.94) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-overlay.open .modal-box{animation:modalIn .3s cubic-bezier(.16,1,.3,1)}
+@keyframes rowIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
+.dyn-card{animation:rowIn .3s cubic-bezier(.16,1,.3,1)}
+.compare-table tbody tr{animation:rowIn .35s cubic-bezier(.16,1,.3,1)}
+.submit-cta,.opt-btn,.ghost-btn,.csel-btn,.fsel-btn,.add-row-btn,.submit-btn,.icon-btn,.tab-btn,.dyn-remove,.slot-remove{transition:transform .15s ease,background .15s ease,opacity .15s ease,color .15s ease}
+.submit-cta:active,.opt-btn:active,.ghost-btn:active,.add-row-btn:active,.submit-btn:active{transform:scale(.96)}
+.icon-btn:active{transform:scale(.88)}
+.card:active{transform:scale(.98)}
+#themeBtn.spin{animation:themeSpin .42s ease}
+@keyframes themeSpin{from{transform:rotate(0deg) scale(1)}50%{transform:rotate(180deg) scale(.8)}to{transform:rotate(360deg) scale(1)}}
+.hamburger svg line{transition:transform .3s cubic-bezier(.16,1,.3,1),opacity .2s ease;transform-origin:12px 12px}
+.hamburger.open svg line:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.hamburger.open svg line:nth-child(2){opacity:0}
+.hamburger.open svg line:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.compare-badge{transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
+.csel-opt,.fsel-opt{transition:background .12s ease,color .12s ease,padding-left .12s ease}
+.csel-opt:hover,.fsel-opt:hover{padding-left:18px}
 </style>
 </head>
 <body>
@@ -597,7 +619,7 @@ select.fsel-hidden{display:none!important}
       <div class="form-grid-3">
         <div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">Type</label><select class="native-select" id="sub-battType"><option value="Li-Ion">Li-Ion</option><option value="Li-Po">Li-Po</option></select></div>
         <div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">SiC</label><select class="native-select" id="sub-battSic"><option value="no">No</option><option value="yes">Yes</option></select></div>
-        <div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px" class="show-phone">Capacity (mAh)</label><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px" class="show-laptop">Capacity (Wh)</label><input type="number" id="sub-battCap" placeholder="4200"></div>
+        <div><label style="display:block;font-size:11.5px;color:var(--ts);margin-bottom:6px">Capacity (mAh)</label><input type="number" id="sub-battCap" placeholder="4200"></div>
       </div>
       <div class="form-field" style="margin-top:14px show-phone"><label>Charging</label><input type="text" id="sub-charging" placeholder="e.g. 45W wired, 15W wireless"></div>
     </div>
@@ -660,8 +682,8 @@ const SUN_SVG='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" strok
 const MOON_SVG='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>';
 let _isDark=(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)||false;
 function applyTheme(){ document.documentElement.setAttribute('data-theme',_isDark?'dark':'light'); const b=document.getElementById('themeBtn'); if(b) b.innerHTML=_isDark?MOON_SVG:SUN_SVG; }
-function toggleTheme(){ _isDark=!_isDark; applyTheme(); }
-function toggleHamburger(){ document.getElementById('mobileNav').classList.toggle('open'); }
+function toggleTheme(){ _isDark=!_isDark; const b=document.getElementById('themeBtn'); if(b){ b.classList.add('spin'); setTimeout(()=>b.classList.remove('spin'),420); } applyTheme(); }
+function toggleHamburger(){ document.getElementById('mobileNav').classList.toggle('open'); document.getElementById('hamburger').classList.toggle('open'); }
 function toggleSocials(){ document.getElementById('socialsDropdown').classList.toggle('open'); }
 function toggleMobileSocials(){ document.getElementById('mobileSocialsDropdown').classList.toggle('open'); }
 function showPage(key){
@@ -895,81 +917,7 @@ function numColorize(text,better){ const m=String(text).match(/[\d,.]+/); const 
     area.innerHTML=`<div class="compare-actions"><label class="diff-toggle"><input type="checkbox" ${diffMode?'checked':''} onchange="${NS_NAME}.toggleDiffMode()"> Highlight differences</label></div><div class="compare-wrapper" id="${PREFIX}compareWrapper"><table class="compare-table" id="${PREFIX}compareTable"><thead><tr><th></th>${headCells}</tr></thead><tbody>${rows}</tbody></table></div>`;
     _attachCompareFade(); _updateSidebarBlur();
   }
-  function toggleDiffMode(){ diffMode=!diffMode; renderCompare(); }
-  function cselToggle(wrapId){ const el=document.getElementById(wrapId); const wasOpen=el.classList.contains('open'); document.querySelectorAll('.csel.open, .fsel.open').forEach(o=>o.classList.remove('open')); if(!wasOpen) el.classList.add('open'); }
-  function cselPick(wrapId,labelId,val,labelText,el){ if(wrapId.endsWith('brandSel')) brandVal=val; else if(wrapId.endsWith('sortSel')) sortVal=val; const labelEl=document.getElementById(labelId); const sortSpan=labelEl.querySelector('.sort-text'); if(sortSpan){ sortSpan.classList.add('switching'); clearTimeout(_labelTimer); _labelTimer=setTimeout(()=>{ sortSpan.textContent=labelText; sortSpan.classList.remove('switching'); },140); } else { labelEl.textContent=labelText; } el.parentElement.querySelectorAll('.csel-opt').forEach(o=>o.classList.remove('selected')); el.classList.add('selected'); document.getElementById(wrapId).classList.remove('open'); filterAndSort(); }
-  function _showLabels(){ const s=$('searchInput'); if(s) s.setAttribute('aria-label','Search devices'); }
-  function _attachCompareFade(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.addEventListener('scroll',_updateSidebarBlur); }
-  function _updateSidebarBlur(){ const w=document.getElementById(PREFIX+'compareWrapper'); if(w) w.classList.toggle('scrolled', w.scrollTop>2); }
-  function doShare(){ const dev=getDev(currentIdx); if(!dev) return; const title=dev.model||'Concept laptop'; const text=[dev.brand,dev.model].filter(Boolean).join(' ')||title; shareItem(title,text); }
-  async function init(){ try{ const res=await fetch(DATA_URL); if(!res.ok) throw new Error('HTTP '+res.status); DATA=await res.json(); if(!Array.isArray(DATA)) DATA=[]; } catch(e){ console.error('Could not load '+DATA_URL,e); loadFailed=true; DATA=[]; } DATA.forEach(d=>{ d._id=slugify((d.brand||'')+'-'+(d.model||'')); }); populateBrands(); filterAndSort(); _showLabels(); if(window.__pendingDeepLink && window.__pendingDeepLink.page===PAGE_KEY && window.__pendingDeepLink.item) showDetails(window.__pendingDeepLink.item); }
-  window[NS_NAME]={showDetails,goHome,renderCompare,filterAndSort,setSlot,addSlot,removeSlot,setTab,cselToggle,cselPick,searchSlot,toggleDiffMode,openCompare,doShare,CARD_SVG,MINI_SVG,SLOT_SVG};
-  init();
-})();
-</script>
-<script>
-(function(){
-  const PREFIX='soc-', NS_NAME='SOC', PAGE_KEY='soc', DATA_URL='chips.json';
-  const CARD_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="18" y="18" width="28" height="28" rx="3"/><line x1="26" y1="10" x2="26" y2="18"/><line x1="38" y1="10" x2="38" y2="18"/><line x1="26" y1="46" x2="26" y2="54"/><line x1="38" y1="46" x2="38" y2="54"/><line x1="10" y1="26" x2="18" y2="26"/><line x1="10" y1="38" x2="18" y2="38"/><line x1="46" y1="26" x2="54" y2="26"/><line x1="46" y1="38" x2="54" y2="38"/></svg>';
-  const MINI_SVG='<svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="2"><rect x="20" y="20" width="24" height="24" rx="2"/></svg>';
-  const SLOT_SVG='<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="16" y1="6" x2="16" y2="26"/><line x1="6" y1="16" x2="26" y2="16"/></svg>';
-  const SECTIONS=[['Overview',[['announced','Announced'],['process','Manufacturing Process'],['open_use','Open Source']]],['CPU',[['cpu_cores','Core Configuration']]],['GPU',[['gpu_model','Model'],['gpu_clock','Clock Speed']]],['Neural Processing Unit',[['npu','NPU']]],['Media & Connectivity',[['isp','Image Signal Processor'],['modem','Modem']]],['Benchmarks & Price',[['geek_s','Geekbench Single-Core'],['geek_m','Geekbench Multi-Core'],['antutu','AnTuTu Score'],['price','Price (USD)'],['price_eur','Price (EUR)']]]];
-  const NUMERIC_DIRECTION={geek_s:'higher',geek_m:'higher',antutu:'higher',price:'lower',price_eur:'lower'};
-  function extractNum(key,text){ if(!text||text==='—') return null; const s=String(text); if(key==='price'||key==='price_eur'){ const m=s.match(/([\d,.]+)/); return m?parseFloat(m[1].replace(/,/g,'')):null; } const m=s.match(/([\d,]+)/); return m?parseInt(m[1].replace(/,/g,'')):null; }
-  function dash(v){ return (v===undefined||v===null||v===''||(Array.isArray(v)&&v.length===0))?'—':v; }
-  function quickFields(dev){ return [['Process',dash(dev.process)],['CPU',dash(dev.cpu_cores)],['GPU',dash(dev.gpu_model)],['NPU',dash(dev.npu)]]; }
-  let DATA=[], loadFailed=false;
-  let compareSlots=[null,null,null],currentIdx=null,diffMode=true,brandVal='all',sortVal='newest',_labelTimer=null;
-  function $(x){ return document.getElementById(PREFIX+x); }
-  function slugify(s){ return (s||'').toString().toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')||'item'; }
-  function getDev(id){ return DATA.find(d=>d._id===id)||null; }
-  function getRaw(dev,key){ if(!dev) return '—'; let v=dev[key]; if(v===undefined||v===null||v==='') return '—'; if(Array.isArray(v)){ if(!v.length) return '—'; return v.join(', '); } return v; }
-  function populateBrands(){ const menu=$('brandMenu'); const brands=Array.from(new Set(DATA.map(d=>d.brand).filter(Boolean))).sort(); let html=`<div class="csel-opt selected" data-val="all" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','all','All Brands',this)">All Brands</div>`; brands.forEach(b=>{ html+=`<div class="csel-opt" data-val="${b}" onclick="${NS_NAME}.cselPick('${PREFIX}brandSel','${PREFIX}brandLabel','${b}','${b}',this)">${b}</div>`; }); menu.innerHTML=html; }
-  function filterAndSort(){ const q=($('searchInput').value||'').toLowerCase().trim(); let list=DATA.filter(d=>{ const ms=!q||(d.model||'').toLowerCase().includes(q)||(d.brand||'').toLowerCase().includes(q); const mb=brandVal==='all'||d.brand===brandVal; return ms&&mb; }); if(sortVal==='az') list.sort((a,b)=>(a.model||'').localeCompare(b.model||'')); else if(sortVal==='za') list.sort((a,b)=>(b.model||'').localeCompare(a.model||'')); renderGallery(list); }
-  function cardHTML(dev){ const img=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div>${label}<strong>${value}</strong></div>`; }); return `<div class="card" onclick="${NS_NAME}.showDetails('${dev._id}')"><div class="card-img">${img}</div><div class="card-body"><div class="card-brand">${dash(dev.brand)}</div><div class="card-model">${dash(dev.model)}</div><div class="card-quick">${quick}</div></div></div>`; }
-  function renderGallery(list){ const grid=$('galleryGrid'); if(loadFailed){ grid.innerHTML=`<div class="empty-state">Couldn't load ${DATA_URL}. Make sure it's in the same folder as this page.</div>`; return; } grid.innerHTML=list.length?list.map(cardHTML).join(''):'<div class="empty-state">No devices match your search.</div>'; }
-  function showDetails(devId){ const dev=getDev(devId); if(!dev) return; currentIdx=devId; $('gallery-view').style.display='none'; $('detail-view').style.display='block'; $('d_brand').textContent=dash(dev.brand); $('d_model').textContent=dash(dev.model); $('d_tagline').textContent=''; $('d_img_wrap').innerHTML=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.CARD_SVG">`:CARD_SVG; let quick=''; quickFields(dev).forEach(([label,value])=>{ quick+=`<div class="dq-item"><span>${label}</span><strong>${value}</strong></div>`; }); $('d_quick').innerHTML=quick; renderSpecList(dev); renderSimilar(dev); renderPics(dev); setTab('specs'); window.scrollTo(0,0); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY+'/'+devId); }
-  function renderSpecList(dev){ let html=''; SECTIONS.forEach(([section,fields])=>{ html+=`<div class="spec-section-title">${section}</div>`; fields.forEach(([key,label])=>{ html+=`<div class="spec-row"><span class="spec-label">${label}</span><span class="spec-value">${getRaw(dev,key)}</span></div>`; }); }); $('specList').innerHTML=html; }
-  function renderSimilar(dev){ $('similarGrid').innerHTML=DATA.filter(d=>d._id!==dev._id).slice(0,3).map(cardHTML).join(''); }
-  function renderPics(dev){ const imgs=[dev.image,...(dev.gallery||[])].filter(Boolean); $('picsView').innerHTML=imgs.length?imgs.map(src=>`<img src="${src}" style="max-width:240px;max-height:240px;object-fit:contain;border-radius:12px;margin:6px" onerror="this.style.display='none'">`).join(''):`<div style="width:160px;height:160px">${CARD_SVG}</div>`; }
-  function goHome(){ $('detail-view').style.display='none'; $('gallery-view').style.display='block'; currentIdx=null; filterAndSort(); history.replaceState(null,'',location.pathname+'#'+PAGE_KEY); }
-  function setTab(name){ ['specs','pics','compare'].forEach(t=>{ $('btn-'+t).classList.toggle('active',t===name); $('tab-'+t).style.display=(t===name)?'block':'none'; }); if(name==='compare'){ if(currentIdx && !compareSlots.includes(currentIdx)){ if(compareSlots[0]===null) compareSlots[0]=currentIdx; else { const e=compareSlots.indexOf(null); if(e!==-1) compareSlots[e]=currentIdx; } updateCompareBadge(); } renderCompare(); } }
-  function openCompare(){ const hostId=compareSlots.find(Boolean)||(DATA[0]&&DATA[0]._id); if(!hostId) return; showDetails(hostId); setTab('compare'); }
-  function updateCompareBadge(){ const n=compareSlots.filter(Boolean).length; const badge=$('compareBadge'); if(!badge) return; badge.textContent=n; badge.style.display=n>0?'flex':'none'; }
-  function addSlot(devId){ if(compareSlots.includes(devId)) return; const empty=compareSlots.indexOf(null); compareSlots[empty!==-1?empty:compareSlots.length-1]=devId; updateCompareBadge(); if($('tab-compare').style.display!=='none') renderCompare(); }
-  function removeSlot(i){ compareSlots[i]=null; updateCompareBadge(); renderCompare(); }
-  function setSlot(i,devId){ compareSlots[i]=devId; updateCompareBadge(); renderCompare(); }
-  function searchSlot(i){ const val=document.getElementById(PREFIX+'slotSearch'+i).value.toLowerCase().trim(); const box=document.getElementById(PREFIX+'slotResults'+i); if(!val){ box.innerHTML=''; box.style.display='none'; return; } const matches=DATA.filter(d=>!compareSlots.includes(d._id)&&((d.model||'').toLowerCase().includes(val)||(d.brand||'').toLowerCase().includes(val))).slice(0,6); box.innerHTML=matches.length?matches.map(d=>`<div onclick="${NS_NAME}.setSlot(${i},'${d._id}')">${dash(d.brand)} ${dash(d.model)}</div>`).join(''):'<div style="color:var(--ts)">No matches</div>'; box.style.display='block'; }
-  function renderCompare(){
-    const area=$('compareArea'); const filled=compareSlots.filter(Boolean).length;
-    const headCells=compareSlots.map((id,i)=>{ const dev=getDev(id); if(dev){ const imgHtml=dev.image?`<img src="${dev.image}" onerror="this.parentElement.innerHTML=${NS_NAME}.MINI_SVG">`:MINI_SVG; return `<td><div class="slot-card"><div class="slot-img">${imgHtml}</div><div class="slot-name">${dash(dev.model)}</div><button class="slot-remove" onclick="${NS_NAME}.removeSlot(${i})">Remove</button></div></td>`; } return `<td><div class="slot-empty" onclick="document.getElementById('${PREFIX}slotSearch${i}').focus()">${SLOT_SVG}<span style="font-size:11.5px">Add Device</span><div class="slot-search"><input id="${PREFIX}slotSearch${i}" type="text" placeholder="Search..." oninput="${NS_NAME}.searchSlot(${i})" onclick="event.stopPropagation()"><div class="slot-results" id="${PREFIX}slotResults${i}" style="display:none"></div></div></div></td>`; }).join('');
-    let rows='';
-    SECTIONS.forEach(([section,fields])=>{
-      rows+=`<tr><th class="cat-header">${section}</th>${compareSlots.map(()=>'<td></td>').join('')}</tr>`;
-      fields.forEach(([key,label])=>{
-        let displays;
-        if(diffMode && filled>1){
-          const direction=NUMERIC_DIRECTION[key];
-          if(direction){
-            const raws=compareSlots.map(id=>id?getRaw(getDev(id),key):null);
-            const nums=raws.map((r,i)=>compareSlots[i]&&r?extractNum(key,r):null);
-            const present=nums.map((n,i)=>({n,i})).filter(o=>o.n!==null&&compareSlots[o.i]);
-            let best=null,worst=null; if(present.length>1){ const vals=present.map(o=>o.n); best=direction==='higher'?Math.max(...vals):Math.min(...vals); worst=direction==='higher'?Math.min(...vals):Math.max(...vals); }
-            displays=compareSlots.map((id,i)=>{ if(!id) return '—'; let text=raws[i]; if(best!==null&&best!==worst&&nums[i]!==null){ if(nums[i]===best) text=numColorize(text,true); else if(nums[i]===worst) text=numColorize(text,false); } return text; });
-          } else {
-            const filledIdx=compareSlots.map((id,i)=>id?i:null).filter(i=>i!==null);
-            const texts=filledIdx.map(i=>String(getRaw(getDev(compareSlots[i]),key)));
-            const hl=wordDiffHighlight(texts);
-            displays=compareSlots.map((id,i)=>{ if(!id) return '—'; return hl[filledIdx.indexOf(i)]; });
-          }
-        } else { displays=compareSlots.map((id,i)=> id? getRaw(getDev(id),key) : '—'); }
-        rows+=`<tr><th>${label}</th>${displays.map(d=>`<td>${d}</td>`).join('')}</tr>`;
-      });
-    });
-    area.innerHTML=`<div class="compare-actions"><label class="diff-toggle"><input type="checkbox" ${diffMode?'checked':''} onchange="${NS_NAME}.toggleDiffMode()"> Highlight differences</label></div><div class="compare-wrapper" id="${PREFIX}compareWrapper"><table class="compare-table" id="${PREFIX}compareTable"><thead><tr><th></th>${headCells}</tr></thead><tbody>${rows}</tbody></table></div>`;
-    _attachCompareFade(); _updateSidebarBlur();
-  }
-  function toggleDiffMode(){ diffMode=!diffMode; renderCompare(); }
+ function toggleDiffMode(){ diffMode=!diffMode; renderCompare(); }
   function cselToggle(wrapId){ const el=document.getElementById(wrapId); const wasOpen=el.classList.contains('open'); document.querySelectorAll('.csel.open, .fsel.open').forEach(o=>o.classList.remove('open')); if(!wasOpen) el.classList.add('open'); }
   function cselPick(wrapId,labelId,val,labelText,el){ if(wrapId.endsWith('brandSel')) brandVal=val; else if(wrapId.endsWith('sortSel')) sortVal=val; const labelEl=document.getElementById(labelId); const sortSpan=labelEl.querySelector('.sort-text'); if(sortSpan){ sortSpan.classList.add('switching'); clearTimeout(_labelTimer); _labelTimer=setTimeout(()=>{ sortSpan.textContent=labelText; sortSpan.classList.remove('switching'); },140); } else { labelEl.textContent=labelText; } el.parentElement.querySelectorAll('.csel-opt').forEach(o=>o.classList.remove('selected')); el.classList.add('selected'); document.getElementById(wrapId).classList.remove('open'); filterAndSort(); }
   function _showLabels(){ const s=$('searchInput'); if(s) s.setAttribute('aria-label','Search chipsets'); }
@@ -1096,8 +1044,8 @@ function numColorize(text,better){ const m=String(text).match(/[\d,.]+/); const 
   function fselPick(realSelectId,labelId,val,labelText,el,cbStr){ document.getElementById(realSelectId).value=val; document.getElementById(labelId).textContent=labelText; el.parentElement.querySelectorAll('.fsel-opt').forEach(o=>o.classList.remove('selected')); el.classList.add('selected'); el.closest('.fsel').classList.remove('open'); if(cbStr){ eval(cbStr); } }
   function handleTypeChange(){ const m=document.getElementById('sub-typeReal').value; document.getElementById('page-submit').setAttribute('data-mode',m); }
 
-  function handleImageSelect(input){ const file=input.files&&input.files[0]; const label=document.getElementById('sub-imageFileLabel'); const preview=document.getElementById('sub-imagePreviewImg'); if(!file){ selectedImageName=''; label.textContent='Choose image file...'; preview.style.display='none'; return; } selectedImageName='images/'+file.name; label.textContent=file.name; preview.src=URL.createObjectURL(file); preview.style.display='block'; }
-  function handleGallerySelect(input){ const files=Array.from(input.files||[]); galleryNames=files.map(f=>'images/'+f.name); document.getElementById('sub-galleryFilesLabel').textContent=files.length?files.length+' image(s) selected':'Choose gallery images...'; document.getElementById('sub-galleryPreview').innerHTML=files.map(f=>`<img src="${URL.createObjectURL(f)}">`).join(''); }
+  function handleImageSelect(input){ const file=input.files&&input.files[0]; const label=document.getElementById('sub-imageFileLabel'); const preview=document.getElementById('sub-imagePreviewImg'); if(!file){ selectedImageName=''; label.textContent='Choose image file...'; preview.style.display='none'; return; } selectedImageName=file.name; label.textContent=file.name; preview.src=URL.createObjectURL(file); preview.style.display='block'; }
+  function handleGallerySelect(input){ const files=Array.from(input.files||[]); galleryNames=files.map(f=>f.name); document.getElementById('sub-galleryFilesLabel').textContent=files.length?files.length+' image(s) selected':'Choose gallery images...'; document.getElementById('sub-galleryPreview').innerHTML=files.map(f=>`<img src="${URL.createObjectURL(f)}">`).join(''); }
 
   function addIpRating(){
     const id='ip'+(dynCount++);
@@ -1159,7 +1107,7 @@ function numColorize(text,better){ const m=String(text).match(/[\d,.]+/); const 
     const status=document.getElementById('sub-statusReal').value;
     const common={ brand:val('sub-brand'), model:val('sub-model'), announced:formatDate(val('sub-announced')), type:TYPE_LABEL[type], image:selectedImageName, gallery:galleryNames.slice() };
     if(type==='laptop'){
-      return omitEmpty(Object.assign({},common,{ status, released:formatDate(val('sub-released')), dimensions:(val('sub-dimH')&&val('sub-dimW')&&val('sub-dimD'))?`${val('sub-dimH')} x ${val('sub-dimW')} x ${val('sub-dimD')} mm`:'', weight:val('sub-weight')?val('sub-weight')+'g':'', build:val('sub-lapBuild'), screen:buildScreen(), resolution:buildResolution(), chipset:val('sub-lapChipset'), gpu:val('sub-lapGpu'), os:val('sub-lapOs'), ram:Array.from(selectedRam).join(' / '), storage:Array.from(selectedStorage).join(' / '), ports:val('sub-lapPorts'), wifi:val('sub-lapWifi'), bluetooth:val('sub-lapBt'), battery:buildBattery('Wh'), geek_s:val('sub-geekS'), geek_m:val('sub-geekM'), cinebench:val('sub-cinebench'), price:val('sub-price'), price_eur:val('sub-priceEur') }));
+      return omitEmpty(Object.assign({},common,{ status, released:formatDate(val('sub-released')), dimensions:(val('sub-dimH')&&val('sub-dimW')&&val('sub-dimD'))?`${val('sub-dimH')} x ${val('sub-dimW')} x ${val('sub-dimD')} mm`:'', weight:val('sub-weight')?val('sub-weight')+'g':'', build:val('sub-lapBuild'), screen:buildScreen(), resolution:buildResolution(), chipset:val('sub-lapChipset'), gpu:val('sub-lapGpu'), os:val('sub-lapOs'), ram:Array.from(selectedRam).join(' / '), storage:Array.from(selectedStorage).join(' / '), ports:val('sub-lapPorts'), wifi:val('sub-lapWifi'), bluetooth:val('sub-lapBt'), battery:buildBattery('mAh'), geek_s:val('sub-geekS'), geek_m:val('sub-geekM'), cinebench:val('sub-cinebench'), price:val('sub-price'), price_eur:val('sub-priceEur') }));
     }
     if(type==='soc'){
       return omitEmpty(Object.assign({},common,{ process:val('sub-socProcess'), open_use:val('sub-socOpenUse'), cpu_cores:val('sub-socCpu'), gpu_model:val('sub-socGpuModel'), gpu_clock:val('sub-socGpuClock')?val('sub-socGpuClock')+'MHz':'', npu:val('sub-socNpu'), isp:val('sub-socIsp'), modem:val('sub-socModem'), geek_s:val('sub-geekS'), geek_m:val('sub-geekM'), antutu:val('sub-antutu'), price:val('sub-price'), price_eur:val('sub-priceEur') }));
