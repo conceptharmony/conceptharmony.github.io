@@ -518,7 +518,7 @@ select.fsel-hidden{display:none!important}
         </div>
       </div>
       <div class="form-field"><label>Released Date</label><input type="date" id="sub-released"></div>
-      <div class="form-field"><label>Colors (comma-separated)</label><input type="text" id="sub-colors" placeholder="e.g. black, pearl white" oninput="SUB.capitalizeField(this)"></div>
+      <div class="form-field"><label>Colors</label><input type="text" id="sub-colors" placeholder="e.g. black, pearl white" oninput="SUB.capitalizeField(this)"></div>
       <div class="form-field"><label>Image</label>
         <button type="button" class="csel-btn file-btn" onclick="document.getElementById('sub-imageFile').click()"><span id="sub-imageFileLabel">Choose image file...</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></button>
         <input type="file" id="sub-imageFile" accept="image/*" style="display:none" onchange="SUB.handleImageSelect(this)">
